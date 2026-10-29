@@ -21,16 +21,16 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&amp;display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&amp;display=swap">
 <script src="lamp.js"></script>
 <script src="i18n-ar.js?v=11"></script>
 <script src="./image-slot.js"></script>
 <style>
 [data-noscrollbar]::-webkit-scrollbar{display:none;width:0;height:0}
 html{scroll-behavior:smooth;background:#002f59}
-body{margin:0;background:#002f59;color:#EAF2FF;font-family:"Readex Pro","Cairo",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:#002f59;color:#EAF2FF;font-family:"Tajawal",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 *{box-sizing:border-box}
 a{color:#7FE7FF;text-decoration:none}
 a:hover{color:#FFFFFF}
@@ -213,7 +213,7 @@ input[type=range]{accent-color:#3FE0FF}
         <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#DDE8FF;padding:5px 11px;border-radius:9999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Super CMS</span>
       </div>
       <div aria-hidden="true" style="position:relative;height:224px;border-radius:18px;overflow:hidden;background:rgba(4,10,28,0.42);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08)">{{ solViz0 }}</div>
-      <h3 style="position:relative;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">Labeeb <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.8em;color:#3FE0FF;letter-spacing:0">لبيب</span></h3>
+      <h3 style="position:relative;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">Labeeb <span dir="rtl" lang="ar" style="font-family:'Tajawal',system-ui,sans-serif;font-size:0.8em;color:#3FE0FF;letter-spacing:0">لبيب</span></h3>
       <p style="position:relative;margin:0;font-size:16px;line-height:1.6;color:#C9D8F5;text-wrap:pretty">How Fadaat Media connected its AI services into one editorial framework — from the first draft to the final read.</p>
       <span style="position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;font-weight:600;color:#7FE7FF">Open Labeeb <span aria-hidden="true">→</span></span>
     </article>
@@ -225,7 +225,7 @@ input[type=range]{accent-color:#3FE0FF}
         <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#DDE8FF;padding:5px 11px;border-radius:9999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><span style="width:6px;height:6px;border-radius:50%;background:#7FA6FF"></span>Add a short label</span>
       </div>
       <div aria-hidden="true" style="position:relative;height:224px;border-radius:18px;overflow:hidden;background:rgba(4,10,28,0.42);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08)">{{ solViz1 }}</div>
-      <h3 style="position:relative;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">Muraqib <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.8em;color:#7FA6FF;letter-spacing:0">مراقب</span></h3>
+      <h3 style="position:relative;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">Muraqib <span dir="rtl" lang="ar" style="font-family:'Tajawal',system-ui,sans-serif;font-size:0.8em;color:#7FA6FF;letter-spacing:0">مراقب</span></h3>
       <p style="position:relative;margin:0;font-size:16px;line-height:1.6;color:#C9D8F5;text-wrap:pretty">Add a one-line description of Muraqib.</p>
       <span style="position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;font-weight:600;color:#7FE7FF">Open Muraqib <span aria-hidden="true">→</span></span>
     </article>
@@ -265,7 +265,7 @@ input[type=range]{accent-color:#3FE0FF}
       <a data-nav-link="" href="#o2-faq" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">FAQ</a>
     </div>
     <div style="justify-self:end;display:flex;align-items:center;gap:10px">
-      <button type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="height:38px;padding:0 12px;border:none;background:transparent;border-radius:9999px;cursor:pointer;color:#FFFFFF;font-family:'Readex Pro',system-ui,sans-serif;font-size:15px;font-weight:500;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,0.12)">{{ langOther }}</button>
+      <button type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="height:38px;padding:0 12px;border:none;background:transparent;border-radius:9999px;cursor:pointer;color:#FFFFFF;font-family:'Tajawal',system-ui,sans-serif;font-size:15px;font-weight:500;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,0.12)">{{ langOther }}</button>
       <a href="#o2-contact" style="flex:none;height:{{ ctaH }};padding:0 {{ ctaPad }};border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFFFFF;color:#0A2A55;font-size:15px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,0.4);transition:background .25s" style-hover="color:#0A2A55;background:#EAF2FF">Contact us <span aria-hidden="true">↗</span></a>
       <sc-if value="{{ navCompact }}">
         <button type="button" onClick="{{ navMenuToggle }}" aria-label="Menu" aria-expanded="{{ navMenuOpen }}" style="flex:none;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{ navMenuIcon }}"></path></svg></button>
@@ -679,7 +679,7 @@ input[type=range]{accent-color:#3FE0FF}
           <div style="width:64px;height:64px;flex:none;border-radius:16px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -12px rgba(63,224,255,0.6)"><img src="assets/labeeb-mark.png" alt="Labeeb" style="height:44px;width:auto;display:block"></div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Super CMS</span>
-            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Labeeb <span data-dup-ar="" dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
+            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Labeeb <span data-dup-ar="" dir="rtl" lang="ar" style="font-family:'Tajawal',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
           </div>
           <button onClick="{{ solClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
@@ -827,7 +827,7 @@ input[type=range]{accent-color:#3FE0FF}
           <div onClick="{{ solStop }}" style="width:150px;height:56px;flex:none;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="sol-logo-muraqib" shape="rounded" radius="14" fit="contain" placeholder="Logo" style="width:150px;height:56px;white-space:nowrap"></image-slot></div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#7FA6FF"></span>Add a short label</span>
-            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Muraqib <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.75em;color:#7FA6FF;letter-spacing:0">مراقب</span></h2>
+            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Muraqib <span dir="rtl" lang="ar" style="font-family:'Tajawal',system-ui,sans-serif;font-size:0.75em;color:#7FA6FF;letter-spacing:0">مراقب</span></h2>
           </div>
           <button onClick="{{ solClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
@@ -1331,12 +1331,12 @@ input[type=range]{accent-color:#3FE0FF}
               <div style="flex:none;display:flex;justify-content:center;padding:4px 0 8px;opacity:{{ askCard.op }};transform:{{ askCard.tf }};transition:opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1)">
                 <div style="position:relative;width:min(330px,100%);height:680px;box-sizing:border-box;padding:11px;border-radius:54px;background:linear-gradient(145deg,#2A2D33,#0B0C0F 60%,#1C1E22);box-shadow:0 0 0 1.5px #3A3D44, 0 40px 80px -30px rgba(0,0,0,0.85), inset 0 0 0 1px rgba(255,255,255,0.06)">
                   <div style="position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#FFFFFF;display:flex;flex-direction:column">
-                    <div dir="ltr" style="flex:none;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;font-family:-apple-system,'SF Pro Text',system-ui,sans-serif">
+                    <div dir="ltr" style="flex:none;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;font-family:'Tajawal',system-ui,sans-serif">
                       <span style="font-size:15px;font-weight:600;color:#09090B">9:41</span>
                       <span aria-hidden="true" style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:104px;height:30px;border-radius:9999px;background:#000000"></span>
                       <span aria-hidden="true" style="display:flex;align-items:center;gap:5px;color:#09090B"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"></rect><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"></rect><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"></rect><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3zm0 3.2c.5 0 .9.2 1.2.5L7.5 10.3 6.3 9.1c.3-.3.7-.5 1.2-.5z" fill="currentColor"></path></svg><span style="width:24px;height:12px;border-radius:3.5px;border:1px solid rgba(9,9,11,0.4);padding:1px;box-sizing:border-box;display:flex"><span style="width:70%;height:100%;border-radius:2px;background:#09090B"></span></span></span>
                     </div>
-            <div dir="rtl" data-noscrollbar="" style="position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:8px 16px 26px;background:#FFFFFF;color:#1F2A44;font-family:'Readex Pro','Cairo',system-ui,sans-serif">
+            <div dir="rtl" data-noscrollbar="" style="position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:8px 16px 26px;background:#FFFFFF;color:#1F2A44;font-family:'Tajawal',system-ui,sans-serif">
               <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
                 <h3 style="margin:0;font-size:18px;line-height:1.35;font-weight:700;color:#1F2A44">اسأل عن تغطية "العربي الجديد"</h3>
                 <button onClick="{{ closeDemo }}" aria-label="إغلاق" style="flex:none;width:28px;height:28px;border:none;background:transparent;color:#C4CAD6;font-size:24px;line-height:1;cursor:pointer;padding:0" style-hover="color:#7A8399">×</button>
@@ -1379,8 +1379,8 @@ input[type=range]{accent-color:#3FE0FF}
             <sc-if value="{{ chatIsWw }}">
               <div style="flex:none;display:flex;justify-content:center;padding:4px 0 8px;opacity:{{ askCard.op }};transform:{{ askCard.tf }};transition:opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1)">
                 <div style="position:relative;width:min(330px,100%);height:680px;box-sizing:border-box;padding:11px;border-radius:54px;background:linear-gradient(145deg,#2A2D33,#0B0C0F 60%,#1C1E22);box-shadow:0 0 0 1.5px #3A3D44, 0 40px 80px -30px rgba(0,0,0,0.85), inset 0 0 0 1px rgba(255,255,255,0.06)">
-                  <div dir="rtl" style="position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#FFFFFF;color:#09090B;font-family:'Readex Pro','Cairo',system-ui,sans-serif;display:flex;flex-direction:column">
-                    <div dir="ltr" style="flex:none;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;font-family:-apple-system,'SF Pro Text',system-ui,sans-serif">
+                  <div dir="rtl" style="position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#FFFFFF;color:#09090B;font-family:'Tajawal',system-ui,sans-serif;display:flex;flex-direction:column">
+                    <div dir="ltr" style="flex:none;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;font-family:'Tajawal',system-ui,sans-serif">
                       <span style="font-size:15px;font-weight:600;color:#09090B">9:41</span>
                       <span aria-hidden="true" style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:104px;height:30px;border-radius:9999px;background:#000000"></span>
                       <span aria-hidden="true" style="display:flex;align-items:center;gap:5px;color:#09090B"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"></rect><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"></rect><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"></rect><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3zm0 3.2c.5 0 .9.2 1.2.5L7.5 10.3 6.3 9.1c.3-.3.7-.5 1.2-.5z" fill="currentColor"></path></svg><span style="width:24px;height:12px;border-radius:3.5px;border:1px solid rgba(9,9,11,0.4);padding:1px;box-sizing:border-box;display:flex"><span style="width:70%;height:100%;border-radius:2px;background:#09090B"></span></span></span>
@@ -2211,7 +2211,7 @@ class Component extends DCLogic {
   }
 
   // ---------- drawing ----------
-  ft(s, w) { return (w || 500) + ' ' + Math.round(s) + 'px "Readex Pro", system-ui, sans-serif'; }
+  ft(s, w) { return (w || 500) + ' ' + Math.round(s) + 'px "Tajawal", system-ui, sans-serif'; }
   clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   ease(x) { x = this.clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
   rr(c, x, y, w, h, r) { r = Math.max(0, Math.min(r, w / 2, h / 2)); c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
@@ -2776,7 +2776,7 @@ class Component extends DCLogic {
           ovShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5)' : 'inset 0 1px 0 rgba(255,255,255,0.08), 0 60px 120px -40px rgba(0,0,0,0.9)',
           ovLeftBg: on ? 'transparent' : 'linear-gradient(180deg, rgba(20,44,100,0.35), rgba(4,10,26,0.2))',
           ovBg: on ? 'linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06))' : 'linear-gradient(160deg, rgba(16,30,70,0.85), rgba(5,10,26,0.92))', ovBorder: on ? 'rgba(255,255,255,0.16)' : 'rgba(150,190,255,0.2)',
-          rootFont: on ? (s.lang === 'ar' ? '"Readex Pro","Cairo",system-ui,sans-serif' : "'Inter', sans-serif") : '"Readex Pro","Cairo",system-ui,sans-serif', o2InfoOpen: !!it, o2Info: it ? { slot: 'feat-' + it.id, slotPh: 'Drop a ' + it.name + ' image', cat: cat.name, glyph: cat.glyph, name: it.name, desc: it.desc, pts: it.pts, hasPts: it.pts.length > 0 } : { pts: [], slot: 'feat-x', slotPh: '', cat: '', glyph: '', name: '', desc: '', hasPts: false }, pipScroll: this.pipScroll, o2InfoClose: () => this.setState({ o2info: null }), o2Stop: e => e.stopPropagation() }; })(),
+          rootFont: '"Tajawal",system-ui,sans-serif', o2InfoOpen: !!it, o2Info: it ? { slot: 'feat-' + it.id, slotPh: 'Drop a ' + it.name + ' image', cat: cat.name, glyph: cat.glyph, name: it.name, desc: it.desc, pts: it.pts, hasPts: it.pts.length > 0 } : { pts: [], slot: 'feat-x', slotPh: '', cat: '', glyph: '', name: '', desc: '', hasPts: false }, pipScroll: this.pipScroll, o2InfoClose: () => this.setState({ o2info: null }), o2Stop: e => e.stopPropagation() }; })(),
       ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
         const slug = P ? P.name.toLowerCase() : 'x', doc = !!DC, isNs = pi === 2, nsVid = (this.props.nasherVideo || '').trim(), lr = window.__resources && window.__resources['nasher-logo'];
         return { ppOpen: pi != null && pi !== 0, ppClose: this.ppClose, ppBoxRef: this.ppBoxRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
