@@ -354,6 +354,334 @@ input[type=range]{accent-color:#3FE0FF}
 
 <section id="o2-products" data-wide="" data-screen-label="O2 Products" class="portfolio-section">
   <div class="portfolio-heading">
+    <span class="portfolio-heading__eyebrow">02 · Our portfolio</span>
+    <div class="portfolio-heading__body">
+      <h2>AI Products</h2>
+      <p>Purpose-built products across digital, television, publishing, and technology.</p>
+    </div>
+  </div>
+  <div class="portfolio-grid">
+    <sc-for list="{{ o2Products }}" as="p" hint-placeholder-count="4">
+      <a class="{{ p.cardClass }}" data-product="{{ p.slug }}" href="{{ p.href }}" onClick="{{ p.onClick }}">
+        <div class="portfolio-card__visual" aria-hidden="true">
+          <sc-if value="{{ p.hasVideo }}">
+            <video src="{{ p.video }}" autoplay="" muted="" loop="" playsinline="" preload="metadata" tabindex="-1"></video>
+          </sc-if>
+          <sc-if value="{{ p.showLogo }}">
+            <img src="{{ p.cover }}" alt="" loading="lazy">
+          </sc-if>
+          <sc-if value="{{ p.showWordmark }}">
+            <span class="portfolio-card__wordmark">{{ p.name }}</span>
+            <span class="portfolio-card__visual-line"></span>
+          </sc-if>
+        </div>
+        <div class="portfolio-card__content">
+          <div class="portfolio-card__meta"><span class="portfolio-card__number">{{ p.num }}</span><span class="portfolio-card__category">{{ p.cat }}</span></div>
+          <div class="portfolio-card__copy">
+            <h3>{{ p.name }}</h3>
+            <p class="portfolio-card__subtitle">{{ p.desc }}</p>
+            <sc-if value="{{ p.hasMore }}">
+              <p class="portfolio-card__description">{{ p.more }}</p>
+            </sc-if>
+          </div>
+          <div class="portfolio-card__action"><span>Learn more</span><span class="portfolio-card__arrow" aria-hidden="true">↗</span></div>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+</section>/* Portfolio V3 — product-led, editorial layout. No animated decoration. */
+.portfolio-section{position:relative;z-index:2;max-width:1480px;margin:0 auto;padding:84px max(20px,4vw) 110px;scroll-margin-top:80px}
+.portfolio-heading{display:flex;flex-direction:column;gap:19px;margin-bottom:36px}
+.portfolio-heading__eyebrow{display:flex;align-items:center;gap:16px;color:#9DC0DF;font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase}
+.portfolio-heading__eyebrow::before{content:"";height:2px;width:24px;flex:none;background:#7EB4D8}
+.portfolio-heading__body{display:flex;align-items:end;justify-content:space-between;gap:32px}
+.portfolio-heading h2{margin:0;color:#F4F8FE;font-size:clamp(40px,4.4vw,60px);line-height:1.1;font-weight:600;letter-spacing:-.035em}
+.portfolio-heading p{max-width:390px;margin:0 0 5px;color:#BFD0E4;font-size:16px;line-height:1.65;text-wrap:pretty}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.portfolio-card{min-width:0;display:flex;flex-direction:column;overflow:hidden;min-height:496px;border:1px solid #B9CBDC;border-radius:14px;background:#EEF3F8;color:#12334F;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.portfolio-card:hover{transform:translateY(-3px);border-color:#DCEAF7;box-shadow:0 18px 34px rgba(0,17,35,.18);color:#12334F}
+.portfolio-card:focus-visible{outline:3px solid #81D9FF;outline-offset:4px}
+.portfolio-card__visual{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;height:195px;flex:none;background:#102F4D}
+.portfolio-card__visual img{position:relative;display:block;width:min(63%,246px);height:65%;object-fit:contain}
+.portfolio-card__visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.portfolio-card__wordmark{position:relative;color:#ECF4FF;font-size:clamp(35px,3vw,55px);font-weight:600;letter-spacing:-.055em;line-height:1.1;text-align:center;padding:0 18px}
+.portfolio-card__visual-line{position:absolute;left:24px;right:24px;bottom:24px;height:1px;background:rgba(255,255,255,.23)}
+.portfolio-card[data-product="morrakeb"] .portfolio-card__visual{background:#254D6B}
+.portfolio-card[data-product="nasher"] .portfolio-card__visual{background:#102B44}
+.portfolio-card[data-product="tawazi"] .portfolio-card__visual{background:#355B72}
+.portfolio-card__content{min-height:0;flex:1;display:flex;flex-direction:column;padding:25px 26px 22px}
+.portfolio-card__meta{display:flex;align-items:center;gap:12px;color:#4A6984;font-size:12px;line-height:1.4;font-weight:600}
+.portfolio-card__number{color:#215782;font-variant-numeric:tabular-nums}
+.portfolio-card__number::after{content:"/";display:inline-block;margin-inline-start:12px;color:#9DB0C0}
+.portfolio-card__copy{flex:1;padding-top:19px}
+.portfolio-card__copy h3{margin:0 0 9px;font-size:clamp(27px,2.4vw,34px);line-height:1.15;font-weight:600;letter-spacing:-.035em;overflow-wrap:anywhere}
+.portfolio-card__subtitle{margin:0;color:#284D68;font-size:14px;line-height:1.55;font-weight:500}
+.portfolio-card__description{margin:14px 0 0;color:#536D80;font-size:13px;line-height:1.65;text-wrap:pretty}
+.portfolio-card__action{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:21px;padding-top:15px;border-top:1px solid #CDDBE6;color:#123C60;font-size:13px;font-weight:600}
+.portfolio-card__arrow{display:flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;border:1px solid #B8CBD9;border-radius:50%;font-size:18px;font-weight:400;transition:background-color .2s ease,color .2s ease}
+.portfolio-card:hover .portfolio-card__arrow,.portfolio-card:focus-visible .portfolio-card__arrow{background:#123C60;color:white}
+.portfolio-card--featured{grid-column:1/-1;display:grid;grid-template-columns:50% 50%;min-height:370px;background:#F1F6FA}
+.portfolio-card--featured .portfolio-card__content{grid-column:1;grid-row:1;padding:34px clamp(30px,4vw,60px) 34px 42px}
+.portfolio-card--featured .portfolio-card__visual{grid-column:2;grid-row:1;height:auto;min-height:370px;background:#D9E6F0}
+.portfolio-card--featured .portfolio-card__visual img{width:min(46%,300px);height:70%;object-fit:contain}
+.portfolio-card--featured .portfolio-card__copy{padding-top:23px}
+.portfolio-card--featured .portfolio-card__copy h3{font-size:clamp(42px,4vw,62px);margin-bottom:10px}
+.portfolio-card--featured .portfolio-card__subtitle{font-size:17px}
+.portfolio-card--featured .portfolio-card__description{font-size:14px;line-height:1.75;max-width:510px}
+.portfolio-card--featured .portfolio-card__action{margin-top:24px}
+@media(max-width:1100px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-card--featured{grid-column:1/-1}.portfolio-card:last-child{grid-column:1/-1;min-height:0;display:grid;grid-template-columns:40% 60%}.portfolio-card:last-child .portfolio-card__visual{height:auto;min-height:300px}.portfolio-card:last-child .portfolio-card__content{padding:28px 32px}}
+@media(max-width:700px){.portfolio-section{padding:62px 20px 84px}.portfolio-heading{gap:16px;margin-bottom:26px}.portfolio-heading__body{display:block}.portfolio-heading h2{font-size:42px}.portfolio-heading p{max-width:100%;font-size:15px;line-height:1.65;margin:12px 0 0}.portfolio-grid{grid-template-columns:minmax(0,1fr);gap:16px}.portfolio-card,.portfolio-card:last-child{grid-column:auto;display:flex;min-height:0;border-radius:12px}.portfolio-card__visual,.portfolio-card:last-child .portfolio-card__visual{order:0;width:100%;height:auto;min-height:0;aspect-ratio:16/8}.portfolio-card__content,.portfolio-card:last-child .portfolio-card__content{order:1;padding:22px 22px 19px}.portfolio-card__copy{padding-top:16px}.portfolio-card__copy h3{font-size:30px}.portfolio-card__description{font-size:13px;line-height:1.65}.portfolio-card--featured{grid-column:auto}.portfolio-card--featured .portfolio-card__visual{grid-column:auto;grid-row:auto;order:0;min-height:0;width:100%;aspect-ratio:16/9}.portfolio-card--featured .portfolio-card__content{grid-column:auto;grid-row:auto;order:1;padding:23px 22px 20px}.portfolio-card--featured .portfolio-card__copy{padding-top:16px}.portfolio-card--featured .portfolio-card__copy h3{font-size:36px}.portfolio-card--featured .portfolio-card__subtitle{font-size:15px}.portfolio-card--featured .portfolio-card__description{font-size:13px;line-height:1.65}.portfolio-card__action{margin-top:18px}}
+@media(max-width:360px){.portfolio-section{padding-inline:16px}.portfolio-card__content,.portfolio-card:last-child .portfolio-card__content,.portfolio-card--featured .portfolio-card__content{padding-inline:18px}.portfolio-heading h2{font-size:38px}.portfolio-card__wordmark{font-size:33px}}
+@media(prefers-reduced-motion:reduce){.portfolio-card,.portfolio-card__arrow{transition:none}.portfolio-card:hover{transform:none}.portfolio-card__visual video{animation:none}}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;overflow-x:clip;background:#002f59;color:#EAF2FF;font-family:{{ rootFont }}">
+
+<div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(1200px 700px at 72% -10%, rgba(47,107,255,0.22), transparent 60%), radial-gradient(900px 600px at -5% 105%, rgba(63,224,255,0.08), transparent 60%), #002f59"></div>
+<div aria-hidden="true" style="position:fixed;left:50%;top:55%;width:70vw;height:70vw;max-width:1100px;max-height:1100px;transform:translate(-50%,-50%);border-radius:50%;filter:blur(140px);opacity:0.16;pointer-events:none;z-index:0;background:{{ ambientColor }};transition:background-color 1.2s ease"></div>
+<div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.5;background-image:linear-gradient(rgba(120,170,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,255,0.05) 1px, transparent 1px);background-size:72px 72px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%)"></div>
+<div ref="{{ cursorRef }}" aria-hidden="true" style="position:fixed;left:0;top:0;width:600px;height:600px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle, rgba(63,180,255,0.10), transparent 60%);display:{{ cursorDisplay }};transform:translate(-999px,-999px)"></div>
+
+<div style="display:{{ v1Display }}">
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(0,47,89,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.08)">
+  <div style="max-width:1180px;margin:0 auto;min-height:72px;padding:{{ hdrPad }};display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;column-gap:24px;row-gap:4px">
+    <a href="#overview" onClick="{{ goTop }}" aria-label="Fadaat" style="display:flex;align-items:center;flex:none">
+      <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:34px;width:auto;display:block;filter:brightness(0) invert(1)">
+    </a>
+  </div>
+</header>
+
+<section id="overview" data-screen-label="Hero" style="position:relative;z-index:2;min-height:100vh;display:flex;align-items:{{ heroAlign }};padding:{{ heroPad }}">
+  <canvas ref="{{ heroRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+  <div style="position:relative;max-width:640px;display:flex;flex-direction:column;gap:28px">
+    <h1 style="margin:0;font-size:clamp(48px, 7.6vw, 112px);line-height:0.96;font-weight:600;letter-spacing:-0.035em;text-wrap:balance">
+      <span style="display: block; opacity: {{ heroOp }}; transform: {{ heroTf }}; transition: opacity 1.1s ease .15s, transform 1.1s cubic-bezier(.2,.7,.2,1) .15s; font-size: 77px">Experience the</span>
+      <span style="display: block; opacity: {{ heroOp }}; transform: {{ heroTf }}; transition: opacity 1.1s ease .3s, transform 1.1s cubic-bezier(.2,.7,.2,1) .3s; border-radius: 77px">Power of <span style="background:linear-gradient(100deg,#FFFFFF 0%,#9FE9FF 35%,#3FE0FF 60%,#2F6BFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent">AI</span></span>
+    </h1>
+    <p style="margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.6;color:#B9CCF0;max-width:540px;text-wrap:pretty;opacity:{{ heroOp }};transform:{{ heroTf }};transition:opacity 1.1s ease .45s, transform 1.1s cubic-bezier(.2,.7,.2,1) .45s">AI capabilities that change how content is created, discovered and experienced. Hear text become a voice, long reads become briefings and speech become captions in any language, then try each one yourself.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;opacity:{{ heroOp }};transform:{{ heroTf }};transition:opacity 1.1s ease .6s, transform 1.1s cubic-bezier(.2,.7,.2,1) .6s">
+      <button onClick="{{ explore }}" style="display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 28px;border:none;border-radius:9999px;background:linear-gradient(135deg,#4FB2FF,#3FE0FF);color:#03122B;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 14px 40px -12px rgba(63,224,255,0.7);transition:transform .25s, box-shadow .25s" style-hover="transform:translateY(-2px);box-shadow:0 20px 50px -12px rgba(63,224,255,0.9)">Explore AI Experiences <span aria-hidden="true">↓</span></button>
+      <button onClick="{{ startTour }}" style="height:56px;padding:0 24px;border-radius:9999px;border:1px solid rgba(150,190,255,0.28);background:rgba(255,255,255,0.04);color:#EAF2FF;font-size:16px;cursor:pointer;backdrop-filter:blur(10px)" style-hover="background:rgba(255,255,255,0.09)">Take the guided tour</button>
+    </div>
+  </div>
+  <div style="position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#7F9BCB;font-size:11px;letter-spacing:0.2em;text-transform:uppercase">
+    <div style="width:24px;height:38px;border-radius:14px;border:1.5px solid rgba(150,190,255,0.4);display:flex;justify-content:center;padding-top:7px">{{ scrollDot }}</div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<section id="network" data-screen-label="Our network" aria-label="Our network" style="position:relative;z-index:2;padding:40px 0 0;display:flex;flex-direction:column;gap:22px">
+  <div style="max-width:1360px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
+    <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500;white-space:nowrap">Across our network</span>
+    <span data-flip-rtl="" aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px;padding:28px 0;margin:-28px 0;-webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent)">
+    <div dir="ltr" style="overflow:hidden;padding:28px 0;margin:-28px 0">
+      <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite" style-hover="animation-play-state:paused">
+        <sc-for list="{{ logosA }}" as="lg" hint-placeholder-count="8">
+          <div title="{{ lg.name }}" style="flex:none;width:184px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));border:1px solid rgba(150,190,255,0.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s, box-shadow .4s, transform .4s" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 0 30px -6px rgba(63,224,255,0.55);transform:translateY(-3px)">
+            <span role="img" aria-label="{{ lg.name }}" style="width:132px;height:52px;display:block;background-image:{{ lg.bgUrl }};background-size:contain;background-repeat:no-repeat;background-position:center;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1"></span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities" data-screen-label="Capabilities" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:72px max(20px,4vw) 120px">
+  <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);mask-image:linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent)"><canvas ref="{{ nnRef }}" style="position:sticky;top:0;width:100%;height:100vh;display:block;opacity:0.4"></canvas></div>
+  <div style="display:flex;flex-direction:column;gap:20px;max-width:760px">
+    <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">01 · Capabilities</span>
+    <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600;text-wrap:balance">Watch each capability work, then try it yourself.</h2>
+    <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Each preview shows what the capability does. Open one to use it with your own input. Live demos call real AI services; guided demos use prepared samples and are labelled as such.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:{{ labCols }};gap:clamp(20px,4vw,56px);margin-top:64px">
+    <div style="position:sticky;top:{{ stageTop }};align-self:start;z-index:3">
+      <div style="position:relative;height:{{ stageH }};border-radius:28px;overflow:hidden;background:linear-gradient(160deg, rgba(20,40,90,0.55), rgba(6,12,30,0.75));border:1px solid rgba(150,190,255,0.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 50px 100px -50px rgba(47,107,255,0.6)">
+        <canvas ref="{{ stageRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+        <div style="position:absolute;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <span style="font-size:13px;color:#9CC2FF;letter-spacing:0.08em"><span style="color:#EAFBFF;font-weight:600">{{ activeNum }}</span> / {{ totalNum }} · {{ activeTitle }}</span>
+          <span style="display:flex;gap:6px">
+            <sc-for list="{{ stageSegs }}" as="sg" hint-placeholder-count="6"><span style="width:18px;height:3px;border-radius:2px;background:{{ sg.bg }};transition:background .4s"></span></sc-for>
+          </span>
+        </div>
+        <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(180deg, rgba(4,10,28,0), rgba(4,10,28,0.85));pointer-events:none"></div>
+        <div style="position:absolute;left:22px;right:22px;bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <span style="font-size:clamp(16px,1.6vw,22px);font-weight:500;color:#EAF2FF;max-width:360px;text-wrap:balance">{{ activeTagline }}</span>
+          <button onClick="{{ openActive }}" style="height:44px;padding:0 20px;border-radius:9999px;border:1px solid rgba(63,224,255,0.45);background:rgba(4,10,28,0.6);color:#EAFBFF;font-size:14px;font-weight:500;cursor:pointer;backdrop-filter:blur(10px)" style-hover="background:rgba(63,224,255,0.16)">{{ activeAction }} →</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px;padding-block:{{ listPad }}">
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="6">
+        <article ref="{{ f.ref }}" tabIndex="0" role="button" aria-label="Open {{ f.title }} demo" onClick="{{ f.open }}" onKeyDown="{{ f.key }}" onMouseEnter="{{ f.enter }}" onMouseLeave="{{ f.leave }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;cursor:pointer;outline:none;background:{{ f.bg }};border:1px solid {{ f.border }};transform:{{ f.tf }};box-shadow:{{ f.shadow }};opacity:{{ f.op }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .6s cubic-bezier(.2,.7,.2,1), background .5s, border-color .5s, box-shadow .5s, opacity .5s" style-focus="border-color:#3FE0FF;box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <span style="font-size:13px;font-weight:600;letter-spacing:0.1em;color:{{ f.numColor }};transition:color .4s">{{ f.num }}</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#C9D8F5;padding:5px 11px;border-radius:9999px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="width:6px;height:6px;border-radius:50%;background:{{ f.dot }}"></span>{{ f.badge }}</span>
+          </div>
+          <h3 style="margin:0;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">{{ f.title }}</h3>
+          <p style="margin:0;font-size:16px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ f.desc }}</p>
+          <span style="display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;font-weight:600;color:#7FE7FF">{{ f.action }} <span aria-hidden="true">→</span></span>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="solutions" data-screen-label="Solutions" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 60px">
+  <div style="display:flex;flex-direction:column;gap:20px;max-width:760px;opacity:{{ solOp }};transform:{{ solTf }};transition:opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1)">
+    <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">02 · Solutions</span>
+    <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600;text-wrap:balance">Capabilities, combined into complete solutions.</h2>
+    <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Each capability above does one job well. Their real value shows when they work together. Labeeb and Muraqib connect several of them into end-to-end workflows.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:{{ solCols }};gap:18px;align-items:stretch;margin-top:48px;opacity:{{ solOp }};transform:{{ solTf }};transition:opacity 1s ease .15s, transform 1s cubic-bezier(.2,.7,.2,1) .15s">
+    <article tabIndex="0" role="button" aria-haspopup="dialog" aria-label="Open Labeeb" onClick="{{ sol0.open }}" onKeyDown="{{ sol0.key }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;overflow:hidden;cursor:pointer;outline:none;background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.04), 0 24px 60px -34px rgba(63,224,255,0.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s" style-hover="transform:translateY(-4px);border-color:rgba(63,224,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 34px 80px -30px rgba(63,224,255,0.7)" style-focus="border-color:rgba(63,224,255,0.7);box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
+      <div aria-hidden="true" style="position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;background:#3FE0FF;opacity:0.16;filter:blur(60px);pointer-events:none;animation:wwBreath 7s ease-in-out infinite"></div>
+      <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);animation:wwSheen 8s ease-in-out 0s infinite;pointer-events:none"></div>
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div onClick="{{ solStop }}" style="width:52px;height:52px;flex:none;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="sol-logo-labeeb" shape="rounded" radius="14" fit="contain" placeholder="Logo" style="width:52px;height:52px"></image-slot></div>
+        <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#DDE8FF;padding:5px 11px;border-radius:9999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Super CMS</span>
+      </div>
+      <div aria-hidden="true" style="position:relative;height:224px;border-radius:18px;overflow:hidden;background:rgba(4,10,28,0.42);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08)">{{ solViz0 }}</div>
+      <h3 style="position:relative;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">Labeeb <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.8em;color:#3FE0FF;letter-spacing:0">لبيب</span></h3>
+      <p style="position:relative;margin:0;font-size:16px;line-height:1.6;color:#C9D8F5;text-wrap:pretty">How Fadaat Media connected its AI services into one editorial framework — from the first draft to the final read.</p>
+      <span style="position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;font-weight:600;color:#7FE7FF">Open Labeeb <span aria-hidden="true">→</span></span>
+    </article>
+    <article tabIndex="0" role="button" aria-haspopup="dialog" aria-label="Open Muraqib" onClick="{{ sol1.open }}" onKeyDown="{{ sol1.key }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;overflow:hidden;cursor:pointer;outline:none;background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, rgba(127,166,255,0.06));border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.04), 0 24px 60px -34px rgba(127,166,255,0.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s" style-hover="transform:translateY(-4px);border-color:rgba(127,166,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 34px 80px -30px rgba(127,166,255,0.7)" style-focus="border-color:rgba(127,166,255,0.7);box-shadow:0 0 0 3px rgba(127,166,255,0.3)">
+      <div aria-hidden="true" style="position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;background:#7FA6FF;opacity:0.16;filter:blur(60px);pointer-events:none;animation:wwBreath 7s ease-in-out infinite"></div>
+      <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);animation:wwSheen 8s ease-in-out 4s infinite;pointer-events:none"></div>
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div onClick="{{ solStop }}" style="width:52px;height:52px;flex:none;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="sol-logo-muraqib" shape="rounded" radius="14" fit="contain" placeholder="Logo" style="width:52px;height:52px"></image-slot></div>
+        <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#DDE8FF;padding:5px 11px;border-radius:9999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><span style="width:6px;height:6px;border-radius:50%;background:#7FA6FF"></span>Add a short label</span>
+      </div>
+      <div aria-hidden="true" style="position:relative;height:224px;border-radius:18px;overflow:hidden;background:rgba(4,10,28,0.42);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08)">{{ solViz1 }}</div>
+      <h3 style="position:relative;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(24px,2.2vw,30px);line-height:1.15;font-weight:600;letter-spacing:-0.02em">Muraqib <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.8em;color:#7FA6FF;letter-spacing:0">مراقب</span></h3>
+      <p style="position:relative;margin:0;font-size:16px;line-height:1.6;color:#C9D8F5;text-wrap:pretty">Add a one-line description of Muraqib.</p>
+      <span style="position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;font-weight:600;color:#7FE7FF">Open Muraqib <span aria-hidden="true">→</span></span>
+    </article>
+  </div>
+</section>
+
+</div>
+
+<sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
+
+<section id="o2-top" data-wide="" data-screen-label="O2 Hero" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;min-height:100vh;min-height:100svh;box-sizing:border-box;padding:calc(72px + clamp(32px,5vw,80px)) max(20px,4vw) 84px;display:flex;align-items:center">
+  <div data-hero-bg="" aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;overflow:visible;pointer-events:none;mix-blend-mode:screen">
+    <div style="position:absolute;inset:0;overflow:hidden;opacity:{{ heroVidOp }};-webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 22%, #000 88%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0%, #000 22%, #000 88%, transparent 100%)">
+      <video ref="{{ heroVidRef }}" src="assets/hero-video.mp4" autoplay muted loop playsinline disablePictureInPicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0 0;transform:scale(1.32) translateZ(0);transform-origin:0 0;pointer-events:none;filter:contrast(1.08) saturate(1.12);backface-visibility:hidden"></video>
+    </div>
+  </div>
+  <div style="position:relative;width:min(100%,clamp(560px,52vw,900px));display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:28px">
+    <h1 style="margin:0;font-size:clamp(36px,6.4vw,116px);line-height:1.02;letter-spacing:-0.035em;font-weight:700;text-wrap:balance;background:linear-gradient(100deg,#4A3BFF 0%,#5A3FE6 32%,#5E8DFF 55%,#62A8FF 72%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em"><span style="white-space:nowrap">Smarter media.</span><br><span style="white-space:nowrap">Built with AI.</span></h1>
+    <p style="margin:0;max-width:min(100%,clamp(320px,32vw,640px));font-size:clamp(16px,1.2vw,22px);line-height:1.6;color:#B9CCF0;text-wrap:pretty">Explore intelligent editorial tools, content experiences, actionable analytics, and purpose-built AI products for the future of media.</p>
+  </div>
+  <a href="#o2-services" aria-label="{{ cueLabel }}" style="position:absolute;left:50%;bottom:10px;z-index:3;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:#CFE0FF;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:{{ cueOp }};pointer-events:{{ cuePE }};transition:opacity .4s ease" style-hover="color:#FFFFFF">
+  <span aria-hidden="true" style="position:relative;width:24px;height:38px;border-radius:9999px;border:1.5px solid rgba(207,224,255,0.6);box-sizing:border-box">{{ cueDot }}</span>
+  <span>{{ cueText }}</span>
+</a>
+</section>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;isolation:isolate;background:linear-gradient(180deg, rgba(0,47,89,0.55), rgba(0,47,89,0.35));border-bottom:1px solid rgba(255,255,255,0.18);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 18px 40px -24px rgba(0,0,0,0.55);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)">
+  <nav aria-label="Main" style="margin:0 auto;width:min(1600px,100%);min-height:{{ navH }};box-sizing:border-box;padding-block:8px;padding-inline:max(16px,4vw);display:grid;grid-template-columns:{{ navCols }};align-items:center;gap:12px;position:relative">
+    <a href="#o2-top" aria-label="Fadaat" style="justify-self:start;display:flex;align-items:center;flex:none;gap:20px">
+      <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1)">
+      <span aria-hidden="true" style="width:1px;height:28px;background:rgba(255,255,255,0.22)"></span>
+    </a>
+    <div style="display:{{ navLinksDisp }};align-items:center;gap:2px;overflow-x:auto;min-width:0;scrollbar-width:none">
+      <a data-nav-link="" href="#o2-services" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Features</a>
+      <a data-nav-link="" href="#o2-products" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Products</a>
+      <a data-nav-link="" href="#next" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">The Future</a>
+      <a data-nav-link="" href="#o2-faq" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">FAQ</a>
+    </div>
+    <div style="justify-self:end;display:flex;align-items:center;gap:10px">
+      <button type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="height:38px;padding:0 12px;border:none;background:transparent;border-radius:9999px;cursor:pointer;color:#FFFFFF;font-family:'Readex Pro',system-ui,sans-serif;font-size:15px;font-weight:500;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,0.12)">{{ langOther }}</button>
+      <a href="#o2-contact" style="flex:none;height:{{ ctaH }};padding:0 {{ ctaPad }};border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFFFFF;color:#0A2A55;font-size:15px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,0.4);transition:background .25s" style-hover="color:#0A2A55;background:#EAF2FF">Contact us <span aria-hidden="true">↗</span></a>
+      <sc-if value="{{ navCompact }}">
+        <button type="button" onClick="{{ navMenuToggle }}" aria-label="Menu" aria-expanded="{{ navMenuOpen }}" style="flex:none;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{ navMenuIcon }}"></path></svg></button>
+      </sc-if>
+    </div>
+  </nav>
+  <sc-if value="{{ navMenuShow }}">
+    <div style="display:flex;flex-direction:column;gap:2px;padding:8px max(16px,4vw) 16px;border-top:1px solid rgba(255,255,255,0.12)">
+      <sc-for list="{{ navItems }}" as="ni" hint-placeholder-count="4">
+        <a data-nav-link="" href="{{ ni.href }}" onClick="{{ ni.onClick }}" style="height:48px;padding:0 12px;border-radius:12px;display:flex;align-items:center;font-size:16px;font-weight:500;color:#FFFFFF" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">{{ ni.label }}</a>
+      </sc-for>
+    </div>
+  </sc-if>
+</header>
+
+<section id="o2-network" data-screen-label="O2 Our network" aria-label="Our network" style="position:relative;z-index:2;padding:8px 0 24px;display:flex;flex-direction:column;gap:22px;opacity:{{ o2NetOp }};transform:{{ o2NetTf }};filter:{{ o2NetBlur }};transition:opacity 1s ease, transform 1.1s cubic-bezier(.2,.7,.2,1), filter 1s ease">
+  <div style="max-width:1600px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
+    <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500;white-space:nowrap">Across our network</span>
+    <span data-flip-rtl="" aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px;padding:28px 0;margin:-28px 0;-webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent)">
+    <div dir="ltr" style="overflow:hidden;padding:28px 0;margin:-28px 0">
+      <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite {{ mqDir }}" style-hover="animation-play-state:paused">
+        <sc-for list="{{ logosA }}" as="lg" hint-placeholder-count="8">
+          <div title="{{ lg.name }}" style="flex:none;width:184px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));border:1px solid rgba(150,190,255,0.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s, box-shadow .4s, transform .4s" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 0 30px -6px rgba(63,224,255,0.55);transform:translateY(-3px)">
+            <span role="img" aria-label="{{ lg.name }}" style="width:132px;height:52px;display:block;background-image:{{ lg.bgUrl }};background-size:contain;background-repeat:no-repeat;background-position:center;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1"></span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="o2-services" data-wide="" data-screen-label="O2 Services" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:72px max(20px,4vw) 100px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:44px">
+  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;max-width:760px;margin:0 auto;opacity:{{ o2SvcOp }};transform:{{ o2SvcTf }};filter:{{ o2SvcBlur }};transition:opacity 1s ease .15s, transform 1.1s cubic-bezier(.2,.7,.2,1) .15s, filter 1s ease .15s">
+    <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">01 · What we do</span>
+    <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600">AI Features</h2>
+    <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Tools that simplify creation, improve experiences, and unlock insights.</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+        <sc-for list="{{ o2Chips }}" as="c" hint-placeholder-count="3">
+          <button onClick="{{ c.onClick }}" style="display:flex;align-items:center;gap:10px;height:44px;padding-block:0;padding-inline:8px 18px;border-radius:9999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:600;cursor:pointer;transition:background .4s, border-color .4s, color .4s">
+            <span style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;background:{{ c.iconBg }};color:#7FE7FF">{{ c.glyph }}</span>{{ c.name }}
+          </button>
+        </sc-for>
+      </div>
+    </div>
+    <div data-o2-track="" ref="{{ o2TrackRef }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerLeave="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" style="position:relative;display:flex;align-items:flex-start;gap:16px;cursor:grab;user-select:none;-webkit-mask-image:{{ o2Mask }};mask-image:{{ o2Mask }};overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px;margin:0 -2px">
+      <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
+        <article onClick="{{ k.onClick }}" style="flex:0 0 clamp(260px,26vw,320px);scroll-snap-align:start;position:relative;border-radius:22px;overflow:hidden;border:1px solid {{ k.border }};background:{{ k.bg }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:24px;display:flex;flex-direction:column;gap:14px;height:320px;cursor:pointer;transition:border-color .5s, background .5s, transform .4s cubic-bezier(.2,.7,.2,1)" style-hover="transform:translateY(-4px);border-color:rgba(63,224,255,0.55)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <span style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#8FB4FF;font-weight:500">
+              <span style="width:30px;height:30px;border-radius:10px;background:rgba(63,224,255,0.1);border:1px solid rgba(63,224,255,0.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:14px;letter-spacing:0">{{ k.glyph }}</span>{{ k.cat }}
+            </span>
+            <span style="font-size:12px;font-weight:600;letter-spacing:0.1em;color:#3FE0FF">{{ k.n }}</span>
+          </div>
+          <h3 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.02em;font-weight:600">{{ k.name }}</h3>
+          <p style="margin:0;font-size:14px;line-height:1.55;color:#B9CCF0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:3.1em">{{ k.short }}</p>
+          <sc-if value="{{ k.hasUsed }}">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF">Used by</span>
+              <sc-for list="{{ k.logos }}" as="lg" hint-placeholder-count="0">
+                <span style="display:flex;align-items:center;opacity:0.85;pointer-events:none"><span role="img" aria-label="{{ lg.name }}" style="display:block;height:24px;width:{{ lg.w }};background-image:{{ lg.bg }};background-size:contain;background-repeat:no-repeat;background-position:left center;filter:brightness(0) invert(1)"></span></span>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;border-top:1px solid rgba(150,190,255,0.12)">
+            <span style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:{{ k.ctaColor }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ k.ctaColor }}"></span>{{ k.cta }}</span>
+            <span style="width:36px;height:36px;border-radius:50%;background:{{ k.arrowBg }};color:{{ k.arrowFg }};border:1px solid rgba(150,190,255,0.3);display:flex;align-items:center;justify-content:center;font-size:15px">↗</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+    <div data-flip-rtl="" aria-hidden="true" style="position:relative;width:min(360px,70%);height:4px;margin:0 auto;border-radius:9999px;background:rgba(150,190,255,0.18)">
+      <div style="position:absolute;top:0;bottom:0;left:{{ o2ThumbL }};width:{{ o2ThumbW }};border-radius:9999px;background:linear-gradient(90deg,#2F6BFF,#3FE0FF);box-shadow:0 0 10px rgba(63,224,255,0.5);transition:left .15s linear"></div>
+    </div>
+  </div>
+</section>
+
+<section id="o2-products" data-wide="" data-screen-label="O2 Products" class="portfolio-section">
+  <div class="portfolio-heading">
     <div class="portfolio-heading__eyebrow">
       <span>02 · Our portfolio</span>
       <span class="portfolio-heading__line" aria-hidden="true"></span>
@@ -2815,7 +3143,7 @@ class Component extends DCLogic {
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
       o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
       o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
-      o2Products: O.products.map((p, i) => { const ex = { hasLogo: i === 0, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; const covers = ['assets/labeeb-mark.png', 'assets/morrakeb-pages/p01.png', 'assets/nasher-logo-light.png', 'assets/tawazi-pages/p01.png']; return { ...ex, ...p, num: String(i + 1).padStart(2, '0'), video, hasVideo: !!video, noVideo: !video, cover: covers[i], fit: 'contain', mediaPad: (i === 0 || i === 2) ? '32px' : '0', hasMore: !!p.more }; }),
+      o2Products: O.products.map((p, i) => { const ex = { hasLogo: i === 0, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; return { ...ex, ...p, num: String(i + 1).padStart(2, '0'), slug: p.name.toLowerCase(), cardClass: i === 0 ? 'portfolio-card portfolio-card--featured' : 'portfolio-card', video, hasVideo: !!video, showLogo: !video && (i === 0 || i === 2), showWordmark: !video && i !== 0 && i !== 2, cover: i === 0 ? 'assets/labeeb-mark.png' : 'assets/nasher-logo-light.png', hasMore: !!p.more }; }),
       o2Faq: O.faq.slice(0, 6).map((f, i) => ({ ...f, open: fo === i, sign: fo === i ? '–' : '+', onClick: () => this.setState({ o2faq: fo === i ? null : i }) })),
       o2Q: s.o2Q || O.q0, o2A: s.o2A || O.a0, o2Input: s.o2Input || '',
       o2OnInput: e => this.setState({ o2Input: e.target.value }), o2OnKey: e => { if (e.key === 'Enter') this.o2Ask(); }, o2Ask: this.o2Ask,
