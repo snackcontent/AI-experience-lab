@@ -73,6 +73,38 @@ input[type=range]{accent-color:#3FE0FF}
 @keyframes wwCue{0%{opacity:0;transform:translateY(-4px)}40%{opacity:1}80%,100%{opacity:0;transform:translateY(10px)}}
 @keyframes wwDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* Portfolio: editorial product grid; deliberately scoped to this section. */
+.portfolio-section{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:80px max(20px,4vw) 104px;scroll-margin-top:80px}
+.portfolio-heading{margin-bottom:38px}
+.portfolio-heading__eyebrow{display:flex;align-items:center;gap:24px;color:#94BCE5;font-size:13px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap}
+.portfolio-heading__line{height:1px;flex:1;background:rgba(173,210,242,.22)}
+.portfolio-heading__main{display:flex;align-items:end;justify-content:space-between;gap:48px;margin-top:24px}
+.portfolio-heading__main h2{margin:0;color:#F3F7FD;font-size:clamp(35px,4.4vw,58px);font-weight:600;letter-spacing:-.035em;line-height:1.12}
+.portfolio-heading__main p{max-width:410px;margin:0 0 3px;color:#BFD2E9;font-size:16px;line-height:1.7;text-wrap:pretty}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.portfolio-card{min-width:0;display:flex;flex-direction:column;padding:27px 28px 22px;background:#07345A;border:1px solid rgba(185,215,240,.19);border-radius:18px;color:#F3F7FD;text-decoration:none;overflow:hidden;transition:background-color .2s ease,border-color .2s ease,transform .2s ease}
+.portfolio-card:hover{color:#F3F7FD;background:#093B65;border-color:rgba(185,215,240,.40);transform:translateY(-2px)}
+.portfolio-card:focus-visible{outline:3px solid #79CEFF;outline-offset:4px}
+.portfolio-card__meta{display:flex;align-items:center;gap:13px;padding-bottom:19px;border-bottom:1px solid rgba(185,215,240,.16);color:#AFC9E3;font-size:12px;font-weight:500;letter-spacing:.04em}
+.portfolio-card__number{font-variant-numeric:tabular-nums;color:#79CEFF;font-size:13px}
+.portfolio-card__number::after{content:"/";margin-inline-start:13px;color:rgba(185,215,240,.35)}
+.portfolio-card__category{letter-spacing:.03em}
+.portfolio-card__layout{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);grid-template-areas:"content media";gap:24px;align-items:stretch;padding:25px 0 26px;flex:1}
+.portfolio-card__content{grid-area:content;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.portfolio-card__content h3{width:100%;margin:0 0 12px;font-size:clamp(28px,2.65vw,39px);font-weight:600;line-height:1.15;letter-spacing:-.035em;overflow-wrap:anywhere}
+.portfolio-card__description{margin:0;color:#E1EBF7;font-size:15px;font-weight:500;line-height:1.55}
+.portfolio-card__details{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;margin:14px 0 0;color:#ADC5DF;font-size:13px;line-height:1.65;text-wrap:pretty}
+.portfolio-card__media{grid-area:media;position:relative;min-width:0;min-height:230px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(185,215,240,.1);border-radius:12px;background:#041F38}
+.portfolio-card__media img,.portfolio-card__media video{position:absolute;inset:0;width:100%;height:100%;display:block}
+.portfolio-card__media video{object-fit:cover}
+.portfolio-card__footer{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:17px;border-top:1px solid rgba(185,215,240,.16);color:#DCEEFF;font-size:13px;font-weight:600}
+.portfolio-card__arrow{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(185,215,240,.28);border-radius:9px;font-size:17px;font-weight:400;transition:background-color .2s,border-color .2s}
+.portfolio-card:hover .portfolio-card__arrow,.portfolio-card:focus-visible .portfolio-card__arrow{background:#EAF4FF;border-color:#EAF4FF;color:#07345A}
+@media(max-width:1199px){.portfolio-grid{grid-template-columns:minmax(0,1fr)}.portfolio-card__layout{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}.portfolio-card__details{-webkit-line-clamp:5;line-clamp:5}.portfolio-card__media{min-height:205px}}
+@media(max-width:699px){.portfolio-section{padding:62px 20px 76px}.portfolio-heading{margin-bottom:28px}.portfolio-heading__eyebrow{gap:16px;font-size:12px}.portfolio-heading__main{display:block;margin-top:18px}.portfolio-heading__main h2{font-size:38px}.portfolio-heading__main p{max-width:100%;margin-top:12px;font-size:15px;line-height:1.6}.portfolio-grid{gap:16px}.portfolio-card{padding:20px 20px 18px;border-radius:16px}.portfolio-card__meta{padding-bottom:15px}.portfolio-card__layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"media" "content";gap:20px;padding:20px 0 22px}.portfolio-card__media{min-height:0;aspect-ratio:16/9}.portfolio-card__content h3{font-size:30px;margin-bottom:9px}.portfolio-card__description{font-size:15px}.portfolio-card__details{margin-top:11px;font-size:13px;-webkit-line-clamp:4;line-clamp:4}.portfolio-card__footer{padding-top:15px}}
+@media(max-width:360px){.portfolio-section{padding-inline:16px}.portfolio-card{padding-inline:16px}}
+@media(prefers-reduced-motion:reduce){.portfolio-card,.portfolio-card__arrow{transition:none}.portfolio-card:hover{transform:none}}
 </style>
 </helmet>
 
@@ -320,30 +352,44 @@ input[type=range]{accent-color:#3FE0FF}
   </div>
 </section>
 
-<section id="o2-products" data-wide="" data-screen-label="O2 Products" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:40px max(20px,4vw) 60px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:44px">
-  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;max-width:760px;margin:0 auto">
-    <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">02 · Our portfolio</span>
-    <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600">AI Products</h2>
-    <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Purpose-built products across digital, television, publishing, and technology.</p>
+<section id="o2-products" data-wide="" data-screen-label="O2 Products" class="portfolio-section">
+  <div class="portfolio-heading">
+    <div class="portfolio-heading__eyebrow">
+      <span>02 · Our portfolio</span>
+      <span class="portfolio-heading__line" aria-hidden="true"></span>
+    </div>
+    <div class="portfolio-heading__main">
+      <h2>AI Products</h2>
+      <p>Purpose-built products across digital, television, publishing, and technology.</p>
+    </div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px">
+  <div class="portfolio-grid">
     <sc-for list="{{ o2Products }}" as="p" hint-placeholder-count="4">
-      <a href="{{ p.href }}" onClick="{{ p.onClick }}" style="position:relative;cursor:pointer;border-radius:24px;background:{{ p.bg }};color:#EAF2FF;border:1px solid {{ p.border }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:26px;min-height:340px;display:flex;flex-direction:column;gap:16px;overflow:hidden;transition:border-color .4s, box-shadow .4s" style-hover="border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#EAF2FF" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}">
-        <canvas ref="{{ p.cref }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;opacity:0.7;-webkit-mask-image:linear-gradient(180deg,transparent 0%,transparent 18%,#000 32%,#000 50%,transparent 85%);mask-image:linear-gradient(180deg,transparent 0%,transparent 18%,#000 32%,#000 50%,transparent 85%)"></canvas>
-        <div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px">
-          <span style="display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#FFFFFF;font-weight:600;padding:8px 14px;border-radius:9999px;background:rgba(3,18,43,0.72);border:1px solid rgba(63,224,255,0.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>{{ p.cat }}</span>
-          <span style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.3);background:rgba(3,18,43,0.72);display:flex;align-items:center;justify-content:center;font-size:16px;color:#7FE7FF">↗</span>
+      <a class="portfolio-card" href="{{ p.href }}" onClick="{{ p.onClick }}">
+        <div class="portfolio-card__meta">
+          <span class="portfolio-card__number" aria-hidden="true">{{ p.num }}</span>
+          <span class="portfolio-card__category">{{ p.cat }}</span>
         </div>
-        <sc-if value="{{ p.hasVideo }}">
-          <video src="{{ p.video }}" autoplay="" muted="" loop="" playsinline="" style="position:relative;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#000"></video>
-        </sc-if>
-        <div style="flex:1 1 auto;min-height:12px"></div>
-        <div style="position:relative;display:flex;flex-direction:column;gap:10px;">
-                    <div style="font-size:clamp(30px,3vw,40px);font-weight:600;letter-spacing:-0.03em;line-height:1">{{ p.name }}</div>
-          <div style="font-size:15px;line-height:1.55;color:#DDE8FF;min-height:3.1em;text-wrap:pretty">{{ p.desc }}</div>
-          <sc-if value="{{ p.hasMore }}">
-            <div style="font-size:13px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ p.more }}</div>
-          </sc-if>
+        <div class="portfolio-card__layout">
+          <div class="portfolio-card__content">
+            <h3>{{ p.name }}</h3>
+            <p class="portfolio-card__description">{{ p.desc }}</p>
+            <sc-if value="{{ p.hasMore }}">
+              <p class="portfolio-card__details">{{ p.more }}</p>
+            </sc-if>
+          </div>
+          <div class="portfolio-card__media" aria-hidden="true">
+            <sc-if value="{{ p.hasVideo }}">
+              <video src="{{ p.video }}" autoplay="" muted="" loop="" playsinline="" preload="metadata" tabindex="-1"></video>
+            </sc-if>
+            <sc-if value="{{ p.noVideo }}">
+              <img src="{{ p.cover }}" alt="" loading="lazy" style="object-fit:{{ p.fit }};padding:{{ p.mediaPad }}">
+            </sc-if>
+          </div>
+        </div>
+        <div class="portfolio-card__footer">
+          <span>Learn more</span>
+          <span class="portfolio-card__arrow" aria-hidden="true">↗</span>
         </div>
       </a>
     </sc-for>
@@ -2769,7 +2815,7 @@ class Component extends DCLogic {
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
       o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
       o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
-      o2Products: O.products.map((p, i) => { const ex = { hasLogo: i === 0, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; const dark = i === 0; return { ...ex, ...p, video, hasVideo: !!video, hasMore: !!p.more, bg: dark ? 'linear-gradient(160deg, rgba(47,107,255,0.35), rgba(63,224,255,0.08))' : 'linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015))', border: dark ? 'rgba(63,224,255,0.4)' : 'rgba(150,190,255,0.16)' }; }),
+      o2Products: O.products.map((p, i) => { const ex = { hasLogo: i === 0, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; const covers = ['assets/labeeb-mark.png', 'assets/morrakeb-pages/p01.png', 'assets/nasher-logo-light.png', 'assets/tawazi-pages/p01.png']; return { ...ex, ...p, num: String(i + 1).padStart(2, '0'), video, hasVideo: !!video, noVideo: !video, cover: covers[i], fit: 'contain', mediaPad: (i === 0 || i === 2) ? '32px' : '0', hasMore: !!p.more }; }),
       o2Faq: O.faq.slice(0, 6).map((f, i) => ({ ...f, open: fo === i, sign: fo === i ? '–' : '+', onClick: () => this.setState({ o2faq: fo === i ? null : i }) })),
       o2Q: s.o2Q || O.q0, o2A: s.o2A || O.a0, o2Input: s.o2Input || '',
       o2OnInput: e => this.setState({ o2Input: e.target.value }), o2OnKey: e => { if (e.key === 'Enter') this.o2Ask(); }, o2Ask: this.o2Ask,
