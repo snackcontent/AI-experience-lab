@@ -81,7 +81,9 @@ input[type=range]{accent-color:#3FE0FF}
 .portfolio-heading h2{margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.08;letter-spacing:-.035em;font-weight:600;color:#F2F6FF}
 .portfolio-heading p{margin:0;max-width:660px;font-size:clamp(15px,1.22vw,18px);line-height:1.65;color:#BBCFE9;text-wrap:pretty}
 .portfolio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
-.portfolio-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid rgba(150,190,255,0.16);border-radius:18px;background:#F4F8FD;color:#153752;text-decoration:none;isolation:isolate;cursor:pointer;transition:border-color .4s,box-shadow .4s}.portfolio-card:first-child{border-color:rgba(63,224,255,0.4)}
+/* Original borders appeared blue on dark glass; retain the same hue with visible opaque equivalents on light cards. */
+.portfolio-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid #4D7EAB;border-radius:18px;background:#F4F8FD;color:#153752;text-decoration:none;isolation:isolate;cursor:pointer;transition:border-color .4s,box-shadow .4s}
+.portfolio-card:first-child{border-color:#198FAF}
 .portfolio-card:hover{border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#153752}
 .portfolio-card:focus-visible{outline:3px solid #80DCFF;outline-offset:4px;border-color:rgba(63,224,255,.55)}
 .portfolio-card__visual{position:relative;flex:none;height:225px;overflow:hidden;background:radial-gradient(circle at 50% 48%,rgba(30,119,190,.25),rgba(7,38,77,.16) 58%,rgba(3,29,59,.1) 100%),#07345e}
