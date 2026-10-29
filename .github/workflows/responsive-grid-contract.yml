@@ -42,7 +42,7 @@ jobs:
           }
           errors = [f"{label}: missing {token}" for label, token in required.items() if token not in page]
           for section in ("o2-top","o2-services","o2-products","next","o2-faq","o2-contact"):
-              if not re.search(r'<section\\s+id="' + re.escape(section) + r'"[^>]*\\bdata-layout-container(?:=|\\s|>)', page):
+              if not re.search(r'<section\s+id="' + re.escape(section) + r'"[^>]*\bdata-layout-container(?:=|\s|>)', page):
                   errors.append(f"Section #{section} must retain its grid container")
           if errors:
               print("Responsive grid contract FAILED:")
