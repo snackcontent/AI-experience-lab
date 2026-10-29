@@ -1621,7 +1621,7 @@ class Component extends DCLogic {
     }
   };
   DOCS = { 1: { dir: 'morrakeb-pages', key: 'mk', n: 20, ratio: '16 / 9', maxW: '100%', title: 'The AI-Native Media Ecosystem', kind: 'Presentation' }, 2: { dir: 'nasher-pages', key: 'ns', n: 8, ratio: '16 / 9', maxW: '100%', title: 'Nasher Studio', kind: 'Presentation' }, 3: { dir: 'tawazi-pages', key: 'tw', n: 18, ratio: '16 / 9', maxW: '100%', title: 'Tawazi AI Delivery', kind: 'Presentation' } };
-  syncProdText = () => { const sec = document.getElementById('o2-products'); if (!sec) return; const blocks = [...sec.querySelectorAll('a > div:last-child')]; blocks.forEach(b => b.style.minHeight = ''); const m = Math.max(0, ...blocks.map(b => b.offsetHeight)); blocks.forEach(b => b.style.minHeight = m + 'px'); };
+  syncProdText = () => { /* CSS Grid now handles portfolio card sizing without JS height overrides. */ };
   trSetFile = f => { if (this.state.trVideo) URL.revokeObjectURL(this.state.trVideo); const mb = f.size / 1048576; this.setState({ trVideo: URL.createObjectURL(f), trVideoName: f.name, trVideoSize: mb >= 1 ? mb.toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB', trVideoDur: '' }); };
   ppBoxRef = el => { this.ppBox = el; };
   pipScroll = e => {
