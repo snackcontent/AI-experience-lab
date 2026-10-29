@@ -81,8 +81,8 @@ input[type=range]{accent-color:#3FE0FF}
 .portfolio-heading h2{margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.08;letter-spacing:-.035em;font-weight:600;color:#F2F6FF}
 .portfolio-heading p{margin:0;max-width:660px;font-size:clamp(15px,1.22vw,18px);line-height:1.65;color:#BBCFE9;text-wrap:pretty}
 .portfolio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
-.portfolio-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid rgba(157,193,222,.55);border-radius:18px;background:#F4F8FD;color:#153752;text-decoration:none;isolation:isolate;cursor:pointer;transition:border-color .4s,box-shadow .4s}
-.portfolio-card:hover{border-color:rgba(63,224,255,.55);box-shadow:0 30px 60px -30px rgba(63,224,255,.35);color:#153752}
+.portfolio-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid rgba(150,190,255,0.16);border-radius:18px;background:#F4F8FD;color:#153752;text-decoration:none;isolation:isolate;cursor:pointer;transition:border-color .4s,box-shadow .4s}.portfolio-card:first-child{border-color:rgba(63,224,255,0.4)}
+.portfolio-card:hover{border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#153752}
 .portfolio-card:focus-visible{outline:3px solid #80DCFF;outline-offset:4px;border-color:rgba(63,224,255,.55)}
 .portfolio-card__visual{position:relative;flex:none;height:225px;overflow:hidden;background:radial-gradient(circle at 50% 48%,rgba(30,119,190,.25),rgba(7,38,77,.16) 58%,rgba(3,29,59,.1) 100%),#07345e}
 .portfolio-card__canvas{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;opacity:.86;transition:opacity .4s ease}
@@ -404,7 +404,7 @@ html[lang="ar"] #o2-top .o2-hero__content h1,html[lang="ar"] #o2-services h2,htm
   </div>
   <div class="portfolio-grid">
     <sc-for list="{{ o2Products }}" as="p" hint-placeholder-count="4">
-      <a class="portfolio-card" href="{{ p.href }}" onClick="{{ p.onClick }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 30px 60px -30px rgba(63,224,255,0.35);color:#153752">
+      <a class="portfolio-card" href="{{ p.href }}" onClick="{{ p.onClick }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style-hover="border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#153752">
         <div class="portfolio-card__visual">
           <canvas ref="{{ p.cref }}" aria-hidden="true" class="portfolio-card__canvas"></canvas>
           <span class="portfolio-card__category">{{ p.cat }}</span>
@@ -2302,7 +2302,8 @@ class Component extends DCLogic {
       this.paint(this.contactCv, (c, w, h) => this.drawFormation(c, w, h, t));
       if (this.o2cCv) this.paint(this.o2cCv, (c, w, h) => this.drawFormation(c, w, h, t));
       for (let i = 0; i < this.D.upcoming.length; i++) { const vz = this.D.upcoming[i].v ?? i; this.nt[i] += dt * sp * (s.hoverNext === i ? 2.4 : 1); this.paint(this.nextCv[i], (c, w, h) => (typeof vz === 'string' ? this.drawNext2 : this.drawNext).call(this, c, w, h, this.nt[i] + i * 1.7 + 2, vz, s.hoverNext === i)); }
-      { const U = this.D.upcoming; for (let i = 0; i < this.prodCv.length; i++) { if (!this.prodCv[i]) continue; const ui = (i * 2 + 1) % U.length, vz = U[ui].v ?? ui, hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => (typeof vz === 'string' ? this.drawNext2 : this.drawNext).call(this, c, w, h, this.prodT[i] + i * 2.3 + 1, vz, hv)); } }
+      // Four purpose-built animated portfolio illustrations, not recycled roadmap drawings.
+      for (let i = 0; i < 4; i++) { if (!this.prodCv[i]) continue; const hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => this.drawPortfolioVisual(c, w, h, this.prodT[i] + i * 1.9, i, hv)); }
     } else {
       this.paint(this.demoCv, (c, w, h) => {
         const e = this.energy, g = c.createRadialGradient(w / 2, h * 0.55, 0, w / 2, h * 0.55, Math.max(w, h) * 0.6);
@@ -2312,6 +2313,165 @@ class Component extends DCLogic {
       if (s.open === 4) this.paint(this.capCv, (c, w, h) => this.drawCapScene(c, w, h, t));
     }
   };
+  // Portfolio product illustrations: same cyan/blue visual language, distinct product semantics.
+  // Normalized vector canvas coordinates, responsive and rendered within the existing RAF loop.
+  drawPortfolioVisual(c, w, h, t, type, hover) {
+    const W = 360, H = 210, scale = Math.min(w / W, h / H);
+    c.save();
+    c.translate((w - W * scale) / 2, (h - H * scale) / 2);
+    c.scale(scale, scale);
+    const PI2 = Math.PI * 2;
+    const cyan = '#3FE0FF', blue = '#4FB2FF', pale = '#C7F4FF';
+    const stroke = 'rgba(131,195,247,.42)', quiet = 'rgba(131,195,247,.18)';
+    const phase = t * .48, glow = hover ? .30 : .18;
+    let g = c.createRadialGradient(180,112,10,180,112,210);
+    g.addColorStop(0, 'rgba(30,118,194,' + glow + ')');
+    g.addColorStop(1, 'rgba(2,23,48,0)');
+    c.fillStyle=g; c.fillRect(0,0,W,H);
+    c.lineWidth=.7; c.strokeStyle='rgba(130,190,235,.065)';
+    for(let x=16;x<W;x+=22){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}
+    for(let y=12;y<H;y+=22){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}
+    const frame=(x,y,ww,hh,r=10,fill='rgba(6,30,60,.91)',edge=stroke)=>{
+      this.rr(c,x,y,ww,hh,r);c.fillStyle=fill;c.fill();c.strokeStyle=edge;c.lineWidth=1;c.stroke();
+    };
+    const line=(x1,y1,x2,y2,color=quiet,width=1)=>{
+      c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.lineWidth=width;c.strokeStyle=color;c.stroke();
+    };
+    const dot=(x,y,r=3,color=cyan,a=1)=>{
+      c.globalAlpha=a;c.beginPath();c.arc(x,y,r,0,PI2);c.fillStyle=color;c.fill();c.globalAlpha=1;
+    };
+    const bars=(x,y,ww,count=3,gap=9,alpha=1)=>{
+      for(let j=0;j<count;j++){let lw=ww*(j===0?.9:j===1?.7:.46);this.rr(c,x,y+j*gap,lw,3.5,1.8);c.fillStyle='rgba(151,214,255,'+(alpha*(.48-j*.1))+')';c.fill();}
+    };
+    const capsule=(x,y,ww,hh=16)=>{
+      frame(x,y,ww,hh,hh/2,'rgba(31,92,139,.38)','rgba(109,184,230,.25)');
+      dot(x+9,y+hh/2,2,cyan,.8);
+      line(x+16,y+hh/2,x+ww-9,y+hh/2,'rgba(181,233,255,.45)',2);
+    };
+    const packet=(ax,ay,bx,by,offset,color=cyan)=>{
+      const p=((phase*.46+offset)%1+1)%1;
+      dot(ax+(bx-ax)*p,ay+(by-ay)*p,2.7,color,.9);
+      dot(ax+(bx-ax)*p,ay+(by-ay)*p,6,color,.09);
+    };
+    // Unified editorial CMS: intake from several brand systems into one central story view.
+    if(type===0){
+      const feeds=[[18,37],[18,135],[271,37],[271,135]];
+      feeds.forEach(([x,y],j)=>{
+        const right=x>180, x0=right?271:89, x1=right?242:118, y0=y+19, y1=j%2?127:85;
+        c.beginPath();c.moveTo(x0,y0);c.bezierCurveTo((x0+x1)/2,y0,(x0+x1)/2,y1,x1,y1);
+        c.strokeStyle='rgba(87,181,241,.42)';c.lineWidth=1.5;c.stroke();
+        packet(x0,y0,x1,y1,j*.21, j%2?blue:cyan);
+      });
+      feeds.forEach(([x,y],j)=>{
+        frame(x,y,72,43,7,'rgba(7,37,72,.92)', j===2?'rgba(63,224,255,.55)':stroke);
+        frame(x+7,y+8,13,13,3,'rgba(58,159,222,.22)','rgba(96,200,248,.35)');
+        bars(x+26,y+10,36,2,10,.85);
+        line(x+8,y+32,x+64,y+32,'rgba(114,175,228,.17)',1);
+        dot(x+9,y+32,2,j===1?blue:cyan,.65);
+      });
+      frame(115,50,131,111,13,'rgba(6,34,68,.96)','rgba(81,202,249,.7)');
+      frame(126,61,109,12,6,'rgba(40,119,187,.24)','rgba(111,195,240,.18)');
+      dot(136,67,3,cyan,1);bars(146,64,46,1,1,.9);
+      for(let j=0;j<3;j++){
+        frame(129,84+j*21,102,17,5,j===1?'rgba(43,134,185,.24)':'rgba(13,61,98,.5)','rgba(112,175,224,.16)');
+        dot(139,92+j*21,3,j===1?cyan:blue,.8);
+        line(150,92+j*21,191-(j*8),92+j*21,'rgba(189,224,252,.6)',2);
+        line(199,92+j*21,221,92+j*21,j===1?cyan:quiet,2);
+      }
+      const active=(Math.floor(phase*.58)%3+3)%3;
+      frame(127,84+active*21,100,17,5,'rgba(63,224,255,.06)','rgba(63,224,255,.45)');
+      c.save();c.globalAlpha=.8;dot(180,47+Math.sin(phase*1.5)*2,3.2,cyan);c.restore();
+    }
+    // Broadcast intelligence: live screen, moving scan, timed transcript and signal levels.
+    else if(type===1){
+      frame(39,22,282,161,12,'rgba(5,31,61,.93)','rgba(105,181,232,.48)');
+      frame(50,32,184,103,7,'rgba(11,49,84,.9)','rgba(93,181,235,.24)');
+      const clip=c.createLinearGradient(50,32,234,135);
+      clip.addColorStop(0,'rgba(14,84,135,.65)');clip.addColorStop(.6,'rgba(18,76,120,.27)');clip.addColorStop(1,'rgba(4,35,68,.65)');
+      c.fillStyle=clip;c.fillRect(52,34,180,99);
+      // Abstract broadcast shot: skyline layers + overlay framing corners.
+      c.fillStyle='rgba(71,147,200,.21)';
+      for(let j=0;j<9;j++)c.fillRect(61+j*19,99-(j%4)*9,12,35+(j%4)*9);
+      for(let j=0;j<3;j++)line(60,52+j*19,224,52+j*19,'rgba(170,226,255,.13)');
+      const scan=54+((phase*31)%176);g=c.createLinearGradient(scan-24,0,scan+24,0);
+      g.addColorStop(0,'rgba(63,224,255,0)');g.addColorStop(.5,'rgba(63,224,255,.16)');g.addColorStop(1,'rgba(63,224,255,0)');
+      c.fillStyle=g;c.fillRect(Math.max(52,scan-24),35,Math.min(46,230-scan+24),97);
+      line(scan,35,scan,132,'rgba(109,236,255,.62)',1);
+      frame(243,32,67,101,7,'rgba(4,36,70,.77)','rgba(100,183,232,.22)');
+      for(let j=0;j<5;j++){
+        const v=Math.abs(Math.sin(phase*1.1+j*.8));
+        this.rr(c,252+j*11,112-45*v,6,8+45*v,2);
+        c.fillStyle=j===2?cyan:'rgba(86,157,244,.8)';c.fill();
+      }
+      for(let j=0;j<3;j++)line(250,51+j*9,302-j*9,51+j*9,j===Math.floor(phase)%3?'rgba(63,224,255,.65)':quiet,2);
+      frame(52,145,257,25,6,'rgba(12,57,91,.7)','rgba(116,181,231,.18)');
+      for(let j=0;j<33;j++){
+        const amp=3+11*Math.abs(Math.sin(j*.78+phase*2.3)*Math.cos(j*.22+phase));
+        line(60+j*7.3,157-amp/2,60+j*7.3,157+amp/2,j%7===0?cyan:'rgba(97,169,238,.62)',1.8);
+      }
+      const playX=63+((phase*25)%230);
+      line(playX,144,playX,171,cyan,1.4);dot(playX,145,2.2,cyan);
+    }
+    // Multichannel studio: one editorial source fans out into three platform-ready formats.
+    else if(type===2){
+      frame(30,37,115,142,12,'rgba(5,34,68,.96)','rgba(121,194,241,.55)');
+      frame(41,49,93,46,5,'rgba(35,99,154,.48)','rgba(109,187,234,.22)');
+      // Editorial source image and two balanced text paragraphs.
+      c.fillStyle='rgba(72,161,214,.29)';c.fillRect(43,77,89,16);
+      c.beginPath();c.arc(86,62,10,0,PI2);c.strokeStyle='rgba(143,216,252,.57)';c.stroke();
+      bars(41,106,86,3,13,.98);
+      capsule(43,155,76,14);
+      const outputs=[[229,21,98,46],[222,82,105,49],[236,147,91,46]];
+      outputs.forEach(([x,y,ww,hh],j)=>{
+        frame(x,y,ww,hh,8,'rgba(7,43,77,.93)',j===1?'rgba(63,224,255,.53)':stroke);
+        const picW=j===2?24:30;
+        frame(x+8,y+9,picW,hh-18,4,'rgba(51,129,182,.33)','rgba(115,194,233,.13)');
+        bars(x+picW+16,y+12,ww-picW-24,2,j===1?12:11,.9);
+      });
+      outputs.forEach(([x,y,ww,hh],j)=>{
+        const sx=145,sy=108,dx=x,dy=y+hh/2;
+        c.beginPath();c.moveTo(sx,sy);c.bezierCurveTo(184,sy,185,dy,dx,dy);
+        c.lineWidth=1.5;c.strokeStyle='rgba(67,180,243,.44)';c.stroke();
+        const p=((phase*.32+j*.31)%1+1)%1;
+        const u=1-p, xx=u*u*u*sx+3*u*u*p*184+3*u*p*p*185+p*p*p*dx;
+        const yy=u*u*u*sy+3*u*u*p*sy+3*u*p*p*dy+p*p*p*dy;
+        dot(xx,yy,3,cyan,.95);
+      });
+      dot(147,108,4,cyan,.95);
+      dot(147,108,9,cyan,.12);
+    }
+    // Software-delivery orchestration: linked phases, AI checkpoints and shared build tracks.
+    else {
+      frame(22,24,315,162,12,'rgba(5,31,64,.9)','rgba(109,191,235,.4)');
+      line(39,54,316,54,'rgba(109,180,233,.2)',1);
+      dot(40,39,3,cyan,.9);dot(52,39,3,blue,.75);dot(64,39,3,pale,.5);
+      capsule(222,31,100,15);
+      const nodeXs=[48,112,176,240,304], nodeY=99;
+      line(nodeXs[0],nodeY,nodeXs[4],nodeY,'rgba(70,164,227,.42)',2);
+      for(let j=0;j<4;j++){
+        const x=nodeXs[j], end=nodeXs[j+1],p=((phase*.4-j*.24)%1+1)%1;
+        dot(x+(end-x)*p,nodeY,2.5,cyan,.9);
+      }
+      nodeXs.forEach((x,j)=>{
+        const act=(Math.floor(phase*.68)%5+5)%5===j;
+        frame(x-20,78,40,43,8,act?'rgba(36,105,158,.72)':'rgba(8,48,86,.96)',act?'rgba(63,224,255,.9)':stroke);
+        dot(x,91,5,act?cyan:blue,.85);
+        line(x-11,104,x+11,104,'rgba(189,230,255,.64)',2);
+        line(x-7,111,x+7,111,'rgba(151,208,242,.36)',2);
+      });
+      for(let j=0;j<4;j++){
+        const x=56+j*77;
+        frame(x-15,141,62,22,6,'rgba(14,61,100,.57)','rgba(100,186,234,.22)');
+        dot(x-6,152,3,j<=(Math.floor(phase*.68)%5)?cyan:blue,.7);
+        line(x+3,152,x+29,152,'rgba(150,214,251,.45)',2);
+      }
+      const wave=64+((phase*32)%248);
+      line(wave,174,wave+20,174,'rgba(63,224,255,.55)',2);
+      dot(wave+20,174,2,cyan,.85);
+    }
+    c.restore();
+  }
+
   initSphere() {
     const N = 240, pts = [];
     for (let i = 0; i < N; i++) { const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * 2.399963; pts.push({ x: Math.cos(th) * r, y, z: Math.sin(th) * r, s: Math.random() }); }
