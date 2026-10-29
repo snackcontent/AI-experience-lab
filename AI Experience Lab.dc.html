@@ -230,6 +230,76 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 }
 @media(max-width:390px){.roadmap-stage__track-title{font-size:14px}.roadmap-stage__track-caption{font-size:11px}.roadmap-stage__choice{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){.roadmap-stage__track,.roadmap-stage__choice,.roadmap-stage__choice svg{transition:none}}
+
+/* Fadaat permanent responsive layout contract.
+   12 columns x 88px + 11 gutters x 24px = 1320px reference grid.
+   Columns are fluid below 1320px; gutters stay 24px.
+   Full-bleed backgrounds, carousels, RTL, and card artwork remain unrestricted. */
+:root{
+ --fl-columns:12;
+ --fl-column-reference:88px;
+ --fl-gutter:24px;
+ --fl-container:1320px;
+ --fl-edge:16px;
+}
+@media(min-width:576px){:root{--fl-edge:24px}}
+@media(min-width:1400px){:root{--fl-edge:32px}}
+[data-layout-container]{
+ width:min(calc(100% - 2 * var(--fl-edge)),var(--fl-container))!important;
+ max-width:var(--fl-container)!important;
+ padding-inline:0!important;
+ margin-inline:auto!important;
+ min-width:0;
+}
+[data-layout-container="8"]{width:min(calc(100% - 2 * var(--fl-edge)),872px)!important;max-width:872px!important}
+[data-layout-container="10"]{width:min(calc(100% - 2 * var(--fl-edge)),1096px)!important;max-width:1096px!important}
+[data-layout-hero]{
+ padding-inline:max(var(--fl-edge),calc((100% - var(--fl-container))/2))!important;
+}
+[data-layout-grid12]{
+ display:grid!important;
+ grid-template-columns:repeat(12,minmax(0,1fr))!important;
+ gap:var(--fl-gutter)!important;
+}
+[data-layout-grid12] > [data-layout-span]{min-width:0}
+[data-layout-span="3"]{grid-column:span 3}
+[data-layout-span="5"]{grid-column:span 5}
+[data-layout-span="6"]{grid-column:span 6}
+[data-layout-span="7"]{grid-column:span 7}
+[data-layout-grid12="contact"]{gap:0!important}
+@media(max-width:1199.98px){
+ #o2-products [data-layout-span="3"]{grid-column:span 6}
+}
+@media(max-width:1040px){
+ [data-layout-grid12="roadmap-theater"] > [data-layout-span]{grid-column:span 6}
+ [data-layout-grid12="roadmap-tracks"] > [data-layout-span]{grid-column:span 6}
+}
+@media(max-width:991.98px){
+ [data-layout-grid12="capabilities"] > [data-layout-span],
+ [data-layout-grid12="faq"] > [data-layout-span],
+ [data-layout-grid12="solutions"] > [data-layout-span],
+ [data-layout-grid12="contact"] > [data-layout-span]{grid-column:span 12}
+ [data-layout-grid12="capabilities"] > [data-layout-span="6"]:first-child{position:relative!important;top:auto!important}
+}
+@media(max-width:767.98px){
+ #o2-top .o2-hero__content{width:100%!important;max-width:100%!important}
+}
+@media(max-width:680px){
+ [data-layout-grid12="roadmap-theater"] > [data-layout-span]{grid-column:span 12}
+}
+@media(max-width:640px){
+ #o2-products [data-layout-span="3"]{grid-column:span 12}
+}
+@media(max-width:575.98px){
+ #overview h1{font-size:clamp(36px,10vw,52px)!important}
+ #overview h1 > span:first-child{font-size:clamp(34px,9vw,48px)!important}
+ #o2-top .o2-hero__content h1 span{white-space:normal!important}
+ #o2-contact h2,#faq h2{white-space:normal!important;text-wrap:balance}
+ #o2-contact [data-contact-spacer]{min-height:160px!important}
+}
+@media(max-width:389.98px){
+ [data-layout-grid12="roadmap-tracks"] > [data-layout-span]{grid-column:span 12}
+}
 </style>
 </helmet>
 
@@ -242,14 +312,14 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 
 <div style="display:{{ v1Display }}">
 <header style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(0,47,89,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.08)">
-  <div style="max-width:1180px;margin:0 auto;min-height:72px;padding:{{ hdrPad }};display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;column-gap:24px;row-gap:4px">
+  <div data-layout-container style="max-width:1180px;margin:0 auto;min-height:72px;padding:{{ hdrPad }};display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;column-gap:24px;row-gap:4px">
     <a href="#overview" onClick="{{ goTop }}" aria-label="Fadaat" style="display:flex;align-items:center;flex:none">
       <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:34px;width:auto;display:block;filter:brightness(0) invert(1)">
     </a>
   </div>
 </header>
 
-<section id="overview" data-screen-label="Hero" style="position:relative;z-index:2;min-height:100vh;display:flex;align-items:{{ heroAlign }};padding:{{ heroPad }}">
+<section id="overview" data-layout-hero data-screen-label="Hero" style="position:relative;z-index:2;min-height:100vh;display:flex;align-items:{{ heroAlign }};padding:{{ heroPad }}">
   <canvas ref="{{ heroRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
   <div style="position:relative;max-width:640px;display:flex;flex-direction:column;gap:28px">
     <h1 style="margin:0;font-size:clamp(48px, 7.6vw, 112px);line-height:0.96;font-weight:600;letter-spacing:-0.035em;text-wrap:balance">
@@ -269,7 +339,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </section>
 
 <section id="network" data-screen-label="Our network" aria-label="Our network" style="position:relative;z-index:2;padding:40px 0 0;display:flex;flex-direction:column;gap:22px">
-  <div style="max-width:1360px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
+  <div data-layout-container style="max-width:1360px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500;white-space:nowrap">Across our network</span>
     <span data-flip-rtl="" aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
   </div>
@@ -286,7 +356,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
   </div>
 </section>
 
-<section id="capabilities" data-screen-label="Capabilities" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:72px max(20px,4vw) 120px">
+<section id="capabilities" data-layout-container data-screen-label="Capabilities" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:72px max(20px,4vw) 120px">
   <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);mask-image:linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent)"><canvas ref="{{ nnRef }}" style="position:sticky;top:0;width:100%;height:100vh;display:block;opacity:0.4"></canvas></div>
   <div style="display:flex;flex-direction:column;gap:20px;max-width:760px">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">01 · Capabilities</span>
@@ -294,8 +364,8 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
     <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Each preview shows what the capability does. Open one to use it with your own input. Live demos call real AI services; guided demos use prepared samples and are labelled as such.</p>
   </div>
 
-  <div style="display:grid;grid-template-columns:{{ labCols }};gap:clamp(20px,4vw,56px);margin-top:64px">
-    <div style="position:sticky;top:{{ stageTop }};align-self:start;z-index:3">
+  <div data-layout-grid12="capabilities" style="display:grid;grid-template-columns:{{ labCols }};gap:clamp(20px,4vw,56px);margin-top:64px">
+    <div data-layout-span="6" style="position:sticky;top:{{ stageTop }};align-self:start;z-index:3">
       <div style="position:relative;height:{{ stageH }};border-radius:28px;overflow:hidden;background:linear-gradient(160deg, rgba(20,40,90,0.55), rgba(6,12,30,0.75));border:1px solid rgba(150,190,255,0.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 50px 100px -50px rgba(47,107,255,0.6)">
         <canvas ref="{{ stageRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
         <div style="position:absolute;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -312,7 +382,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
       </div>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:18px;padding-block:{{ listPad }}">
+    <div data-layout-span="6" style="display:flex;flex-direction:column;gap:18px;padding-block:{{ listPad }}">
       <sc-for list="{{ features }}" as="f" hint-placeholder-count="6">
         <article ref="{{ f.ref }}" tabIndex="0" role="button" aria-label="Open {{ f.title }} demo" onClick="{{ f.open }}" onKeyDown="{{ f.key }}" onMouseEnter="{{ f.enter }}" onMouseLeave="{{ f.leave }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;cursor:pointer;outline:none;background:{{ f.bg }};border:1px solid {{ f.border }};transform:{{ f.tf }};box-shadow:{{ f.shadow }};opacity:{{ f.op }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .6s cubic-bezier(.2,.7,.2,1), background .5s, border-color .5s, box-shadow .5s, opacity .5s" style-focus="border-color:#3FE0FF;box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -328,14 +398,14 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
   </div>
 </section>
 
-<section id="solutions" data-screen-label="Solutions" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 60px">
+<section id="solutions" data-layout-container data-screen-label="Solutions" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 60px">
   <div style="display:flex;flex-direction:column;gap:20px;max-width:760px;opacity:{{ solOp }};transform:{{ solTf }};transition:opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1)">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">02 · Solutions</span>
     <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600;text-wrap:balance">Capabilities, combined into complete solutions.</h2>
     <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Each capability above does one job well. Their real value shows when they work together. Labeeb and Muraqib connect several of them into end-to-end workflows.</p>
   </div>
-  <div style="display:grid;grid-template-columns:{{ solCols }};gap:18px;align-items:stretch;margin-top:48px;opacity:{{ solOp }};transform:{{ solTf }};transition:opacity 1s ease .15s, transform 1s cubic-bezier(.2,.7,.2,1) .15s">
-    <article tabIndex="0" role="button" aria-haspopup="dialog" aria-label="Open Labeeb" onClick="{{ sol0.open }}" onKeyDown="{{ sol0.key }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;overflow:hidden;cursor:pointer;outline:none;background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.04), 0 24px 60px -34px rgba(63,224,255,0.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s" style-hover="transform:translateY(-4px);border-color:rgba(63,224,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 34px 80px -30px rgba(63,224,255,0.7)" style-focus="border-color:rgba(63,224,255,0.7);box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
+  <div data-layout-grid12="solutions" style="display:grid;grid-template-columns:{{ solCols }};gap:18px;align-items:stretch;margin-top:48px;opacity:{{ solOp }};transform:{{ solTf }};transition:opacity 1s ease .15s, transform 1s cubic-bezier(.2,.7,.2,1) .15s">
+    <article data-layout-span="6" tabIndex="0" role="button" aria-haspopup="dialog" aria-label="Open Labeeb" onClick="{{ sol0.open }}" onKeyDown="{{ sol0.key }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;overflow:hidden;cursor:pointer;outline:none;background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.04), 0 24px 60px -34px rgba(63,224,255,0.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s" style-hover="transform:translateY(-4px);border-color:rgba(63,224,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 34px 80px -30px rgba(63,224,255,0.7)" style-focus="border-color:rgba(63,224,255,0.7);box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
       <div aria-hidden="true" style="position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;background:#3FE0FF;opacity:0.16;filter:blur(60px);pointer-events:none;animation:wwBreath 7s ease-in-out infinite"></div>
       <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);animation:wwSheen 8s ease-in-out 0s infinite;pointer-events:none"></div>
       <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -347,7 +417,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
       <p style="position:relative;margin:0;font-size:16px;line-height:1.6;color:#C9D8F5;text-wrap:pretty">How Fadaat Media connected its AI services into one editorial framework — from the first draft to the final read.</p>
       <span style="position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;font-weight:600;color:#7FE7FF">Open Labeeb <span aria-hidden="true">→</span></span>
     </article>
-    <article tabIndex="0" role="button" aria-haspopup="dialog" aria-label="Open Muraqib" onClick="{{ sol1.open }}" onKeyDown="{{ sol1.key }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;overflow:hidden;cursor:pointer;outline:none;background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, rgba(127,166,255,0.06));border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.04), 0 24px 60px -34px rgba(127,166,255,0.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s" style-hover="transform:translateY(-4px);border-color:rgba(127,166,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 34px 80px -30px rgba(127,166,255,0.7)" style-focus="border-color:rgba(127,166,255,0.7);box-shadow:0 0 0 3px rgba(127,166,255,0.3)">
+    <article data-layout-span="6" tabIndex="0" role="button" aria-haspopup="dialog" aria-label="Open Muraqib" onClick="{{ sol1.open }}" onKeyDown="{{ sol1.key }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 28px 24px;border-radius:24px;overflow:hidden;cursor:pointer;outline:none;background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, rgba(127,166,255,0.06));border:1px solid rgba(255,255,255,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.04), 0 24px 60px -34px rgba(127,166,255,0.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s" style-hover="transform:translateY(-4px);border-color:rgba(127,166,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 34px 80px -30px rgba(127,166,255,0.7)" style-focus="border-color:rgba(127,166,255,0.7);box-shadow:0 0 0 3px rgba(127,166,255,0.3)">
       <div aria-hidden="true" style="position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;background:#7FA6FF;opacity:0.16;filter:blur(60px);pointer-events:none;animation:wwBreath 7s ease-in-out infinite"></div>
       <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);animation:wwSheen 8s ease-in-out 4s infinite;pointer-events:none"></div>
       <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -366,7 +436,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
 
-<section id="o2-top" data-wide="" data-screen-label="O2 Hero" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;min-height:100vh;min-height:100svh;box-sizing:border-box;padding:calc(72px + clamp(32px,5vw,80px)) max(20px,4vw) 84px;display:flex;align-items:center">
+<section id="o2-top" data-layout-container data-wide="" data-screen-label="O2 Hero" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;min-height:100vh;min-height:100svh;box-sizing:border-box;padding:calc(72px + clamp(32px,5vw,80px)) max(20px,4vw) 84px;display:flex;align-items:center">
   <div data-hero-bg="" aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;overflow:visible;pointer-events:none;mix-blend-mode:screen">
     <div style="position:absolute;inset:0;overflow:hidden;opacity:{{ heroVidOp }};-webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 22%, #000 88%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0%, #000 22%, #000 88%, transparent 100%)">
       <video ref="{{ heroVidRef }}" src="assets/hero-video.mp4" autoplay muted loop playsinline disablePictureInPicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0 0;transform:scale(1.32) translateZ(0);transform-origin:0 0;pointer-events:none;filter:contrast(1.08) saturate(1.12);backface-visibility:hidden"></video>
@@ -384,7 +454,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </section>
 
 <header style="position:fixed;top:0;left:0;right:0;z-index:50;isolation:isolate;background:linear-gradient(180deg, rgba(0,47,89,0.55), rgba(0,47,89,0.35));border-bottom:1px solid rgba(255,255,255,0.18);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 18px 40px -24px rgba(0,0,0,0.55);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)">
-  <nav aria-label="Main" style="margin:0 auto;width:min(1600px,100%);min-height:{{ navH }};box-sizing:border-box;padding-block:8px;padding-inline:max(16px,4vw);display:grid;grid-template-columns:{{ navCols }};align-items:center;gap:12px;position:relative">
+  <nav aria-label="Main" data-layout-container style="margin:0 auto;width:min(1600px,100%);min-height:{{ navH }};box-sizing:border-box;padding-block:8px;padding-inline:max(16px,4vw);display:grid;grid-template-columns:{{ navCols }};align-items:center;gap:12px;position:relative">
     <a href="#o2-top" aria-label="Fadaat" style="justify-self:start;display:flex;align-items:center;flex:none;gap:20px">
       <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1)">
       <span aria-hidden="true" style="width:1px;height:28px;background:rgba(255,255,255,0.22)"></span>
@@ -413,7 +483,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </header>
 
 <section id="o2-network" data-screen-label="O2 Our network" aria-label="Our network" style="position:relative;z-index:2;padding:8px 0 24px;display:flex;flex-direction:column;gap:22px;opacity:{{ o2NetOp }};transform:{{ o2NetTf }};filter:{{ o2NetBlur }};transition:opacity 1s ease, transform 1.1s cubic-bezier(.2,.7,.2,1), filter 1s ease">
-  <div style="max-width:1600px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
+  <div data-layout-container style="max-width:1600px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500;white-space:nowrap">Across our network</span>
     <span data-flip-rtl="" aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
   </div>
@@ -430,7 +500,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
   </div>
 </section>
 
-<section id="o2-services" data-wide="" data-screen-label="O2 Services" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:72px max(20px,4vw) 100px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:44px">
+<section id="o2-services" data-layout-container data-wide="" data-screen-label="O2 Services" style="position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:72px max(20px,4vw) 100px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:44px">
   <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;max-width:760px;margin:0 auto;opacity:{{ o2SvcOp }};transform:{{ o2SvcTf }};filter:{{ o2SvcBlur }};transition:opacity 1s ease .15s, transform 1.1s cubic-bezier(.2,.7,.2,1) .15s, filter 1s ease .15s">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">01 · What we do</span>
     <h2 style="margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600">AI Features</h2>
@@ -478,15 +548,15 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
   </div>
 </section>
 
-<section id="o2-products" data-wide="" data-screen-label="O2 Products" class="portfolio-section">
+<section id="o2-products" data-layout-container data-wide="" data-screen-label="O2 Products" class="portfolio-section">
   <div class="portfolio-heading">
     <span class="portfolio-heading__eyebrow">02 · Our portfolio</span>
     <h2>AI Products</h2>
     <p>Purpose-built products across digital, television, publishing, and technology.</p>
   </div>
-  <div class="portfolio-grid">
+  <div class="portfolio-grid" data-layout-grid12="products">
     <sc-for list="{{ o2Products }}" as="p" hint-placeholder-count="4">
-      <a class="portfolio-card" href="{{ p.href }}" onClick="{{ p.onClick }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style-hover="border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#153752">
+      <a class="portfolio-card" data-layout-span="3" href="{{ p.href }}" onClick="{{ p.onClick }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style-hover="border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#153752">
         <div class="portfolio-card__visual">
           <canvas ref="{{ p.cref }}" aria-hidden="true" class="portfolio-card__canvas"></canvas>
           <span class="portfolio-card__category">{{ p.cat }}</span>
@@ -506,7 +576,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </sc-if>
 
 <div>
-<section id="next" data-screen-label="What's next" class="roadmap-stage-section">
+<section id="next" data-layout-container data-screen-label="What's next" class="roadmap-stage-section">
   <div class="roadmap-stage__heading">
     <div class="roadmap-stage__headline">
       <span class="roadmap-stage__eyebrow">03 · Roadmap</span>
@@ -514,16 +584,16 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
     </div>
     <p>Four directions for a more interactive, accessible and intelligent media experience. These concepts are in exploration; scope and timing are not yet defined.</p>
   </div>
-  <div class="roadmap-stage__tracks" role="tablist" aria-label="Roadmap directions">
+  <div class="roadmap-stage__tracks" data-layout-grid12="roadmap-tracks" role="tablist" aria-label="Roadmap directions">
     <sc-for list="{{ roadmapTracks }}" as="track" hint-placeholder-count="4">
-      <button type="button" role="tab" aria-selected="{{ track.selected }}" class="{{ track.className }}" onClick="{{ track.onClick }}">
+      <button data-layout-span="3" type="button" role="tab" aria-selected="{{ track.selected }}" class="{{ track.className }}" onClick="{{ track.onClick }}">
         <span class="roadmap-stage__track-title">{{ track.title }}</span>
         <span class="roadmap-stage__track-caption">{{ track.caption }}</span>
       </button>
     </sc-for>
   </div>
-  <div class="roadmap-stage__theater" role="tabpanel" aria-label="{{ roadmapFocusTitle }}">
-    <div class="roadmap-stage__story">
+  <div class="roadmap-stage__theater" data-layout-grid12="roadmap-theater" role="tabpanel" aria-label="{{ roadmapFocusTitle }}">
+    <div class="roadmap-stage__story" data-layout-span="5">
       <span class="roadmap-stage__story-eyebrow">{{ roadmapTrackKicker }}</span>
       <h3>{{ roadmapFocusTitle }}</h3>
       <p class="roadmap-stage__description">{{ roadmapFocusDesc }}</p>
@@ -536,7 +606,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
         <span>Concept in exploration — not yet available</span>
       </div>
     </div>
-    <div class="roadmap-stage__art" aria-hidden="true">
+    <div class="roadmap-stage__art" data-layout-span="7" aria-hidden="true">
       <img class="roadmap-stage__image" src="{{ roadmapArtSrc }}" alt="" aria-hidden="true" decoding="async">
       <span class="roadmap-stage__art-orbit"></span>
       <div class="roadmap-stage__art-meta">
@@ -565,14 +635,14 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 
 
 <div style="display:{{ v1Display }}">
-<section id="faq" data-screen-label="FAQ" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:56px max(20px,4vw) 100px;display:grid;grid-template-columns:{{ faqCols }};gap:clamp(32px,5vw,80px);align-items:start">
-  <div style="position:{{ faqStick }};top:110px;display:flex;flex-direction:column;gap:18px">
+<section id="faq" data-layout-container data-layout-grid12="faq" data-screen-label="FAQ" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:56px max(20px,4vw) 100px;display:grid;grid-template-columns:{{ faqCols }};gap:clamp(32px,5vw,80px);align-items:start">
+  <div data-layout-span="5" style="position:{{ faqStick }};top:110px;display:flex;flex-direction:column;gap:18px">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">04 · FAQ</span>
     <h2 style="margin:0;font-size:clamp(28px,3vw,42px);line-height:1.02;letter-spacing:-0.03em;font-weight:600;white-space:nowrap">Questions, answered.</h2>
     <p style="margin:0;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">How the lab works, what the demos do, and where Tawazi AI fits.</p>
     <canvas ref="{{ faqRef }}" aria-hidden="true" style="width:100%;height:clamp(220px,28vw,340px);display:block"></canvas>
   </div>
-  <div style="display:flex;flex-direction:column;gap:12px;perspective:1200px">
+  <div data-layout-span="7" style="display:flex;flex-direction:column;gap:12px;perspective:1200px">
     <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="7">
       <div style="position:relative;border-radius:20px;overflow:hidden;border:1px solid {{ q.border }};background:{{ q.bg }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:{{ q.shadow }};opacity:{{ q.op }};transform:{{ q.tf }};transform-origin:50% 0;transition:opacity .8s ease {{ q.delay }}, transform 1s cubic-bezier(.2,.7,.2,1) {{ q.delay }}, border-color .5s, background .5s, box-shadow .5s">
         <span aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg, transparent, #3FE0FF, transparent);transform:scaleX({{ q.sweep }});transition:transform .9s cubic-bezier(.2,.7,.2,1)"></span>
@@ -595,7 +665,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </div>
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
-<section id="o2-faq" data-screen-label="O2 FAQ" style="position:relative;z-index:2;max-width:900px;margin:0 auto;padding:56px max(20px,4vw) 100px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:28px">
+<section id="o2-faq" data-layout-container="8" data-screen-label="O2 FAQ" style="position:relative;z-index:2;max-width:900px;margin:0 auto;padding:56px max(20px,4vw) 100px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:28px">
   <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:14px;max-width:640px">
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">04 · FAQ</span>
@@ -632,9 +702,9 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </sc-if>
 
 <div style="display:{{ v1Display }}">
-<section id="contact" data-screen-label="Contact" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 56px">
-  <div style="position:relative;display:grid;grid-template-columns:{{ contactCols }};border-radius:32px;overflow:hidden;background:linear-gradient(160deg, rgba(20,40,90,0.55), rgba(6,12,30,0.8));border:1px solid rgba(150,190,255,0.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 60px 120px -50px rgba(47,107,255,0.6);opacity:{{ cOp }};transform:{{ cTf }};clip-path:{{ cClip }};transition:opacity 1s ease, transform 1.2s cubic-bezier(.2,.7,.2,1), clip-path 1.3s cubic-bezier(.2,.7,.2,1)">
-    <div style="position:relative;min-height:{{ cArtH }};border-right:1px solid rgba(150,190,255,0.12)">
+<section id="contact" data-layout-container data-screen-label="Contact" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 56px">
+  <div data-layout-grid12="contact" style="position:relative;display:grid;grid-template-columns:{{ contactCols }};border-radius:32px;overflow:hidden;background:linear-gradient(160deg, rgba(20,40,90,0.55), rgba(6,12,30,0.8));border:1px solid rgba(150,190,255,0.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 60px 120px -50px rgba(47,107,255,0.6);opacity:{{ cOp }};transform:{{ cTf }};clip-path:{{ cClip }};transition:opacity 1s ease, transform 1.2s cubic-bezier(.2,.7,.2,1), clip-path 1.3s cubic-bezier(.2,.7,.2,1)">
+    <div data-layout-span="6" style="position:relative;min-height:{{ cArtH }};border-right:1px solid rgba(150,190,255,0.12)">
       <canvas ref="{{ contactRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
       
       <div style="position:relative;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;gap:18px;max-width:520px">
@@ -643,7 +713,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
         <p style="margin:0;font-size:17px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">Tell us which capability you want to explore, or ask about bringing Tawazi AI to your delivery teams.</p>
       </div>
     </div>
-    <div style="position:relative;padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:center;min-height:560px">
+    <div data-layout-span="6" style="position:relative;padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:center;min-height:560px">
       <span aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 0% 75%, rgba(120,230,255,0.22), rgba(63,160,255,0.06) 45%, transparent 70%);opacity:{{ lampGlow }};transition:opacity 1s ease"></span>
       <div style="position:relative;display:flex;flex-direction:column;gap:14px;opacity:{{ lampFormOp }};filter:{{ lampFormFilter }};transition:opacity 1s ease, filter 1s ease">
       <sc-if value="{{ cShowForm }}" hint-placeholder-val="{{ true }}">
@@ -693,7 +763,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
   </div>
 </section>
 
-<footer style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:28px max(20px,4vw) 32px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(150,190,255,0.12);font-size:13px;color:#7F9BCB">
+<footer data-layout-container style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:28px max(20px,4vw) 32px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(150,190,255,0.12);font-size:13px;color:#7F9BCB">
   <span style="display:flex;align-items:center;gap:12px"><img src="assets/fadaat-logo.png" alt="Fadaat" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.8">AI Experience Lab</span>
   <nav aria-label="Social media" style="display:flex;align-items:center;gap:10px">
     <a href="#" aria-label="Facebook" title="Facebook" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"></path></svg></a>
@@ -771,17 +841,17 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </sc-if>
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
-<section id="o2-contact" data-screen-label="O2 Contact" style="position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:40px max(20px,4vw) 56px;scroll-margin-top:80px">
-  <div style="position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
+<section id="o2-contact" data-layout-container="10" data-screen-label="O2 Contact" style="position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:40px max(20px,4vw) 56px;scroll-margin-top:80px">
+  <div data-layout-grid12="contact" style="position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
     <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 25% 70%, rgba(120,230,255,0.16), transparent 70%);opacity:{{ o2LampWash }};transition:opacity .8s ease"></div>
     <canvas ref="{{ o2LampRef }}" aria-label="Table lamp. Pull the cord to turn it on." style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
-    <div style="position:relative;z-index:1;pointer-events:none;display:flex;flex-direction:column;gap:12px;padding:clamp(24px,3vw,36px) clamp(20px,3vw,36px) 0">
+    <div data-layout-span="6" style="position:relative;z-index:1;pointer-events:none;display:flex;flex-direction:column;gap:12px;padding:clamp(24px,3vw,36px) clamp(20px,3vw,36px) 0">
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">05 · Get involved</span>
       <h2 style="margin:0;font-size:clamp(20px,2.2vw,28px);line-height:1.1;letter-spacing:-0.03em;font-weight:700;white-space:nowrap;background:linear-gradient(100deg,#4A3BFF 0%,#5E8DFF 45%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em">Let's build what comes next.</h2>
       <p style="margin:0;max-width:420px;font-size:16px;line-height:1.6;color:#B9CCF0">Have an idea or a use case? Tell us about it.</p>
-      <div aria-hidden="true" style="flex:1;min-height:300px"></div>
+      <div data-contact-spacer aria-hidden="true" style="flex:1;min-height:300px"></div>
     </div>
-    <div style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:clamp(24px,3vw,36px) clamp(20px,3vw,36px)">
+    <div data-layout-span="6" style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:clamp(24px,3vw,36px)">
       <div style="position:relative;border-radius:22px;opacity:{{ o2LampFormOp }};filter:{{ o2LampFormFilter }};transform:{{ o2LampFormTf }};transition:opacity .8s ease, filter .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);overflow:hidden;border:1px solid rgba(63,224,255,0.3);background:linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 40px 90px -50px rgba(47,107,255,0.8)" onFocus="{{ o2LampToggle }}" onPointerDown="{{ o2LampToggle }}">
         <canvas ref="{{ o2cRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;opacity:0.55;-webkit-mask-image:linear-gradient(200deg,#000 0%,rgba(0,0,0,0.5) 45%,transparent 75%);mask-image:linear-gradient(200deg,#000 0%,rgba(0,0,0,0.5) 45%,transparent 75%)"></canvas>
         <form onSubmit="{{ o2cSubmit }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:clamp(20px,2.6vw,30px)">
@@ -809,7 +879,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
     </div>
   </div>
 </section>
-<footer style="position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:40px max(20px,4vw) 96px;display:flex;flex-direction:column;align-items:center;gap:22px;border-top:1px solid rgba(150,190,255,0.12);font-size:13px;color:#8FA7CF;text-align:center">
+<footer data-layout-container style="position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:40px max(20px,4vw) 96px;display:flex;flex-direction:column;align-items:center;gap:22px;border-top:1px solid rgba(150,190,255,0.12);font-size:13px;color:#8FA7CF;text-align:center">
   <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:26px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9">
   <nav aria-label="Social media" style="display:flex;align-items:center;gap:10px">
     <a href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"></path></svg></a>
