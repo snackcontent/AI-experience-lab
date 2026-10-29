@@ -2777,7 +2777,128 @@ class Component extends DCLogic {
   // All graphics are locally drawn vectors, animated in the existing visibility-aware RAF loop.
   // Product-grade Roadmap illustrations: 18 semantic motion prototypes.
   // Hand-crafted vector interfaces, not screenshots or generic decorative effects.
+
+  // Cinematic orbital-glass Roadmap world. Every idea retains a unique animated UI.
+  // Satellites encode its subject, while light trails and parallax bring the visual to life.
   drawRoadmapVisual(c,w,h,t,k,hot) {
+    const W=760,H=500,T=Math.PI*2,sc=Math.min(w/W,h/H),tm=t*.20;
+    const ring=(x,y,rx,ry)=>{c.beginPath();c.ellipse(x,y,rx,ry,0,0,T);};
+    const line=(x,y,X,Y,clr='rgba(105,185,247,.42)',lw=1)=>{c.beginPath();c.moveTo(x,y);c.lineTo(X,Y);c.lineWidth=lw;c.strokeStyle=clr;c.stroke();};
+    const dot=(x,y,r=2,col='#72DFFF',alpha=1)=>{c.save();c.globalAlpha*=alpha;c.fillStyle=col;c.beginPath();c.arc(x,y,r,0,T);c.fill();c.restore();};
+    const halo=(x,y,R=29,a=.34)=>{
+      let g=c.createRadialGradient(x,y,0,x,y,R);
+      g.addColorStop(0,'rgba(90,221,255,'+a+')');g.addColorStop(.34,'rgba(44,125,250,'+(a*.37)+')');g.addColorStop(1,'rgba(44,125,250,0)');
+      c.fillStyle=g;c.beginPath();c.arc(x,y,R,0,T);c.fill();
+    };
+    const rr=(x,y,ww,hh,r)=>this.rr(c,x,y,ww,hh,r);
+    c.save();c.translate((w-W*sc)/2,(h-H*sc)/2);c.scale(sc,sc);
+    // Distant starfield, orbital connection lines and slow information packets.
+    let bg=c.createRadialGradient(378,252,5,378,252,530);
+    bg.addColorStop(0,'rgba(27,110,201,.36)');bg.addColorStop(.6,'rgba(11,61,132,.10)');bg.addColorStop(1,'rgba(5,20,50,0)');
+    c.fillStyle=bg;c.fillRect(0,0,W,H);
+    for(let j=0;j<67;j++){
+      const x=11+(j*157.31)%737,y=11+(j*91.17)%476;
+      dot(x,y,j%13===0?1.9:.8,j%5===0?'#93EEFF':'#6CB7FF',.18+.3*(1+Math.sin(tm*2+j*.84))/2);
+    }
+    c.save();c.translate(379,252);c.rotate(-.10);
+    for(let j=0;j<4;j++){
+      ring(0,0,310+j*52,93+j*36);
+      c.setLineDash(j%2?[2,10]:[3,6]);
+      c.strokeStyle='rgba(89,165,255,'+(.23-j*.04)+')';c.lineWidth=j===0?1.7:.8;c.stroke();
+    }
+    c.setLineDash([]);c.restore();
+    for(let j=0;j<12;j++){
+      const angle=tm*(j%2?-.42:.3)+j*1.52,r=309+(j%4)*44,ry=91+(j%4)*36;
+      const x=379+Math.cos(angle)*r,y=251+Math.sin(angle)*ry;
+      if(j%4===0)halo(x,y,23,.52);
+      dot(x,y,j%4===0?4.3:1.9,j%2?'#B9F7FF':'#45CEFF',.75);
+    }
+    // Physical luminous landing rings underneath the main pane.
+    c.save();c.translate(375,424);
+    for(let j=3;j>=0;j--){ring(0,j*5,235+j*49,25+j*12);c.strokeStyle='rgba(67,169,255,'+(.55-j*.095)+')';c.lineWidth=j===0?2:1;
+      c.shadowColor='#278BFB';c.shadowBlur=j===0?21:7;c.stroke();}
+    let floor=c.createRadialGradient(0,16,1,0,16,365);
+    floor.addColorStop(0,'rgba(66,180,255,.23)');floor.addColorStop(.7,'rgba(43,119,231,.06)');floor.addColorStop(1,'rgba(33,94,196,0)');
+    c.fillStyle=floor;ring(0,15,355,65);c.fill();c.restore();
+    // Beveled, slightly tilted glass window with the actual semantic prototype inside.
+    c.save();c.translate(105,82);c.transform(1,.036,-.055,1,0,0);
+    c.shadowColor='rgba(24,124,255,.61)';c.shadowBlur=32;c.shadowOffsetY=14;
+    const glass=c.createLinearGradient(0,0,552,345);
+    glass.addColorStop(0,'rgba(49,154,247,.57)');glass.addColorStop(.28,'rgba(22,91,182,.40)');
+    glass.addColorStop(.67,'rgba(5,48,122,.69)');glass.addColorStop(1,'rgba(17,104,194,.39)');
+    rr(0,0,551,338,24);c.fillStyle=glass;c.fill();
+    c.shadowBlur=0;c.shadowOffsetY=0;c.lineWidth=2.4;c.strokeStyle='rgba(133,222,255,.87)';c.stroke();
+    rr(6,6,539,326,20);c.lineWidth=1;c.strokeStyle='rgba(229,252,255,.24)';c.stroke();
+    c.save();rr(11,12,529,313,15);c.clip();
+    c.translate(2,1);c.scale(.80,.767);
+    this.drawRoadmapInterface(c,680,420,t,k,hot);
+    c.restore();
+    // Animated specular reflection (visible but not distracting).
+    c.save();rr(3,3,545,332,22);c.clip();
+    const pos=(((tm*.19)%1.6)+1.6)%1.6-.35;
+    const shine=c.createLinearGradient(pos*620-90,0,pos*620+120,0);
+    shine.addColorStop(0,'rgba(210,249,255,0)');shine.addColorStop(.46,'rgba(201,244,255,.01)');
+    shine.addColorStop(.5,'rgba(201,244,255,.075)');shine.addColorStop(.54,'rgba(201,244,255,.015)');
+    shine.addColorStop(1,'rgba(210,249,255,0)');
+    c.fillStyle=shine;c.fillRect(0,0,550,340);c.restore();
+    c.restore();
+    // Four floating, individually-themed satellite icons around the concept window.
+    const themeNames=['QUESTION / VIDEO','LANGUAGE / CAPTIONS','MATCH / INSIGHT','STORY / VIDEO','TRUST / SAFETY','VOICE / STORIES','VIDEO / CHAPTERS','LATE / RECAP','KEY / MOMENTS','VOICE / DUB','STORY / CONTEXT','SOUND / CLARITY','REACTION / VIDEO','VIDEO / NAVIGATION','AUTO / HIGHLIGHTS','VIDEO / ASSIST','DAILY / BRIEF','SHOP / SCENE'];
+    const symbol=(x,y,j)=>{
+      c.save();c.translate(x,y);c.lineCap='round';c.lineJoin='round';c.strokeStyle='#B7F2FF';c.lineWidth=2.6;
+      const L=(ax,ay,bx,by)=>line(ax,ay,bx,by,'#B7F2FF',2.6);
+      const C=(a,b,r)=>{c.beginPath();c.arc(a,b,r,0,T);c.stroke();};
+      const R=(x,y,w,h,r=3)=>{rr(x,y,w,h,r);c.stroke();};
+      const poly=(points)=>{c.beginPath();points.forEach(([a,b],i)=>i?c.lineTo(a,b):c.moveTo(a,b));c.closePath();c.stroke();};
+      // Every idea has a recognizable key icon, with subtle changes across satellites.
+      if(k===0||k===15){R(-14,-10,28,21,6);L(-7,10,-11,14);if(j%2){C(0,0,4);}else{dot(-5,0,1.6);dot(2,0,1.6);dot(8,0,1.6);}}
+      else if(k===1||k===9){R(-15,-11,30,23,4);L(-10,-4,4,-4);L(-10,3,11,3);if(j%2){C(9,-7,4);}else L(-3,13,7,13);}
+      else if(k===2){C(0,0,13);poly([[0,-7],[7,-2],[4,7],[-4,7],[-7,-2]]);if(j%2)L(-13,0,13,0);}
+      else if(k===3){R(-9,-16,18,32,4);poly([[-3,-6],[7,0],[-3,6]]);if(j%2)L(-4,12,5,12);}
+      else if(k===4){poly([[0,-15],[13,-9],[10,4],[0,15],[-10,4],[-13,-9]]);L(-5,1,-1,5);L(-1,5,7,-5);}
+      else if(k===5||k===11){for(let n=0;n<7;n++){const x=-12+n*4,h=6+Math.abs(Math.sin(t*.8+n+j))*17;L(x,-h/2,x,h/2);}}
+      else if(k===6){for(let n=0;n<3;n++){L(-8,-9+n*9,12,-9+n*9);dot(-13,-9+n*9,2);}}
+      else if(k===7){C(0,0,13);L(0,0,0,-8);L(0,0,7,4);}
+      else if(k===8||k===14){poly([[0,-15],[5,-4],[15,-2],[7,5],[9,15],[0,10],[-9,15],[-7,5],[-15,-2],[-5,-4]]);}
+      else if(k===10){C(-9,-7,4);C(10,-7,4);C(0,12,4);L(-6,-5,-1,9);L(7,-5,1,9);}
+      else if(k===12){c.beginPath();c.moveTo(0,13);c.bezierCurveTo(-25,-2,-10,-15,0,-5);c.bezierCurveTo(10,-15,25,-2,0,13);c.stroke();}
+      else if(k===13){L(-15,0,15,0);C(3,0,7);dot(3,0,3);}
+      else if(k===16){C(0,0,9);for(let n=0;n<8;n++){const a=n*T/8;L(Math.cos(a)*12,Math.sin(a)*12,Math.cos(a)*17,Math.sin(a)*17);}}
+      else if(k===17){R(-12,-7,24,22,4);c.beginPath();c.arc(0,-7,7,Math.PI,T);c.stroke();}
+      else{R(-13,-10,26,20,4);L(-7,-3,7,-3);L(-7,4,4,4);}
+      // Dimensional micro-detail differentiates the four tool tiles around each visual.
+      c.strokeStyle='rgba(175,247,255,.34)';c.lineWidth=.9;
+      if(j===1)C(0,0,21);else if(j===2){L(-21,-20,-15,-20);L(15,20,21,20);}
+      else if(j===3){C(-19,-16,2);C(19,16,2);}
+      c.restore();
+    };
+    const spots=[[30,103],[605,31],[656,220],[44,345]];
+    for(let j=0;j<4;j++){
+      const pos=spots[j],dx=Math.sin(tm*.41+j)*4,dy=Math.sin(tm*.81+j*1.8)*7;
+      const x=pos[0]+dx,y=pos[1]+dy;
+      c.save();
+      c.shadowColor='rgba(36,142,255,.70)';c.shadowBlur=21;c.shadowOffsetY=5;
+      const tile=c.createLinearGradient(x,y,x+72,y+70);
+      tile.addColorStop(0,'rgba(91,183,255,.80)');
+      tile.addColorStop(.28,'rgba(23,99,195,.84)');
+      tile.addColorStop(1,'rgba(9,42,111,.94)');
+      rr(x,y,69,65,14);c.fillStyle=tile;c.fill();
+      c.shadowBlur=0;c.shadowOffsetY=0;c.strokeStyle='rgba(135,228,255,.91)';c.lineWidth=1.8;c.stroke();
+      rr(x+5,y+5,59,55,11);c.lineWidth=.75;c.strokeStyle='rgba(219,251,255,.20)';c.stroke();
+      symbol(x+34,y+32,j);
+      c.restore();
+      const ax=j===0?170:j===1?507:j===2?625:190,ay=j===0?168:j===1?113:j===2?293:368;
+      line(x+35,y+32,ax,ay,'rgba(86,168,246,.28)',.9);
+      const q=(tm*.35+j*.27)%1;
+      dot(x+35+(ax-x-35)*q,y+32+(ay-y-32)*q,2.1,'#91EBFF',.8);
+    }
+    c.save();
+    c.font=this.ft(12,600);c.textAlign='center';c.fillStyle='rgba(166,222,252,.72)';
+    c.fillText(themeNames[k]||'AI EXPERIENCE',382,477);c.restore();
+    c.restore();
+  }
+
+  drawRoadmapInterface(c,w,h,t,k,hot) {
     const W=680,H=420,TAU=2*Math.PI,sc=Math.min(w/W,h/H);
     const CY='#3FE0FF',BL='#4FB2FF',WH='#ECF9FF',SO='#A7D6F5',DIM='rgba(154,206,246,.37)',EDGE='rgba(121,193,241,.37)',BG='rgba(6,31,65,.97)';
     const sin=Math.sin,cos=Math.cos,pi=Math.PI,cl=(x,a,b)=>Math.max(a,Math.min(b,x)),u=(x)=>((x%1)+1)%1;
