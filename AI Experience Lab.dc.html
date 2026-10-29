@@ -74,50 +74,30 @@ input[type=range]{accent-color:#3FE0FF}
 @keyframes wwDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
-/* Portfolio V3 — product-led, editorial layout. No animated decoration. */
-.portfolio-section{position:relative;z-index:2;max-width:1480px;margin:0 auto;padding:84px max(20px,4vw) 110px;scroll-margin-top:80px}
-.portfolio-heading{display:flex;flex-direction:column;gap:19px;margin-bottom:36px}
-.portfolio-heading__eyebrow{display:flex;align-items:center;gap:16px;color:#9DC0DF;font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase}
-.portfolio-heading__eyebrow::before{content:"";height:2px;width:24px;flex:none;background:#7EB4D8}
-.portfolio-heading__body{display:flex;align-items:end;justify-content:space-between;gap:32px}
-.portfolio-heading h2{margin:0;color:#F4F8FE;font-size:clamp(40px,4.4vw,60px);line-height:1.1;font-weight:600;letter-spacing:-.035em}
-.portfolio-heading p{max-width:390px;margin:0 0 5px;color:#BFD0E4;font-size:16px;line-height:1.65;text-wrap:pretty}
-.portfolio-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.portfolio-card{min-width:0;display:flex;flex-direction:column;overflow:hidden;min-height:496px;border:1px solid #B9CBDC;border-radius:14px;background:#EEF3F8;color:#12334F;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
-.portfolio-card:hover{transform:translateY(-3px);border-color:#DCEAF7;box-shadow:0 18px 34px rgba(0,17,35,.18);color:#12334F}
-.portfolio-card:focus-visible{outline:3px solid #81D9FF;outline-offset:4px}
-.portfolio-card__visual{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;height:195px;flex:none;background:#102F4D}
-.portfolio-card__visual img{position:relative;display:block;width:min(63%,246px);height:65%;object-fit:contain}
-.portfolio-card__visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.portfolio-card__wordmark{position:relative;color:#ECF4FF;font-size:clamp(35px,3vw,55px);font-weight:600;letter-spacing:-.055em;line-height:1.1;text-align:center;padding:0 18px}
-.portfolio-card__visual-line{position:absolute;left:24px;right:24px;bottom:24px;height:1px;background:rgba(255,255,255,.23)}
-.portfolio-card[data-product="morrakeb"] .portfolio-card__visual{background:#254D6B}
-.portfolio-card[data-product="nasher"] .portfolio-card__visual{background:#102B44}
-.portfolio-card[data-product="tawazi"] .portfolio-card__visual{background:#355B72}
-.portfolio-card__content{min-height:0;flex:1;display:flex;flex-direction:column;padding:25px 26px 22px}
-.portfolio-card__meta{display:flex;align-items:center;gap:12px;color:#4A6984;font-size:12px;line-height:1.4;font-weight:600}
-.portfolio-card__number{color:#215782;font-variant-numeric:tabular-nums}
-.portfolio-card__number::after{content:"/";display:inline-block;margin-inline-start:12px;color:#9DB0C0}
-.portfolio-card__copy{flex:1;padding-top:19px}
-.portfolio-card__copy h3{margin:0 0 9px;font-size:clamp(27px,2.4vw,34px);line-height:1.15;font-weight:600;letter-spacing:-.035em;overflow-wrap:anywhere}
-.portfolio-card__subtitle{margin:0;color:#284D68;font-size:14px;line-height:1.55;font-weight:500}
-.portfolio-card__description{margin:14px 0 0;color:#536D80;font-size:13px;line-height:1.65;text-wrap:pretty}
-.portfolio-card__action{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:21px;padding-top:15px;border-top:1px solid #CDDBE6;color:#123C60;font-size:13px;font-weight:600}
-.portfolio-card__arrow{display:flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;border:1px solid #B8CBD9;border-radius:50%;font-size:18px;font-weight:400;transition:background-color .2s ease,color .2s ease}
-.portfolio-card:hover .portfolio-card__arrow,.portfolio-card:focus-visible .portfolio-card__arrow{background:#123C60;color:white}
-.portfolio-card--featured{grid-column:1/-1;display:grid;grid-template-columns:50% 50%;min-height:370px;background:#F1F6FA}
-.portfolio-card--featured .portfolio-card__content{grid-column:1;grid-row:1;padding:34px clamp(30px,4vw,60px) 34px 42px}
-.portfolio-card--featured .portfolio-card__visual{grid-column:2;grid-row:1;height:auto;min-height:370px;background:#D9E6F0}
-.portfolio-card--featured .portfolio-card__visual img{width:min(46%,300px);height:70%;object-fit:contain}
-.portfolio-card--featured .portfolio-card__copy{padding-top:23px}
-.portfolio-card--featured .portfolio-card__copy h3{font-size:clamp(42px,4vw,62px);margin-bottom:10px}
-.portfolio-card--featured .portfolio-card__subtitle{font-size:17px}
-.portfolio-card--featured .portfolio-card__description{font-size:14px;line-height:1.75;max-width:510px}
-.portfolio-card--featured .portfolio-card__action{margin-top:24px}
-@media(max-width:1100px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-card--featured{grid-column:1/-1}.portfolio-card:last-child{grid-column:1/-1;min-height:0;display:grid;grid-template-columns:40% 60%}.portfolio-card:last-child .portfolio-card__visual{height:auto;min-height:300px}.portfolio-card:last-child .portfolio-card__content{padding:28px 32px}}
-@media(max-width:700px){.portfolio-section{padding:62px 20px 84px}.portfolio-heading{gap:16px;margin-bottom:26px}.portfolio-heading__body{display:block}.portfolio-heading h2{font-size:42px}.portfolio-heading p{max-width:100%;font-size:15px;line-height:1.65;margin:12px 0 0}.portfolio-grid{grid-template-columns:minmax(0,1fr);gap:16px}.portfolio-card,.portfolio-card:last-child{grid-column:auto;display:flex;min-height:0;border-radius:12px}.portfolio-card__visual,.portfolio-card:last-child .portfolio-card__visual{order:0;width:100%;height:auto;min-height:0;aspect-ratio:16/8}.portfolio-card__content,.portfolio-card:last-child .portfolio-card__content{order:1;padding:22px 22px 19px}.portfolio-card__copy{padding-top:16px}.portfolio-card__copy h3{font-size:30px}.portfolio-card__description{font-size:13px;line-height:1.65}.portfolio-card--featured{grid-column:auto}.portfolio-card--featured .portfolio-card__visual{grid-column:auto;grid-row:auto;order:0;min-height:0;width:100%;aspect-ratio:16/9}.portfolio-card--featured .portfolio-card__content{grid-column:auto;grid-row:auto;order:1;padding:23px 22px 20px}.portfolio-card--featured .portfolio-card__copy{padding-top:16px}.portfolio-card--featured .portfolio-card__copy h3{font-size:36px}.portfolio-card--featured .portfolio-card__subtitle{font-size:15px}.portfolio-card--featured .portfolio-card__description{font-size:13px;line-height:1.65}.portfolio-card__action{margin-top:18px}}
-@media(max-width:360px){.portfolio-section{padding-inline:16px}.portfolio-card__content,.portfolio-card:last-child .portfolio-card__content,.portfolio-card--featured .portfolio-card__content{padding-inline:18px}.portfolio-heading h2{font-size:38px}.portfolio-card__wordmark{font-size:33px}}
-@media(prefers-reduced-motion:reduce){.portfolio-card,.portfolio-card__arrow{transition:none}.portfolio-card:hover{transform:none}.portfolio-card__visual video{animation:none}}
+/* Portfolio: four-product showcase with restored original animated canvas + hover. */
+.portfolio-section{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:64px max(20px,4vw) 104px;scroll-margin-top:80px}
+.portfolio-heading{max-width:800px;margin:0 auto 43px;display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}
+.portfolio-heading__eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#91B9E8;font-weight:500}
+.portfolio-heading h2{margin:0;font-size:clamp(36px,4.6vw,64px);line-height:1.08;letter-spacing:-.035em;font-weight:600;color:#F2F6FF}
+.portfolio-heading p{margin:0;max-width:660px;font-size:clamp(15px,1.22vw,18px);line-height:1.65;color:#BBCFE9;text-wrap:pretty}
+.portfolio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
+.portfolio-card{position:relative;display:flex;flex-direction:column;min-width:0;min-height:495px;overflow:hidden;border:1px solid rgba(150,190,255,.22);border-radius:20px;background:linear-gradient(160deg,rgba(25,79,137,.69),rgba(7,44,85,.83));color:#EAF2FF;text-decoration:none;isolation:isolate;cursor:pointer;transition:border-color .4s,box-shadow .4s,background-color .4s}
+.portfolio-card:hover{border-color:rgba(63,224,255,.5);box-shadow:0 30px 60px -30px rgba(63,224,255,.45);color:#EAF2FF}
+.portfolio-card:focus-visible{outline:3px solid #80DCFF;outline-offset:4px;border-color:rgba(63,224,255,.5);box-shadow:0 30px 60px -30px rgba(63,224,255,.45)}
+.portfolio-card__visual{position:relative;flex:none;height:225px;overflow:hidden;background:radial-gradient(circle at 50% 48%,rgba(30,119,190,.28),rgba(7,38,77,.16) 58%,rgba(3,29,59,.10) 100%);border-bottom:1px solid rgba(150,190,255,.10)}
+.portfolio-card__canvas{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;opacity:.86;transition:opacity .4s ease}
+.portfolio-card:hover .portfolio-card__canvas,.portfolio-card:focus-visible .portfolio-card__canvas{opacity:1}
+.portfolio-card__category{position:absolute;inset-block-start:17px;inset-inline-start:17px;max-width:calc(100% - 76px);display:inline-flex;align-items:center;min-height:29px;padding:5px 12px;border-radius:9999px;border:1px solid rgba(130,195,248,.29);background:rgba(2,28,58,.72);color:#E9F5FF;font-size:11px;font-weight:600;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.portfolio-card__corner{position:absolute;inset-block-start:16px;inset-inline-end:16px;display:flex;align-items:center;justify-content:center;width:31px;height:31px;border:1px solid rgba(170,211,244,.38);border-radius:50%;background:rgba(2,27,57,.65);color:#BEE9FF;font-size:16px;font-weight:400;transition:background .3s,border-color .3s,color .3s}
+.portfolio-card:hover .portfolio-card__corner,.portfolio-card:focus-visible .portfolio-card__corner{background:rgba(63,224,255,.18);border-color:#3FE0FF;color:#fff}
+.portfolio-card__body{display:flex;flex:1;flex-direction:column;gap:0;padding:23px 23px 26px}
+.portfolio-card__body h3{margin:0 0 8px;font-size:clamp(26px,2.2vw,37px);line-height:1.15;font-weight:600;letter-spacing:-.03em;overflow-wrap:anywhere;color:#F2F7FF}
+.portfolio-card__summary{margin:0;font-size:14px;line-height:1.58;color:#E0EBFD;font-weight:500}
+.portfolio-card__detail{margin:17px 0 0;font-size:13px;line-height:1.7;color:#B7CEE8;text-wrap:pretty}
+@media(max-width:1130px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-card{min-height:440px}.portfolio-card__visual{height:250px}.portfolio-card__body{padding:24px 27px 28px}.portfolio-card__body h3{font-size:34px}.portfolio-card__detail{font-size:14px}}
+@media(max-width:640px){.portfolio-section{padding:58px 20px 80px}.portfolio-heading{margin-bottom:30px;gap:12px}.portfolio-heading__eyebrow{font-size:12px}.portfolio-heading h2{font-size:clamp(35px,10vw,44px)}.portfolio-heading p{font-size:15px;line-height:1.6}.portfolio-grid{grid-template-columns:minmax(0,1fr);gap:16px}.portfolio-card{min-height:0;border-radius:18px}.portfolio-card__visual{height:auto;aspect-ratio:1.65}.portfolio-card__body{padding:20px 22px 25px}.portfolio-card__body h3{font-size:31px}.portfolio-card__summary{font-size:14px}.portfolio-card__detail{margin-top:13px;font-size:13px}.portfolio-card__category{inset-block-start:15px;inset-inline-start:15px}}
+@media(max-width:350px){.portfolio-section{padding-inline:16px}.portfolio-card__body{padding-inline:18px}}
+@media(prefers-reduced-motion:reduce){.portfolio-card,.portfolio-card__canvas,.portfolio-card__corner{transition:none}}
 </style>
 </helmet>
 
@@ -368,36 +348,23 @@ input[type=range]{accent-color:#3FE0FF}
 <section id="o2-products" data-wide="" data-screen-label="O2 Products" class="portfolio-section">
   <div class="portfolio-heading">
     <span class="portfolio-heading__eyebrow">02 · Our portfolio</span>
-    <div class="portfolio-heading__body">
-      <h2>AI Products</h2>
-      <p>Purpose-built products across digital, television, publishing, and technology.</p>
-    </div>
+    <h2>AI Products</h2>
+    <p>Purpose-built products across digital, television, publishing, and technology.</p>
   </div>
   <div class="portfolio-grid">
     <sc-for list="{{ o2Products }}" as="p" hint-placeholder-count="4">
-      <a class="{{ p.cardClass }}" data-product="{{ p.slug }}" href="{{ p.href }}" onClick="{{ p.onClick }}">
-        <div class="portfolio-card__visual" aria-hidden="true">
-          <sc-if value="{{ p.hasVideo }}">
-            <video src="{{ p.video }}" autoplay="" muted="" loop="" playsinline="" preload="metadata" tabindex="-1"></video>
-          </sc-if>
-          <sc-if value="{{ p.showLogo }}">
-            <img src="{{ p.cover }}" alt="" loading="lazy">
-          </sc-if>
-          <sc-if value="{{ p.showWordmark }}">
-            <span class="portfolio-card__wordmark">{{ p.name }}</span>
-            <span class="portfolio-card__visual-line"></span>
-          </sc-if>
+      <a class="portfolio-card" href="{{ p.href }}" onClick="{{ p.onClick }}" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style-hover="border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#EAF2FF">
+        <div class="portfolio-card__visual">
+          <canvas ref="{{ p.cref }}" aria-hidden="true" class="portfolio-card__canvas"></canvas>
+          <span class="portfolio-card__category">{{ p.cat }}</span>
+          <span class="portfolio-card__corner" aria-hidden="true">↗</span>
         </div>
-        <div class="portfolio-card__content">
-          <div class="portfolio-card__meta"><span class="portfolio-card__number">{{ p.num }}</span><span class="portfolio-card__category">{{ p.cat }}</span></div>
-          <div class="portfolio-card__copy">
-            <h3>{{ p.name }}</h3>
-            <p class="portfolio-card__subtitle">{{ p.desc }}</p>
-            <sc-if value="{{ p.hasMore }}">
-              <p class="portfolio-card__description">{{ p.more }}</p>
-            </sc-if>
-          </div>
-          <div class="portfolio-card__action"><span>Learn more</span><span class="portfolio-card__arrow" aria-hidden="true">↗</span></div>
+        <div class="portfolio-card__body">
+          <h3>{{ p.name }}</h3>
+          <p class="portfolio-card__summary">{{ p.desc }}</p>
+          <sc-if value="{{ p.hasMore }}">
+            <p class="portfolio-card__detail">{{ p.more }}</p>
+          </sc-if>
         </div>
       </a>
     </sc-for>
@@ -2823,7 +2790,7 @@ class Component extends DCLogic {
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
       o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
       o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
-      o2Products: O.products.map((p, i) => { const ex = { hasLogo: i === 0, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; return { ...ex, ...p, num: String(i + 1).padStart(2, '0'), slug: p.name.toLowerCase(), cardClass: i === 0 ? 'portfolio-card portfolio-card--featured' : 'portfolio-card', video, hasVideo: !!video, showLogo: !video && (i === 0 || i === 2), showWordmark: !video && i !== 0 && i !== 2, cover: i === 0 ? 'assets/labeeb-mark.png' : 'assets/nasher-logo-light.png', hasMore: !!p.more }; }),
+      o2Products: O.products.map((p, i) => { const video = p.vk ? (this.props[p.vk] || '') : ''; return { ...p, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }), video, hasVideo: !!video, hasMore: !!p.more }; }),
       o2Faq: O.faq.slice(0, 6).map((f, i) => ({ ...f, open: fo === i, sign: fo === i ? '–' : '+', onClick: () => this.setState({ o2faq: fo === i ? null : i }) })),
       o2Q: s.o2Q || O.q0, o2A: s.o2A || O.a0, o2Input: s.o2Input || '',
       o2OnInput: e => this.setState({ o2Input: e.target.value }), o2OnKey: e => { if (e.key === 'Enter') this.o2Ask(); }, o2Ask: this.o2Ask,
