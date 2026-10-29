@@ -264,7 +264,7 @@
     'Explore intelligent editorial tools, content experiences, actionable analytics, and purpose-built AI products for the future of media.': 'اكتشف أدوات تحرير ذكية، وتجارب محتوى، وتحليلات قابلة للتنفيذ، ومنتجات ذكاء اصطناعي مصمّمة لمستقبل الإعلام.',
     'Across our network': 'عبر شبكتنا',
     '01 · What we do': '01 · ماذا نقدّم', 'Tools that simplify creation, improve experiences, and unlock insights.': 'أدوات تبسّط صناعة المحتوى، وتحسّن التجربة، وتكشف الرؤى.',
-    'Used by': 'مستخدم في', 'Try it': 'جرّبها', 'Learn more': 'اعرف المزيد', 'Read more': 'اقرأ المزيد', 'Show less': 'عرض أقل',
+    'Used by': 'مستخدم في', 'Try it': 'جرّبها', 'View details': 'عرض التفاصيل', 'Learn more': 'اعرف المزيد', 'Read more': 'اقرأ المزيد', 'Show less': 'عرض أقل',
     'Editorial': 'التحرير', 'Experience': 'التجربة', 'Analytics': 'التحليلات',
     '02 · Our portfolio': '02 · منتجاتنا', 'Purpose-built products across digital, television, publishing, and technology.': 'منتجات مصمّمة للرقمي والتلفزيون والنشر والتقنية.',
     'Digital': 'رقمي', 'TV': 'تلفزيون', 'Social Media': 'تواصل اجتماعي', 'Technology': 'تقنية',
