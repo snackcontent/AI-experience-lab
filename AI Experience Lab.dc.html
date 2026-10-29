@@ -27,7 +27,6 @@
 <script src="lamp.js"></script>
 <script src="i18n-ar.js?v=11"></script>
 <script src="./image-slot.js"></script>
-<script src="roadmap-art.js?v=1"></script>
 <style>
 [data-noscrollbar]::-webkit-scrollbar{display:none;width:0;height:0}
 html{scroll-behavior:smooth;background:#002f59}
@@ -3143,7 +3142,7 @@ class Component extends DCLogic {
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
       o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
       o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
-      roadmapArtSrc: window.AiRoadmapArt ? window.AiRoadmapArt.url(roadmapFocus) : "",
+      roadmapArtSrc: 'assets/roadmap-scenes/' + ['ask-video','translation-subtitles','sports-analyst','article-to-shorts','comment-moderation','storycast','smart-chapters','catchup-recap','key-moments','emotional-dubbing','ai-context','dialogue-boost','emoji-seekbar','smart-video-seekbar','highlights-generator','vod-companion','morning-briefing','shop-scene'][roadmapFocus] + '.svg',
       roadmapTrackKicker: roadmapDirection.kicker,
       roadmapTrackTitle: roadmapDirection.title,
       roadmapFocusTitle: roadmapConcept.title,
