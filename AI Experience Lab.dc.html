@@ -151,32 +151,83 @@ html[lang="ar"] #o2-top .o2-hero__content h1,html[lang="ar"] #o2-services h2,htm
   #o2-top .o2-hero__content>p{font-size:16px!important}
 }
 
-/* Roadmap concept wall: distinct from the portfolio, designed for browsing all 18 ideas. */
-.roadmap-section{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:100px max(20px,4vw) 112px;scroll-margin-top:80px}
-.roadmap-head{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.75fr);align-items:end;gap:clamp(30px,6vw,95px);padding-bottom:34px;margin-bottom:31px;border-bottom:1px solid rgba(119,181,237,.26)}
-.roadmap-head__main{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
-.roadmap-head__eyebrow{font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:#81B8EB;font-weight:600}
-.roadmap-head h2{max-width:820px;margin:0;font-size:clamp(40px,4.6vw,68px);line-height:1.11;letter-spacing:-.025em;font-weight:700;color:#F3FAFF;text-wrap:balance}
-.roadmap-head__aside{display:flex;align-items:flex-start;gap:15px;padding-bottom:6px}
-.roadmap-head__line{flex:none;width:3px;height:43px;margin-top:5px;border-radius:10px;background:linear-gradient(180deg,#3FE0FF,#2F6BFF)}
-.roadmap-head__aside p{margin:0;max-width:415px;font-size:clamp(16px,1.2vw,18px);line-height:1.65;color:#C8DDF3;text-wrap:pretty}
-.roadmap-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
-.roadmap-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid rgba(110,173,227,.29);border-radius:19px;background:linear-gradient(160deg,rgba(16,58,103,.79),rgba(5,33,69,.88));color:#EAF2FF;isolation:isolate;transition:border-color .4s ease,box-shadow .4s ease,transform .4s cubic-bezier(.2,.75,.2,1)}
-.roadmap-card:hover{border-color:rgba(63,224,255,.69);box-shadow:0 27px 65px -32px rgba(63,224,255,.43),inset 0 0 0 1px rgba(63,224,255,.09);transform:translateY(-4px)}
-.roadmap-card__art{position:relative;height:208px;overflow:hidden;flex:none;background:radial-gradient(ellipse 80% 100% at 52% 50%,rgba(31,106,174,.38),rgba(4,26,57,.8)),#071F42;border-bottom:1px solid rgba(115,184,236,.19)}
-.roadmap-card__art:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,15,34,.04),transparent 67%,rgba(3,25,53,.16))}
-.roadmap-card__canvas{width:100%;height:100%;display:block;pointer-events:none;opacity:.94;transition:opacity .4s ease}
-.roadmap-card:hover .roadmap-card__canvas{opacity:1}
-.roadmap-card__art-edge{position:absolute;left:20px;bottom:0;height:2px;width:52px;background:#3FE0FF;opacity:.8;box-shadow:0 0 13px rgba(63,224,255,.65);transform-origin:0 50%;transition:width .4s ease}
-.roadmap-card:hover .roadmap-card__art-edge{width:92px}
-.roadmap-card__body{display:flex;flex:1;flex-direction:column;gap:12px;padding:23px 25px 28px}
-.roadmap-card__body h3{margin:0;font-size:clamp(23px,2.1vw,30px);font-weight:700;line-height:1.24;letter-spacing:-.018em;color:#F0F8FF;text-wrap:balance}
-.roadmap-card__body p{margin:0;font-size:16px;line-height:1.65;color:#BFD5EA;text-wrap:pretty}
-html[lang="ar"] .roadmap-head h2,html[lang="ar"] .roadmap-card h3{letter-spacing:0;line-height:1.35}
-html[dir="rtl"] .roadmap-card__art-edge{left:auto;right:20px;transform-origin:100% 50%}
-@media(max-width:1120px){.roadmap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.roadmap-head{grid-template-columns:minmax(0,1fr) minmax(250px,.7fr)}.roadmap-card__art{height:215px}.roadmap-card__body h3{font-size:clamp(24px,2.5vw,30px)}}
-@media(max-width:700px){.roadmap-section{padding:78px 20px 88px}.roadmap-head{grid-template-columns:minmax(0,1fr);gap:18px;padding-bottom:27px;margin-bottom:21px}.roadmap-head h2{font-size:clamp(36px,8vw,46px);line-height:1.16}.roadmap-head__aside p{font-size:17px}.roadmap-grid{grid-template-columns:minmax(0,1fr);gap:17px}.roadmap-card{border-radius:17px}.roadmap-card__art{height:auto;aspect-ratio:1.76}.roadmap-card__body{padding:21px 22px 24px}.roadmap-card__body h3{font-size:clamp(23px,6vw,29px)}.roadmap-card__body p{font-size:16px}}
-@media(prefers-reduced-motion:reduce){.roadmap-card,.roadmap-card__canvas,.roadmap-card__art-edge{transition:none}.roadmap-card:hover{transform:none}}
+/* Investor-oriented Roadmap theater — one focal idea at a time, four narrative tracks. */
+.roadmap-stage-section{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:104px max(20px,4vw) 116px;scroll-margin-top:80px}
+.roadmap-stage__heading{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(280px,.72fr);gap:clamp(36px,6vw,90px);align-items:end;margin-bottom:36px}
+.roadmap-stage__headline{display:flex;flex-direction:column;gap:14px}
+.roadmap-stage__eyebrow{color:#93C9F1;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+#next .roadmap-stage__headline h2{margin:0!important;max-width:780px;font-size:clamp(40px,5.1vw,72px)!important;font-weight:700!important;line-height:1.09!important;letter-spacing:-.036em!important;color:#F1F9FF;white-space:normal!important;text-wrap:balance}
+.roadmap-stage__heading>p{margin:0;max-width:405px;padding-bottom:7px;font-size:clamp(16px,1.3vw,19px);line-height:1.68;color:#C5D8ED;text-wrap:pretty}
+.roadmap-stage__tracks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.roadmap-stage__track{min-width:0;display:flex;flex-direction:column;gap:7px;align-items:flex-start;text-align:start;padding:20px 19px 19px;border:1px solid rgba(142,194,236,.22);border-radius:12px;background:rgba(24,64,111,.31);color:#B9CFE5;cursor:pointer;font-family:inherit;transition:background .3s,border-color .3s,box-shadow .3s}
+.roadmap-stage__track:hover{background:rgba(35,91,139,.44);border-color:rgba(110,198,240,.55)}
+.roadmap-stage__track:focus-visible,.roadmap-stage__choice:focus-visible{outline:2px solid #75DEFF;outline-offset:3px}
+.roadmap-stage__track--active{background:linear-gradient(145deg,rgba(51,127,183,.34),rgba(12,51,95,.77));border-color:rgba(63,224,255,.79);box-shadow:inset 0 2px 0 rgba(63,224,255,.78),0 12px 35px -28px rgba(63,224,255,.6)}
+.roadmap-stage__track-title{font-size:clamp(17px,1.5vw,21px);font-weight:700;line-height:1.25;color:#EDF7FF}
+.roadmap-stage__track-caption{font-size:13px;line-height:1.5;color:#A9C6E1}
+.roadmap-stage__track--active .roadmap-stage__track-caption{color:#D2E9F5}
+.roadmap-stage__theater{display:grid;grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);min-height:455px;overflow:hidden;border:1px solid rgba(109,189,238,.45);border-radius:19px;background:#061F43;box-shadow:0 38px 90px -53px rgba(0,15,44,.8);isolation:isolate}
+.roadmap-stage__story{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;padding:clamp(29px,3.5vw,54px);background:linear-gradient(140deg,#0B3968,#082A52 75%,#08274D)}
+.roadmap-stage__story:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#3FE0FF 48%,transparent);opacity:.75}
+.roadmap-stage__story-eyebrow{font-size:12px;letter-spacing:.12em;font-weight:700;color:#79DDF7;line-height:1.5}
+.roadmap-stage__story h3{margin:26px 0 14px;font-size:clamp(34px,3.8vw,55px);line-height:1.09;letter-spacing:-.027em;font-weight:700;color:#FFFFFF;text-wrap:balance}
+.roadmap-stage__description{margin:0;max-width:485px;font-size:clamp(17px,1.4vw,19px);line-height:1.62;color:#DAE7F6;text-wrap:pretty}
+.roadmap-stage__impact{display:flex;flex-direction:column;gap:8px;margin-top:30px;padding-inline-start:16px;border-inline-start:3px solid #3FE0FF}
+.roadmap-stage__impact span{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#88DEFA}
+.roadmap-stage__impact p{margin:0;font-size:16px;line-height:1.55;color:#F1F8FF;font-weight:500;text-wrap:pretty}
+.roadmap-stage__status{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:29px;color:#AFC8DF;font-size:13px;line-height:1.4}
+.roadmap-stage__status svg{flex:none;color:#8CD5F5}
+.roadmap-stage__art{position:relative;min-width:0;min-height:450px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 58% 68% at 50% 48%,rgba(47,112,180,.27),transparent 79%),linear-gradient(140deg,#092B53,#04152F)}
+.roadmap-stage__art:after{content:"";position:absolute;inset:0;pointer-events:none;border-inline-start:1px solid rgba(143,207,248,.15);background:linear-gradient(0deg,rgba(3,16,40,.54),transparent 29%,transparent 80%,rgba(4,25,54,.2))}
+.roadmap-stage__canvas{width:100%;height:100%;position:absolute;inset:0;display:block;pointer-events:none}
+.roadmap-stage__art-orbit{position:absolute;width:65%;aspect-ratio:1;max-height:85%;border-radius:50%;border:1px solid rgba(94,178,238,.11);box-shadow:0 0 0 30px rgba(94,178,238,.016),0 0 0 74px rgba(94,178,238,.015);pointer-events:none}
+.roadmap-stage__art-meta{position:absolute;z-index:1;left:26px;right:26px;bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#B7D4EF;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.roadmap-stage__art-meta span:last-child{color:#75DEFF;text-align:end}
+.roadmap-stage__explore{padding:25px 0 0}
+.roadmap-stage__explore-title{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:15px;font-size:13px;font-weight:700;letter-spacing:.05em;color:#CBDAEF}
+.roadmap-stage__explore-title span:last-child{font-weight:500;color:#8BC9EA}
+.roadmap-stage__choices{display:flex;flex-wrap:wrap;gap:10px}
+.roadmap-stage__choice{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:50px;max-width:100%;padding:11px 16px;border:1px solid rgba(139,195,233,.3);border-radius:10px;background:rgba(12,51,95,.5);color:#C4D7E9;font-family:inherit;font-weight:600;font-size:14px;line-height:1.35;text-align:start;cursor:pointer;transition:border-color .25s,background .25s,color .25s,transform .25s}
+.roadmap-stage__choice svg{flex:none;color:#91BAD9;transition:transform .25s}
+.roadmap-stage__choice:hover{background:rgba(20,80,128,.7);border-color:rgba(63,224,255,.5);color:#F2FBFF}
+.roadmap-stage__choice:hover svg{transform:translateX(3px);color:#93EDFF}
+.roadmap-stage__choice--active{background:rgba(48,142,193,.22);border-color:#3FE0FF;color:#F4FCFF;box-shadow:inset 0 -2px 0 rgba(63,224,255,.48)}
+.roadmap-stage__choice--active svg{color:#3FE0FF}
+html[lang="ar"] .roadmap-stage__headline h2,html[lang="ar"] .roadmap-stage__story h3{letter-spacing:0!important;line-height:1.3!important}
+html[dir="rtl"] .roadmap-stage__choice:hover svg{transform:translateX(-3px) rotate(180deg)}
+html[dir="rtl"] .roadmap-stage__choice svg{transform:rotate(180deg)}
+html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,transparent,#3FE0FF 48%,transparent)}
+@media(max-width:1040px){
+.roadmap-stage__heading{grid-template-columns:1fr;gap:15px}
+.roadmap-stage__heading>p{max-width:780px}
+.roadmap-stage__tracks{grid-template-columns:repeat(2,minmax(0,1fr))}
+.roadmap-stage__theater{grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr)}
+.roadmap-stage__story{padding:31px}
+.roadmap-stage__story h3{font-size:clamp(31px,4.3vw,45px)}
+.roadmap-stage__art{min-height:415px}
+}
+@media(max-width:680px){
+.roadmap-stage-section{padding:76px 20px 86px}
+.roadmap-stage__heading{margin-bottom:25px}
+#next .roadmap-stage__headline h2{font-size:clamp(36px,10vw,50px)!important}
+.roadmap-stage__heading>p{font-size:17px;line-height:1.65}
+.roadmap-stage__tracks{gap:8px}
+.roadmap-stage__track{padding:14px 12px;gap:6px}
+.roadmap-stage__track-title{font-size:16px}
+.roadmap-stage__track-caption{font-size:12px}
+.roadmap-stage__theater{grid-template-columns:minmax(0,1fr)}
+.roadmap-stage__story{padding:27px 24px 28px}
+.roadmap-stage__story h3{margin:16px 0 11px;font-size:clamp(32px,8.6vw,43px)}
+.roadmap-stage__description{font-size:17px}
+.roadmap-stage__impact{margin-top:21px}
+.roadmap-stage__status{padding-top:20px}
+.roadmap-stage__art{min-height:265px;aspect-ratio:1.42}
+.roadmap-stage__art-meta{left:17px;right:17px;bottom:14px;font-size:10px}
+.roadmap-stage__explore{padding-top:22px}
+.roadmap-stage__choice{flex:1 1 auto;min-height:48px;font-size:14px;padding:10px 13px}
+}
+@media(max-width:390px){.roadmap-stage__track-title{font-size:14px}.roadmap-stage__track-caption{font-size:11px}.roadmap-stage__choice{flex:1 1 100%}}
+@media(prefers-reduced-motion:reduce){.roadmap-stage__track,.roadmap-stage__choice,.roadmap-stage__choice svg{transition:none}}
 </style>
 </helmet>
 
@@ -453,30 +504,58 @@ html[dir="rtl"] .roadmap-card__art-edge{left:auto;right:20px;transform-origin:10
 </sc-if>
 
 <div>
-<section id="next" data-screen-label="What's next" class="roadmap-section">
-  <div class="roadmap-head">
-    <div class="roadmap-head__main">
-      <span class="roadmap-head__eyebrow">03 · Roadmap</span>
-      <h2>The Future Is Already in Motion</h2>
+<section id="next" data-screen-label="What's next" class="roadmap-stage-section">
+  <div class="roadmap-stage__heading">
+    <div class="roadmap-stage__headline">
+      <span class="roadmap-stage__eyebrow">03 · Roadmap</span>
+      <h2>What media becomes next.</h2>
     </div>
-    <div class="roadmap-head__aside">
-      <span class="roadmap-head__line" aria-hidden="true"></span>
-      <p>Capabilities on our roadmap. They are not available to try yet, and scope and timing are still being defined.</p>
+    <p>Four directions for a more interactive, accessible and intelligent media experience. These concepts are in exploration; scope and timing are not yet defined.</p>
+  </div>
+  <div class="roadmap-stage__tracks" role="tablist" aria-label="Roadmap directions">
+    <sc-for list="{{ roadmapTracks }}" as="track" hint-placeholder-count="4">
+      <button type="button" role="tab" aria-selected="{{ track.selected }}" class="{{ track.className }}" onClick="{{ track.onClick }}">
+        <span class="roadmap-stage__track-title">{{ track.title }}</span>
+        <span class="roadmap-stage__track-caption">{{ track.caption }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div class="roadmap-stage__theater" role="tabpanel" aria-label="{{ roadmapFocusTitle }}">
+    <div class="roadmap-stage__story">
+      <span class="roadmap-stage__story-eyebrow">{{ roadmapTrackKicker }}</span>
+      <h3>{{ roadmapFocusTitle }}</h3>
+      <p class="roadmap-stage__description">{{ roadmapFocusDesc }}</p>
+      <div class="roadmap-stage__impact">
+        <span>What it could unlock</span>
+        <p>{{ roadmapFocusValue }}</p>
+      </div>
+      <div class="roadmap-stage__status">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v6M12 7h.01"></path></svg>
+        <span>Concept in exploration — not yet available</span>
+      </div>
+    </div>
+    <div class="roadmap-stage__art" aria-hidden="true">
+      <canvas class="roadmap-stage__canvas" ref="{{ roadmapCanvasRef }}"></canvas>
+      <span class="roadmap-stage__art-orbit"></span>
+      <div class="roadmap-stage__art-meta">
+        <span>AI EXPERIENCE LAB</span>
+        <span>{{ roadmapTrackTitle }}</span>
+      </div>
     </div>
   </div>
-  <div class="roadmap-grid">
-    <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="18">
-      <article class="roadmap-card" onMouseEnter="{{ u.enter }}" onMouseLeave="{{ u.leave }}">
-        <div class="roadmap-card__art" aria-hidden="true">
-          <canvas ref="{{ u.cref }}" class="roadmap-card__canvas"></canvas>
-          <span class="roadmap-card__art-edge"></span>
-        </div>
-        <div class="roadmap-card__body">
-          <h3>{{ u.title }}</h3>
-          <p>{{ u.desc }}</p>
-        </div>
-      </article>
-    </sc-for>
+  <div class="roadmap-stage__explore">
+    <div class="roadmap-stage__explore-title">
+      <span>Explore this direction</span>
+      <span>{{ roadmapTrackTitle }}</span>
+    </div>
+    <div class="roadmap-stage__choices" role="group" aria-label="Select a roadmap concept">
+      <sc-for list="{{ roadmapChoices }}" as="idea" hint-placeholder-count="6">
+        <button type="button" onClick="{{ idea.onClick }}" aria-pressed="{{ idea.selected }}" class="{{ idea.className }}">
+          <span>{{ idea.title }}</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
+        </button>
+      </sc-for>
+    </div>
   </div>
 </section>
 </div>
@@ -1625,7 +1704,7 @@ class Component extends DCLogic {
   };
 
   state = {
-    podHosts: [{ name: 'Nova', gender: 'male' }, { name: 'Atlas', gender: 'male' }], cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
+    podHosts: [{ name: 'Nova', gender: 'male' }, { name: 'Atlas', gender: 'male' }], roadmapTrack: 0, roadmapFocus: 0, cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
     narrow: false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
     tawTab: 0, tawAnim: false, faqOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
     open: null, ovIn: false, guideOpen: false, tour: null, micError: '', tawPlaying: false, tawTime: 0, tawDur: 0, tawMuted: false,
@@ -1644,6 +1723,7 @@ class Component extends DCLogic {
   nextCRefs = Array.from({ length: 24 }, (_, i) => i).map(i => el => { this.nextCv[i] = el; });
   prodCRefs = [0, 1, 2, 3, 4, 5].map(i => el => { this.prodCv[i] = el; });
   o2cRef = el => { this.o2cCv = el; };
+  roadmapStageRef = el => { this.roadmapCv = el; };
   logoUrls = { 'alaraby-aljadeed.png': 'https://www.alaraby.co.uk/', 'newarab.png': 'https://www.newarab.com/', 'syria.png': 'https://www.syria.tv/', 'atv.svg': 'https://www.alaraby.com/' };
   usedLogos(used) { return (used || []).map(([file, name, w]) => { const r = window.__resources && window.__resources['logo-' + file.replace(/\.\w+$/, '')], href = this.logoUrls[file];
     const src = r || 'assets/logos/' + file; this.logoRatio = this.logoRatio || {}; if (this.logoRatio[file] === undefined) { this.logoRatio[file] = null; const im = new Image(); im.onload = () => { this.logoRatio[file] = im.naturalWidth / im.naturalHeight; this.forceUpdate(); }; im.src = src; }
@@ -2323,7 +2403,23 @@ class Component extends DCLogic {
       this.paint(this.faqCv, (c, w, h) => this.drawFaq(c, w, h, t));
       this.paint(this.contactCv, (c, w, h) => this.drawFormation(c, w, h, t));
       if (this.o2cCv) this.paint(this.o2cCv, (c, w, h) => this.drawFormation(c, w, h, t));
-      for (let i = 0; i < this.D.upcoming.length; i++) { this.nt[i] += dt * sp * (s.hoverNext === i ? 1.7 : 1); this.paint(this.nextCv[i], (c, w, h) => this.drawRoadmapVisual(c, w, h, this.nt[i] + i * 0.47, i, s.hoverNext === i)); }
+      // One cinematic roadmap canvas. Crossfade between semantic illustrations when a concept changes.
+      if (this.roadmapCv) {
+        const focus = s.roadmapFocus ?? 0;
+        if (this.roadmapCurrent !== focus) { this.roadmapPrevious = this.roadmapCurrent ?? focus; this.roadmapCurrent = focus; this.roadmapBlend = 0; }
+        this.roadmapBlend = this.reduce ? 1 : Math.min(1, (this.roadmapBlend ?? 1) + dt * 2.3);
+        this.roadmapT = (this.roadmapT || 0) + dt * sp;
+        this.paint(this.roadmapCv, (c, w, h) => {
+          if (this.roadmapBlend < 1 && this.roadmapPrevious !== focus) {
+            c.save(); c.globalAlpha = 1 - this.roadmapBlend;
+            this.drawRoadmapVisual(c, w, h, this.roadmapT + this.roadmapPrevious * .47, this.roadmapPrevious, false);
+            c.restore();
+          }
+          c.save(); c.globalAlpha = this.roadmapBlend;
+          this.drawRoadmapVisual(c, w, h, this.roadmapT + focus * .47, focus, true);
+          c.restore();
+        });
+      }
       // Four purpose-built animated portfolio illustrations, not recycled roadmap drawings.
       for (let i = 0; i < 4; i++) { if (!this.prodCv[i]) continue; const hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => this.drawPortfolioVisual(c, w, h, this.prodT[i] + i * 1.9, i, hv)); }
     } else {
@@ -2698,7 +2794,7 @@ class Component extends DCLogic {
       c.beginPath();c.moveTo(x,y);c.lineTo(X,Y);c.lineWidth=lw;c.strokeStyle=color;c.stroke();
     };
     const dot=(x,y,r=3,col=cyan,alpha=1)=>{
-      c.globalAlpha=alpha;c.beginPath();c.arc(x,y,r,0,TAU);c.fillStyle=col;c.fill();c.globalAlpha=1;
+      c.save();c.globalAlpha*=alpha;c.beginPath();c.arc(x,y,r,0,TAU);c.fillStyle=col;c.fill();c.restore();
     };
     const glint=(x,y,r=20)=>{
       let g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'rgba(63,224,255,.23)');g.addColorStop(1,'rgba(63,224,255,0)');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,TAU);c.fill();
@@ -3171,6 +3267,38 @@ class Component extends DCLogic {
     this.o2Timer(on);
     const k = s.o2s || 0, open = s.o2open === undefined ? 'gap' : s.o2open, fo = s.o2faq === undefined ? 0 : s.o2faq;
     const live = this.live();
+
+    // Each direction is a curated story, not a flat list of eighteen equally weighted cards.
+    const roadmapDirections = [
+      { title:'Interactive viewing', caption:'From watching to exploring', kicker:'EXPERIENCE / INTERACTION', ids:[0,10,15,17] },
+      { title:'Content, everywhere', caption:'Every format. Every language.', kicker:'CREATION / DISTRIBUTION', ids:[1,3,5,9,16] },
+      { title:'Live intelligence', caption:'Understand the signal', kicker:'INTELLIGENCE / MEDIA', ids:[2,4,11] },
+      { title:'Smarter moments', caption:'Find what matters faster', kicker:'DISCOVERY / VIDEO', ids:[6,7,8,12,13,14] }
+    ];
+    const roadmapBenefits = [
+      'Transform video playback into a conversation with the audience.',
+      'Help the same story reach viewers across more languages.',
+      'Bring richer match insight and comparisons into the viewing experience.',
+      'Turn long-form editorial work into short-form video formats.',
+      'Support scalable, more informed review of audience comments.',
+      'Turn editorial stories into an audio-first listening experience.',
+      'Make long videos easier to explore by topic and chapter.',
+      'Help late viewers understand the story without losing their place.',
+      'Surface the moments of a broadcast most worth revisiting.',
+      'Carry the tone and emotion of speech into another language.',
+      'Explain people, places and events while the video is playing.',
+      'Make dialogue clearer in busy or noisy soundtracks.',
+      'Reveal where audiences reacted most along the video.',
+      'Let viewers preview useful moments before they jump.',
+      'Help editors discover highlight-worthy clips more quickly.',
+      'Add an intelligent assistant to on-demand viewing.',
+      'Make personalized audio briefings part of a daily routine.',
+      'Connect relevant products to the scenes where they appear.'
+    ];
+    const roadmapTrackIndex = Math.max(0, Math.min(roadmapDirections.length - 1, s.roadmapTrack ?? 0));
+    const roadmapDirection = roadmapDirections[roadmapTrackIndex];
+    const roadmapFocus = roadmapDirection.ids.includes(s.roadmapFocus) ? s.roadmapFocus : roadmapDirection.ids[0];
+    const roadmapConcept = this.D.upcoming[roadmapFocus];
     return {
       isV2: on, v1Display: on ? 'none' : 'block',
       heroVidRef: this.heroVidRef || (this.heroVidRef = el => { if (el) { el.muted = true; el.defaultMuted = true; el.volume = 0; if (!el._m) { el._m = 1; const f = () => { if (!el.muted) el.muted = true; }; el.addEventListener('volumechange', f); el.addEventListener('loadedmetadata', f); el.loop = true; el.autoplay = true; el.addEventListener('ended', () => { el.currentTime = 0; el.play().catch(() => {}); }); el.addEventListener('pause', () => { if (!el.ended) setTimeout(() => el.play().catch(() => {}), 50); }); } const p = el.play(); if (p && p.catch) p.catch(() => {}); } }),
@@ -3242,6 +3370,24 @@ class Component extends DCLogic {
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
       o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
       o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
+      roadmapCanvasRef: this.roadmapStageRef,
+      roadmapTrackKicker: roadmapDirection.kicker,
+      roadmapTrackTitle: roadmapDirection.title,
+      roadmapFocusTitle: roadmapConcept.title,
+      roadmapFocusDesc: roadmapConcept.desc,
+      roadmapFocusValue: roadmapBenefits[roadmapFocus],
+      roadmapTracks: roadmapDirections.map((track,i)=>({
+        title:track.title,caption:track.caption,
+        selected:i===roadmapTrackIndex,
+        className:i===roadmapTrackIndex?'roadmap-stage__track roadmap-stage__track--active':'roadmap-stage__track',
+        onClick:()=>this.setState({roadmapTrack:i,roadmapFocus:track.ids[0]})
+      })),
+      roadmapChoices: roadmapDirection.ids.map(i=>({
+        title:this.D.upcoming[i].title,
+        selected:i===roadmapFocus,
+        className:i===roadmapFocus?'roadmap-stage__choice roadmap-stage__choice--active':'roadmap-stage__choice',
+        onClick:()=>this.setState({roadmapFocus:i})
+      })),
       o2Products: O.products.map((p, i) => { const video = p.vk ? (this.props[p.vk] || '') : ''; return { ...p, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }), video, hasVideo: !!video, hasMore: !!p.more }; }),
       o2Faq: O.faq.slice(0, 6).map((f, i) => ({ ...f, open: fo === i, sign: fo === i ? '–' : '+', onClick: () => this.setState({ o2faq: fo === i ? null : i }) })),
       o2Q: s.o2Q || O.q0, o2A: s.o2A || O.a0, o2Input: s.o2Input || '',
