@@ -2384,6 +2384,8 @@ class Component extends DCLogic {
       this.paint(this.faqCv, (c, w, h) => this.drawFaq(c, w, h, t));
       this.paint(this.contactCv, (c, w, h) => this.drawFormation(c, w, h, t));
       if (this.o2cCv) this.paint(this.o2cCv, (c, w, h) => this.drawFormation(c, w, h, t));
+      // Restore the original Roadmap coverflow canvas illustrations for all 18 initiatives.
+      for (let i = 0; i < this.D.upcoming.length; i++) { const vz = this.D.upcoming[i].v ?? i; this.nt[i] += dt * sp * (s.hoverNext === i ? 2.4 : 1); this.paint(this.nextCv[i], (ctx, w, h) => (typeof vz === 'string' ? this.drawNext2 : this.drawNext).call(this, ctx, w, h, this.nt[i] + i * 1.7 + 2, vz, s.hoverNext === i)); }
       // Four purpose-built animated portfolio illustrations, not recycled roadmap drawings.
       for (let i = 0; i < 4; i++) { if (!this.prodCv[i]) continue; const hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => this.drawPortfolioVisual(c, w, h, this.prodT[i] + i * 1.9, i, hv)); }
     } else {
