@@ -305,7 +305,13 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 /* Roadmap: restrained Coverflow refinements; preserve existing illustration and card design. */
 #next{padding-top:82px!important;padding-bottom:74px!important}
 #next .cf-carousel{margin-top:34px!important;isolation:isolate}
-#next .cf-card{backface-visibility:hidden;will-change:transform,opacity}
+#next .cf-card{backface-visibility:hidden;will-change:transform,opacity;isolation:isolate}
+#next .cf-card__body{position:relative;z-index:1}
+#next .cf-card__body h3,#next .cf-card__body p{filter:none;text-shadow:none;text-rendering:optimizeLegibility}
+#next .cf-card[data-cf-active="true"]{backdrop-filter:blur(26px) saturate(125%);-webkit-backdrop-filter:blur(26px) saturate(125%)}
+#next .cf-card[data-cf-active="true"] .cf-card__visual{height:238px!important}
+#next .cf-card[data-cf-active="true"] .cf-card__body{padding:24px 28px 32px!important;background:linear-gradient(180deg,rgba(13,51,103,.86),rgba(9,43,87,.94))}
+#next .cf-card[data-cf-active="false"] .cf-card__body{background:linear-gradient(180deg,rgba(18,57,108,.97),rgba(10,42,85,.99))}
 #next .cf-card__visual{height:220px!important}
 #next .cf-controls{display:grid;grid-template-columns:auto minmax(90px,1fr) auto;align-items:center;gap:24px;width:min(calc(100% - 2 * var(--fl-edge,20px)),680px);margin:14px auto 0;position:relative;z-index:4}
 #next .cf-controls__nav{display:flex;align-items:center;gap:10px}
@@ -322,6 +328,8 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
  #next{padding-top:64px!important;padding-bottom:64px!important}
  #next .cf-carousel{margin-top:25px!important;touch-action:pan-y}
  #next .cf-card__visual{height:205px!important}
+ #next .cf-card[data-cf-active="true"] .cf-card__visual{height:218px!important}
+ #next .cf-card[data-cf-active="true"] .cf-card__body{padding:22px 24px 28px!important}
  #next .cf-card h3{font-size:clamp(19px,5.6vw,24px)!important}
  #next .cf-card p{font-size:14px!important}
  #next .cf-controls{grid-template-columns:auto minmax(50px,1fr) auto;gap:14px;margin-top:8px}
@@ -330,6 +338,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 }
 @media(max-width:359.98px){
  #next .cf-card__visual{height:185px!important}
+ #next .cf-card[data-cf-active="true"] .cf-card__visual{height:196px!important}
  #next .cf-card h3{font-size:19px!important}
  #next .cf-controls{gap:10px}
 }
@@ -622,9 +631,9 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
     <div aria-hidden="true" style="position:absolute;left:50%;bottom:-10px;width:min(760px,82vw);height:105px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%, rgba(63,224,255,0.12), transparent 70%);filter:blur(10px);pointer-events:none"></div>
     <div style="position:absolute;inset:0;transform-style:preserve-3d">
       <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="6">
-        <article class="cf-card" ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ cfW }};margin-left:{{ cfML }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.015));border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
+        <article class="cf-card" data-cf-active="{{ u.active }}" ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
           <canvas class="cf-card__visual" ref="{{ u.cref }}" aria-hidden="true" style="width:100%;height:230px;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas>
-          <div style="display:flex;flex-direction:column;gap:10px;padding:22px 26px 28px">
+          <div class="cf-card__body" style="display:flex;flex-direction:column;gap:10px;padding:22px 26px 28px">
             <span style="font-size:12px;font-weight:600;letter-spacing:0.12em;color:{{ u.numColor }}">N° {{ u.num }}</span>
             <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em">{{ u.title }}</h3>
             <p style="margin:0;font-size:15px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ u.desc }}</p>
@@ -3269,12 +3278,21 @@ class Component extends DCLogic {
       shadow: on ? '0 30px 80px -30px rgba(47,107,255,0.55), inset 0 1px 0 rgba(255,255,255,0.1)' : 'inset 0 1px 0 rgba(255,255,255,0.05)', op: on ? 1 : 0.72, numColor: on ? '#3FE0FF' : '#6F8FC9' }; });
 
     const UN = D.upcoming.length, cfI = s.cfIdx, wide = !narrow;
+    // Resize the active card's physical width instead of scaling its rendered text.
+    const cfBaseW = narrow ? 'min(88vw, 360px)' : 'clamp(320px, 32vw, 440px)';
+    const cfActiveW = narrow ? 'min(93.28vw, 381.6px)' : 'clamp(345.6px, 34.56vw, 475.2px)';
+    const cfBaseML = narrow ? 'max(-44vw, -180px)' : 'clamp(-220px, -16vw, -160px)';
+    const cfActiveML = narrow ? 'max(-46.64vw, -190.8px)' : 'clamp(-237.6px, -17.28vw, -172.8px)';
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
-      const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? (narrow ? 1.06 : 1.08) : 1) + ')';
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], num: pad2(i + 1), title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }), tf, z: 10 - ad,
-        op: !vis ? 0 : ad > 2.6 ? 0 : (ad <= 1 ? 1 - ad * 0.36 : 0.64 - (ad - 1) * 0.25) * (ad > 2 ? (2.6 - ad) / 0.6 : 1),
-        tr: dragging ? 'border-color .5s, box-shadow .6s' : 'transform .9s cubic-bezier(.2,.75,.2,1), opacity .7s ease, filter .7s ease, border-color .5s, box-shadow .6s', filter: on ? 'none' : 'brightness(' + Math.max(0.72, 1 - ad * 0.11) + ') saturate(' + Math.max(0.75, 1 - ad * 0.08) + ')', pe: ad > 2 ? 'none' : 'auto', hidden: !on, cursor: on ? 'default' : 'pointer',
+      const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg)');
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], num: pad2(i + 1), title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+        active: on ? 'true' : 'false', width: on ? cfActiveW : cfBaseW, marginLeft: on ? cfActiveML : cfBaseML,
+        background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
+        tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
+        // Do not lower the whole neighbor's opacity: text behind it would show through.
+        op: !vis ? 0 : ad > 2.6 ? 0 : ad <= 1.05 ? 1 : Math.max(0, 1 - (ad - 1.05) * 0.32) * (ad > 2 ? (2.6 - ad) / 0.6 : 1),
+        tr: dragging ? 'border-color .5s, box-shadow .6s' : 'transform .9s cubic-bezier(.2,.75,.2,1), width .9s cubic-bezier(.2,.75,.2,1), margin-left .9s cubic-bezier(.2,.75,.2,1), opacity .7s ease, filter .7s ease, border-color .5s, box-shadow .6s', filter: on ? 'none' : 'brightness(' + Math.max(0.70, 1 - ad * 0.16) + ') saturate(' + Math.max(0.75, 1 - ad * 0.10) + ')', pe: ad > 2 ? 'none' : 'auto', hidden: !on, cursor: on ? 'default' : 'pointer',
         border: on ? 'rgba(63,224,255,0.55)' : 'rgba(150,190,255,0.16)', numColor: on ? '#3FE0FF' : '#6F8FC9',
         shadow: on ? '0 32px 72px -38px rgba(47,107,255,0.5), 0 0 0 1px rgba(63,224,255,0.12), inset 0 1px 0 rgba(255,255,255,0.1)' : 'inset 0 1px 0 rgba(255,255,255,0.06), 0 40px 80px -40px rgba(0,0,0,0.8)',
         go: () => { if (this.cfMoved) { this.cfMoved = false; return; } if (!on) this.cfGo(i); } }; });
