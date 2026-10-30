@@ -32,5 +32,7 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 - Keep compact arrows, count and progress indicator (`cf-controls`), accessible labels and keyboard controls.
 - Enlarge only the active card with real width/centering adjustments; side-card dimensions stay unchanged and text remains crisp (do not use `scale()` on the entire card).
 - Only the active card's artwork animates. Inactive roadmap canvases hold a static frame until activated, with redraws permitted on resize or first visibility; preserve reduced-motion behavior.
+- All Roadmap card illustration canvases use a responsive **16:9** aspect ratio on desktop, tablet, and mobile; do not reintroduce fixed pixel heights in breakpoint overrides.
+- Apply a subtle directional visual fade to inactive cards: **left-side cards soften toward the right edge**, right-side cards soften toward the left edge. Use an overlay on the card rather than reducing the entire nearer card's opacity, so more distant card text does not bleed through. Active card stays unaffected.
 - Avoid long dot pagination, excessive glows, aggressive rotations, forced horizontal overflow and auto-advancing on small touch screens.
 - Refrain from replacing the Roadmap with a card grid or theater unless explicitly approved.
