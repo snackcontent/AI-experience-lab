@@ -30,6 +30,8 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 
 - Preserve the 3D Coverflow with a clearly centered active card, visible adjacent previews, drag/swipe support, individual feature artwork and Arabic/English localization.
 - Keep compact arrows, count and progress indicator (`cf-controls`), accessible labels and keyboard controls.
+- Keep a visible gap between Roadmap cards and carousel controls (34px desktop / 24px mobile as the current reference). Do not add decorative per-card numbering; retain the functional slide counter below.
+- Favor transform/opacity-only coverflow transitions with stable layout dimensions and 16:9 canvas bitmaps. Avoid width/margin/filter animations and continuous work on all 18 cards; coalesce drag updates to animation frames.
 - Enlarge only the active card with real width/centering adjustments; side-card dimensions stay unchanged and text remains crisp (do not use `scale()` on the entire card).
 - Only the active card's artwork animates. Inactive roadmap canvases hold a static frame until activated, with redraws permitted on resize or first visibility; preserve reduced-motion behavior.
 - All Roadmap card illustration canvases use a responsive **16:9** aspect ratio on desktop, tablet, and mobile; do not reintroduce fixed pixel heights in breakpoint overrides.
