@@ -433,6 +433,42 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #next .cf-chapters-visual__motion{pointer-events:none;animation:cfChaptersEnter .22s ease-out both}
 @keyframes cfChaptersEnter{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){#next .cf-chapters-visual__motion{display:none!important;animation:none!important}}
+
+/* AI Catch-Up / Recap: 16:9 episode recap image with active-only motion. */
+#next .cf-recap-visual{position:relative;width:100%;aspect-ratio:16/9;flex:none;overflow:hidden;background:#05346a;border-bottom:1px solid rgba(150,190,255,.12)}
+#next .cf-recap-visual__poster,#next .cf-recap-visual__motion{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+#next .cf-recap-visual__poster{image-rendering:auto}
+#next .cf-recap-visual__motion{pointer-events:none;animation:cfRecapEnter .22s ease-out both}
+@keyframes cfRecapEnter{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#next .cf-recap-visual__motion{display:none!important;animation:none!important}}
+
+/* Slightly stronger, restrained movement on active artwork only.
+   A soft blue tracking highlight makes even subtle scene animations legible.
+   No effect while cards are lateral or when reduced motion is requested. */
+#next .cf-card[data-cf-active="true"] :is(
+  .cf-ask-visual,.cf-shop-visual,.cf-sports-visual,
+  .cf-article-visual,.cf-moderation-visual,.cf-storycast-visual,
+  .cf-chapters-visual,.cf-recap-visual
+)::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(103deg,transparent 30%,rgba(68,225,255,.12) 47%,rgba(125,96,255,.09) 54%,transparent 70%);
+  transform:translate3d(-130%,0,0);
+  animation:cfRoadmapActiveShimmer 5s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+@keyframes cfRoadmapActiveShimmer{
+  0%,8%{transform:translate3d(-130%,0,0);opacity:0}
+  15%{opacity:.68}
+  48%{opacity:.68}
+  58%,100%{transform:translate3d(130%,0,0);opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  #next .cf-card[data-cf-active="true"] :is(
+    .cf-ask-visual,.cf-shop-visual,.cf-sports-visual,
+    .cf-article-visual,.cf-moderation-visual,.cf-storycast-visual,
+    .cf-chapters-visual,.cf-recap-visual
+  )::after{content:none!important;animation:none!important}
+}
 </style>
 </helmet>
 
@@ -745,6 +781,14 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
               <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="eager" decoding="async"/>
               <sc-if value="{{ u.hasArticleMotion }}">
                 <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ u.hasRecapPoster }}">
+            <div class="cf-recap-visual" aria-hidden="true">
+              <img class="cf-recap-visual__poster" src="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <sc-if value="{{ u.hasRecapMotion }}">
+                <video class="cf-recap-visual__motion" src="assets/roadmap-scenes/ai-catch-up-recap-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -3499,7 +3543,7 @@ class Component extends DCLogic {
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && u.v !== 'shop', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && !this.reduce, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
