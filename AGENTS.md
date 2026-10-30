@@ -30,6 +30,7 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 
 - Preserve the 3D Coverflow with a clearly centered active card, visible adjacent previews, drag/swipe support, individual feature artwork and Arabic/English localization.
 - Keep compact arrows, count and progress indicator (`cf-controls`), accessible labels and keyboard controls.
+- Every visibly exposed Roadmap side card must be directly selectable by mouse click or touch tap, and support Enter/Space when keyboard-focused. Clicking either side makes that exact card active and centered, including the second neighbor if exposed. Preserve drag/swipe, avoid stale drag suppression of future clicks, and hide only truly off-screen cards from keyboard and assistive technology.
 - Keep a visible gap between Roadmap cards and carousel controls (34px desktop / 24px mobile as the current reference). Do not add decorative per-card numbering; retain the functional slide counter below.
 - Favor transform/opacity-only coverflow transitions with stable layout dimensions and 16:9 canvas bitmaps. Avoid width/margin/filter animations and continuous work on all 18 cards; coalesce drag updates to animation frames.
 - Enlarge only the active card with real width/centering adjustments; side-card dimensions stay unchanged and text remains crisp (do not use `scale()` on the entire card).
