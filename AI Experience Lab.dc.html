@@ -2092,6 +2092,8 @@ class Component extends DCLogic {
     this.SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
     this.T = 0; this.last = performance.now(); this.energy = 0; this.mx = 0; this.my = 0;
     this.stageFeat = 0; this.prevFeat = 0; this.fade = 1; this.nt = new Array(24).fill(0);
+    // Canvas identity and backing resolution used to freeze inactive roadmap art.
+    this.cfCanvasStamp = [];
     const pv = document.createElement('video'); pv.src = (window.__resources && window.__resources['tawazi-mp4']) || 'assets/tawazi.mp4'; pv.muted = true; pv.loop = true; pv.playsInline = true; pv.setAttribute('playsinline', ''); pv.preload = 'auto';
     pv.addEventListener('loadeddata', () => { this.pvReady = true; }); pv.play().catch(() => {}); this.pv = pv;
     this.initSphere();
@@ -2496,8 +2498,27 @@ class Component extends DCLogic {
       this.paint(this.faqCv, (c, w, h) => this.drawFaq(c, w, h, t));
       this.paint(this.contactCv, (c, w, h) => this.drawFormation(c, w, h, t));
       if (this.o2cCv) this.paint(this.o2cCv, (c, w, h) => this.drawFormation(c, w, h, t));
-      // Restore the original Roadmap coverflow canvas illustrations for all 18 initiatives.
-      for (let i = 0; i < this.D.upcoming.length; i++) { const vz = this.D.upcoming[i].v ?? i; this.nt[i] += dt * sp * (s.hoverNext === i ? 2.4 : 1); this.paint(this.nextCv[i], (ctx, w, h) => (typeof vz === 'string' ? this.drawNext2 : this.drawNext).call(this, ctx, w, h, this.nt[i] + i * 1.7 + 2, vz, s.hoverNext === i)); }
+      // Draw only the active Roadmap canvas continuously. Inactive illustrations
+      // hold their last frame until activated or their canvas size changes.
+      for (let i = 0; i < this.D.upcoming.length; i++) {
+        const cv = this.nextCv[i];
+        if (!cv || !cv.isConnected) continue;
+        const rect = cv.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0 || rect.bottom < 0 || rect.top > innerHeight) continue;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const cw = Math.round(rect.width * dpr), ch = Math.round(rect.height * dpr);
+        const active = i === s.cfIdx;
+        const stamp = this.cfCanvasStamp[i];
+        if (!active && stamp && stamp.cv === cv && stamp.width === cw && stamp.height === ch) continue;
+        if (active) this.nt[i] += dt * sp;
+        const vz = this.D.upcoming[i].v ?? i;
+        this.paint(cv, (ctx, w, h) =>
+          (typeof vz === 'string' ? this.drawNext2 : this.drawNext).call(
+            this, ctx, w, h, this.nt[i] + i * 1.7 + 2, vz, active
+          )
+        );
+        this.cfCanvasStamp[i] = { cv, width: cw, height: ch };
+      }
       // Four purpose-built animated portfolio illustrations, not recycled roadmap drawings.
       for (let i = 0; i < 4; i++) { if (!this.prodCv[i]) continue; const hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => this.drawPortfolioVisual(c, w, h, this.prodT[i] + i * 1.9, i, hv)); }
     } else {
@@ -3280,9 +3301,9 @@ class Component extends DCLogic {
     const UN = D.upcoming.length, cfI = s.cfIdx, wide = !narrow;
     // Resize the active card's physical width instead of scaling its rendered text.
     const cfBaseW = narrow ? 'min(88vw, 360px)' : 'clamp(320px, 32vw, 440px)';
-    const cfActiveW = narrow ? 'min(93.28vw, 381.6px)' : 'clamp(345.6px, 34.56vw, 475.2px)';
+    const cfActiveW = narrow ? 'min(94vw, 396px)' : 'clamp(368px, 36.8vw, 506px)';
     const cfBaseML = narrow ? 'max(-44vw, -180px)' : 'clamp(-220px, -16vw, -160px)';
-    const cfActiveML = narrow ? 'max(-46.64vw, -190.8px)' : 'clamp(-237.6px, -17.28vw, -172.8px)';
+    const cfActiveML = narrow ? 'max(-47vw, -198px)' : 'clamp(-253px, -18.4vw, -184px)';
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg)');
