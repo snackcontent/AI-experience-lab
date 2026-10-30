@@ -417,6 +417,14 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #next .cf-moderation-visual__motion{pointer-events:none;animation:cfModerationEnter .22s ease-out both}
 @keyframes cfModerationEnter{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){#next .cf-moderation-visual__motion{display:none!important;animation:none!important}}
+
+/* AI StoryCast: illustrated news-to-audio workflow, 16:9 and active-only motion. */
+#next .cf-storycast-visual{position:relative;width:100%;aspect-ratio:16/9;flex:none;overflow:hidden;background:#07346c;border-bottom:1px solid rgba(150,190,255,.12)}
+#next .cf-storycast-visual__poster,#next .cf-storycast-visual__motion{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+#next .cf-storycast-visual__poster{image-rendering:auto}
+#next .cf-storycast-visual__motion{pointer-events:none;animation:cfStoryCastEnter .22s ease-out both}
+@keyframes cfStoryCastEnter{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#next .cf-storycast-visual__motion{display:none!important;animation:none!important}}
 </style>
 </helmet>
 
@@ -729,6 +737,14 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
               <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="eager" decoding="async"/>
               <sc-if value="{{ u.hasArticleMotion }}">
                 <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ u.hasStoryCastPoster }}">
+            <div class="cf-storycast-visual" aria-hidden="true">
+              <img class="cf-storycast-visual__poster" src="assets/roadmap-scenes/ai-storycast-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <sc-if value="{{ u.hasStoryCastMotion }}">
+                <video class="cf-storycast-visual__motion" src="assets/roadmap-scenes/ai-storycast-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-storycast-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -3467,7 +3483,7 @@ class Component extends DCLogic {
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && u.v !== 'shop', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && u.v !== 'shop', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
