@@ -353,6 +353,27 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
  #next .cf-controls{gap:10px}
 }
 @media(prefers-reduced-motion:reduce){#next .cf-card,#next .cf-controls__fill,#next .cf-controls__arrow{transition:none!important}}
+
+/* AI Translation & Subtitles — detailed 16:9 artwork with active-only light motion. */
+#next .cf-translation-visual{position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;flex:none;border-bottom:1px solid rgba(150,190,255,.12);background:#064687}
+#next .cf-translation-visual__image{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;image-rendering:auto}
+#next .cf-translation-visual__motion{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .24s ease}
+#next .cf-card[data-cf-active="true"] .cf-translation-visual__motion{opacity:1}
+#next .cf-translation-visual__wave{fill:none;stroke:rgba(79,226,255,.72);stroke-width:4;stroke-linecap:round;stroke-dasharray:22 48}
+#next .cf-translation-visual__pulse{fill:rgba(78,227,255,.09);stroke:rgba(104,242,255,.64);stroke-width:4}
+#next .cf-translation-visual__scan{fill:rgba(122,239,255,.1)}
+#next .cf-card[data-cf-active="true"] .cf-translation-visual__wave{animation:cfTranslateStream 2.6s linear infinite}
+#next .cf-card[data-cf-active="true"] .cf-translation-visual__pulse{animation:cfTranslatePulse 2.2s ease-in-out infinite}
+#next .cf-card[data-cf-active="true"] .cf-translation-visual__scan{animation:cfTranslateScan 3.6s ease-in-out infinite}
+@keyframes cfTranslateStream{from{stroke-dashoffset:0;opacity:.4}50%{opacity:.8}to{stroke-dashoffset:-140;opacity:.4}}
+@keyframes cfTranslatePulse{0%,100%{opacity:.2}50%{opacity:.7}}
+@keyframes cfTranslateScan{0%,100%{opacity:0;transform:translateX(-65px)}50%{opacity:.38;transform:translateX(65px)}}
+@media(prefers-reduced-motion:reduce){
+ #next .cf-translation-visual__motion{opacity:0!important;transition:none!important}
+ #next .cf-translation-visual__wave,
+ #next .cf-translation-visual__pulse,
+ #next .cf-translation-visual__scan{animation:none!important}
+}
 </style>
 </helmet>
 
@@ -642,8 +663,21 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
     <div style="position:absolute;inset:0;transform-style:preserve-3d">
       <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="6">
         <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
-          <canvas class="cf-card__visual" ref="{{ u.cref }}" aria-hidden="true" style="width:100%;aspect-ratio:16/9;height:auto;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas>
-          <div class="cf-card__body" style="display:flex;flex-direction:column;gap:10px;padding:22px 26px 28px">
+          <sc-if value="{{ u.hasTranslationArt }}">
+            <div class="cf-translation-visual" aria-hidden="true">
+              <img class="cf-translation-visual__image" src="assets/roadmap-scenes/ai-translation-subtitles-16x9.jpg" alt="" loading="eager" decoding="async"/>
+              <svg class="cf-translation-visual__motion" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <path class="cf-translation-visual__wave" d="M326 403 C432 404 471 462 554 443 S697 374 786 410" />
+                <path class="cf-translation-visual__wave" d="M1112 402 C1171 395 1159 241 1255 236" />
+                <path class="cf-translation-visual__wave" d="M1107 440 C1166 441 1188 442 1234 442" />
+                <path class="cf-translation-visual__wave" d="M1112 468 C1171 480 1174 592 1242 598" />
+                <rect class="cf-translation-visual__scan" x="595" y="490" width="190" height="52" rx="16" />
+                <rect class="cf-translation-visual__pulse" x="700" y="694" width="112" height="82" rx="20" />
+              </svg>
+            </div>
+          </sc-if>
+          <sc-if value="{{ u.hasCanvas }}"><canvas class="cf-card__visual" ref="{{ u.cref }}" aria-hidden="true" style="width:100%;aspect-ratio:16/9;height:auto;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas></sc-if>
+          <div class="cf-card__body" style="display:flex;flex-direction:column;gap:8px;padding:22px 26px 28px">
             
             <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em">{{ u.title }}</h3>
             <p style="margin:0;font-size:15px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ u.desc }}</p>
@@ -3347,7 +3381,7 @@ class Component extends DCLogic {
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasTranslationArt: i === 1, hasCanvas: i !== 1, title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
