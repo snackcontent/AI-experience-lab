@@ -3271,7 +3271,7 @@ class Component extends DCLogic {
     const UN = D.upcoming.length, cfI = s.cfIdx, wide = !narrow;
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
-      const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg)';
+      const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? (narrow ? 1.06 : 1.08) : 1) + ')';
       return { ref: this.nextRefs[i], cref: this.nextCRefs[i], num: pad2(i + 1), title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }), tf, z: 10 - ad,
         op: !vis ? 0 : ad > 2.6 ? 0 : (ad <= 1 ? 1 - ad * 0.36 : 0.64 - (ad - 1) * 0.25) * (ad > 2 ? (2.6 - ad) / 0.6 : 1),
         tr: dragging ? 'border-color .5s, box-shadow .6s' : 'transform .9s cubic-bezier(.2,.75,.2,1), opacity .7s ease, filter .7s ease, border-color .5s, box-shadow .6s', filter: on ? 'none' : 'brightness(' + Math.max(0.72, 1 - ad * 0.11) + ') saturate(' + Math.max(0.75, 1 - ad * 0.08) + ')', pe: ad > 2 ? 'none' : 'auto', hidden: !on, cursor: on ? 'default' : 'pointer',
