@@ -306,7 +306,9 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 #next{padding-top:82px!important;padding-bottom:74px!important}
 #next .cf-carousel{margin-top:34px!important;isolation:isolate}
 #next .cf-card{backface-visibility:hidden;isolation:isolate}
-#next .cf-card[data-cf-active="false"]:focus-visible{outline:2px solid #7FE7FF;outline-offset:4px}
+#next .cf-card[data-cf-active="false"]:focus-within{outline:2px solid #7FE7FF;outline-offset:4px}
+#next .cf-card__select{position:absolute;inset:0;width:100%;height:100%;z-index:5;display:block;border:0;border-radius:inherit;padding:0;margin:0;background:transparent;color:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+#next .cf-card__select:focus-visible{outline:2px solid #7FE7FF;outline-offset:-4px}
 #next .cf-card__body{position:relative;z-index:1}
 #next .cf-card[data-cf-active="false"]{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 #next .cf-card__body h3,#next .cf-card__body p{filter:none;text-shadow:none;text-rendering:optimizeLegibility}
@@ -675,11 +677,11 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
       <p style="margin:0;max-width:640px;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:balance">Capabilities on our roadmap. They are not available to try yet, and scope and timing are still being defined.</p>
     </div>
   </div>
-  <div onPointerDown="{{ cfDown }}" onPointerMove="{{ cfMove }}" onPointerUp="{{ cfUp }}" onPointerCancel="{{ cfUp }}" onWheel="{{ cfWheel }}" onDragStart="{{ cfNoDrag }}" onMouseEnter="{{ cfPause }}" onMouseLeave="{{ cfResume }}" onFocus="{{ cfPause }}" onBlur="{{ cfResume }}" onKeyDown="{{ cfKey }}" tabIndex="0" role="region" aria-roledescription="carousel" aria-label="{{ cfRegionLabel }}" class="cf-carousel" style="position:relative;margin-top:40px;height:{{ cfH }};perspective:1800px;perspective-origin:50% 40%;touch-action:pan-y;user-select:none;cursor:{{ cfCursor }}">
+  <div onPointerDown="{{ cfDown }}" onPointerMove="{{ cfMove }}" onPointerUp="{{ cfUp }}" onPointerCancel="{{ cfUp }}" onClick="{{ cfClick }}" onWheel="{{ cfWheel }}" onDragStart="{{ cfNoDrag }}" onMouseEnter="{{ cfPause }}" onMouseLeave="{{ cfResume }}" onFocus="{{ cfPause }}" onBlur="{{ cfResume }}" onKeyDown="{{ cfKey }}" tabIndex="0" role="region" aria-roledescription="carousel" aria-label="{{ cfRegionLabel }}" class="cf-carousel" style="position:relative;margin-top:40px;height:{{ cfH }};perspective:1800px;perspective-origin:50% 40%;touch-action:pan-y;user-select:none;cursor:{{ cfCursor }}">
     <div aria-hidden="true" style="position:absolute;left:50%;bottom:-10px;width:min(760px,82vw);height:105px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%, rgba(63,224,255,0.12), transparent 70%);filter:blur(10px);pointer-events:none"></div>
     <div style="position:absolute;inset:0;transform-style:preserve-3d">
       <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="6">
-        <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" data-cf-index="{{ u.index }}" ref="{{ u.ref }}" onClick="{{ u.go }}" onKeyDown="{{ u.key }}" role="button" tabIndex="{{ u.tabIndex }}" aria-label="{{ u.clickLabel }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
+        <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" data-cf-index="{{ u.index }}" ref="{{ u.ref }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
           <sc-if value="{{ u.hasAskPoster }}">
             <div class="cf-ask-visual" aria-hidden="true">
               <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/ask-the-video-16x9.webp" alt="" loading="eager" decoding="async"/>
@@ -715,6 +717,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
             <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em">{{ u.title }}</h3>
             <p style="margin:0;font-size:15px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ u.desc }}</p>
           </div>
+          <sc-if value="{{ u.isSelectable }}"><button type="button" class="cf-card__select" aria-label="{{ u.clickLabel }}" title="{{ u.clickLabel }}"></button></sc-if>
         </article>
       </sc-for>
     </div>
@@ -3421,19 +3424,12 @@ class Component extends DCLogic {
         // Do not lower the whole neighbor's opacity: text behind it would show through.
         op: !vis ? 0 : ad > 2.6 ? 0 : ad <= 1.05 ? 1 : Math.max(0, 1 - (ad - 1.05) * 0.32) * (ad > 2 ? (2.6 - ad) / 0.6 : 1),
         tr: dragging ? 'none' : 'transform .76s cubic-bezier(.22,.8,.24,1), opacity .55s ease, border-color .4s ease, box-shadow .55s ease', filter: 'none', pe: ad > 2 ? 'none' : 'auto',
-        hidden: ad > 2, tabIndex: !on && ad <= 2 ? 0 : -1, index: i,
+        hidden: ad > 2, isSelectable: !on && ad <= 2 && vis, index: i,
         clickLabel: (s.lang === 'ar' ? 'عرض ' : 'Show ') + u.title + (s.lang === 'ar' ? ' كبطاقة نشطة' : ' as the active card'),
         cursor: on ? 'default' : 'pointer',
         border: on ? 'rgba(63,224,255,0.55)' : 'rgba(150,190,255,0.16)',
         shadow: on ? '0 32px 72px -38px rgba(47,107,255,0.5), 0 0 0 1px rgba(63,224,255,0.12), inset 0 1px 0 rgba(255,255,255,0.1)' : 'inset 0 1px 0 rgba(255,255,255,0.06), 0 40px 80px -40px rgba(0,0,0,0.8)',
-        go: () => {
-          // PointerUp already activates tapped cards; avoid a duplicate click.
-          // A new pointerDown clears this flag, so dragging never blocks the next click.
-          if (this.cfClickHandled) { this.cfClickHandled = false; return; }
-          if (this.cfMoved) return;
-          if (i !== this.state.cfIdx) this.cfGo(i);
-        },
-        key: e => { if ((e.key === 'Enter' || e.key === ' ') && i !== this.state.cfIdx) { e.preventDefault(); e.stopPropagation(); this.cfGo(i); } } }; });
+      }; });
     const cfProgressWidth = ((cfI + 1) / UN * 100).toFixed(2) + '%';
 
     const navItems = [['sum', 'AI Summarisation'], ['pod', 'Podcast AI'], ['tts', 'Text To Speech (TTS)'], ['capabilities', 'More Tools'], ['contact', 'Contact Us']].map(([id, label]) => { const ci = F.findIndex(f => f.id === id), on = ci >= 0 ? s.section === 'capabilities' && F[s.active] && F[s.active].id === id : s.section === id && id !== 'capabilities';
@@ -3473,7 +3469,18 @@ class Component extends DCLogic {
        cfResume: () => { const active = document.activeElement; if (active && active.closest && active.closest('#next .cf-carousel')) return; this.setState({ cfPaused: false, hoverNext: null }, () => this.cfGo(this.state.cfIdx)); },
        cfKey: e => { if (e.altKey || e.ctrlKey || e.metaKey) return; const rtl = this.state.lang === 'ar'; let step = 0; if (e.key === 'ArrowRight') step = rtl ? -1 : 1; else if (e.key === 'ArrowLeft') step = rtl ? 1 : -1; else if (e.key === 'Home') { e.preventDefault(); this.cfGo(0); return; } else if (e.key === 'End') { e.preventDefault(); this.cfGo(this.D.upcoming.length - 1); return; } if (step) { e.preventDefault(); this.cfGo(this.state.cfIdx + step); } },
       cfCursor: dragging ? 'grabbing' : 'grab', cfNoDrag: e => e.preventDefault(),
-      cfDown: e => { if (e.button) return; this.cfX = e.clientX; this.cfMoved = false; this.cfClickHandled = false; this.cfDragTarget = 0; this.cfW = (e.currentTarget.querySelector('.cf-card[data-cf-active="true"]') || {}).offsetWidth || 400; },
+      cfDown: e => {
+        if (e.button) return;
+        const card = e.target && e.target.closest && e.target.closest('.cf-card[data-cf-index]');
+        // Pointer capture and moving 3D cards may retarget pointerup;
+        // record the ORIGINAL selected card at pointerdown.
+        this.cfDownCard = card ? Number(card.getAttribute('data-cf-index')) : null;
+        this.cfX = e.clientX;
+        this.cfMoved = false;
+        this.cfClickHandled = false;
+        this.cfDragTarget = 0;
+        this.cfW = (e.currentTarget.querySelector('.cf-card[data-cf-active="true"]') || {}).offsetWidth || 400;
+      },
       cfMove: e => { if (this.cfX == null) return; const dx = e.clientX - this.cfX; if (!this.cfMoved && Math.abs(dx) > (e.pointerType === 'touch' ? 12 : 8)) { this.cfMoved = true; clearTimeout(this.cfTimer); try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} } if (!this.cfMoved) return; this.cfDragTarget = Math.max(-2.5, Math.min(2.5, dx / (this.cfW * 0.62))); if (this.cfDragRAF) return; this.cfDragRAF = requestAnimationFrame(() => { this.cfDragRAF = null; if (this.cfX != null) this.setState({ cfDrag: this.cfDragTarget, cfRun: false }); }); },
       cfUp: e => {
         if (this.cfX == null) return;
@@ -3481,25 +3488,31 @@ class Component extends DCLogic {
         if (this.cfDragRAF) { cancelAnimationFrame(this.cfDragRAF); this.cfDragRAF = null; }
         const dg2 = this.cfDragTarget ?? this.state.cfDrag ?? 0;
         const wasDragged = this.cfMoved;
+        const pressed = this.cfDownCard;
+        this.cfDownCard = null;
         this.cfDragTarget = null;
         this.cfMoved = false;
         this.setState({ cfDrag: null });
         if (e.type === 'pointercancel') { this.cfClickHandled = true; return; }
         if (!wasDragged) {
-          // Direct pointer/touch selection, even when browser click retargeting
-          // is affected by the rotating 3D cards.
-          const card = e.target && e.target.closest && e.target.closest('.cf-card[data-cf-index]');
-          const target = card && Number(card.getAttribute('data-cf-index'));
-          if (card && Number.isInteger(target) && target !== this.state.cfIdx) {
+          if (Number.isInteger(pressed) && pressed !== this.state.cfIdx) {
             this.cfClickHandled = true;
-            this.cfGo(target);
+            this.cfGo(pressed);
           }
           return;
         }
-        this.cfClickHandled = true; // Ignore the synthetic click after a drag.
+        this.cfClickHandled = true;
         let st = Math.round(-dg2);
         if (st === 0 && Math.abs(dg2) > 0.12) st = dg2 < 0 ? 1 : -1;
-        this.cfGo(this.state.cfIdx + st);
+        if (st) this.cfGo(this.state.cfIdx + st);
+      },
+      cfClick: e => {
+        // Fallback for native click and keyboard activation.
+        if (this.cfClickHandled && e.detail !== 0) { this.cfClickHandled = false; return; }
+        const card = e.target && e.target.closest && e.target.closest('.cf-card[data-cf-index]');
+        if (!card) return;
+        const target = Number(card.getAttribute('data-cf-index'));
+        if (Number.isInteger(target) && target !== this.state.cfIdx) this.cfGo(target);
       },
       cfWheel: e => { const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0); if (!dx) return; this.cfAcc = (this.cfAcc || 0) + dx; const now = performance.now(); if (Math.abs(this.cfAcc) > 50 && now - (this.cfLastW || 0) > 450) { this.cfLastW = now; this.cfGo(this.state.cfIdx + (this.cfAcc > 0 ? 1 : -1)); this.cfAcc = 0; } clearTimeout(this.cfAccT); this.cfAccT = setTimeout(() => { this.cfAcc = 0; }, 200); },
       nextPrev: () => this.cfGo(cfI - 1),
