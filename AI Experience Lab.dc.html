@@ -679,7 +679,9 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
   </div>
   <div onPointerDown="{{ cfDown }}" onPointerMove="{{ cfMove }}" onPointerUp="{{ cfUp }}" onPointerCancel="{{ cfUp }}" onClick="{{ cfClick }}" onWheel="{{ cfWheel }}" onDragStart="{{ cfNoDrag }}" onMouseEnter="{{ cfPause }}" onMouseLeave="{{ cfResume }}" onFocus="{{ cfPause }}" onBlur="{{ cfResume }}" onKeyDown="{{ cfKey }}" tabIndex="0" role="region" aria-roledescription="carousel" aria-label="{{ cfRegionLabel }}" class="cf-carousel" style="position:relative;margin-top:40px;height:{{ cfH }};perspective:1800px;perspective-origin:50% 40%;touch-action:pan-y;user-select:none;cursor:{{ cfCursor }}">
     <div aria-hidden="true" style="position:absolute;left:50%;bottom:-10px;width:min(760px,82vw);height:105px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%, rgba(63,224,255,0.12), transparent 70%);filter:blur(10px);pointer-events:none"></div>
-    <div style="position:absolute;inset:0;transform-style:preserve-3d">
+    <!-- The 3D stage must NOT intercept taps in front of side-card surfaces.
+        Each visible card explicitly opts into pointer-events via u.pe. -->
+   <div style="position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none">
       <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="6">
         <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" data-cf-index="{{ u.index }}" ref="{{ u.ref }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
           <sc-if value="{{ u.hasAskPoster }}">
