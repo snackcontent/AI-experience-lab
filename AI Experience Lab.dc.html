@@ -506,58 +506,37 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 </sc-if>
 
 <div>
-<section id="next" data-screen-label="What's next" class="roadmap-stage-section">
-  <div class="roadmap-stage__heading">
-    <div class="roadmap-stage__headline">
-      <span class="roadmap-stage__eyebrow">03 · Roadmap</span>
-      <h2>What media becomes next.</h2>
-    </div>
-    <p>Four directions for a more interactive, accessible and intelligent media experience. These concepts are in exploration; scope and timing are not yet defined.</p>
-  </div>
-  <div class="roadmap-stage__tracks" role="tablist" aria-label="Roadmap directions">
-    <sc-for list="{{ roadmapTracks }}" as="track" hint-placeholder-count="4">
-      <button type="button" role="tab" aria-selected="{{ track.selected }}" class="{{ track.className }}" onClick="{{ track.onClick }}">
-        <span class="roadmap-stage__track-title">{{ track.title }}</span>
-        <span class="roadmap-stage__track-caption">{{ track.caption }}</span>
-      </button>
-    </sc-for>
-  </div>
-  <div class="roadmap-stage__theater" role="tabpanel" aria-label="{{ roadmapFocusTitle }}">
-    <div class="roadmap-stage__story">
-      <span class="roadmap-stage__story-eyebrow">{{ roadmapTrackKicker }}</span>
-      <h3>{{ roadmapFocusTitle }}</h3>
-      <p class="roadmap-stage__description">{{ roadmapFocusDesc }}</p>
-      <div class="roadmap-stage__impact">
-        <span>What it could unlock</span>
-        <p>{{ roadmapFocusValue }}</p>
-      </div>
-      <div class="roadmap-stage__status">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v6M12 7h.01"></path></svg>
-        <span>Concept in exploration — not yet available</span>
-      </div>
-    </div>
-    <div class="roadmap-stage__art" aria-hidden="true">
-      <img class="roadmap-stage__image" src="{{ roadmapArtSrc }}" alt="" aria-hidden="true" decoding="async">
-      <span class="roadmap-stage__art-orbit"></span>
-      <div class="roadmap-stage__art-meta">
-        <span>AI EXPERIENCE LAB</span>
-        <span>{{ roadmapTrackTitle }}</span>
-      </div>
+<section id="next" data-screen-label="What's next" style="position:relative;z-index:2;padding:100px 0 48px;scroll-margin-top:40px">
+  <div style="max-width:1600px;margin:0 auto;padding:0 max(20px,4vw);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px;max-width:100%">
+      <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">03 · Roadmap</span>
+      <h2 style="margin:0;font-size:clamp(24px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600;white-space:nowrap">The Future Is Already in Motion</h2>
+      <p style="margin:0;max-width:640px;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:balance">Capabilities on our roadmap. They are not available to try yet, and scope and timing are still being defined.</p>
     </div>
   </div>
-  <div class="roadmap-stage__explore">
-    <div class="roadmap-stage__explore-title">
-      <span>Explore this direction</span>
-      <span>{{ roadmapTrackTitle }}</span>
-    </div>
-    <div class="roadmap-stage__choices" role="group" aria-label="Select a roadmap concept">
-      <sc-for list="{{ roadmapChoices }}" as="idea" hint-placeholder-count="6">
-        <button type="button" onClick="{{ idea.onClick }}" aria-pressed="{{ idea.selected }}" class="{{ idea.className }}">
-          <span>{{ idea.title }}</span>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
-        </button>
+  <div onPointerDown="{{ cfDown }}" onPointerMove="{{ cfMove }}" onPointerUp="{{ cfUp }}" onPointerCancel="{{ cfUp }}" onWheel="{{ cfWheel }}" onDragStart="{{ cfNoDrag }}" onMouseEnter="{{ cfPause }}" onMouseLeave="{{ cfResume }}" style="position:relative;margin-top:40px;height:{{ cfH }};perspective:1800px;perspective-origin:50% 40%;touch-action:pan-y;user-select:none;cursor:{{ cfCursor }}">
+    <button onClick="{{ nextPrev }}" onPointerDown="{{ stopPd }}" aria-label="Previous" style="position:absolute;top:150px;left:max(16px,4vw);z-index:30;width:56px;height:56px;margin-top:-28px;border-radius:50%;border:1px solid rgba(150,190,255,0.35);background:rgba(3,18,43,0.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#EAF2FF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.18);border-color:#3FE0FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <button onClick="{{ nextNext }}" onPointerDown="{{ stopPd }}" aria-label="Next" style="position:absolute;top:150px;right:max(16px,4vw);z-index:30;width:56px;height:56px;margin-top:-28px;border-radius:50%;border:1px solid rgba(150,190,255,0.35);background:rgba(3,18,43,0.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#EAF2FF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.18);border-color:#3FE0FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button>
+    <div aria-hidden="true" style="position:absolute;left:50%;bottom:-10px;width:min(900px,90vw);height:120px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%, rgba(63,224,255,0.22), transparent 70%);filter:blur(10px);pointer-events:none"></div>
+    <div style="position:absolute;inset:0;transform-style:preserve-3d">
+      <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="6">
+        <article ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ cfW }};margin-left:{{ cfML }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.015));border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
+          <canvas ref="{{ u.cref }}" aria-hidden="true" style="width:100%;height:230px;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:22px 26px 28px">
+            <span style="font-size:12px;font-weight:600;letter-spacing:0.12em;color:{{ u.numColor }}">N° {{ u.num }}</span>
+            <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em">{{ u.title }}</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ u.desc }}</p>
+          </div>
+        </article>
       </sc-for>
     </div>
+  </div>
+  <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin-top:28px">
+    <sc-for list="{{ cfDots }}" as="d" hint-placeholder-count="6">
+      <button onClick="{{ d.onClick }}" aria-label="{{ d.label }}" style="position:relative;width:{{ d.w }};height:6px;padding:0;border:none;border-radius:9999px;overflow:hidden;background:rgba(150,190,255,0.22);cursor:pointer;transition:width .5s cubic-bezier(.2,.7,.2,1)">
+        <span style="position:absolute;left:0;top:0;bottom:0;width:{{ d.fill }};border-radius:9999px;background:linear-gradient(90deg,#2F6BFF,#3FE0FF);transition:{{ d.tr }}"></span>
+      </button>
+    </sc-for>
   </div>
 </section>
 </div>
