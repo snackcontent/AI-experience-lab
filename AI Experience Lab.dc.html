@@ -305,8 +305,9 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 /* Roadmap: restrained Coverflow refinements; preserve existing illustration and card design. */
 #next{padding-top:82px!important;padding-bottom:74px!important}
 #next .cf-carousel{margin-top:34px!important;isolation:isolate}
-#next .cf-card{backface-visibility:hidden;will-change:transform,opacity;isolation:isolate}
+#next .cf-card{backface-visibility:hidden;isolation:isolate}
 #next .cf-card__body{position:relative;z-index:1}
+#next .cf-card[data-cf-active="false"]{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 #next .cf-card__body h3,#next .cf-card__body p{filter:none;text-shadow:none;text-rendering:optimizeLegibility}
 #next .cf-card[data-cf-active="true"]{backdrop-filter:blur(26px) saturate(125%);-webkit-backdrop-filter:blur(26px) saturate(125%)}
 #next .cf-card[data-cf-active="true"] .cf-card__body{padding:24px 28px 32px!important;background:linear-gradient(180deg,rgba(13,51,103,.86),rgba(9,43,87,.94))}
@@ -326,7 +327,7 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 #next .cf-card[data-cf-side="right"]::after{
  background:linear-gradient(270deg,rgba(2,38,79,0) 5%,rgba(3,38,78,.15) 48%,rgba(3,35,73,.62) 100%);
 }
-#next .cf-controls{display:grid;grid-template-columns:auto minmax(90px,1fr) auto;align-items:center;gap:24px;width:min(calc(100% - 2 * var(--fl-edge,20px)),680px);margin:14px auto 0;position:relative;z-index:4}
+#next .cf-controls{display:grid;grid-template-columns:auto minmax(90px,1fr) auto;align-items:center;gap:24px;width:min(calc(100% - 2 * var(--fl-edge,20px)),680px);margin:34px auto 0;position:relative;z-index:4}
 #next .cf-controls__nav{display:flex;align-items:center;gap:10px}
 #next .cf-controls__arrow{display:flex;justify-content:center;align-items:center;flex:none;width:46px;height:46px;border-radius:50%;cursor:pointer;border:1px solid rgba(149,195,235,.34);background:rgba(4,32,67,.7);color:#DCEEFF;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .25s,background .25s,color .25s}
 #next .cf-controls__arrow:hover{background:rgba(63,224,255,.12);border-color:rgba(63,224,255,.7);color:#FFFFFF}
@@ -343,7 +344,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
  #next .cf-card[data-cf-active="true"] .cf-card__body{padding:22px 24px 28px!important}
  #next .cf-card h3{font-size:clamp(19px,5.6vw,24px)!important}
  #next .cf-card p{font-size:14px!important}
- #next .cf-controls{grid-template-columns:auto minmax(50px,1fr) auto;gap:14px;margin-top:8px}
+ #next .cf-controls{grid-template-columns:auto minmax(50px,1fr) auto;gap:14px;margin-top:24px}
  #next .cf-controls__arrow{width:44px;height:44px}
  #next .cf-controls__nav{gap:7px}
 }
@@ -643,7 +644,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
         <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
           <canvas class="cf-card__visual" ref="{{ u.cref }}" aria-hidden="true" style="width:100%;aspect-ratio:16/9;height:auto;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas>
           <div class="cf-card__body" style="display:flex;flex-direction:column;gap:10px;padding:22px 26px 28px">
-            <span style="font-size:12px;font-weight:600;letter-spacing:0.12em;color:{{ u.numColor }}">N° {{ u.num }}</span>
+            
             <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em">{{ u.title }}</h3>
             <p style="margin:0;font-size:15px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ u.desc }}</p>
           </div>
@@ -2164,7 +2165,7 @@ class Component extends DCLogic {
   wordIdx(text, c) { const ws = this.wordStarts(text); let k = 0; ws.forEach((x, j) => { if (x.i <= c) k = j; }); return k; }
   wc(t) { return String(t || '').trim().split(/\s+/).filter(Boolean).length; }
 
-  onResize = () => { const W = window.innerWidth, n = W < 900, t2 = W < 1280, wn = W >= 880; if (n !== this.state.narrow || t2 !== this.state.topic2 || wn !== this.state.wideNav) this.setState({ narrow: n, topic2: t2, wideNav: wn }); };
+  onResize = () => { const W = window.innerWidth, n = W < 900, t2 = W < 1280, wn = W >= 880; this.cfCanvasStamp = []; if (n !== this.state.narrow || t2 !== this.state.topic2 || wn !== this.state.wideNav) this.setState({ narrow: n, topic2: t2, wideNav: wn }); };
   onMove = e => {
     this.mx = (e.clientX / innerWidth - 0.5) * 2; this.my = (e.clientY / innerHeight - 0.5) * 2;
     if (this.cursorEl) this.cursorEl.style.transform = 'translate(' + (e.clientX - 300) + 'px,' + (e.clientY - 300) + 'px)';
@@ -2487,6 +2488,21 @@ class Component extends DCLogic {
     const c = cv.getContext('2d'); c.setTransform(d, 0, 0, d, 0, 0); c.clearRect(0, 0, r.width, r.height); c.globalAlpha = 1;
     fn(c, r.width, r.height);
   }
+  paintRoadmap(cv, fn) {
+    if (!cv) return;
+    // Use layout dimensions, not getBoundingClientRect transformed dimensions.
+    const w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    const d = Math.min(window.devicePixelRatio || 1, 2);
+    const W = Math.round(w * d), H = Math.round(h * d);
+    if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalAlpha = 1;
+    fn(ctx, w, h);
+  }
   loop = now => {
     this.raf = requestAnimationFrame(this.loop);
     const dt = Math.min(0.05, (now - this.last) / 1000); this.last = now;
@@ -2507,26 +2523,36 @@ class Component extends DCLogic {
       this.paint(this.faqCv, (c, w, h) => this.drawFaq(c, w, h, t));
       this.paint(this.contactCv, (c, w, h) => this.drawFormation(c, w, h, t));
       if (this.o2cCv) this.paint(this.o2cCv, (c, w, h) => this.drawFormation(c, w, h, t));
-      // Draw only the active Roadmap canvas continuously. Inactive illustrations
-      // hold their last frame until activated or their canvas size changes.
-      for (let i = 0; i < this.D.upcoming.length; i++) {
-        const cv = this.nextCv[i];
-        if (!cv || !cv.isConnected) continue;
-        const rect = cv.getBoundingClientRect();
-        if (rect.width <= 0 || rect.height <= 0 || rect.bottom < 0 || rect.top > innerHeight) continue;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const cw = Math.round(rect.width * dpr), ch = Math.round(rect.height * dpr);
-        const active = i === s.cfIdx;
-        const stamp = this.cfCanvasStamp[i];
-        if (!active && stamp && stamp.cv === cv && stamp.width === cw && stamp.height === ch) continue;
-        if (active) this.nt[i] += dt * sp;
-        const vz = this.D.upcoming[i].v ?? i;
-        this.paint(cv, (ctx, w, h) =>
-          (typeof vz === 'string' ? this.drawNext2 : this.drawNext).call(
-            this, ctx, w, h, this.nt[i] + i * 1.7 + 2, vz, active
-          )
-        );
-        this.cfCanvasStamp[i] = { cv, width: cw, height: ch };
+      // Only active artwork animates; nearby canvases draw once, and keep their frame.
+      // Stable 16:9 bitmap sizes remove layout thrash during 3D transitions.
+      const road = document.getElementById('next');
+      const bounds = road && road.getBoundingClientRect();
+      if (bounds && bounds.bottom > -80 && bounds.top < innerHeight + 80) {
+        const count = this.D.upcoming.length;
+        for (let i = 0; i < count; i++) {
+          let dist = i - s.cfIdx;
+          if (dist > count / 2) dist -= count;
+          if (dist < -count / 2) dist += count;
+          if (Math.abs(dist) > 2) continue;
+          const cv = this.nextCv[i];
+          if (!cv || !cv.isConnected) continue;
+          const active = dist === 0;
+          const stamp = this.cfCanvasStamp[i];
+          if (!active && stamp && stamp.cv === cv) continue;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const w = cv.clientWidth, h = cv.clientHeight;
+          if (!w || !h) continue;
+          const cw = Math.round(w * dpr), ch = Math.round(h * dpr);
+          if (!active && stamp && stamp.cv === cv && stamp.width === cw && stamp.height === ch) continue;
+          if (active) this.nt[i] += dt * sp;
+          const viz = this.D.upcoming[i].v ?? i;
+          this.paintRoadmap(cv, (ctx, W, H) =>
+            (typeof viz === 'string' ? this.drawNext2 : this.drawNext).call(
+              this, ctx, W, H, this.nt[i] + i * 1.7 + 2, viz, active
+            )
+          );
+          this.cfCanvasStamp[i] = { cv, width: cw, height: ch };
+        }
       }
       // Four purpose-built animated portfolio illustrations, not recycled roadmap drawings.
       for (let i = 0; i < 4; i++) { if (!this.prodCv[i]) continue; const hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => this.drawPortfolioVisual(c, w, h, this.prodT[i] + i * 1.9, i, hv)); }
@@ -3309,20 +3335,25 @@ class Component extends DCLogic {
 
     const UN = D.upcoming.length, cfI = s.cfIdx, wide = !narrow;
     // Resize the active card's physical width instead of scaling its rendered text.
-    const cfBaseW = narrow ? 'min(88vw, 360px)' : 'clamp(320px, 32vw, 440px)';
+    // Fixed physical card size eliminates costly width transitions.
+    // Side cards retain their previous visible dimensions via a scale transform.
     const cfActiveW = narrow ? 'min(94vw, 396px)' : 'clamp(368px, 36.8vw, 506px)';
-    const cfBaseML = narrow ? 'max(-44vw, -180px)' : 'clamp(-220px, -16vw, -160px)';
     const cfActiveML = narrow ? 'max(-47vw, -198px)' : 'clamp(-253px, -18.4vw, -184px)';
+    const vw = typeof window === 'undefined' ? 1440 : window.innerWidth;
+    const sidePx = narrow ? Math.min(vw * .88, 360) : Math.min(440, Math.max(320, vw * .32));
+    const activePx = narrow ? Math.min(vw * .94, 396) : Math.min(506, Math.max(368, vw * .368));
+    const sideScale = sidePx / activePx;
+    const slideOffset = (wide ? 64 : 76) * sideScale;
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
-      const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg)');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], num: pad2(i + 1), title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
-        active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: on ? cfActiveW : cfBaseW, marginLeft: on ? cfActiveML : cfBaseML,
+      const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+        active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
         // Do not lower the whole neighbor's opacity: text behind it would show through.
         op: !vis ? 0 : ad > 2.6 ? 0 : ad <= 1.05 ? 1 : Math.max(0, 1 - (ad - 1.05) * 0.32) * (ad > 2 ? (2.6 - ad) / 0.6 : 1),
-        tr: dragging ? 'border-color .5s, box-shadow .6s' : 'transform .9s cubic-bezier(.2,.75,.2,1), width .9s cubic-bezier(.2,.75,.2,1), margin-left .9s cubic-bezier(.2,.75,.2,1), opacity .7s ease, filter .7s ease, border-color .5s, box-shadow .6s', filter: on ? 'none' : 'brightness(' + Math.max(0.70, 1 - ad * 0.16) + ') saturate(' + Math.max(0.75, 1 - ad * 0.10) + ')', pe: ad > 2 ? 'none' : 'auto', hidden: !on, cursor: on ? 'default' : 'pointer',
+        tr: dragging ? 'none' : 'transform .76s cubic-bezier(.22,.8,.24,1), opacity .55s ease, border-color .4s ease, box-shadow .55s ease', filter: 'none', pe: ad > 2 ? 'none' : 'auto', hidden: !on, cursor: on ? 'default' : 'pointer',
         border: on ? 'rgba(63,224,255,0.55)' : 'rgba(150,190,255,0.16)', numColor: on ? '#3FE0FF' : '#6F8FC9',
         shadow: on ? '0 32px 72px -38px rgba(47,107,255,0.5), 0 0 0 1px rgba(63,224,255,0.12), inset 0 1px 0 rgba(255,255,255,0.1)' : 'inset 0 1px 0 rgba(255,255,255,0.06), 0 40px 80px -40px rgba(0,0,0,0.8)',
         go: () => { if (this.cfMoved) { this.cfMoved = false; return; } if (!on) this.cfGo(i); } }; });
