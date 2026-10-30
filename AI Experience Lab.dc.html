@@ -393,6 +393,14 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #next .cf-sports-visual__motion{pointer-events:none;animation:cfSportsEnter .22s ease-out both}
 @keyframes cfSportsEnter{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){#next .cf-sports-visual__motion{display:none!important;animation:none!important}}
+
+/* AI Shop the Scene — approved 16:9 scene recognition visual and active-only motion. */
+#next .cf-shop-visual{position:relative;width:100%;aspect-ratio:16/9;flex:none;overflow:hidden;background:#044589;border-bottom:1px solid rgba(150,190,255,.12)}
+#next .cf-shop-visual__poster,#next .cf-shop-visual__motion{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+#next .cf-shop-visual__poster{image-rendering:auto}
+#next .cf-shop-visual__motion{pointer-events:none;animation:cfShopSceneEnter .22s ease-out both}
+@keyframes cfShopSceneEnter{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#next .cf-shop-visual__motion{display:none!important;animation:none!important}}
 </style>
 </helmet>
 
@@ -689,6 +697,14 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
               <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/ask-the-video-16x9.webp" alt="" loading="eager" decoding="async"/>
               <sc-if value="{{ u.hasAskMotion }}">
                 <video class="cf-ask-visual__motion" src="assets/roadmap-scenes/ask-the-video-animated-16x9.mp4" poster="assets/roadmap-scenes/ask-the-video-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ u.hasShopPoster }}">
+            <div class="cf-shop-visual" aria-hidden="true">
+              <img class="cf-shop-visual__poster" src="assets/roadmap-scenes/ai-shop-the-scene-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <sc-if value="{{ u.hasShopMotion }}">
+                <video class="cf-shop-visual__motion" src="assets/roadmap-scenes/ai-shop-the-scene-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-shop-the-scene-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -3419,7 +3435,7 @@ class Component extends DCLogic {
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2, title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && u.v !== 'shop', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
