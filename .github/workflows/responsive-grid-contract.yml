@@ -1,0 +1,57 @@
+name: Responsive Grid Contract
+
+on:
+  pull_request:
+  push:
+    branches: [development]
+
+jobs:
+  grid-contract:
+    name: Enforce 12 columns / 24px gutter / 88px reference
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check responsive design invariants
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+
+          page = Path("AI Experience Lab.dc.html").read_text(encoding="utf-8")
+          required = {
+              "12-column definition": "--fl-columns:12",
+              "24px gutter": "--fl-gutter:24px",
+              "88px column reference": "--fl-column-reference:88px",
+              "1320px reference width": "--fl-container:1320px",
+              "fluid 12-track layout": "grid-template-columns:repeat(12,minmax(0,1fr))!important",
+              "desktop content container": "[data-layout-container]",
+              "span 3": '[data-layout-span="3"]{grid-column:span 3}',
+              "span 6": '[data-layout-span="6"]{grid-column:span 6}',
+              "span 12 responsive": "grid-column:span 12",
+              "mobile breakpoint": "@media(max-width:575.98px)",
+              "tablet breakpoint": "@media(max-width:991.98px)",
+              "portfolio card grid": 'class="portfolio-grid" data-layout-grid12="products"',
+              "roadmap carousel": 'class="cf-carousel"',
+              "roadmap controls": 'class="cf-controls"',
+              "roadmap progress": 'cfProgressWidth',
+              "roadmap fullbleed section": 'id="next" data-layout-fullbleed',
+              "features grid": 'data-layout-grid12="capabilities"',
+              "faq grid": 'data-layout-grid12="faq"',
+              "contact grid": 'data-layout-grid12="contact"',
+          }
+          errors = [f"{label}: missing {token}" for label, token in required.items() if token not in page]
+          for section in ("o2-top","o2-services","o2-products","o2-faq","o2-contact"):
+              if not re.search(r'<section\s+id="' + re.escape(section) + r'"[^>]*\bdata-layout-container(?:=|\s|>)', page):
+                  errors.append(f"Section #{section} must retain its grid container")
+          if 'data-layout-container style="max-width:1600px' not in page:
+              errors.append("Roadmap heading must align to grid")
+          if errors:
+              print("Responsive grid contract FAILED:")
+              for error in errors:
+                  print(" -", error)
+              raise SystemExit(1)
+          print("Responsive grid contract OK: permanent 12-column / 24px gutter / 88px reference design preserved.")
+          PY
