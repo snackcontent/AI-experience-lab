@@ -309,10 +309,23 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 #next .cf-card__body{position:relative;z-index:1}
 #next .cf-card__body h3,#next .cf-card__body p{filter:none;text-shadow:none;text-rendering:optimizeLegibility}
 #next .cf-card[data-cf-active="true"]{backdrop-filter:blur(26px) saturate(125%);-webkit-backdrop-filter:blur(26px) saturate(125%)}
-#next .cf-card[data-cf-active="true"] .cf-card__visual{height:238px!important}
 #next .cf-card[data-cf-active="true"] .cf-card__body{padding:24px 28px 32px!important;background:linear-gradient(180deg,rgba(13,51,103,.86),rgba(9,43,87,.94))}
 #next .cf-card[data-cf-active="false"] .cf-card__body{background:linear-gradient(180deg,rgba(18,57,108,.97),rgba(10,42,85,.99))}
-#next .cf-card__visual{height:220px!important}
+/* Roadmap artwork always uses a responsive 16:9 viewport. */
+#next .cf-card__visual{display:block;width:100%!important;aspect-ratio:16/9!important;height:auto!important;flex:0 0 auto}
+/* Dim the inner edge of side cards without lowering their entire opacity:
+   the card underneath remains covered, including its text. */
+#next .cf-card[data-cf-side="left"]::after,
+#next .cf-card[data-cf-side="right"]::after{
+ content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+ border-radius:inherit;
+}
+#next .cf-card[data-cf-side="left"]::after{
+ background:linear-gradient(90deg,rgba(2,38,79,0) 5%,rgba(3,38,78,.15) 48%,rgba(3,35,73,.62) 100%);
+}
+#next .cf-card[data-cf-side="right"]::after{
+ background:linear-gradient(270deg,rgba(2,38,79,0) 5%,rgba(3,38,78,.15) 48%,rgba(3,35,73,.62) 100%);
+}
 #next .cf-controls{display:grid;grid-template-columns:auto minmax(90px,1fr) auto;align-items:center;gap:24px;width:min(calc(100% - 2 * var(--fl-edge,20px)),680px);margin:14px auto 0;position:relative;z-index:4}
 #next .cf-controls__nav{display:flex;align-items:center;gap:10px}
 #next .cf-controls__arrow{display:flex;justify-content:center;align-items:center;flex:none;width:46px;height:46px;border-radius:50%;cursor:pointer;border:1px solid rgba(149,195,235,.34);background:rgba(4,32,67,.7);color:#DCEEFF;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .25s,background .25s,color .25s}
@@ -327,8 +340,6 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 @media(max-width:767.98px){
  #next{padding-top:64px!important;padding-bottom:64px!important}
  #next .cf-carousel{margin-top:25px!important;touch-action:pan-y}
- #next .cf-card__visual{height:205px!important}
- #next .cf-card[data-cf-active="true"] .cf-card__visual{height:218px!important}
  #next .cf-card[data-cf-active="true"] .cf-card__body{padding:22px 24px 28px!important}
  #next .cf-card h3{font-size:clamp(19px,5.6vw,24px)!important}
  #next .cf-card p{font-size:14px!important}
@@ -337,8 +348,6 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
  #next .cf-controls__nav{gap:7px}
 }
 @media(max-width:359.98px){
- #next .cf-card__visual{height:185px!important}
- #next .cf-card[data-cf-active="true"] .cf-card__visual{height:196px!important}
  #next .cf-card h3{font-size:19px!important}
  #next .cf-controls{gap:10px}
 }
@@ -631,8 +640,8 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
     <div aria-hidden="true" style="position:absolute;left:50%;bottom:-10px;width:min(760px,82vw);height:105px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%, rgba(63,224,255,0.12), transparent 70%);filter:blur(10px);pointer-events:none"></div>
     <div style="position:absolute;inset:0;transform-style:preserve-3d">
       <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="6">
-        <article class="cf-card" data-cf-active="{{ u.active }}" ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
-          <canvas class="cf-card__visual" ref="{{ u.cref }}" aria-hidden="true" style="width:100%;height:230px;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas>
+        <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" ref="{{ u.ref }}" onClick="{{ u.go }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
+          <canvas class="cf-card__visual" ref="{{ u.cref }}" aria-hidden="true" style="width:100%;aspect-ratio:16/9;height:auto;display:block;border-bottom:1px solid rgba(150,190,255,0.12)"></canvas>
           <div class="cf-card__body" style="display:flex;flex-direction:column;gap:10px;padding:22px 26px 28px">
             <span style="font-size:12px;font-weight:600;letter-spacing:0.12em;color:{{ u.numColor }}">N° {{ u.num }}</span>
             <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em">{{ u.title }}</h3>
@@ -3308,7 +3317,7 @@ class Component extends DCLogic {
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * (wide ? 64 : 76)) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg)');
       return { ref: this.nextRefs[i], cref: this.nextCRefs[i], num: pad2(i + 1), title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
-        active: on ? 'true' : 'false', width: on ? cfActiveW : cfBaseW, marginLeft: on ? cfActiveML : cfBaseML,
+        active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: on ? cfActiveW : cfBaseW, marginLeft: on ? cfActiveML : cfBaseML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
         // Do not lower the whole neighbor's opacity: text behind it would show through.
