@@ -486,8 +486,9 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #o2-faq .o2-faq-intro .o2-faq-intro__top h2{margin:0;max-width:520px;text-align:start;text-wrap:balance;font-size:clamp(36px,3.6vw,52px)!important;line-height:1.17!important;letter-spacing:-.03em;font-weight:700;color:#F5FAFF}
 #o2-faq .o2-faq-intro .o2-faq-intro__top>p{margin:0;max-width:440px;text-align:start;font-size:clamp(17px,1.4vw,19px)!important;line-height:1.75!important;font-weight:500;color:#E1EDFF!important;text-wrap:pretty}
 #o2-faq .o2-faq-support{display:flex;flex-direction:column;align-items:flex-start;gap:8px;max-width:100%}
+#o2-faq .o2-faq-support--mobile{display:none!important}
 #o2-faq .o2-faq-support h3{margin:0;color:#F5FAFF;font-size:clamp(21px,1.7vw,24px);line-height:1.35;font-weight:700}
-#o2-faq .o2-faq-intro .o2-faq-support p{margin:0;max-width:380px;font-size:clamp(16px,1.35vw,18px)!important;line-height:1.7!important;font-weight:500;color:#E1EDFF!important}
+#o2-faq .o2-faq-support p{margin:0;max-width:380px;font-size:clamp(16px,1.35vw,18px)!important;line-height:1.7!important;font-weight:500;color:#E1EDFF!important}
 #o2-faq .o2-faq-contact{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin-top:4px;min-height:48px;padding:0 23px;border-radius:9999px;background:#3FE0FF;border:1px solid #3FE0FF;color:#03122B;font-size:16px;font-weight:700;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease}
 #o2-faq .o2-faq-contact:hover{color:#03122B;background:#7AEBFF;transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(63,224,255,.6)}
 #o2-faq .o2-faq-contact:focus-visible{outline:3px solid #EAF2FF;outline-offset:4px}
@@ -512,15 +513,14 @@ html[dir="rtl"] #o2-faq .o2-faq-contact__arrow{transform:scaleX(-1)}
 html[lang="ar"] #o2-faq .o2-faq-intro .o2-faq-intro__top h2{letter-spacing:0!important;line-height:1.3!important}
 html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!important;line-height:1.65!important}
 @media(max-width:991.98px){
-  /* The intro wrapper stays in the DOM; its children join grid to put contact last. */
+  /* Contact follows FAQ in both visual and keyboard/screen-reader DOM order. */
   #o2-faq .o2-faq-shell{row-gap:30px!important}
-  #o2-faq .o2-faq-intro{display:contents;position:static}
-  #o2-faq .o2-faq-intro__top{grid-column:1/-1;grid-row:1;max-width:100%}
-  #o2-faq .o2-faq-list{grid-column:1/-1;grid-row:2}
-  #o2-faq .o2-faq-support{grid-column:1/-1;grid-row:3;margin-top:4px}
+  #o2-faq .o2-faq-intro{position:static;gap:0;padding:0}
+  #o2-faq .o2-faq-support--desktop{display:none!important}
+  #o2-faq .o2-faq-support--mobile{display:flex!important;margin-top:4px}
   #o2-faq .o2-faq-intro .o2-faq-intro__top h2{max-width:680px}
   #o2-faq .o2-faq-intro .o2-faq-intro__top>p{max-width:620px}
-  #o2-faq .o2-faq-intro .o2-faq-support p{max-width:520px}
+  #o2-faq .o2-faq-support p{max-width:520px}
 }
 @media(max-width:575.98px){
   #o2-faq{padding-block:58px 78px!important}
@@ -979,7 +979,7 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
         <h2 style="font-size:clamp(30px,3.3vw,48px);line-height:1.12;letter-spacing:-.03em;font-weight:700">Questions, answered.</h2>
         <p style="font-size:16px;line-height:1.65;color:#B9CCF0;text-wrap:pretty">How the lab works, what the demos do, and where Tawazi AI fits.</p>
       </div>
-      <div class="o2-faq-support">
+      <div class="o2-faq-support o2-faq-support--desktop">
         <h3>{{ o2FaqSupportTitle }}</h3>
         <p>{{ o2FaqSupportText }}</p>
         <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }} <span class="o2-faq-contact__arrow" aria-hidden="true">↗</span></a>
@@ -1002,6 +1002,11 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
           </div>
         </div>
       </sc-for>
+    </div>
+    <div class="o2-faq-support o2-faq-support--mobile" data-layout-span="12">
+      <h3>{{ o2FaqSupportTitle }}</h3>
+      <p>{{ o2FaqSupportText }}</p>
+      <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }} <span class="o2-faq-contact__arrow" aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>
