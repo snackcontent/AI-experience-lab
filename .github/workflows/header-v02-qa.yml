@@ -112,6 +112,8 @@ jobs:
                     assert(await page.locator('.o2-hdr-nav-links a:visible').count()===4,'desktop links all visible '+width+'/'+lang);
                     assert(await page.locator('.o2-hdr-contact').isVisible(),'desktop contact CTA visible '+width+'/'+lang);
                     assert(await page.locator('.o2-hdr-contact').evaluate(el=>getComputedStyle(el).borderRadius)==='10px','desktop contact 10px radius '+width+'/'+lang);
+                    const contactBg=await page.locator('.o2-hdr-contact').evaluate(el=>getComputedStyle(el).backgroundImage);
+                    assert(contactBg==='linear-gradient(100deg, rgb(74, 59, 255), rgb(47, 107, 255) 50%, rgb(63, 224, 255))','desktop contact exact violet-blue-cyan gradient '+width+'/'+lang);
                     assert(!(await page.locator('.o2-hdr-contact').innerText()).includes('↓'),'contact CTA has no arrow '+width+'/'+lang);
                   }
                   const fg=page.locator('.o2-hdr-logo');
