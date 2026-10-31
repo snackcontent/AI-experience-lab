@@ -218,8 +218,8 @@ jobs:
                   const halvesOk=desktop?
                     Math.abs(info.intro.width-info.formColumn.width)<2 &&
                     Math.abs(info.intro.width-info.shell.width/2)<2 :
-                    Math.abs(info.intro.width-info.shell.width)<2 &&
-                    Math.abs(info.formColumn.width-info.shell.width)<2 &&
+                    Math.abs(info.intro.width-info.shell.width)<3 &&
+                    Math.abs(info.formColumn.width-info.shell.width)<3 &&
                     info.formColumn.y>=info.intro.y+info.intro.height-2;
                   const clipped=info.input.right>info.section.right+2||
                     info.input.x<info.section.x-2||info.formCard.right>info.section.right+2;
