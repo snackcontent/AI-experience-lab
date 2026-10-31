@@ -469,6 +469,46 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
     .cf-chapters-visual,.cf-recap-visual
   )::after{content:none!important;animation:none!important}
 }
+
+/* FAQ layout — reference structure with the existing AI Experience Lab palette. */
+#o2-faq .o2-faq-shell{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(30px,5vw,80px);min-height:540px;padding:clamp(28px,4.6vw,60px);border-radius:32px;border:1px solid rgba(150,190,255,.18);background:linear-gradient(135deg,rgba(10,30,80,.85),rgba(3,18,43,.92));box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+#o2-faq .o2-faq-intro{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:48px;min-width:0}
+#o2-faq .o2-faq-intro__top{display:flex;flex-direction:column;align-items:flex-start;gap:16px;width:100%}
+#o2-faq .o2-faq-intro__top h2{margin:0;max-width:400px;text-align:start;text-wrap:balance}
+#o2-faq .o2-faq-intro__top p{margin:0;max-width:340px;text-align:start}
+#o2-faq .o2-faq-support{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+#o2-faq .o2-faq-support h3{margin:0;color:#EAF2FF;font-size:clamp(18px,1.6vw,22px);line-height:1.3;font-weight:700}
+#o2-faq .o2-faq-support p{margin:0;max-width:300px;font-size:15px!important;line-height:1.6!important;color:#B9CCF0!important}
+#o2-faq .o2-faq-contact{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin-top:8px;min-height:46px;padding:0 23px;border-radius:9999px;background:#3FE0FF;border:1px solid #3FE0FF;color:#03122B;font-size:15px;font-weight:700;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease}
+#o2-faq .o2-faq-contact:hover{color:#03122B;transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(63,224,255,.6)}
+#o2-faq .o2-faq-contact:focus-visible{outline:3px solid #EAF2FF;outline-offset:4px}
+#o2-faq .o2-faq-list{display:flex;flex-direction:column;gap:12px;min-width:0}
+#o2-faq .o2-faq-card{position:relative;overflow:hidden;border-radius:17px;border:1px solid rgba(150,190,255,.18);background:rgba(255,255,255,.035);transition:border-color .3s,background .3s}
+#o2-faq .o2-faq-card[data-open="true"]{border-color:rgba(63,224,255,.45);background:rgba(63,224,255,.06)}
+#o2-faq .o2-faq-item-button{display:flex;align-items:center;gap:clamp(12px,1.6vw,22px);width:100%;min-height:72px;padding:17px clamp(16px,2vw,24px);background:transparent;border:0;color:#EAF2FF;text-align:start;cursor:pointer}
+#o2-faq .o2-faq-item-button:focus-visible{outline:2px solid #3FE0FF;outline-offset:-4px;border-radius:17px}
+#o2-faq .o2-faq-index{flex:none;width:26px;font-size:14px!important;line-height:1.2!important;font-weight:600;color:#8FB4FF}
+#o2-faq .o2-faq-question{flex:1;min-width:0;font-size:clamp(16px,1.25vw,18px)!important;line-height:1.45!important;font-weight:600;text-wrap:pretty}
+#o2-faq .o2-faq-toggle-icon{position:relative;display:block;flex:none;width:30px;height:30px;border:1px solid rgba(150,190,255,.3);border-radius:50%;background:rgba(255,255,255,.03)}
+#o2-faq .o2-faq-answer{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
+#o2-faq .o2-faq-answer-inner{min-height:0;overflow:hidden}
+#o2-faq .o2-faq-answer-inner p{margin:0;padding:0 clamp(16px,2vw,24px) 22px calc(clamp(16px,2vw,24px) + 48px);font-size:15px!important;line-height:1.65!important;color:#C9D8F2!important;text-wrap:pretty}
+html[dir="rtl"] #o2-faq .o2-faq-answer-inner p{padding-right:calc(clamp(16px,2vw,24px) + 48px);padding-left:clamp(16px,2vw,24px)}
+@media(max-width:900px){
+  #o2-faq .o2-faq-shell{grid-template-columns:minmax(0,1fr);gap:32px;min-height:0;padding:clamp(24px,5vw,38px);border-radius:26px}
+  #o2-faq .o2-faq-intro{gap:28px}
+  #o2-faq .o2-faq-intro__top h2{max-width:100%}
+}
+@media(max-width:520px){
+  #o2-faq .o2-faq-shell{padding:22px 16px;border-radius:22px}
+  #o2-faq .o2-faq-intro__top{gap:12px}
+  #o2-faq .o2-faq-list{gap:10px}
+  #o2-faq .o2-faq-item-button{min-height:66px;padding:14px}
+  #o2-faq .o2-faq-answer-inner p{padding-left:56px;padding-right:14px}
+  html[dir="rtl"] #o2-faq .o2-faq-answer-inner p{padding-right:56px;padding-left:14px}
+}
+@media(prefers-reduced-motion:reduce){#o2-faq .o2-faq-contact,#o2-faq .o2-faq-answer,#o2-faq .o2-faq-card{transition:none!important}}
+
 </style>
 </helmet>
 
@@ -892,38 +932,39 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 </div>
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
-<section id="o2-faq" data-layout-container="8" data-screen-label="O2 FAQ" style="position:relative;z-index:2;max-width:900px;margin:0 auto;padding:56px max(20px,4vw) 100px;scroll-margin-top:80px;display:flex;flex-direction:column;gap:28px">
-  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;max-width:640px">
-      <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">04 · FAQ</span>
-      <h2 style="margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.05;letter-spacing:-0.03em;font-weight:600">Questions, answered.</h2>
-      <p style="margin:0;max-width:520px;font-size:16px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">How the lab works, what the demos do, and where Tawazi AI fits.</p>
+<section id="o2-faq" data-layout-container="8" data-screen-label="O2 FAQ" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:56px max(20px,4vw) 100px;scroll-margin-top:80px">
+  <div class="o2-faq-shell" data-layout-grid12="faq">
+    <div class="o2-faq-intro" data-layout-span="5">
+      <div class="o2-faq-intro__top">
+        <span style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#8FB4FF;font-weight:600">04 · FAQ</span>
+        <h2 style="font-size:clamp(30px,3.3vw,48px);line-height:1.12;letter-spacing:-.03em;font-weight:700">Questions, answered.</h2>
+        <p style="font-size:16px;line-height:1.65;color:#B9CCF0;text-wrap:pretty">How the lab works, what the demos do, and where Tawazi AI fits.</p>
+      </div>
+      <div class="o2-faq-support">
+        <h3>{{ o2FaqSupportTitle }}</h3>
+        <p>{{ o2FaqSupportText }}</p>
+        <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }} <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
-  </div>
-  <div style="position:relative;display:flex;flex-direction:column;border-top:1px solid rgba(150,190,255,0.18)">
-    <sc-for list="{{ o2qItems }}" as="q" hint-placeholder-count="7">
-      <div style="position:relative;border-bottom:1px solid rgba(150,190,255,0.18);overflow:hidden">
-        <span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(63,224,255,0.12), rgba(47,107,255,0.06) 45%, transparent 85%);transform-origin:0 50%;transform:scaleX({{ q.sweep }});transition:transform .8s cubic-bezier(.2,.7,.2,1);pointer-events:none"></span>
-        <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#3FE0FF,#2F6BFF);transform-origin:50% 0;transform:scaleY({{ q.sweep }});transition:transform .7s cubic-bezier(.2,.7,.2,1)"></span>
-        <button onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="position:relative;width:100%;display:flex;align-items:center;gap:clamp(12px,2vw,24px);padding:18px clamp(12px,1.6vw,20px);background:none;border:none;color:#EAF2FF;text-align:left;cursor:pointer" style-hover="color:#FFFFFF">
-          <span style="flex:none;width:clamp(36px,4vw,52px);font-size:clamp(24px,2.6vw,34px);line-height:1;font-weight:700;letter-spacing:-0.04em;color:{{ q.numFill }};-webkit-text-stroke:1.2px {{ q.numStroke }};transition:color .5s">{{ q.num }}</span>
-          <span style="flex:1;min-width:0;font-size:clamp(16px,1.4vw,18px);font-weight:500;line-height:1.3;letter-spacing:-0.01em;text-wrap:pretty;transform:{{ q.qTf }};transition:transform .6s cubic-bezier(.2,.7,.2,1)">{{ q.q }}</span>
-          <span aria-hidden="true" style="flex:none;position:relative;width:38px;height:38px;border-radius:50%;border:1px solid {{ q.ring }};background:{{ q.iconBg }};transition:background .4s, border-color .4s, transform .6s cubic-bezier(.2,.7,.2,1);transform:rotate({{ q.rot }})">
-            <span style="position:absolute;left:50%;top:50%;width:14px;height:2px;margin:-1px 0 0 -7px;border-radius:2px;background:{{ q.iconFg }}"></span>
-            <span style="position:absolute;left:50%;top:50%;width:2px;height:14px;margin:-7px 0 0 -1px;border-radius:2px;background:{{ q.iconFg }};transform:scaleY({{ q.vbar }});transition:transform .4s"></span>
-          </span>
-        </button>
-        <div style="position:relative;display:grid;grid-template-rows:{{ q.rows }};transition:grid-template-rows .6s cubic-bezier(.2,.7,.2,1)">
-          <div style="overflow:hidden">
-            <div style="display:flex;gap:clamp(12px,2vw,24px);padding:0 clamp(12px,1.6vw,20px) 20px">
-              <span style="flex:none;width:clamp(36px,4vw,52px)"></span>
-              <p style="flex:1;min-width:0;margin:0;max-width:760px;font-size:15px;line-height:1.65;color:#C9D8F2;text-wrap:pretty;opacity:{{ q.aop }};transform:{{ q.atf }};transition:opacity .5s ease .15s, transform .7s cubic-bezier(.2,.7,.2,1) .1s">{{ q.a }}</p>
-              <span style="flex:none;width:38px"></span>
+    <div class="o2-faq-list" data-layout-span="7">
+      <sc-for list="{{ o2qItems }}" as="q" hint-placeholder-count="6">
+        <div class="o2-faq-card" data-open="{{ q.open }}">
+          <button type="button" class="o2-faq-item-button" id="o2-faq-question-{{ q.num }}" aria-controls="o2-faq-answer-{{ q.num }}" aria-expanded="{{ q.open }}" onClick="{{ q.toggle }}">
+            <span class="o2-faq-index" aria-hidden="true">{{ q.num }}</span>
+            <span class="o2-faq-question">{{ q.q }}</span>
+            <span aria-hidden="true" style="position:relative;display:block;flex:none;width:30px;height:30px;border-radius:50%;border:1px solid {{ q.ring }};background:{{ q.iconBg }};transition:background .3s,border-color .3s">
+              <span style="position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:2px;background:{{ q.iconFg }}"></span>
+              <span style="position:absolute;left:50%;top:50%;width:2px;height:12px;margin:-6px 0 0 -1px;border-radius:2px;background:{{ q.iconFg }};transform:scaleY({{ q.vbar }});transition:transform .3s"></span>
+            </span>
+          </button>
+          <div class="o2-faq-answer" id="o2-faq-answer-{{ q.num }}" role="region" aria-labelledby="o2-faq-question-{{ q.num }}" style="grid-template-rows:{{ q.rows }}">
+            <div class="o2-faq-answer-inner">
+              <p style="opacity:{{ q.aop }};transform:{{ q.atf }};transition:opacity .35s ease,transform .35s ease">{{ q.a }}</p>
             </div>
           </div>
         </div>
-      </div>
-    </sc-for>
+      </sc-for>
+    </div>
   </div>
 </section>
 </sc-if>
@@ -2005,7 +2046,7 @@ class Component extends DCLogic {
   state = {
     podHosts: [{ name: 'Nova', gender: 'male' }, { name: 'Atlas', gender: 'male' }], roadmapTrack: 0, roadmapFocus: 0, cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
     narrow: false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
-    tawTab: 0, tawAnim: false, faqOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
+    tawTab: 0, tawAnim: false, faqOpen: 0, o2qOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
     open: null, ovIn: false, guideOpen: false, tour: null, micError: '', tawPlaying: false, tawTime: 0, tawDur: 0, tawMuted: false,
     voices: [], ttsText: 'Welcome to the AI Experience Lab. Type anything here and hear it read aloud in a natural voice.', ttsVoice: '0', ttsRate: 1, ttsSpeaking: false, ttsChar: -1,
     sumSample: 0, sumInput: '', sumLen: 'brief', sumLoading: false, sumResult: null, sumError: '',
@@ -3456,13 +3497,19 @@ class Component extends DCLogic {
         };
       })(),
       ...(() => {
-        const Q = this.D.faqs.slice(0, 6), pad = x => String(x + 1).padStart(2, '0'), openSet = s.o2qOpen || { 0: true }, allOpen = Q.every((_, i) => openSet[i]);
+        const Q = this.D.faqs.slice(0, 6), pad = x => String(x + 1).padStart(2, '0');
         return {
-          o2qAll: () => this.setState({ o2qOpen: allOpen ? {} : Object.fromEntries(Q.map((_, i) => [i, true])) }),
-          o2qAllLabel: allOpen ? 'Collapse all' : 'Expand all', o2qAllIcon: allOpen ? '–' : '+',
-          o2qItems: Q.map((x, i) => { const o = !!openSet[i]; return { num: pad(i), q: x.q, a: x.a, open: o, sweep: o ? 1 : 0, rows: o ? '1fr' : '0fr', aop: o ? 1 : 0, atf: o ? 'none' : 'translateY(-10px)', qTf: o ? 'translateX(6px)' : 'none',
-            numFill: o ? '#3FE0FF' : 'transparent', numStroke: o ? '#3FE0FF' : 'rgba(150,190,255,0.45)', ring: o ? '#3FE0FF' : 'rgba(150,190,255,0.3)', iconBg: o ? 'linear-gradient(135deg,#4FB2FF,#3FE0FF)' : 'rgba(255,255,255,0.03)', iconFg: o ? '#03122B' : '#EAF2FF', rot: o ? '180deg' : '0deg', vbar: o ? 0 : 1,
-            toggle: () => this.setState(p => { const m = { ...(p.o2qOpen || { 0: true }) }; m[i] = !m[i]; return { o2qOpen: m }; }) }; })
+          o2FaqSupportTitle: s.lang === 'ar' ? 'ما زال لديك سؤال؟' : 'Still have a question?',
+          o2FaqSupportText: s.lang === 'ar' ? 'يسعدنا مساعدتك والإجابة عن استفساراتك حول المختبر.' : 'We are here to help with questions about the lab.',
+          o2FaqContactLabel: s.lang === 'ar' ? 'تواصل معنا' : 'Contact Us',
+          o2qItems: Q.map((x, i) => { const o = s.o2qOpen === i; return {
+            num: pad(i), q: x.q, a: x.a, open: o, rows: o ? '1fr' : '0fr',
+            aop: o ? 1 : 0, atf: o ? 'none' : 'translateY(-8px)',
+            ring: o ? '#3FE0FF' : 'rgba(150,190,255,0.3)',
+            iconBg: o ? 'linear-gradient(135deg,#4FB2FF,#3FE0FF)' : 'rgba(255,255,255,0.03)',
+            iconFg: o ? '#03122B' : '#EAF2FF', vbar: o ? 0 : 1,
+            toggle: () => this.setState(p => ({ o2qOpen: p.o2qOpen === i ? null : i }))
+          }; })
         };
       })(),
       ...(() => { let it = null, cat = null; O.cats.forEach(c => c.items.forEach(x => { if (x.id === s.o2info) { it = x; cat = c; } }));
