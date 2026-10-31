@@ -39,6 +39,19 @@ jobs:
             echo "$name: $(sha256sum "/tmp/$name.html" | cut -d' ' -f1) bytes=$(wc -c < "/tmp/$name.html")"
             grep -Ei '^(cache-control|age|etag|last-modified|cf-cache-status|content-type):' "/tmp/$name.headers" | tail -10 || true
           done
+          # Regression: validate the exact SHA-pinned URL shared with the reviewer,
+          # including the utm_source query string. A fragment is client-side only.
+          QA_SHA=ba1ab29ab16618291f4fa28dbfcde596b231a49e
+          QA_URL="https://raw.githack.com/snackcontent/AI-experience-lab/$QA_SHA/$ENCODED?utm_source=chatgpt.com"
+          QA_RAW="$BASE/$QA_SHA/$ENCODED"
+          curl -fsSL --max-time 40 "$QA_URL" -o /tmp/faq-user-pinned.html
+          curl -fsSL --max-time 40 "$QA_RAW" -o /tmp/faq-github-pinned.html
+          echo "Reviewer pinned URL $(sha256sum /tmp/faq-user-pinned.html | cut -d' ' -f1) - GitHub $(sha256sum /tmp/faq-github-pinned.html | cut -d' ' -f1)"
+          cmp /tmp/faq-user-pinned.html /tmp/faq-github-pinned.html || { echo "::error::Reviewer pinned URL differs from GitHub"; exit 1; }
+          grep -qF 'class="o2-faq-question"' /tmp/faq-user-pinned.html
+          grep -qF 'font-size:18px!important' /tmp/faq-user-pinned.html
+          grep -qF 'font-size:16px!important' /tmp/faq-user-pinned.html
+          echo "The reviewer-pinned URL has the requested font CSS."
           echo "Purging original URL; query string does not affect file cache identity."
           curl -sS -X DELETE -w 'Purge HTTP %{http_code}\n' \
             "https://raw.githack.com/purge?url=https%3A%2F%2Fraw.githack.com%2Fsnackcontent%2FAI-experience-lab%2Fdevelopment%2FAI%2520Experience%2520Lab.dc.html"
