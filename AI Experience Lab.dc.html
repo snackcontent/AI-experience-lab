@@ -730,7 +730,7 @@ html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
 @media(prefers-reduced-motion:reduce){#o2-top .o2-hero__video{display:none!important}#o2-top .o2-hero__cta{transition:none!important}}
 
 
-/* Across our network V02 — drag-controllable, infinite logo marquee with uncut glass-card hover glow. */
+/* Across our network V02 — 1320px grid-aligned drag marquee with uncut hover glow. */
 #o2-network.o2-network{padding:clamp(44px,5vw,68px) 0 clamp(36px,4vw,52px);gap:20px;min-width:0;overflow:visible}
 #o2-network .o2-network__heading{min-width:0;gap:16px}
 #o2-network .o2-network__title{margin:0;flex:none;max-width:100%;font-family:inherit;font-size:13px;font-weight:600;line-height:1.6;letter-spacing:.16em;text-transform:uppercase;color:#A3C8FF;white-space:normal}
@@ -961,7 +961,7 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
     <h2 id="o2-network-title" class="o2-network__title">{{ networkTitle }}</h2>
     <span data-flip-rtl="" class="o2-network__rule" aria-hidden="true"></span>
   </div>
-  <div class="o2-network__fade">
+  <div data-layout-container class="o2-network__fade">
     <div class="o2-network__viewport" dir="ltr" ref="{{ networkViewportRef }}" role="region" tabindex="{{ networkScrollTabIndex }}" aria-label="{{ networkScrollLabel }}" onKeyDown="{{ networkScrollKey }}" onPointerDown="{{ networkDragStart }}" onPointerMove="{{ networkDragMove }}" onPointerUp="{{ networkDragEnd }}" onPointerCancel="{{ networkDragEnd }}" onLostPointerCapture="{{ networkDragEnd }}" onDragStart="{{ networkPreventDrag }}">
       <div class="o2-network__track" ref="{{ networkTrackRef }}" style="animation:wwMarquee {{ mqDur }} linear infinite {{ mqDir }}">
         <div class="o2-network__group" role="list" aria-label="{{ networkBrandListLabel }}">
