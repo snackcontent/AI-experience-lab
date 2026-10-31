@@ -669,9 +669,10 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
 #o2-main-content:focus{outline:none}
 :is(#o2-services,#o2-products,#next,#o2-faq,#o2-contact){scroll-margin-top:var(--o2-anchor-offset)!important}
 @media(max-width:1199.98px){
- #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) auto!important}
+ #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 44px auto!important}
  #o2-site-header .o2-hdr-nav-links{display:none!important}
- #o2-site-header .o2-hdr-toggle{min-width:44px}
+ #o2-site-header .o2-hdr-toggle{grid-column:2;grid-row:1;min-width:44px}
+ #o2-site-header .o2-hdr-actions{grid-column:3;grid-row:1}
 }
 @media(max-width:540px){
  #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 44px!important;grid-template-rows:44px 44px;min-height:0!important;column-gap:8px!important;row-gap:8px;padding-block:8px}
