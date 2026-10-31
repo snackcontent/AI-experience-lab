@@ -120,3 +120,6 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 
 ## Hero typography and CTA border (2026-10-31)
 - Hero primary CTA border: explicitly none in default, hover, active. Keyboard-only focus outline retained for accessibility. Hero title font-size token shared between Arabic and English at all breakpoints; font-family Almarai and weight 700 fixed. Test compares computed values at responsive widths, without modifying other sections.
+
+## Logo Strip V02 implementation (2026-10-31)
+- LOGO-01..12: V02 Across our network only: increased separation from Hero; translated semantic h2 and section aria-labelledby; preserved 10 official assets, original colors, aspect ratio; pale neutral cards without glow/filter/blur; accessible primary brand set + inert aria-hidden duplicate; persistent Pause/Play and manual horizontal scrolling when paused; touch/key support, reduced-motion static one-set mode; entry visibility based on intersection rather than initial scroll >20; RTL text, stable image orientation, responsive fade widths. QA to be executed and reported.

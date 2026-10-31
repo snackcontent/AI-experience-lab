@@ -104,3 +104,12 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 ## Hero title and button border refinement (2026-10-31)
 - Hero CTA has no CSS border in default, hover, or active state. Preserve the 10px corner radius and gradient, and keep the 3px `:focus-visible` outline only for keyboard accessibility (outline is not a border).
 - Hero title font size is unified for English/Arabic through `--hero-heading-font-size`: desktop `clamp(40px,6.2vw,100px)`, <=700px `clamp(35px,9.6vw,56px)`, <=360px `34px`. Both languages use the same Almarai 700 weight and computed font-size at every width. Arabic line-height may differ for proper glyph clearance. Browser regression compares computed sizes, font family and weight in both locales.
+
+## Logo Strip V02 (LOGO-01…LOGO-12, 2026-10-31)
+- Target `#o2-network` only; older hidden V01 `#network` remains untouched. Preserve the ten D.logos entries in exact current order; do not substitute external links or add brands.
+- Separation from Hero with responsive padding top 44–68px desktop / 34px mobile, balanced bottom 36–52px. Use semantic h2 #o2-network-title and aria-labelledby, Arabic label "عبر شبكتنا".
+- Marquee uses two exact groups of ten with 14px gap (seamless existing 48s wwMarquee); only the **primary** group uses role=list/listitem and alt names, while duplicate group has aria-hidden=true and inert.
+- Logo assets render with native-color PNG/SVG files at natural aspect ratio using object-fit:contain; no forced-white filter, no opacity reduction, no glow, no misleading hover lift, no per-card backdrop-filter. Pale neutral blue cards help black/red original logos stand out over the same navy site.
+- Small Pause/Play button localized and keyboard focusable with aria-pressed; on toggle `logoPaused` persists across focus/mouse changes. Pause switches to finite manual scroll with a single group of 10, resets the scroll start, enables swipe/touch and ArrowLeft/ArrowRight/Home/End. Hover continues to pause movement only while hovered, without changing persistent pause state.
+- Reduced motion removes animation, hides cloned logos, enables scroll and skips the pointless Play control. Existing marquees maintain LTR logical logo order; animation reverses for Arabic but **images are never mirrored**.
+- Browser QA must validate 320/390/768/1024/1440 in EN/AR, reduced motion, asset loading, no overflow, first-viewport visibility, on-hover pause, persistent manual navigation and accessible counts; source/Chromium checks are not a substitute for manual screen-reader/device testing.
