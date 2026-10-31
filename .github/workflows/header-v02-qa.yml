@@ -75,6 +75,8 @@ jobs:
                     };
                   });
                   console.log('LAYOUT',JSON.stringify({width,lang,info}));
+                  const logoHeight=await page.locator('#o2-site-header .o2-hdr-logo img').evaluate(el=>el.getBoundingClientRect().height);
+                  assert(Math.abs(logoHeight-(width<768?32:36))<1,'header logo height '+width+'/'+lang);
                   assert(info.docWidth<=info.viewport+1,'document width '+width+'/'+lang);
                   for(const [key,r] of Object.entries(info.controls)){
                     if(!r)continue;
