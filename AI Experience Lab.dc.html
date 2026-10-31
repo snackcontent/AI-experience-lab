@@ -1605,17 +1605,17 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 </sc-if>
 
 <sc-if value="{{ solOpen0 }}" hint-placeholder-val="{{ false }}">
-  <div role="dialog" aria-modal="true" aria-label="Labeeb" onClick="{{ solClose }}" style="pointer-events:{{ solPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ solPopIn.bgOp }};transition:opacity .35s ease">
-    <div data-noscrollbar="" onScroll="{{ pipScroll }}" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);transform:{{ solPopIn.boxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
+  <div class="product-modal-backdrop" onClick="{{ solClose }}" style="pointer-events:{{ solPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ solPopIn.bgOp }};transition:opacity .35s ease">
+    <div data-noscrollbar="" ref="{{ solDialogRef }}" role="dialog" aria-modal="true" aria-labelledby="labeeb-dialog-title" tabindex="-1" onScroll="{{ pipScroll }}" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);transform:{{ solPopIn.boxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
       <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#3FE0FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div>
       <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
         <div style="display:flex;align-items:center;gap:16px">
           <div style="width:64px;height:64px;flex:none;border-radius:16px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -12px rgba(63,224,255,0.6)"><img src="assets/labeeb-mark.png" alt="Labeeb" style="height:44px;width:auto;display:block"></div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Super CMS</span>
-            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Labeeb <span data-dup-ar="" dir="rtl" lang="ar" style="font-family:'Almarai',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
+            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em" id="labeeb-dialog-title">Labeeb <span data-dup-ar="" dir="rtl" lang="ar" style="font-family:'Almarai',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
           </div>
-          <button onClick="{{ solClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
+          <button type="button" data-product-close="" onClick="{{ solClose }}" aria-label="{{ productCloseLabel }}" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
         <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
           <sc-if value="{{ sol0Video.has }}" hint-placeholder-val="{{ false }}">
@@ -1692,8 +1692,8 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 </sc-if>
 
 <sc-if value="{{ ppOpen }}" hint-placeholder-val="{{ false }}">
-  <div role="dialog" aria-modal="true" aria-label="{{ pp.name }}" onClick="{{ ppClose }}" style="pointer-events:{{ ppPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ ppBgOp }};transition:opacity .35s ease">
-    <div data-noscrollbar="" ref="{{ ppBoxRef }}" onScroll="{{ pipScroll }}" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);color:#EAF2FF;transform:{{ ppBoxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
+  <div class="product-modal-backdrop" onClick="{{ ppClose }}" style="pointer-events:{{ ppPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ ppBgOp }};transition:opacity .35s ease">
+    <div data-noscrollbar="" ref="{{ ppDialogRef }}" role="dialog" aria-modal="true" aria-labelledby="pp-dialog-title" tabindex="-1" onScroll="{{ pipScroll }}" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);color:#EAF2FF;transform:{{ ppBoxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
       <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#3FE0FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div>
       <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
         <div style="display:flex;align-items:center;gap:16px">
@@ -1703,7 +1703,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>{{ pp.cat }}</span>
             <sc-if value="{{ pp.noLogo }}" hint-placeholder-val="{{ true }}"><h2 style="margin:0;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">{{ pp.name }}</h2></sc-if>
           </div>
-          <button onClick="{{ ppClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
+          <button type="button" data-product-close="" onClick="{{ ppClose }}" aria-label="{{ productCloseLabel }}" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
         <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
           <sc-if value="{{ pp.isImage }}" hint-placeholder-val="{{ true }}"><image-slot id="{{ pp.heroId }}" shape="rounded" radius="20" fit="cover" placeholder="{{ pp.heroPh }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot></sc-if>
@@ -2597,15 +2597,49 @@ class Component extends DCLogic {
     m.style.boxShadow = p > 0.05 ? '0 24px 60px -18px rgba(0,0,0,0.85), 0 0 0 1px rgba(63,224,255,' + (0.45 * p).toFixed(2) + ')' : '';
   };
   docThumbsRef = el => { this.docThumbsEl = el; }; ppDocRef = el => { this.ppDocEl = el; };
-  ppOpenFn = i => {
-    this.ppLast = document.activeElement; document.body.style.overflow = 'hidden'; window.removeEventListener('keydown', this.ppKey);
-    const same = this.state.ppIdx === i;
-    if (this.ppBox) { this.ppBox.scrollTop = 0; const m = this.ppBox.querySelector('[data-pip]'); if (m) { m.style.transform = ''; m.style.boxShadow = ''; } }
-    this.setState({ ppIdx: i, ppIn: same, docPage: same ? this.state.docPage : 1 }, () => { if (!same) setTimeout(() => { if (this.state.ppIdx === i) this.setState({ ppIn: true }); }, 30); });
-    this.ppKey = e => { if (!this.state.ppIn) return; if (e.key === 'Escape') this.ppClose(); else if (e.key === 'ArrowRight') this.docGo(this.state.docPage + 1); else if (e.key === 'ArrowLeft') this.docGo(this.state.docPage - 1); };
-    window.addEventListener('keydown', this.ppKey);
+  ppDialogRef = el => {this.ppDialogEl=el;};
+  solDialogRef = el => {this.solDialogEl=el;};
+  productDialog = () => this.state.ppIn?this.ppDialogEl:this.state.solPop?this.solDialogEl:null;
+  productModalKey = e => {
+    const dialog=this.productDialog();if(!dialog)return;
+    if(e.key==='Escape'){
+      e.preventDefault();e.stopPropagation();
+      if(document.fullscreenElement){document.exitFullscreen().catch(()=>{});return;}
+      this.state.ppIn?this.ppClose():this.solClose();return;
+    }
+    if(e.key==='Tab'){
+      const items=Array.from(dialog.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')).filter(el=>el.getClientRects().length&&el.getAttribute('aria-hidden')!=='true');
+      if(!items.length){e.preventDefault();dialog.focus();return;}
+      const first=items[0],last=items[items.length-1];
+      if(e.shiftKey&&(document.activeElement===first||!dialog.contains(document.activeElement))){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&(document.activeElement===last||!dialog.contains(document.activeElement))){e.preventDefault();first.focus();}
+      return;
+    }
+    if(this.state.ppIn&&(e.key==='ArrowRight'||e.key==='ArrowLeft')&&!e.target.closest('input,textarea,select,button')){
+      const forward=e.key===(this.state.lang==='ar'?'ArrowLeft':'ArrowRight');
+      e.preventDefault();this.docGo(this.state.docPage+(forward?1:-1));
+    }
   };
-  ppClose = () => { this.setState({ ppIn: false }); window.removeEventListener('keydown', this.ppKey); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); document.body.style.overflow = ''; this.ppLast && this.ppLast.focus && this.ppLast.focus({ preventScroll: true }); };
+  productFocusGuard = e => {
+    const dialog=this.productDialog();if(!dialog||dialog.contains(e.target))return;
+    (dialog.querySelector('[data-product-close]')||dialog).focus({preventScroll:true});
+  };
+  productFocusOpen = which => requestAnimationFrame(()=>{
+    const dialog=which==='pp'?this.ppDialogEl:this.solDialogEl;
+    (dialog?.querySelector('[data-product-close]')||dialog)?.focus({preventScroll:true});
+  });
+  ppOpenFn = i => {
+    this.ppLast=document.activeElement;this.productPriorOverflow=document.body.style.overflow;
+    document.body.style.overflow='hidden';
+    this.setState({ppIdx:i,ppIn:true,docPage:1,ppMediaFailed:false,ppPosterFailed:false},()=>this.productFocusOpen('pp'));
+  };
+  ppClose = () => {
+    if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+    this.setState({ppIn:false,ppIdx:null},()=>{
+      document.body.style.overflow=this.productPriorOverflow??'';
+      if(this.ppLast?.isConnected)this.ppLast.focus({preventScroll:true});
+    });
+  };
   docGo = n => {
     const N = (this.DOCS[this.state.ppIdx] || {}).n || 1; n = Math.max(1, Math.min(N, n)); if (n === this.state.docPage) return;
     this.docDir = n > this.state.docPage ? 1 : -1; this.setState({ docPage: n });
@@ -2628,12 +2662,15 @@ class Component extends DCLogic {
     this.cfTimer = setTimeout(() => { if (this.state.nextIn && this.state.open == null && !this.state.cfPaused) this.cfGo(this.state.cfIdx + 1); else this.cfGo(this.state.cfIdx); }, 5500);
   }
   solOpen(k) {
-    clearTimeout(this.solCloseT); this.solLast = document.activeElement; document.body.style.overflow = 'hidden';
-    this.setState({ solHover: k, solPop: false }, () => setTimeout(() => { if (this.state.solHover === k) this.setState({ solPop: true }); }, 30));
+    clearTimeout(this.solCloseT);this.solLast=document.activeElement;
+    this.productPriorOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
+    this.setState({solHover:k,solPop:true},()=>this.productFocusOpen('sol'));
   }
   solClose = () => {
-    this.setState({ solPop: false });
-    clearTimeout(this.solCloseT); this.solCloseT = setTimeout(() => { if (this.state.solPop) return; this.setState({ solHover: null }); document.body.style.overflow = ''; this.solLast && this.solLast.focus && this.solLast.focus({ preventScroll: true }); }, 320);
+    this.setState({solPop:false,solHover:null},()=>{
+      document.body.style.overflow=this.productPriorOverflow??'';
+      if(this.solLast?.isConnected)this.solLast.focus({preventScroll:true});
+    });
   };
   solViz(k) {
     this._sv = this._sv || {}; const key = k + (this.reduce ? 'r' : '');
@@ -2854,6 +2891,8 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this.onScroll, { passive: true });
     window.addEventListener('mousemove', this.onMove, { passive: true });
     window.addEventListener('keydown', this.onKey);
+    document.addEventListener('keydown',this.productModalKey,true);
+    document.addEventListener('focusin',this.productFocusGuard,true);
     document.addEventListener('focusin', this.o2InfoFocusGuard, true);
     if (window.speechSynthesis) { this.loadVoices(); speechSynthesis.onvoiceschanged = () => this.loadVoices(); }
     setTimeout(() => this.setState({ heroIn: true }), 80);
@@ -2892,6 +2931,8 @@ class Component extends DCLogic {
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('mousemove', this.onMove);
     window.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('keydown',this.productModalKey,true);
+    document.removeEventListener('focusin',this.productFocusGuard,true);
     document.removeEventListener('focusin', this.o2InfoFocusGuard, true);
     this.stopAll(); clearInterval(this.revealIv); clearTimeout(this.tabTimer); clearTimeout(this.cfTimer); clearTimeout(this.rbI1); clearTimeout(this.rbI2); clearTimeout(this.lampWait); if (this.lamp) this.lamp.destroy(); if (this.pv) { this.pv.pause(); this.pv.src = ''; }
   }
@@ -4370,7 +4411,7 @@ class Component extends DCLogic {
           o2InfoClose:this.o2CloseInfo,o2Stop:e=>e.stopPropagation() }; })(),
       ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
         const slug = P ? P.name.toLowerCase() : 'x', doc = !!DC, isNs = pi === 2, nsVid = (this.props.nasherVideo || '').trim(), lr = window.__resources && window.__resources['nasher-logo'];
-        return { ppOpen: pi != null && pi !== 0, ppClose: this.ppClose, ppBoxRef: this.ppBoxRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
+        return { ppOpen: pi != null && pi !== 0 && s.ppIn, ppClose: this.ppClose, ppDialogRef:this.ppDialogRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
           docTitle: DC ? DC.title : '', docKind: DC ? DC.kind : '', docRatio: DC ? DC.ratio : '16 / 9', docMaxW: DC ? DC.maxW : '100%', docMulti: N > 1,
           pp: P ? { name: P.name, cat: P.cat, desc: P.desc, more: P.more || '', hasMore: !!P.more, hasDoc: doc, hasLogo: isNs, noLogo: !isNs, logoBg: 'url("' + (lr || 'assets/nasher-logo-light.png') + '")', isTw: pi === 3, isImage: !isNs && pi !== 3, hasVideo: isNs && !!nsVid, video: nsVid, videoPh: isNs && !nsVid, logoId: 'pp-logo-' + slug, heroId: 'pp-hero-' + slug, heroPh: 'Drop a ' + P.name + ' image' } : { name: '', cat: '', desc: '', more: '', hasMore: false, hasDoc: false, hasLogo: false, noLogo: true, logoBg: 'none', isTw: false, isImage: true, hasVideo: false, video: '', videoPh: false, logoId: 'pp-logo-x', heroId: 'pp-hero-x', heroPh: '' },
           docPage: String(pg).padStart(2, '0'), docTotal: String(N).padStart(2, '0'), docProg: (pg / N * 100) + '%',
@@ -4477,9 +4518,10 @@ class Component extends DCLogic {
     const solCard = k => ({ open: () => this.solOpen(k), key: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.solOpen(k); } } });
     const vid = u => { u = (u || '').trim(); return { has: !!u, none: !u, src: u }; };
     const solV = {
-      sol0: solCard(0), sol1: solCard(1), solViz0: this.solViz(0), solViz1: this.solViz(1), solOpen0: s.solHover === 0, solOpen1: s.solHover === 1, solClose: this.solClose,
+      sol0: solCard(0), sol1: solCard(1), solViz0: this.solViz(0), solViz1: this.solViz(1), solOpen0: s.solHover === 0 && s.solPop, solOpen1: s.solHover === 1 && s.solPop, solClose: this.solClose,
       sol0Video: vid(this.props.labeebVideo), sol1Video: vid(this.props.muraqibVideo),
       pipScroll: this.pipScroll, solPE: s.solPop ? 'auto' : 'none', solPopIn: { bgOp: s.solPop ? 1 : 0, boxTf: s.solPop ? 'none' : 'translateY(24px) scale(0.97)', op: s.solPop ? 1 : 0, tf: s.solPop ? 'none' : 'translateX(-10px)' },
+      solDialogRef:this.solDialogRef, productCloseLabel:s.lang==='ar'?'إغلاق تفاصيل المنتج':'Close product details',
       solPopCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', solStop: e => e.stopPropagation(),
       solOp: s.solIn || this.reduce ? 1 : 0, solTf: s.solIn || this.reduce ? 'none' : 'translateY(36px)',
       solCols: narrow ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))'
