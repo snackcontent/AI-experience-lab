@@ -8,7 +8,8 @@
 - Primary editable source: `AI Experience Lab.dc.html`. Related assets: `assets/roadmap-scenes/`; supporting files: `roadmap-art.js`, `i18n-ar.js`, `AGENTS.md`.
 - Last **code** checkpoint before this handoff: `63f5cd4c2739778d785ee9eecada8bea133e78a7` (2026-10-31); FAQ section redesign, single-open accordion behavior, scroll-to-contact CTA.
 - Immutable preview of that verified code: https://raw.githack.com/snackcontent/AI-experience-lab/63f5cd4c2739778d785ee9eecada8bea133e78a7/AI%20Experience%20Lab.dc.html#next
-- For new changes: commit on top of current `development` HEAD; give a newly pinned full-SHA Githack URL, test it, and separately distinguish source commits from deployment verification. Do not use an older pinned URL as an editing baseline.
+- **Canonical stable preview agreed on 2026-10-31:** https://raw.githack.com/snackcontent/AI-experience-lab/development/AI%20Experience%20Lab.dc.html . This follows the `development` branch and **must be the primary link in every subsequent update**; users should not have to change bookmarks after each commit. New changes can take minutes to appear (sometimes longer under high traffic) due to Githack caching. Share commit-pinned URLs only as optional audit/debug references.
+- For new changes: commit on top of current `development` HEAD; verify the code and CI, and separately distinguish source commits from deployment verification. Never use an older pinned URL as an editing baseline.
 - A separately open `fadaat-media.github.io/AI-experience-lab/` preview was observed. Do not assume it is synced with `snackcontent` or claim deployment to it without confirming its actual source/deploy process.
 - **Railway is not the website's requested publication workflow.** Do not switch to Railway or another unrelated project.
 
