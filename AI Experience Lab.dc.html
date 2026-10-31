@@ -730,23 +730,23 @@ html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
 @media(prefers-reduced-motion:reduce){#o2-top .o2-hero__video{display:none!important}#o2-top .o2-hero__cta{transition:none!important}}
 
 
-/* Across our network V02 — original brands, accessible finite manual mode and seamless marquee. */
+/* Across our network V02 — original dark-glass logo cards and hover-to-pause marquee. */
 #o2-network.o2-network{padding:clamp(44px,5vw,68px) 0 clamp(36px,4vw,52px);gap:20px;min-width:0;overflow:hidden}
 #o2-network .o2-network__heading{min-width:0;gap:16px}
 #o2-network .o2-network__title{margin:0;flex:none;max-width:100%;font-family:inherit;font-size:13px;font-weight:600;line-height:1.6;letter-spacing:.16em;text-transform:uppercase;color:#A3C8FF;white-space:normal}
 html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 #o2-network .o2-network__rule{flex:1;min-width:14px;height:1px;background:linear-gradient(90deg,rgba(63,224,255,.4),transparent)}
-#o2-network .o2-network__toggle{flex:none;display:inline-flex;gap:8px;align-items:center;justify-content:center;min-height:40px;padding:6px 12px;border-radius:10px;border:1px solid rgba(140,190,230,.3);background:rgba(255,255,255,.055);color:#EAF4FF;font:600 13px/1.35 "Almarai",system-ui,sans-serif;cursor:pointer;transition:background .2s,border-color .2s}
-#o2-network .o2-network__toggle:hover{background:rgba(63,224,255,.12);border-color:rgba(63,224,255,.5)}
-#o2-network .o2-network__toggle:focus-visible{outline:3px solid #84EDFF;outline-offset:3px}
-#o2-network .o2-network__toggle-icon{display:inline-block;min-width:13px;text-align:center;font-size:15px;line-height:1}
 #o2-network .o2-network__fade{min-width:0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-#o2-network .o2-network__viewport{min-width:0;overflow-x:hidden;overflow-y:hidden;overscroll-behavior-x:contain;padding:8px 0;scrollbar-width:thin;scrollbar-color:#6AB9E9 transparent}
+#o2-network .o2-network__viewport{min-width:0;overflow-x:hidden;overflow-y:hidden;overscroll-behavior-x:contain;padding:28px 0;margin:-28px 0;scrollbar-width:thin;scrollbar-color:#6AB9E9 transparent}
 #o2-network .o2-network__track{display:flex;align-items:center;gap:14px;width:max-content;will-change:transform}
 #o2-network .o2-network__group{display:flex;align-items:center;gap:14px;flex:none;min-width:0}
-#o2-network .o2-network__card{box-sizing:border-box;flex:none;display:flex;align-items:center;justify-content:center;width:184px;height:92px;padding:12px 16px;border-radius:18px;border:1px solid rgba(150,190,255,.25);background:linear-gradient(160deg,rgba(255,255,255,.91),rgba(230,242,255,.94));box-shadow:0 2px 12px -9px rgba(0,12,36,.25)}
-#o2-network .o2-network__logo{display:block;width:100%;height:100%;max-width:148px;max-height:62px;object-fit:contain;object-position:center;filter:none;opacity:1;transform:none;mix-blend-mode:normal}
-#o2-network .o2-network__viewport:hover .o2-network__track{animation-play-state:paused!important}
+#o2-network .o2-network__card{position:relative;box-sizing:border-box;flex:none;display:flex;align-items:center;justify-content:center;width:184px;height:92px;padding:12px 16px;border-radius:18px;border:1px solid rgba(150,190,255,.14);background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s,box-shadow .4s,transform .4s}
+#o2-network .o2-network__logo{display:block;width:100%;height:100%;max-width:148px;max-height:62px;object-fit:contain;object-position:center;filter:none;opacity:1;transform:none;mix-blend-mode:normal;transition:filter .4s,opacity .4s,transform .4s}
+@media(hover:hover){
+ #o2-network .o2-network__track:hover{animation-play-state:paused!important}
+ #o2-network .o2-network__card:hover{z-index:1;border-color:rgba(63,224,255,.55);box-shadow:0 0 30px -6px rgba(63,224,255,.55);transform:translateY(-3px)}
+ #o2-network .o2-network__card:hover .o2-network__logo{filter:drop-shadow(0 0 9px rgba(63,224,255,.17));transform:scale(1.035)}
+}
 #o2-network[data-static="true"] .o2-network__fade{-webkit-mask-image:none;mask-image:none}
 #o2-network[data-static="true"] .o2-network__viewport{overflow-x:auto;overflow-y:hidden;padding-inline:16px;scroll-behavior:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;scrollbar-width:thin}
 #o2-network[data-static="true"] .o2-network__viewport:focus-visible{outline:3px solid #84EDFF;outline-offset:-3px}
@@ -756,7 +756,6 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
  #o2-network.o2-network{padding-block:34px 36px;gap:14px}
  #o2-network .o2-network__heading{gap:10px}
  #o2-network .o2-network__title{font-size:12px}
- #o2-network .o2-network__toggle{min-height:40px;padding-inline:10px;font-size:12px}
  #o2-network .o2-network__fade{-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
  #o2-network .o2-network__card{width:158px;height:82px;padding:10px 12px;border-radius:14px}
  #o2-network .o2-network__logo{max-width:132px;max-height:58px}
@@ -767,7 +766,6 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
  #o2-network .o2-network__track{animation:none!important;transform:none!important;will-change:auto}
  #o2-network .o2-network__duplicate{display:none!important}
  #o2-network .o2-network__viewport{overflow-x:auto!important;scroll-behavior:auto!important;-webkit-overflow-scrolling:touch}
- #o2-network .o2-network__toggle{transition:none!important}
 }
 
 </style>
@@ -958,19 +956,13 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
   <div data-layout-container class="o2-network__heading" style="max-width:1600px;width:100%;margin:0 auto;padding-inline:max(20px,4vw);display:flex;align-items:center;gap:16px">
     <h2 id="o2-network-title" class="o2-network__title">{{ networkTitle }}</h2>
     <span data-flip-rtl="" class="o2-network__rule" aria-hidden="true"></span>
-    <sc-if value="{{ networkCanAnimate }}">
-      <button class="o2-network__toggle" type="button" onClick="{{ networkToggle }}" aria-pressed="{{ networkPausedAria }}" aria-label="{{ networkToggleAria }}">
-        <span class="o2-network__toggle-icon" aria-hidden="true">{{ networkToggleIcon }}</span>
-        <span>{{ networkToggleText }}</span>
-      </button>
-    </sc-if>
   </div>
   <div class="o2-network__fade">
     <div class="o2-network__viewport" dir="ltr" ref="{{ networkViewportRef }}" tabindex="{{ networkScrollTabIndex }}" aria-label="{{ networkScrollLabel }}" onKeyDown="{{ networkScrollKey }}">
       <div class="o2-network__track" style="animation:wwMarquee {{ mqDur }} linear infinite {{ mqDir }}">
         <div class="o2-network__group" role="list" aria-label="{{ networkBrandListLabel }}">
           <sc-for list="{{ networkLogos }}" as="lg" hint-placeholder-count="10">
-            <div class="o2-network__card" role="listitem">
+            <div class="o2-network__card" role="listitem" title="{{ lg.name }}">
               <img class="o2-network__logo" src="{{ lg.src }}" alt="{{ lg.name }}" data-logo-file="{{ lg.file }}" decoding="async" draggable="false"/>
             </div>
           </sc-for>
@@ -2409,7 +2401,7 @@ class Component extends DCLogic {
 
   state = {
     podHosts: [{ name: 'Nova', gender: 'male' }, { name: 'Atlas', gender: 'male' }], roadmapTrack: 0, roadmapFocus: 0, cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
-    narrow: false, wideNav: window.innerWidth >= 1200, navMenu: false, navSection: '', navScrolled: false, logoPaused:false, heroVideoPlaying:false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
+    narrow: false, wideNav: window.innerWidth >= 1200, navMenu: false, navSection: '', navScrolled: false, heroVideoPlaying:false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
     tawTab: 0, tawAnim: false, faqOpen: 0, o2qOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
     open: null, ovIn: false, guideOpen: false, tour: null, micError: '', tawPlaying: false, tawTime: 0, tawDur: 0, tawMuted: false,
     voices: [], ttsText: 'Welcome to the AI Experience Lab. Type anything here and hear it read aloud in a natural voice.', ttsVoice: '0', ttsRate: 1, ttsSpeaking: false, ttsChar: -1,
@@ -4226,22 +4218,14 @@ class Component extends DCLogic {
         };
       })(),
       networkTitle: s.lang === 'ar' ? 'عبر شبكتنا' : 'Across our network',
-      networkStatic: s.logoPaused || this.reduce ? 'true' : 'false',
+      networkStatic: this.reduce ? 'true' : 'false',
       networkReduced: this.reduce ? 'true' : 'false',
-      networkCanAnimate: !this.reduce,
-      networkPausedAria: s.logoPaused ? 'true' : 'false',
-      networkToggleText: s.lang === 'ar' ? (s.logoPaused ? 'تشغيل' : 'إيقاف') : (s.logoPaused ? 'Play' : 'Pause'),
-      networkToggleAria: s.lang === 'ar' ? (s.logoPaused ? 'استئناف حركة الشعارات' : 'إيقاف حركة الشعارات') : (s.logoPaused ? 'Resume logo movement' : 'Pause logo movement'),
-      networkToggleIcon: s.logoPaused ? '▶' : 'Ⅱ',
       networkBrandListLabel: s.lang === 'ar' ? 'العلامات التجارية في شبكتنا' : 'Our network brands',
       networkScrollLabel: s.lang === 'ar' ? 'قائمة الشعارات، استخدم أسهم لوحة المفاتيح أو اسحب لاستعراض جميع الشعارات' : 'Brand logos; use arrow keys or swipe to view all',
-      networkScrollTabIndex: s.logoPaused || this.reduce ? 0 : -1,
+      networkScrollTabIndex: this.reduce ? 0 : -1,
       networkViewportRef: this.networkViewportRef || (this.networkViewportRef = el => {this.networkViewport=el;}),
-      networkToggle: () => this.setState(p => ({logoPaused:!p.logoPaused}), () => {
-        if (this.networkViewport) this.networkViewport.scrollLeft=0;
-      }),
       networkScrollKey: e => {
-        if (!(this.state.logoPaused || this.reduce)) return;
+        if (!this.reduce) return;
         const viewport=e.currentTarget; const key=e.key; let distance=0;
         if (key==='ArrowRight') distance=180;
         if (key==='ArrowLeft') distance=-180;
