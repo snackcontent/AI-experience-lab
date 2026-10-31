@@ -1,0 +1,35 @@
+name: Generate Hero video still poster (one-time)
+on:
+  push:
+    branches: [development]
+    paths:
+      - '.github/workflows/hero-poster-asset.yml'
+permissions:
+  contents: write
+jobs:
+  build-poster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Extract a faithful fallback still from the existing hero video
+        run: |
+          set -euo pipefail
+          ffmpeg -hide_banner -loglevel error -y -ss 1.25 -i assets/hero-video.mp4 -frames:v 1 -vf 'scale=1280:-2:flags=lanczos' -c:v libwebp -quality 76 -compression_level 6 assets/hero-poster.webp
+          file assets/hero-poster.webp
+          ls -lh assets/hero-poster.webp
+          ffprobe -hide_banner -v error -show_entries stream=width,height -of default=nw=1 assets/hero-poster.webp
+      - name: Commit immutable poster asset
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/hero-poster.webp
+          if git diff --cached --quiet; then
+            echo "Poster already exists"
+          else
+            git commit -m "assets(hero): derive fallback poster from hero video"
+            git push origin HEAD:development
+          fi
