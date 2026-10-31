@@ -470,6 +470,13 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 @keyframes cfBriefingEnter{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){#next .cf-briefing-visual__motion{display:none!important;animation:none!important}}
 
+/* AI Smart Highlights Generator — 16:9 user-approved artwork and active-only 5s H.264 highlight extraction loop. */
+#next .cf-highlights-visual{position:relative;width:100%;aspect-ratio:16/9;flex:none;overflow:hidden;background:#092746;border-bottom:1px solid rgba(150,190,255,.12)}
+#next .cf-highlights-visual__poster,#next .cf-highlights-visual__motion{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+#next .cf-highlights-visual__motion{pointer-events:none;animation:cfHighlightsEnter .35s ease-out both}
+@keyframes cfHighlightsEnter{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#next .cf-highlights-visual__motion{display:none!important;animation:none!important}}
+
 /* AI Context — Petra recognition/explanation scene, active-only five-second 24fps H.264 loop. */
 #next .cf-context-visual{position:relative;display:block;width:100%;aspect-ratio:16/9;flex:none;overflow:hidden;background:#072a4f;border-bottom:1px solid rgba(150,190,255,.12)}
 #next .cf-context-visual__poster,#next .cf-context-visual__motion{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center}
@@ -507,7 +514,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #next .cf-card[data-cf-active="true"] :is(
   .cf-ask-visual,.cf-shop-visual,.cf-sports-visual,
   .cf-article-visual,.cf-moderation-visual,.cf-storycast-visual,
-  .cf-chapters-visual,.cf-recap-visual,.cf-dubbing-visual,.cf-briefing-visual,.cf-vod-visual,.cf-emoji-visual,.cf-seekbar-visual,.cf-dialogue-visual,.cf-context-visual
+  .cf-chapters-visual,.cf-recap-visual,.cf-dubbing-visual,.cf-briefing-visual,.cf-vod-visual,.cf-emoji-visual,.cf-seekbar-visual,.cf-dialogue-visual,.cf-context-visual,.cf-highlights-visual
 )::after{
   content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(103deg,transparent 30%,rgba(68,225,255,.12) 47%,rgba(125,96,255,.09) 54%,transparent 70%);
@@ -525,7 +532,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
   #next .cf-card[data-cf-active="true"] :is(
     .cf-ask-visual,.cf-shop-visual,.cf-sports-visual,
     .cf-article-visual,.cf-moderation-visual,.cf-storycast-visual,
-    .cf-chapters-visual,.cf-recap-visual,.cf-dubbing-visual,.cf-briefing-visual,.cf-vod-visual,.cf-emoji-visual,.cf-seekbar-visual,.cf-dialogue-visual,.cf-context-visual
+    .cf-chapters-visual,.cf-recap-visual,.cf-dubbing-visual,.cf-briefing-visual,.cf-vod-visual,.cf-emoji-visual,.cf-seekbar-visual,.cf-dialogue-visual,.cf-context-visual,.cf-highlights-visual
   )::after{content:none!important;animation:none!important}
 }
 
@@ -944,6 +951,14 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
               <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="eager" decoding="async"/>
               <sc-if value="{{ u.hasArticleMotion }}">
                 <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ u.hasHighlightsPoster }}">
+            <div class="cf-highlights-visual" aria-hidden="true">
+              <img class="cf-highlights-visual__poster" src="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <sc-if value="{{ u.hasHighlightsMotion }}">
+                <video class="cf-highlights-visual__motion" src="assets/roadmap-scenes/ai-smart-highlights-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -3782,7 +3797,7 @@ class Component extends DCLogic {
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
     const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && !this.reduce, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && !this.reduce, hasDubbingPoster: u.v === 'dubbing', hasDubbingMotion: u.v === 'dubbing' && on && !this.reduce, hasBriefingPoster: u.v === 'briefing', hasBriefingMotion: u.v === 'briefing' && on && !this.reduce, hasVodPoster: u.v === 'vod', hasVodMotion: u.v === 'vod' && on && !this.reduce, hasEmojiPoster: u.v === 'emoji', hasEmojiMotion: u.v === 'emoji' && on && !this.reduce, hasContextPoster: u.v === 'context', hasContextMotion: u.v === 'context' && on && !this.reduce, hasDialoguePoster: u.v === 'dialogue', hasDialogueMotion: u.v === 'dialogue' && on && !this.reduce, hasSeekbarPoster: u.v === 'seekbar', hasSeekbarMotion: u.v === 'seekbar' && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop' && u.v !== 'dubbing' && u.v !== 'briefing' && u.v !== 'vod' && u.v !== 'emoji' && u.v !== 'seekbar' && u.v !== 'dialogue' && u.v !== 'context', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && !this.reduce, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && !this.reduce, hasDubbingPoster: u.v === 'dubbing', hasDubbingMotion: u.v === 'dubbing' && on && !this.reduce, hasBriefingPoster: u.v === 'briefing', hasBriefingMotion: u.v === 'briefing' && on && !this.reduce, hasVodPoster: u.v === 'vod', hasVodMotion: u.v === 'vod' && on && !this.reduce, hasEmojiPoster: u.v === 'emoji', hasEmojiMotion: u.v === 'emoji' && on && !this.reduce, hasHighlightsPoster: u.v === 'highlights', hasHighlightsMotion: u.v === 'highlights' && on && !this.reduce, hasContextPoster: u.v === 'context', hasContextMotion: u.v === 'context' && on && !this.reduce, hasDialoguePoster: u.v === 'dialogue', hasDialogueMotion: u.v === 'dialogue' && on && !this.reduce, hasSeekbarPoster: u.v === 'seekbar', hasSeekbarMotion: u.v === 'seekbar' && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop' && u.v !== 'dubbing' && u.v !== 'briefing' && u.v !== 'vod' && u.v !== 'emoji' && u.v !== 'seekbar' && u.v !== 'dialogue' && u.v !== 'context' && u.v !== 'highlights', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
