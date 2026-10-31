@@ -58,6 +58,14 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 - Typography baseline: heading 36–52px desktop / 34–42px mobile, question 18–20px, answers 16–18px, comfortable 1.5–1.7 line height. Ensure selector specificity beats general `#o2-faq>div:first-child span/p/h2` !important rules. Preserve Arabic RTL, responsive stacking at <=991.98px, and anchor link to contact.
 - The `Responsive Grid Contract` GitHub Actions check passed for `fdcefdea` (run `41186322016`). Static contrast calculations against the page's dark-blue base passed WCAG AA. These checks are not a substitute for all-device browser visual verification.
 
+### FAQ accessibility and responsive review (2026-10-31)
+
+- **Review implemented in source** at `59b513b1e356592de62f004d060858d6177c2778`. Retain full 12-column site container, 5/7 desktop split and transparent section (only individual cards have subtle surfaces).
+- Sidebar heading/description and FAQ answer text use brighter blue-white colors with stronger contrast; question text is 18–21px, answers 16–19px, expanded line-height ~1.8 with 24–30px bottom breathing space. No decorative visible question numbers; retain stable numeric keys only for unique question/answer IDs.
+- Desktop sidebar is sticky at top offset 104px, with a smaller space to contact support text and CTA. The whole question row is one clickable button, with Default/Hover/Expanded/keyboard Focus states; preserve one-open-only accordion and `aria-expanded`/`aria-controls`/`aria-hidden` relationships.
+- At <=991.98px use a single-column layout; **mobile Contact support is a distinct later DOM element after the question list**, while the desktop duplicate is `display:none`. This preserves keyboard and screen-reader sequence as well as visual order. Do not regress the mobile CTA to precede questions. Both copies are localized via shared values and only one is rendered visibly at a time.
+- RTL: headings and questions align to start/right, plus/minus control naturally moves to left via inherited direction, and Contact `↗` arrow flips horizontally. Respect reduced-motion. Test at 1440/1320/1200, 1024/768, 430/390/375/320 in both language modes. Automated CI and CSS contrast checks alone are not full runtime/device audit.
+
 ## 6. Standard execution workflow for future chats
 
 1. Read this handoff and `AGENTS.md`, then get the latest `development` HEAD and inspect current source/scene list.
