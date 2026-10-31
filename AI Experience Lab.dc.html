@@ -798,9 +798,9 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 /* AI Features V02: functional navigation, accessible card hit targets, and readable descriptions */
 #o2-services .o2-feature-toolbar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px}
 #o2-services .o2-feature-filters{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-inline:auto}
-/* Arabic category tabs: anchor every wrapped row to the right; English keeps its centered LTR layout. */
-#o2-services .o2-feature-toolbar[dir="rtl"]{direction:rtl;width:100%;justify-content:flex-start!important;align-items:stretch}
-#o2-services .o2-feature-filters[dir="rtl"]{direction:rtl;display:flex;flex-flow:row wrap;justify-content:flex-start!important;align-content:flex-start;width:100%;max-width:100%;margin-inline:0;text-align:right}
+/* Center the full Arabic tab group; preserve RTL layout and each tab's internal styling. */
+#o2-services .o2-feature-toolbar[dir="rtl"]{direction:rtl;width:100%;justify-content:center!important;align-items:stretch}
+#o2-services .o2-feature-filters[dir="rtl"]{direction:rtl;display:flex;flex-flow:row wrap;justify-content:center!important;align-content:flex-start;width:100%;max-width:100%;margin-inline:0;text-align:right}
 #o2-services .o2-feature-filter{flex-direction:row;white-space:nowrap}
 #o2-services .o2-feature-filter[dir="rtl"]{direction:rtl;flex-direction:row;text-align:right}
 #o2-services .o2-feature-filter{border:0!important;color:#FFFFFF!important;box-shadow:none!important}
