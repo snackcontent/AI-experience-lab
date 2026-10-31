@@ -49,6 +49,15 @@ jobs:
                 page.on('pageerror', e => console.log('PAGE ERROR:',e.message));
                 console.log('Loading',url,'viewport',viewport.width);
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:90000});
+                if((await page.title()).includes('External Content Notice')){
+                  const links=await page.locator('a').evaluateAll(elements=>elements.map(el=>({label:el.innerText?.trim(),href:el.href})).filter(x=>x.label).slice(0,20));
+                  console.log('GITHACK INTERSTITIAL',JSON.stringify({url:page.url(),links}));
+                  const open=page.getByRole('link',{name:'Open the page'});
+                  if(await open.count()){
+                    await open.first().click({timeout:15000});
+                    console.log('INTERSTITIAL OPENED',page.url());
+                  }
+                }
                 await page.waitForTimeout(9000);
                 const docInfo=await page.evaluate(()=>{
                   const root=document.querySelector('x-dc');
