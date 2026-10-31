@@ -135,7 +135,7 @@ jobs:
               const anchor=await page.locator('#o2-services').evaluate(el=>el.getBoundingClientRect().top);
               const hdr=await page.locator('#o2-site-header nav').evaluate(el=>el.getBoundingClientRect().height);
               console.log('CTA ANCHOR',JSON.stringify({anchor,hdr}));
-              assert(anchor>=hdr-6 && anchor<height,'Enter moves to AI Features without hiding heading');
+              assert(anchor>=hdr-6 && anchor<844,'Enter moves to AI Features without hiding heading');
               await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
               await page.waitForTimeout(300);
               const cue=page.locator('#o2-hero-scroll-cue');
