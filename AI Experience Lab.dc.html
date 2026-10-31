@@ -337,7 +337,11 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 /* Roadmap: restrained Coverflow refinements; preserve existing illustration and card design. */
 #next{padding-top:82px!important;padding-bottom:74px!important}
 #next .cf-carousel{margin-top:34px!important;isolation:isolate}
-#next .cf-card{backface-visibility:hidden;isolation:isolate}
+/* Keep iOS Safari clipping synchronized with the first Coverflow transform frame.
+   The image and body are masked inside a fixed-radius compositing layer. */
+#next .cf-card{backface-visibility:hidden;-webkit-backface-visibility:hidden;isolation:isolate;border-radius:26px;overflow:hidden;-webkit-clip-path:inset(0 round 26px);clip-path:inset(0 round 26px)}
+#next .cf-card :is(img,video,canvas){-webkit-backface-visibility:hidden;backface-visibility:hidden}
+#next .cf-card :is(.cf-ask-visual,.cf-sports-visual,.cf-shop-visual,.cf-article-visual,.cf-moderation-visual,.cf-storycast-visual,.cf-chapters-visual,.cf-recap-visual,.cf-dubbing-visual,.cf-briefing-visual,.cf-vod-visual,.cf-emoji-visual,.cf-seekbar-visual,.cf-dialogue-visual,.cf-context-visual,.cf-highlights-visual,.cf-moments-visual){overflow:hidden;border-top-left-radius:25px;border-top-right-radius:25px}
 #next .cf-card__select{position:absolute;inset:0;width:100%;height:100%;z-index:5;display:block;border:0;border-radius:inherit;padding:0;margin:0;background:transparent;color:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
 #next .cf-card__body{position:relative;z-index:1}
 #next .cf-card[data-cf-active="false"]{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
