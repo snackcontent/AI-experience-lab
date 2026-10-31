@@ -732,6 +732,15 @@ html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
 
 /* Across our network V02 — 1320px grid-aligned drag marquee with uncut hover glow. */
 #o2-network.o2-network{padding:clamp(44px,5vw,68px) 0 clamp(36px,4vw,52px);gap:20px;min-width:0;overflow:visible}
+#o2-network .o2-network__heading,
+#o2-network .o2-network__fade{
+  box-sizing:border-box;
+  width:min(calc(100% - 2 * var(--fl-edge, 16px)), 1320px)!important;
+  max-width:1320px!important;
+  margin-inline:auto!important;
+  padding-inline:0!important;
+  min-width:0;
+}
 #o2-network .o2-network__heading{min-width:0;gap:16px}
 #o2-network .o2-network__title{margin:0;flex:none;max-width:100%;font-family:inherit;font-size:13px;font-weight:600;line-height:1.6;letter-spacing:.16em;text-transform:uppercase;color:#A3C8FF;white-space:normal}
 html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
