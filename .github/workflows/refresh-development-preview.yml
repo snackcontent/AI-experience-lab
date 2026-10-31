@@ -14,24 +14,37 @@ concurrency:
 
 jobs:
   refresh-preview:
-    name: Invalidate preview cache and verify latest HTML
+    name: Purge cache and compare live branch, pinned and published preview
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Purge GitHack cache for canonical development URL
+      - name: Diagnose upstream and purge GitHack preview
         shell: bash
         env:
           PREVIEW_URL: https://raw.githack.com/snackcontent/AI-experience-lab/development/AI%20Experience%20Lab.dc.html
         run: |
           set -euo pipefail
-          echo "Requesting cache invalidation for the existing stable development URL"
-          curl --fail-with-body --silent --show-error --max-time 40 \
-            --request DELETE --get --data-urlencode "url=${PREVIEW_URL}" \
-            https://raw.githack.com/purge
+          BASE=https://raw.githubusercontent.com/snackcontent/AI-experience-lab
+          ENCODED='AI%20Experience%20Lab.dc.html'
+          EXPECTED="$(sha256sum 'AI Experience Lab.dc.html' | cut -d' ' -f1)"
+          echo "Development HEAD: ${GITHUB_SHA} HTML SHA256 ${EXPECTED}"
+          for name in github-raw-branch githack-pinned githack-dev; do
+            case "$name" in
+              github-raw-branch) url="$BASE/development/$ENCODED";;
+              githack-pinned) url="https://raw.githack.com/snackcontent/AI-experience-lab/${GITHUB_SHA}/$ENCODED";;
+              githack-dev) url="$PREVIEW_URL";;
+            esac
+            curl -fsSL --retry 2 --max-time 40 -D "/tmp/$name.headers" "$url" -o "/tmp/$name.html"
+            echo "$name: $(sha256sum "/tmp/$name.html" | cut -d' ' -f1) bytes=$(wc -c < "/tmp/$name.html")"
+            grep -Ei '^(cache-control|age|etag|last-modified|cf-cache-status|content-type):' "/tmp/$name.headers" | tail -10 || true
+          done
+          echo "Purging original URL; query string does not affect file cache identity."
+          curl -sS -X DELETE -w 'Purge HTTP %{http_code}\n' \
+            "https://raw.githack.com/purge?url=https%3A%2F%2Fraw.githack.com%2Fsnackcontent%2FAI-experience-lab%2Fdevelopment%2FAI%2520Experience%2520Lab.dc.html"
           echo
 
-      - name: Verify preview serves exact current development source
+      - name: Check whether canonical preview has reached the current source
         shell: bash
         env:
           PREVIEW_URL: https://raw.githack.com/snackcontent/AI-experience-lab/development/AI%20Experience%20Lab.dc.html
@@ -40,16 +53,15 @@ jobs:
           expected="$(sha256sum 'AI Experience Lab.dc.html' | cut -d' ' -f1)"
           for i in 1 2 3 4 5 6 7 8; do
             curl --fail-with-body --silent --show-error --location --max-time 45 \
-              "${PREVIEW_URL}" --output /tmp/ai-lab-preview.html
+              "$PREVIEW_URL" --output /tmp/ai-lab-preview.html
             observed="$(sha256sum /tmp/ai-lab-preview.html | cut -d' ' -f1)"
-            if [ "${observed}" = "${expected}" ]; then
+            if [ "$observed" = "$expected" ]; then
               echo "Verified: stable preview HTML matches current development commit"
               exit 0
             fi
-            echo "Preview is still serving a cached HTML version (attempt ${i}/8)"
+            echo "Cached response still differs; attempt ${i}/8"
             sleep 8
           done
-          echo "::error::Development preview still differs from the latest source after cache invalidation"
-          echo "Latest development SHA256: ${expected}"
-          echo "GitHack preview SHA256: ${observed}"
+          echo "::error::Stable GitHack preview still serves an older version."
+          echo "Repo=$expected Preview=$observed"
           exit 1
