@@ -1638,7 +1638,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </div>
           <sc-if value="{{ o2cSent }}" hint-placeholder-val="{{ false }}">
             <div role="status" aria-live="polite" aria-atomic="true" style="display:flex;flex-direction:column;gap:10px;padding:28px 0">
-              <strong class="o2-contact-demo-title">{{ o2cDemoTitle }}</strong>
+              <strong id="o2-contact-demo-title" class="o2-contact-demo-title" tabIndex="-1">{{ o2cDemoTitle }}</strong>
               <span class="o2-contact-demo-description">{{ o2cDemoDescription }}</span>
               <button type="button" onClick="{{ o2cReset }}" style="align-self:flex-start;margin-top:8px;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid rgba(150,190,255,0.4);background:transparent;color:#EAF2FF;font:inherit;font-size:15px;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Send another</button>
             </div>
@@ -2781,7 +2781,8 @@ class Component extends DCLogic {
       });
       return;
     }
-    this.setState({o2cErrors:{},o2cDemo:true});
+    this.setState({o2cErrors:{},o2cDemo:true},()=>requestAnimationFrame(()=>
+      document.getElementById('o2-contact-demo-title')?.focus({preventScroll:true})));
   };
   o2cReset = () => {
     this.setState({o2cDemo:false,o2cName:'',o2cEmail:'',o2cInterest:'',o2cMessage:'',o2cErrors:{}},
