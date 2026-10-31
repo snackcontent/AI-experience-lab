@@ -482,6 +482,8 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
    and intentional zero gutter between its two six-column content areas. */
 #o2-contact .o2-contact-shell{min-width:0}
 #o2-contact .o2-contact-intro,#o2-contact .o2-contact-form-column{min-width:0}
+#o2-contact .o2-contact-intro>canvas{z-index:0}
+#o2-contact .o2-contact-intro>span,#o2-contact .o2-contact-intro>h2,#o2-contact .o2-contact-intro>p{position:relative;z-index:1}
 #o2-contact .o2-contact-form-card{width:100%;min-width:0}
 #o2-contact .o2-contact-form label{font-size:14px!important;line-height:1.5!important;font-weight:600!important}
 #o2-contact .o2-contact-form input,
@@ -491,7 +493,7 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
 @media(max-width:991.98px){
   #o2-contact .o2-contact-intro{padding-bottom:0!important}
   #o2-contact .o2-contact-form-column{padding-top:16px!important}
-  #o2-contact [data-contact-spacer]{min-height:150px!important}
+  #o2-contact [data-contact-spacer]{min-height:200px!important}
 }
 @media(max-width:575.98px){
   #o2-contact .o2-contact-shell{border-radius:22px!important}
@@ -499,7 +501,7 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
   #o2-contact .o2-contact-form-column{padding:12px 16px 24px!important}
   #o2-contact .o2-contact-form-card{border-radius:18px!important}
   #o2-contact .o2-contact-form{padding:22px 20px!important;gap:14px!important}
-  #o2-contact [data-contact-spacer]{min-height:120px!important}
+  #o2-contact [data-contact-spacer]{min-height:200px!important}
 }
 @media(max-width:359.98px){
   #o2-contact .o2-contact-intro{padding-inline:18px!important}
@@ -1194,8 +1196,8 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
 <section id="o2-contact" data-layout-container data-screen-label="O2 Contact" style="position:relative;z-index:2;padding-block:clamp(56px,5vw,76px) clamp(72px,6vw,96px);scroll-margin-top:80px">
   <div data-layout-grid12="contact" class="o2-contact-shell" style="position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
     <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 25% 70%, rgba(120,230,255,0.16), transparent 70%);opacity:{{ o2LampWash }};transition:opacity .8s ease"></div>
-    <canvas ref="{{ o2LampRef }}" aria-label="Table lamp. Pull the cord to turn it on." style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
     <div data-layout-span="6" class="o2-contact-intro" style="position:relative;z-index:1;pointer-events:none;display:flex;flex-direction:column;gap:14px;padding:clamp(28px,3.35vw,48px) clamp(26px,3.35vw,48px) 0">
+      <canvas ref="{{ o2LampRef }}" aria-label="Table lamp. Pull the cord to turn it on." style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:auto"></canvas>
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Get involved</span>
       <h2 style="margin:0;font-size:clamp(20px,2.2vw,28px);line-height:1.1;letter-spacing:-0.03em;font-weight:700;white-space:nowrap;background:linear-gradient(100deg,#4A3BFF 0%,#5E8DFF 45%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em">Let's build what comes next.</h2>
       <p style="margin:0;max-width:420px;font-size:16px;line-height:1.6;color:#B9CCF0">Have an idea or a use case? Tell us about it.</p>
@@ -2456,7 +2458,7 @@ class Component extends DCLogic {
     this.D.articles = SRC.articles; this.D.pods = SRC.pods; const st = this.state, si = Math.min(st.sumSample || 0, SRC.articles.length - 1), pi = Math.min(st.podTopic || 0, SRC.pods.length - 1);
     this.stopAll && this.stopAll();
     if (this.voiceObjs && this.voiceObjs.length) { const vi = this.voiceObjs.findIndex(v => v && v.lang && v.lang.toLowerCase().startsWith(ar ? 'ar' : 'en')); if (vi >= 0) this.setState({ ttsVoice: String(vi) }); }
-    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: ar ? 0.76 : 0.24, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); } }
+    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); } }
   componentDidUpdate(pp, ps) {
     if (this.bodyEl && this.state.open === 5 && (ps.chatMsgs !== this.state.chatMsgs || ps.chatReveal !== this.state.chatReveal || ps.chatLoading !== this.state.chatLoading)) this.bodyEl.scrollTop = this.bodyEl.scrollHeight;
   }
@@ -3823,7 +3825,7 @@ class Component extends DCLogic {
         shadow: on ? '0 30px 70px -35px rgba(47,107,255,0.7), inset 0 1px 0 rgba(255,255,255,0.08)' : 'inset 0 1px 0 rgba(255,255,255,0.05)', iconBg: on ? 'rgba(63,224,255,0.18)' : 'rgba(255,255,255,0.03)', numColor: on ? '#3FE0FF' : '#6F8FC9',
         op: vis ? 1 : 0, tf: vis ? 'none' : 'rotateX(-55deg) translateY(30px)', delay: (i * 0.08).toFixed(2) + 's' }; }),
       contactCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', cArtH: narrow ? '560px' : '640px',
-      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; this.o2LampEl = el; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { on: this.state.o2LampOn, cx: 0.24, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
+      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; this.o2LampEl = el; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
       ...(() => { const wide = s.wideNav !== false, ar = s.lang === 'ar', close = () => this.setState({ navMenu: false });
         const L = ar ? ['الميزات', 'المنتجات', 'المستقبل', 'الأسئلة الشائعة'] : ['AI Features', 'AI Products', 'The Future', 'FAQ'];
         return { navCols: wide ? 'minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr)' : 'auto minmax(0,1fr)', navH: wide ? '72px' : '60px', navLinksDisp: wide ? 'flex' : 'none', navCompact: !wide,
