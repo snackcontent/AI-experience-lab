@@ -62,7 +62,7 @@ jobs:
                     const hdr=document.querySelector('#o2-site-header'),nav=hdr.querySelector('nav');
                     const names=['.o2-hdr-logo','.o2-hdr-language','.o2-hdr-contact'];
                     const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,w:r.width,h:r.height};};
-                    const controls=Object.fromEntries(names.map(n=>[n,rect(hdr.querySelector(n))]));
+                    const controls=Object.fromEntries(names.map(n=>[n,(el=>el && el.getClientRects().length ? rect(el) : null)(hdr.querySelector(n))]));
                     controls.toggle=rect(hdr.querySelector('#o2-menu-toggle'));
                     return {viewport:innerWidth,docWidth:document.documentElement.scrollWidth,
                       header:rect(hdr),nav:rect(nav),controls,language:document.documentElement.lang,
@@ -80,12 +80,19 @@ jobs:
                     assert(r.x>=-1 && r.right<=width+1,'target inside viewport '+width+'/'+lang+' '+key);
                   }
                   assert(info.compact===(width<1200),'responsive breakpoint '+width+'/'+lang);
+                  const short=await page.locator('.o2-hdr-language').innerText();
+                  assert(short.trim()===(lang==='en'?'AR':'EN'),'language toggle short code '+width+'/'+lang);
+                  assert(Math.abs(info.controls['.o2-hdr-language'].w-44)<1,'language button width 44 '+width+'/'+lang);
                   if(width<1200){
+                    assert(info.controls['.o2-hdr-contact']===null,'no inline contact in compact header '+width+'/'+lang);
+                    assert(Math.abs(info.controls.toggle.y-info.controls['.o2-hdr-language'].y)<1 && Math.abs(info.controls.toggle.y-info.controls['.o2-hdr-logo'].y)<1,'logo/burger/language share one row '+width+'/'+lang);
                     const toggle=page.locator('#o2-menu-toggle');
                     assert(await toggle.getAttribute('aria-controls')==='o2-mobile-menu','menu aria-controls '+width+'/'+lang);
                     await toggle.click();
                     assert(await toggle.getAttribute('aria-expanded')==='true','menu opens '+width+'/'+lang);
                     assert(await page.locator('#o2-mobile-menu').isVisible(),'menu panel visible '+width+'/'+lang);
+                    assert(await page.locator('#o2-mobile-menu a[href="#o2-contact"]').isVisible(),'contact available in compact menu '+width+'/'+lang);
+                    assert(await page.locator('#o2-mobile-menu a[href="#o2-contact"]').count()===1,'single compact contact entry '+width+'/'+lang);
                     await page.keyboard.press('Escape');
                     assert(await toggle.getAttribute('aria-expanded')==='false','Escape closes menu '+width+'/'+lang);
                     assert(await toggle.evaluate(el=>document.activeElement===el),'Escape focus restoration '+width+'/'+lang);
@@ -94,6 +101,8 @@ jobs:
                     assert(await toggle.getAttribute('aria-expanded')==='false','outside click closes '+width+'/'+lang);
                   }else{
                     assert(await page.locator('.o2-hdr-nav-links a:visible').count()===4,'desktop links all visible '+width+'/'+lang);
+                    assert(await page.locator('.o2-hdr-contact').isVisible(),'desktop contact CTA visible '+width+'/'+lang);
+                    assert(!(await page.locator('.o2-hdr-contact').innerText()).includes('↓'),'contact CTA has no arrow '+width+'/'+lang);
                   }
                   const fg=page.locator('.o2-hdr-logo');
                   await page.keyboard.press('Tab'); // Establish keyboard modality after pointer interactions.
@@ -113,6 +122,15 @@ jobs:
               await page.waitForTimeout(1400);
               assert(await page.locator('#o2-menu-toggle').getAttribute('aria-expanded')==='false','selection closes menu');
               assert(await page.locator('#o2-mobile-menu a[href="#o2-faq"]').getAttribute('aria-current')==='location','mobile active state after click');
+              const activeVisual=await page.locator('#o2-mobile-menu a[href="#o2-faq"]').evaluate(el=>{
+                const bar=getComputedStyle(el,'::after'), active=getComputedStyle(el);
+                return {width:bar.width,height:bar.height,position:bar.position,background:bar.backgroundImage,activeBackground:active.backgroundImage,side:bar.insetInlineStart};
+              });
+              console.log('ACTIVE VISUAL',JSON.stringify(activeVisual));
+              assert(activeVisual.width==='3px' && parseFloat(activeVisual.height)>=43,'active FAQ-style vertical stripe');
+              assert(activeVisual.activeBackground.includes('linear-gradient'),'active FAQ-style gradient wash');
+              assert(await page.locator('#o2-mobile-menu a[href="#o2-contact"]').count()===1,'contact remains available after selecting FAQ');
+              await page.screenshot({path:'/tmp/ai-lab-header/header-390-en.png'});
               const faqTop=await page.locator('#o2-faq').evaluate(el=>el.getBoundingClientRect().top);
               const headerHeight=await page.locator('#o2-site-header nav').evaluate(el=>el.getBoundingClientRect().height);
               console.log('ANCHOR',JSON.stringify({faqTop,headerHeight}));
@@ -122,6 +140,8 @@ jobs:
               await page.waitForTimeout(300);
               assert(await page.locator('#o2-menu-toggle').count()===0,'resize closes compact menu');
               await page.screenshot({path:'/tmp/ai-lab-header/header-1280.png'});
+              await page.setViewportSize({width:320,height:700});
+              await page.screenshot({path:'/tmp/ai-lab-header/header-320-en.png'});
               if(errors.length)throw new Error(errors.length+' header QA assertions failed: '+errors.join('; '));
             }finally{await browser.close()}
           })().catch(e=>{console.error(e.stack||e);process.exit(1)});

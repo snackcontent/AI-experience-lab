@@ -656,32 +656,31 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
 #o2-site-header .o2-hdr-nav-links{overflow:visible;white-space:nowrap}
 #o2-site-header .o2-hdr-actions{min-width:0}
 #o2-site-header .o2-hdr-language,#o2-site-header .o2-hdr-contact,#o2-site-header .o2-hdr-toggle{min-height:44px}
+#o2-site-header .o2-hdr-language{width:44px;height:44px;min-width:44px;padding:0!important;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:12px!important;border:1px solid rgba(255,255,255,.3)!important;background:rgba(255,255,255,.08)!important;color:#FFF!important;font-size:14px!important;font-weight:700!important;line-height:1!important;letter-spacing:.02em}
+#o2-site-header .o2-hdr-language:hover{background:rgba(255,255,255,.16)!important}
 #o2-site-header .o2-hdr-contact[data-current="true"]{box-shadow:0 0 0 3px rgba(103,231,255,.62),0 6px 18px -8px rgba(0,0,0,.4)}
-#o2-site-header .o2-hdr-link{position:relative;text-decoration:none}
-#o2-site-header .o2-hdr-link[data-current="true"]{color:#B6F3FF!important;background:rgba(63,224,255,.12)}
-#o2-site-header .o2-hdr-link[data-current="true"]::after{content:"";position:absolute;inset-inline:17px;bottom:3px;height:2px;border-radius:9px;background:#3FE0FF}
+#o2-site-header .o2-hdr-link{position:relative;text-decoration:none;isolation:isolate;overflow:hidden}
+#o2-site-header .o2-hdr-link[data-current="true"]{color:#F4FAFF!important;border-radius:0!important;background:linear-gradient(90deg,rgba(63,224,255,.12),rgba(47,107,255,.06) 45%,transparent 85%)!important}
+html[dir="rtl"] #o2-site-header .o2-hdr-link[data-current="true"]{background:linear-gradient(270deg,rgba(63,224,255,.12),rgba(47,107,255,.06) 45%,transparent 85%)!important}
+#o2-site-header .o2-hdr-link::after{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:3px;pointer-events:none;background:linear-gradient(180deg,#3FE0FF,#2F6BFF);transform-origin:50% 0;transform:scaleY(0);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+#o2-site-header .o2-hdr-link[data-current="true"]::after{transform:scaleY(1)}
 #o2-site-header :is(a,button):focus-visible{outline:3px solid #7FE7FF!important;outline-offset:3px;box-shadow:0 0 0 2px #092848}
 #o2-site-header .o2-hdr-mobile-menu{max-height:calc(100dvh - var(--o2-header-height));overflow-y:auto}
 #o2-site-header .o2-hdr-mobile-link{width:100%;box-sizing:border-box}
-#o2-site-header .o2-hdr-mobile-link[data-current="true"]::after{inset-inline-start:12px;inset-inline-end:auto;width:40px}
+#o2-site-header .o2-hdr-mobile-link[data-current="true"]::after{inset-inline-start:0;inset-inline-end:auto;width:3px}
 .o2-skip-link{position:fixed;z-index:101;inset-block-start:8px;inset-inline-start:16px;transform:translateY(-160%);opacity:0;pointer-events:none;padding:12px 16px;border-radius:12px;background:#FFF;color:#082C51;font:700 16px "Almarai",system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .o2-skip-link:focus-visible{opacity:1;transform:translateY(0);pointer-events:auto;outline:3px solid #3FE0FF;outline-offset:3px}
 #o2-main-content:focus{outline:none}
 :is(#o2-services,#o2-products,#next,#o2-faq,#o2-contact){scroll-margin-top:var(--o2-anchor-offset)!important}
 @media(max-width:1199.98px){
- #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 44px auto!important}
- #o2-site-header .o2-hdr-nav-links{display:none!important}
- #o2-site-header .o2-hdr-toggle{grid-column:2;grid-row:1;min-width:44px}
- #o2-site-header .o2-hdr-actions{grid-column:3;grid-row:1}
-}
-@media(max-width:540px){
- #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 44px!important;grid-template-rows:44px 44px;min-height:0!important;column-gap:8px!important;row-gap:8px;padding-block:8px}
+ #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 44px 44px!important;grid-template-rows:44px;column-gap:8px!important;min-height:60px!important}
  #o2-site-header .o2-hdr-logo{grid-column:1;grid-row:1;min-width:0;max-width:100%;gap:12px}
- #o2-site-header .o2-hdr-logo img{max-width:min(160px,100%);height:28px;object-fit:contain}
- #o2-site-header .o2-hdr-toggle{grid-column:2;grid-row:1;justify-self:end;width:44px;height:44px}
- #o2-site-header .o2-hdr-actions{grid-column:1/-1;grid-row:2;justify-self:stretch;justify-content:space-between;gap:8px}
- #o2-site-header .o2-hdr-language{padding-inline:10px;min-width:44px}
- #o2-site-header .o2-hdr-contact{min-height:44px;padding-inline:14px;max-width:calc(100% - 90px);white-space:nowrap}
+ #o2-site-header .o2-hdr-logo img{max-width:100%;height:28px;object-fit:contain}
+ #o2-site-header .o2-hdr-nav-links{display:none!important}
+ #o2-site-header .o2-hdr-toggle{grid-column:2;grid-row:1;min-width:44px;justify-self:stretch}
+ #o2-site-header .o2-hdr-actions{grid-column:3;grid-row:1;justify-self:stretch;display:flex;align-items:center;justify-content:center;gap:0}
+ #o2-site-header .o2-hdr-contact{display:none!important}
+ #o2-site-header .o2-hdr-language{width:44px;height:44px}
 }
 @media(prefers-reduced-motion:reduce){#o2-site-header,#o2-site-header *,.o2-skip-link{transition:none!important}}
 
@@ -835,14 +834,15 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
    <button id="o2-menu-toggle" class="o2-hdr-toggle" type="button" onClick="{{ navMenuToggle }}" aria-label="{{ navMenuLabel }}" aria-controls="o2-mobile-menu" aria-expanded="{{ navMenuOpen }}" style="flex:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#FFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{ navMenuIcon }}"></path></svg></button>
   </sc-if>
   <div class="o2-hdr-actions" style="justify-self:end;display:flex;align-items:center;gap:10px">
-   <button class="o2-hdr-language" type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="min-height:44px;padding:0 12px;border:none;background:transparent;border-radius:9999px;cursor:pointer;color:#FFF;font-family:'Almarai',system-ui,sans-serif;font-size:16px;font-weight:500;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,.12)">{{ langOther }}</button>
-   <a class="o2-hdr-contact" href="#o2-contact" data-current="{{ navContactActive }}" aria-current="{{ navContactCurrent }}" onClick="{{ navGoContact }}" style="flex:none;min-height:44px;padding:0 20px;border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFF;color:#0A2A55;font-size:16px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:background .25s" style-hover="background:#EAF2FF;color:#0A2A55">{{ navContactLabel }} <span aria-hidden="true">↓</span></a>
+   <button class="o2-hdr-language" type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="width:44px;height:44px;flex:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);border-radius:12px;cursor:pointer;color:#FFF;font-family:'Almarai',system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;text-align:center;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,.16)">{{ langSwitchShort }}</button>
+   <a class="o2-hdr-contact" href="#o2-contact" data-current="{{ navContactActive }}" aria-current="{{ navContactCurrent }}" onClick="{{ navGoContact }}" style="flex:none;min-height:44px;padding:0 20px;border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFF;color:#0A2A55;font-size:16px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:background .25s" style-hover="background:#EAF2FF;color:#0A2A55">{{ navContactLabel }}</a>
   </div>
  </nav>
  <div id="o2-mobile-menu" class="o2-hdr-mobile-menu" aria-hidden="{{ navMenuHidden }}" style="display:{{ navMenuDisplay }};flex-direction:column;gap:2px;padding:8px max(16px,4vw) 16px;border-top:1px solid rgba(255,255,255,.12)">
   <sc-for list="{{ navItems }}" as="ni" hint-placeholder-count="4">
    <a data-nav-link="" class="o2-hdr-link o2-hdr-mobile-link" href="{{ ni.href }}" data-current="{{ ni.active }}" aria-current="{{ ni.current }}" onClick="{{ ni.onClick }}" style="min-height:48px;padding:0 12px;border-radius:12px;display:flex;align-items:center;font-size:16px;font-weight:500;color:#FFF" style-hover="background:rgba(255,255,255,.12);color:#FFF">{{ ni.label }}</a>
   </sc-for>
+  <a data-nav-link="" class="o2-hdr-link o2-hdr-mobile-link o2-hdr-mobile-contact" href="#o2-contact" data-current="{{ navContactActive }}" aria-current="{{ navContactCurrent }}" onClick="{{ navGoContact }}" style="min-height:48px;padding:0 12px;border-radius:12px;display:flex;align-items:center;font-size:16px;font-weight:500;color:#FFF" style-hover="background:rgba(255,255,255,.12);color:#FFF">{{ navContactLabel }}</a>
  </div>
 </header>
 <main id="o2-main-content" tabindex="-1" style="display:block;position:relative">
@@ -1200,7 +1200,7 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
       <div class="o2-faq-support o2-faq-support--desktop">
         <h3>{{ o2FaqSupportTitle }}</h3>
         <p>{{ o2FaqSupportText }}</p>
-        <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }} <span class="o2-faq-contact__arrow" aria-hidden="true">↓</span></a>
+        <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }}</a>
       </div>
     </div>
     <div class="o2-faq-list" data-layout-span="7">
@@ -1224,7 +1224,7 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
     <div class="o2-faq-support o2-faq-support--mobile" data-layout-span="12">
       <h3>{{ o2FaqSupportTitle }}</h3>
       <p>{{ o2FaqSupportText }}</p>
-      <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }} <span class="o2-faq-contact__arrow" aria-hidden="true">↓</span></a>
+      <a href="#o2-contact" class="o2-faq-contact">{{ o2FaqContactLabel }}</a>
     </div>
   </div>
 </section>
@@ -4097,7 +4097,7 @@ class Component extends DCLogic {
       cueDot: this.cueDotEl || (this.cueDotEl = React.createElement('span', { style: { position: 'absolute', left: '50%', top: 7, width: 4, height: 8, marginLeft: -2, borderRadius: 2, background: '#3FE0FF', animation: 'wwCue 1.8s ease-in-out infinite' } })),
       langEnOn: s.lang !== 'ar', langArOn: s.lang === 'ar', langEnBg: s.lang !== 'ar' ? '#FFFFFF' : 'transparent', langEnFg: s.lang !== 'ar' ? '#0A2A55' : '#EAF2FF', langArBg: s.lang === 'ar' ? '#FFFFFF' : 'transparent', langArFg: s.lang === 'ar' ? '#0A2A55' : '#EAF2FF',
       setLangEn: () => this.setState({ lang: 'en' }), setLangAr: () => this.setState({ lang: 'ar' }),
-      toggleLang: () => { const nx = this.state.lang === 'ar' ? 'en' : 'ar'; this.setState({ lang: nx, navMenu:false }, () => setTimeout(() => { this.applyLang(nx); this.onScroll(); }, 0)); }, langOther: s.lang === 'ar' ? 'English' : 'العربية', langOtherCode: s.lang === 'ar' ? 'en' : 'ar', langAria: s.lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية',
+      toggleLang: () => { const nx = this.state.lang === 'ar' ? 'en' : 'ar'; this.setState({ lang: nx, navMenu:false }, () => setTimeout(() => { this.applyLang(nx); this.onScroll(); }, 0)); }, langOther: s.lang === 'ar' ? 'English' : 'العربية', langSwitchShort: s.lang === 'ar' ? 'EN' : 'AR', langOtherCode: s.lang === 'ar' ? 'en' : 'ar', langAria: s.lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية',
       mqDir: s.lang === 'ar' ? 'reverse' : 'normal',
       o2LampOff: !s.o2LampOn, o2LampWash: s.o2LampOn ? 1 : 0, o2LampFormOp: s.o2LampOn ? 1 : 0.5, o2LampFormFilter: s.o2LampOn ? 'none' : 'saturate(0.4)', o2LampFormTf: s.o2LampOn ? 'none' : 'translateY(10px)', o2LampFormPE: s.o2LampOn ? 'auto' : 'none',
       o2LampToggle: () => { if (this.state.o2LampOn) return; this.o2Lamp ? this.o2Lamp.setOn(true) : this.setState({ o2LampOn: true }); },
