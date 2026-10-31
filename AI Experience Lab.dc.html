@@ -2751,26 +2751,29 @@ class Component extends DCLogic {
     this.setState({
       roadmapCategory:id,cfIdx:0,cfActiveId:features[0].id,cfDrag:null,cfRun:false,
       cfFilterAnnouncement:(ar?label.ar:label.en)+' — '+features.length+' '+(ar?'ميزة':'features')
-    },()=>{if(this.state.roadmapInView&&!this.reduce&&window.innerWidth>=768&&!this.state.cfPaused)this.cfGo(0);});
+    },()=>{if(this.state.roadmapInView&&!this.reduce&&window.innerWidth>=768&&!this.state.cfPaused)this.cfGo(0,false);});
   };
   cfRoadmapVisible = visible => {
     const inView=visible&&!document.hidden;
     if(inView===this.state.roadmapInView)return;
     if(!inView)clearTimeout(this.cfTimer);
     this.setState({roadmapInView:inView},()=>{
-      if(inView&&!this.reduce&&window.innerWidth>=768&&!this.state.cfPaused)this.cfGo(this.state.cfIdx);
+      if(inView&&!this.reduce&&window.innerWidth>=768&&!this.state.cfPaused)this.cfGo(this.state.cfIdx,false);
     });
   };
   cfVisibilityChanged = () => {
     const node=document.getElementById('next'),rect=node?.getBoundingClientRect();
     this.cfRoadmapVisible(!!rect&&rect.bottom>0&&rect.top<window.innerHeight);
   };
-  cfGo(i) {
+  cfGo(i,announce=true) {
     clearTimeout(this.cfTimer);
     const filtered=this.roadmapFiltered(),n=filtered.length;if(!n)return;
     i=((i%n)+n)%n;
     const label=this.state.lang==='ar'?'الميزة':'Feature';
-    this.setState({cfIdx:i,cfActiveId:filtered[i].id,cfRun:false,cfFilterAnnouncement:label+' '+(i+1)+' / '+n});
+    const focusingSide=!!document.activeElement?.matches?.('#next .cf-card__select');
+    this.setState({cfIdx:i,cfActiveId:filtered[i].id,cfRun:false,...(announce?{cfFilterAnnouncement:label+' '+(i+1)+' / '+n}:{})},()=>{
+      if(focusingSide)requestAnimationFrame(()=>document.querySelector('#next .cf-carousel')?.focus({preventScroll:true}));
+    });
     if(this.reduce||this.state.cfPaused||!this.state.roadmapInView||window.innerWidth<768)return;
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if(this.state.roadmapInView&&!this.state.cfPaused)this.setState({cfRun:true});
