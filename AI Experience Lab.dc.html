@@ -407,6 +407,15 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
  #next .cf-translation-visual__scan{animation:none!important}
 }
 
+/* Roadmap videos are visual artwork, not interactive video players on phones. */
+@media(max-width:767.98px){
+ #next .cf-card video{pointer-events:none!important;-webkit-user-select:none;user-select:none}
+ #next .cf-card video::-webkit-media-controls,
+ #next .cf-card video::-webkit-media-controls-enclosure,
+ #next .cf-card video::-webkit-media-controls-panel,
+ #next .cf-card video::-webkit-media-controls-overlay-play-button,
+ #next .cf-card video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none!important}
+}
 /* Ask the Video — 16:9 AI assistant artwork, motion exclusively when active. */
 #next .cf-ask-visual{position:relative;width:100%;aspect-ratio:16/9;flex:none;overflow:hidden;background:#06447e;border-bottom:1px solid rgba(150,190,255,.12)}
 #next .cf-ask-visual__poster,#next .cf-ask-visual__motion{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -1233,7 +1242,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-ask-visual" aria-hidden="true">
               <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/ask-the-video-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasAskMotion }}">
-                <video class="cf-ask-visual__motion" src="assets/roadmap-scenes/ask-the-video-animated-16x9.mp4" poster="assets/roadmap-scenes/ask-the-video-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-ask-visual__motion" src="assets/roadmap-scenes/ask-the-video-animated-16x9.mp4" poster="assets/roadmap-scenes/ask-the-video-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1241,7 +1250,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-shop-visual" aria-hidden="true">
               <img class="cf-shop-visual__poster" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasShopMotion }}">
-                <video class="cf-shop-visual__motion" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-shop-visual__motion" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1249,7 +1258,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-article-visual" aria-hidden="true">
               <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasArticleMotion }}">
-                <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1257,7 +1266,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-moments-visual" aria-hidden="true">
               <img class="cf-moments-visual__poster" src="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasMomentsMotion }}">
-                <video class="cf-moments-visual__motion" src="assets/roadmap-scenes/rapid-recap-key-moments-animated-16x9.mp4" poster="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-moments-visual__motion" src="assets/roadmap-scenes/rapid-recap-key-moments-animated-16x9.mp4" poster="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1265,7 +1274,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-highlights-visual" aria-hidden="true">
               <img class="cf-highlights-visual__poster" src="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasHighlightsMotion }}">
-                <video class="cf-highlights-visual__motion" src="assets/roadmap-scenes/ai-smart-highlights-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-highlights-visual__motion" src="assets/roadmap-scenes/ai-smart-highlights-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1273,7 +1282,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-context-visual" aria-hidden="true">
               <img class="cf-context-visual__poster" src="assets/roadmap-scenes/ai-context-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasContextMotion }}">
-                <video class="cf-context-visual__motion" src="assets/roadmap-scenes/ai-context-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-context-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-context-visual__motion" src="assets/roadmap-scenes/ai-context-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-context-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1298,7 +1307,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-seekbar-visual" aria-hidden="true">
               <img class="cf-seekbar-visual__poster" src="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasSeekbarMotion }}">
-                <video class="cf-seekbar-visual__motion" src="assets/roadmap-scenes/ai-powered-video-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-seekbar-visual__motion" src="assets/roadmap-scenes/ai-powered-video-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1306,7 +1315,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-emoji-visual" aria-hidden="true">
               <img class="cf-emoji-visual__poster" src="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasEmojiMotion }}">
-                <video class="cf-emoji-visual__motion" src="assets/roadmap-scenes/ai-emoji-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-emoji-visual__motion" src="assets/roadmap-scenes/ai-emoji-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1314,7 +1323,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-vod-visual" aria-hidden="true">
               <img class="cf-vod-visual__poster" src="assets/roadmap-scenes/ai-vod-companion-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasVodMotion }}">
-                <video class="cf-vod-visual__motion" src="assets/roadmap-scenes/ai-vod-companion-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-vod-companion-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-vod-visual__motion" src="assets/roadmap-scenes/ai-vod-companion-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-vod-companion-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1322,7 +1331,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-briefing-visual" aria-hidden="true">
               <img class="cf-briefing-visual__poster" src="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasBriefingMotion }}">
-                <video class="cf-briefing-visual__motion" src="assets/roadmap-scenes/ai-personalized-morning-briefing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-briefing-visual__motion" src="assets/roadmap-scenes/ai-personalized-morning-briefing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1330,7 +1339,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-dubbing-visual" aria-hidden="true">
               <img class="cf-dubbing-visual__poster" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasDubbingMotion }}">
-                <video class="cf-dubbing-visual__motion" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-dubbing-visual__motion" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1338,7 +1347,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-recap-visual" aria-hidden="true">
               <img class="cf-recap-visual__poster" src="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasRecapMotion }}">
-                <video class="cf-recap-visual__motion" src="assets/roadmap-scenes/ai-catch-up-recap-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-recap-visual__motion" src="assets/roadmap-scenes/ai-catch-up-recap-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1346,7 +1355,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-chapters-visual" aria-hidden="true">
               <img class="cf-chapters-visual__poster" src="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasChaptersMotion }}">
-                <video class="cf-chapters-visual__motion" src="assets/roadmap-scenes/ai-smart-chapters-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-chapters-visual__motion" src="assets/roadmap-scenes/ai-smart-chapters-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1354,7 +1363,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-storycast-visual" aria-hidden="true">
               <img class="cf-storycast-visual__poster" src="assets/roadmap-scenes/ai-storycast-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasStoryCastMotion }}">
-                <video class="cf-storycast-visual__motion" src="assets/roadmap-scenes/ai-storycast-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-storycast-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-storycast-visual__motion" src="assets/roadmap-scenes/ai-storycast-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-storycast-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1362,7 +1371,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-moderation-visual" aria-hidden="true">
               <img class="cf-moderation-visual__poster" src="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasModerationMotion }}">
-                <video class="cf-moderation-visual__motion" src="assets/roadmap-scenes/ai-comment-moderation-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-moderation-visual__motion" src="assets/roadmap-scenes/ai-comment-moderation-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -1370,7 +1379,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
             <div class="cf-sports-visual" aria-hidden="true">
               <img class="cf-sports-visual__poster" src="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasSportsMotion }}">
-                <video class="cf-sports-visual__motion" src="assets/roadmap-scenes/ai-sports-analyst-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
+                <video class="cf-sports-visual__motion" src="assets/roadmap-scenes/ai-sports-analyst-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
             </div>
           </sc-if>
@@ -4829,9 +4838,12 @@ class Component extends DCLogic {
     const sideScale = sidePx / activePx;
     const slideOffset = (wide ? 64 : 76) * sideScale;
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
+    // Safari on iPhone can show its native player despite inline autoplay.
+    // Use the existing artwork poster on iOS phones, not a tappable video.
+    const iosMobilePosterOnly=vw<768 && /iPad|iPhone|iPod/i.test(navigator.userAgent||'');
     const upcoming = cfFiltered.map((u, ix) => { const i=D.upcoming.findIndex(item=>item.id===u.id);let d0 = ix - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && s.roadmapInView && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && s.roadmapInView && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && s.roadmapInView && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && s.roadmapInView && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && s.roadmapInView && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && s.roadmapInView && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && s.roadmapInView && !this.reduce, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && s.roadmapInView && !this.reduce, hasDubbingPoster: u.v === 'dubbing', hasDubbingMotion: u.v === 'dubbing' && on && s.roadmapInView && !this.reduce, hasBriefingPoster: u.v === 'briefing', hasBriefingMotion: u.v === 'briefing' && on && s.roadmapInView && !this.reduce, hasVodPoster: u.v === 'vod', hasVodMotion: u.v === 'vod' && on && s.roadmapInView && !this.reduce, hasEmojiPoster: u.v === 'emoji', hasEmojiMotion: u.v === 'emoji' && on && s.roadmapInView && !this.reduce, hasMomentsPoster: u.v === 'moments', hasMomentsMotion: u.v === 'moments' && on && s.roadmapInView && !this.reduce, hasHighlightsPoster: u.v === 'highlights', hasHighlightsMotion: u.v === 'highlights' && on && s.roadmapInView && !this.reduce, hasContextPoster: u.v === 'context', hasContextMotion: u.v === 'context' && on && s.roadmapInView && !this.reduce, hasDialoguePoster: u.v === 'dialogue', hasDialogueMotion: u.v === 'dialogue' && on && s.roadmapInView && !this.reduce, hasSeekbarPoster: u.v === 'seekbar', hasSeekbarMotion: u.v === 'seekbar' && on && s.roadmapInView && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop' && u.v !== 'dubbing' && u.v !== 'briefing' && u.v !== 'vod' && u.v !== 'emoji' && u.v !== 'seekbar' && u.v !== 'dialogue' && u.v !== 'context' && u.v !== 'highlights' && u.v !== 'moments', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasDubbingPoster: u.v === 'dubbing', hasDubbingMotion: u.v === 'dubbing' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasBriefingPoster: u.v === 'briefing', hasBriefingMotion: u.v === 'briefing' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasVodPoster: u.v === 'vod', hasVodMotion: u.v === 'vod' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasEmojiPoster: u.v === 'emoji', hasEmojiMotion: u.v === 'emoji' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasMomentsPoster: u.v === 'moments', hasMomentsMotion: u.v === 'moments' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasHighlightsPoster: u.v === 'highlights', hasHighlightsMotion: u.v === 'highlights' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasContextPoster: u.v === 'context', hasContextMotion: u.v === 'context' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasDialoguePoster: u.v === 'dialogue', hasDialogueMotion: u.v === 'dialogue' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasSeekbarPoster: u.v === 'seekbar', hasSeekbarMotion: u.v === 'seekbar' && on && s.roadmapInView && !this.reduce && !iosMobilePosterOnly, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop' && u.v !== 'dubbing' && u.v !== 'briefing' && u.v !== 'vod' && u.v !== 'emoji' && u.v !== 'seekbar' && u.v !== 'dialogue' && u.v !== 'context' && u.v !== 'highlights' && u.v !== 'moments', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
