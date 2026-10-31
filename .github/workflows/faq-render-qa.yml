@@ -199,11 +199,14 @@ jobs:
                     const form=section.querySelector('.o2-contact-form');
                     const card=section.querySelector('.o2-contact-form-card');
                     const input=section.querySelector('input[name="name"]');
+                    const lamp=section.querySelector('.o2-contact-intro>canvas');
                     const label=section.querySelector('.o2-contact-form label');
                     const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right}};
                     return {section:rect(section),shell:rect(shell),intro:rect(intro),
                       formColumn:rect(formCol),formCard:rect(card),form:rect(form),
-                      input:rect(input),labelFont:getComputedStyle(label).fontSize,
+                      input:rect(input),lamp:rect(lamp),
+                      lampPointerEvents:getComputedStyle(lamp).pointerEvents,
+                      labelFont:getComputedStyle(label).fontSize,
                       inputFont:getComputedStyle(input).fontSize,
                       shellGap:getComputedStyle(shell).gap,
                       shellColumns:getComputedStyle(shell).gridTemplateColumns,
@@ -225,8 +228,13 @@ jobs:
                     info.input.x<info.section.x-2||info.formCard.right>info.section.right+2;
                   const formOk=info.formCard.width>0&&info.input.width>=150&&
                     info.labelFont==='14px'&&info.inputFont==='16px';
-                  if(!widthOk||!halvesOk||clipped||!formOk){
-                    console.error('CONTACT 1320 LAYOUT REGRESSION',JSON.stringify({widthOk,halvesOk,clipped,formOk}));
+                  const lampOk=info.lamp.x>=info.intro.x-1 &&
+                    info.lamp.right<=info.intro.right+1 &&
+                    info.lamp.y>=info.intro.y-1 &&
+                    info.lamp.y+info.lamp.height<=info.intro.y+info.intro.height+1 &&
+                    info.lampPointerEvents==='auto';
+                  if(!widthOk||!halvesOk||clipped||!formOk||!lampOk){
+                    console.error('CONTACT 1320 LAYOUT REGRESSION',JSON.stringify({widthOk,halvesOk,clipped,formOk,lampOk}));
                     failed=true;
                   }
                   await page.locator('#o2-contact').screenshot({
