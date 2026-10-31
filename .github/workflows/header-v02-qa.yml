@@ -96,14 +96,16 @@ jobs:
                     assert(await page.locator('.o2-hdr-nav-links a:visible').count()===4,'desktop links all visible '+width+'/'+lang);
                   }
                   const fg=page.locator('.o2-hdr-logo');
+                  await page.keyboard.press('Tab'); // Establish keyboard modality after pointer interactions.
                   await fg.focus();
-                  assert(await fg.evaluate(el=>getComputedStyle(el).outlineStyle!=='none'),'logo visible keyboard focus '+width+'/'+lang);
+                  assert(await fg.evaluate(el=>el.matches(':focus-visible')&&getComputedStyle(el).outlineStyle!=='none'),'logo visible keyboard focus '+width+'/'+lang);
                 }
               }
               await page.setViewportSize({width:390,height:844});
               if(await page.locator('html').getAttribute('lang')==='ar'){await page.locator('.o2-hdr-language').click();await page.waitForTimeout(450)}
+              await page.keyboard.press('Tab'); // Test focus-visible in keyboard modality, not pointer modality.
               await page.locator('.o2-skip-link').focus();
-              assert(await page.locator('.o2-skip-link').evaluate(el=>getComputedStyle(el).opacity==='1'),'skip link focus reveal');
+              assert(await page.locator('.o2-skip-link').evaluate(el=>el.matches(':focus-visible')&&getComputedStyle(el).opacity==='1'),'skip link focus reveal');
               await page.keyboard.press('Enter');
               assert(await page.locator('#o2-main-content').evaluate(el=>document.activeElement===el),'skip link focus transfer');
               await page.locator('#o2-menu-toggle').click();
