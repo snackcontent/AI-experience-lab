@@ -666,7 +666,7 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
 #o2-site-header .o2-hdr-contact[data-current="true"]{box-shadow:0 0 0 3px rgba(103,231,255,.62),0 6px 18px -8px rgba(0,0,0,.4)}
 /* Header selection: full-height rectangular wash + horizontal cyan baseline, matching the approved reference. */
 #o2-site-header .o2-hdr-link{position:relative;text-decoration:none;isolation:isolate;overflow:hidden;border-radius:0!important;transition:background .3s ease,color .25s ease}
-#o2-site-header .o2-hdr-link:is([data-current="true"],:hover){color:#F4FAFF!important;background:linear-gradient(180deg,rgba(30,116,191,.16) 0%,rgba(29,108,183,.29) 100%)!important}
+#o2-site-header .o2-hdr-link:is([data-current="true"],:hover){color:#F4FAFF!important;background:linear-gradient(0deg, rgba(63, 224, 255, .12), rgba(47, 107, 255, .06) 45%, transparent 85%)!important}
 #o2-site-header .o2-hdr-link::after{content:"";position:absolute;inset-inline:0;inset-block-end:0;height:3px;pointer-events:none;background:linear-gradient(90deg,#3FE0FF,#2F6BFF);transform-origin:50% 50%;transform:scaleX(0);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
 html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(270deg,#3FE0FF,#2F6BFF)}
 #o2-site-header .o2-hdr-link:is([data-current="true"],:hover)::after{transform:scaleX(1)}
@@ -680,14 +680,15 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
 #o2-main-content:focus{outline:none}
 :is(#o2-services,#o2-products,#next,#o2-faq,#o2-contact){scroll-margin-top:var(--o2-anchor-offset)!important}
 @media(max-width:1199.98px){
- #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 44px 44px!important;grid-template-rows:44px;column-gap:8px!important;min-height:60px!important}
- #o2-site-header .o2-hdr-logo{grid-column:1;grid-row:1;min-width:0;max-width:100%;gap:12px}
+ /* English: logo | AR | burger (far right). Arabic: logo | EN | burger (far left). */
+ #o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 40px 40px!important;grid-template-rows:44px;column-gap:8px!important;min-height:60px!important}
+ #o2-site-header .o2-hdr-logo{grid-column:1;grid-row:1;min-width:0;max-width:100%;gap:0}
  #o2-site-header .o2-hdr-logo img{max-width:100%;height:28px;object-fit:contain}
  #o2-site-header .o2-hdr-nav-links{display:none!important}
- #o2-site-header .o2-hdr-toggle{grid-column:2;grid-row:1;min-width:44px;justify-self:stretch}
- #o2-site-header .o2-hdr-actions{grid-column:3;grid-row:1;justify-self:stretch;display:flex;align-items:center;justify-content:center;gap:0}
+ #o2-site-header .o2-hdr-actions{grid-column:2;grid-row:1;justify-self:stretch;display:flex;align-items:center;justify-content:center;gap:0}
+ #o2-site-header .o2-hdr-toggle{grid-column:3;grid-row:1;justify-self:stretch;width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
  #o2-site-header .o2-hdr-contact{display:none!important}
- #o2-site-header .o2-hdr-language{width:44px;height:44px}
+ #o2-site-header .o2-hdr-language{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
 }
 @media(prefers-reduced-motion:reduce){#o2-site-header,#o2-site-header *,.o2-skip-link{transition:none!important}}
 
@@ -830,7 +831,7 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
 <a class="o2-skip-link" href="#o2-main-content" onClick="{{ navSkip }}">{{ navSkipLabel }}</a>
 <header id="o2-site-header" data-scrolled="{{ navScrolled }}" style="position:fixed;top:0;left:0;right:0;z-index:50;isolation:isolate;border-bottom:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 18px 40px -24px rgba(0,0,0,.55);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)">
  <nav class="o2-hdr-nav" aria-label="{{ navLandmarkLabel }}" data-layout-container style="min-height:{{ navH }};display:grid;grid-template-columns:{{ navCols }};align-items:center;gap:12px;padding-block:8px;position:relative;box-sizing:border-box">
-  <a href="#o2-top" class="o2-hdr-logo" aria-label="Fadaat" onClick="{{ navGoTop }}" style="justify-self:start;display:flex;align-items:center;gap:20px;flex:none"><img src="assets/fadaat-logo.png" alt="Fadaat" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1)"><span aria-hidden="true" style="width:1px;height:28px;background:rgba(255,255,255,.22)"></span></a>
+  <a href="#o2-top" class="o2-hdr-logo" aria-label="Fadaat" onClick="{{ navGoTop }}" style="justify-self:start;display:flex;align-items:center;gap:20px;flex:none"><img src="assets/fadaat-logo.png" alt="Fadaat" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1)"></a>
   <div class="o2-hdr-nav-links" style="display:{{ navLinksDisp }};gap:2px;align-items:center;min-width:0">
    <a data-nav-link="" class="o2-hdr-link" href="#o2-services" data-current="{{ navFeaturesActive }}" aria-current="{{ navFeaturesCurrent }}" onClick="{{ navGoFeatures }}" style="height:44px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:16px;font-weight:500;color:#FFF;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:rgba(255,255,255,.12);color:#FFF">{{ navLabelFeatures }}</a>
    <a data-nav-link="" class="o2-hdr-link" href="#o2-products" data-current="{{ navProductsActive }}" aria-current="{{ navProductsCurrent }}" onClick="{{ navGoProducts }}" style="height:44px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:16px;font-weight:500;color:#FFF;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:rgba(255,255,255,.12);color:#FFF">{{ navLabelProducts }}</a>

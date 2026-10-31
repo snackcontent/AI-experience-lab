@@ -108,3 +108,6 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 
 ## Header visual refinement 2026-10-31
 - User requested square language switch labeled AR/EN, same treatment as menu icon; responsive header now single-row logo+burger+language, with Contact us moved into mobile menu (never lose the action). All internal Contact us arrows removed. Active navigation adopts the exact FAQ open motif: vertical 3px cyan/blue accent and soft RTL/LTR gradient wash, replacing horizontal underline. Header Playwright QA contract tests all widths, 2 locales, compact visibility, square language control and vertical active state.
+
+## Header mobile/active clarification (2026-10-31)
+- V02 logo divider removed; mobile Burger and language both 40×40, Burger on far-right EN/far-left AR, language inboard. Active/Hover are rectangular with same 0deg bottom-up cyan-blue gradient and a 3px horizontal cyan line at bottom. Header Playwright assertions updated for locale order and compact dimensions.

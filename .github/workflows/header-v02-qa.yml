@@ -45,6 +45,7 @@ jobs:
               await page.waitForSelector('#o2-site-header',{timeout:55000});
               await page.waitForTimeout(1800);
               assert(await page.locator('#o2-site-header').count()===1,'V02 header visible');
+              assert(await page.locator('#o2-site-header .o2-hdr-logo>span').count()===0,'logo separator removed');
               assert(await page.locator('main#o2-main-content').count()===1,'Main landmark present');
               assert(await page.locator('.o2-skip-link').count()===1,'Skip link present');
               const widths=[320,360,390,430,768,880,1024,1280,1440];
@@ -77,16 +78,21 @@ jobs:
                   assert(info.docWidth<=info.viewport+1,'document width '+width+'/'+lang);
                   for(const [key,r] of Object.entries(info.controls)){
                     if(!r)continue;
-                    assert(r.h>=43.5,'touch height '+width+'/'+lang+' '+key);
+                    const minHeight=width<1200 && (key==='toggle'||key==='.o2-hdr-language')?39.5:43.5;
+                    assert(r.h>=minHeight,'touch height '+width+'/'+lang+' '+key);
                     assert(r.x>=-1 && r.right<=width+1,'target inside viewport '+width+'/'+lang+' '+key);
                   }
                   assert(info.compact===(width<1200),'responsive breakpoint '+width+'/'+lang);
                   const short=await page.locator('.o2-hdr-language').innerText();
                   assert(short.trim()===(lang==='en'?'AR':'EN'),'language toggle short code '+width+'/'+lang);
-                  assert(Math.abs(info.controls['.o2-hdr-language'].w-44)<1,'language button width 44 '+width+'/'+lang);
+                  assert(Math.abs(info.controls['.o2-hdr-language'].w-(width<1200?40:44))<1,'language button width matches viewport '+width+'/'+lang);
                   if(width<1200){
                     assert(info.controls['.o2-hdr-contact']===null,'no inline contact in compact header '+width+'/'+lang);
-                    assert(Math.abs(info.controls.toggle.y-info.controls['.o2-hdr-language'].y)<1 && Math.abs(info.controls.toggle.y-info.controls['.o2-hdr-logo'].y)<1,'logo/burger/language share one row '+width+'/'+lang);
+                    const burger=info.controls.toggle,language=info.controls['.o2-hdr-language'],logo=info.controls['.o2-hdr-logo'];
+                    assert(Math.abs(burger.y-language.y)<1 && Math.abs(burger.y-logo.y)<=3,'logo/burger/language share one row '+width+'/'+lang);
+                    assert(Math.abs(burger.w-40)<1 && Math.abs(burger.h-40)<1 && Math.abs(language.h-40)<1,'burger and language exactly 40x40 '+width+'/'+lang);
+                    if(lang==='en') assert(burger.x>language.right && Math.abs(burger.right-info.nav.right)<1,'burger far right after language '+width+'/'+lang);
+                    else assert(burger.right<language.x && Math.abs(burger.x-info.nav.x)<1,'burger far left before language '+width+'/'+lang);
                     const toggle=page.locator('#o2-menu-toggle');
                     assert(await toggle.getAttribute('aria-controls')==='o2-mobile-menu','menu aria-controls '+width+'/'+lang);
                     await toggle.click();
@@ -129,7 +135,7 @@ jobs:
               });
               console.log('ACTIVE VISUAL',JSON.stringify(activeVisual));
               assert(activeVisual.height==='3px' && activeVisual.position==='absolute' && activeVisual.bottom==='0px' && activeVisual.start==='0px' && activeVisual.end==='0px','active cyan bottom horizontal baseline');
-              assert(activeVisual.radius==='0px' && activeVisual.activeBackground.includes('linear-gradient'),'active rectangular background wash');
+              assert(activeVisual.radius==='0px' && activeVisual.activeBackground.includes('linear-gradient(0deg'),'active vertical 0deg background wash');
               assert(await page.locator('#o2-mobile-menu a[href="#o2-contact"]').count()===1,'contact remains available after selecting FAQ');
               await page.screenshot({path:'/tmp/ai-lab-header/header-390-en.png'});
               const faqTop=await page.locator('#o2-faq').evaluate(el=>el.getBoundingClientRect().top);
@@ -154,7 +160,7 @@ jobs:
                 return {radius:s.borderRadius,background:s.backgroundImage,bottom:bar.bottom,height:bar.height};
               });
               console.log('HOVER VISUAL',JSON.stringify(hoverVisual));
-              assert(hoverVisual.radius==='0px' && hoverVisual.background.includes('linear-gradient') && hoverVisual.bottom==='0px' && hoverVisual.height==='3px','desktop hover equals active rectangle with bottom cyan line');
+              assert(hoverVisual.radius==='0px' && hoverVisual.background.includes('linear-gradient(0deg') && hoverVisual.bottom==='0px' && hoverVisual.height==='3px','desktop hover has same 0deg vertical wash with horizontal cyan bottom line');
               await page.screenshot({path:'/tmp/ai-lab-header/header-1280.png'});
               await page.setViewportSize({width:320,height:700});
               await page.screenshot({path:'/tmp/ai-lab-header/header-320-en.png'});
