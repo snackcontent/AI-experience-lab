@@ -798,10 +798,11 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 /* AI Features V02: functional navigation, accessible card hit targets, and readable descriptions */
 #o2-services .o2-feature-toolbar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px}
 #o2-services .o2-feature-filters{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-inline:auto}
-#o2-services .o2-feature-toolbar[dir="rtl"]{justify-content:flex-start;direction:rtl}
-#o2-services .o2-feature-filters[dir="rtl"]{justify-content:flex-start;width:100%;max-width:100%;margin-inline:0;direction:rtl;text-align:right}
+/* Arabic category tabs: anchor every wrapped row to the right; English keeps its centered LTR layout. */
+#o2-services .o2-feature-toolbar[dir="rtl"]{direction:rtl;width:100%;justify-content:flex-start!important;align-items:stretch}
+#o2-services .o2-feature-filters[dir="rtl"]{direction:rtl;display:flex;flex-flow:row wrap;justify-content:flex-start!important;align-content:flex-start;width:100%;max-width:100%;margin-inline:0;text-align:right}
 #o2-services .o2-feature-filter{flex-direction:row;white-space:nowrap}
-#o2-services .o2-feature-filter[dir="rtl"]{direction:rtl}
+#o2-services .o2-feature-filter[dir="rtl"]{direction:rtl;flex-direction:row;text-align:right}
 #o2-services .o2-feature-filter{border:0!important;color:#FFFFFF!important;box-shadow:none!important}
 #o2-services .o2-feature-filter[aria-pressed="true"]{font-weight:700}
 #o2-services .o2-feature-filter:hover{background:rgba(47,107,255,.28)!important}
@@ -1084,7 +1085,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
     <div class="o2-feature-toolbar" dir="{{ o2TrackDir }}">
       <div class="o2-feature-filters" dir="{{ o2TrackDir }}" role="group" aria-label="{{ o2FilterLabel }}" onKeyDown="{{ o2FiltersKey }}">
         <sc-for list="{{ o2Chips }}" as="c" hint-placeholder-count="4">
-          <button type="button" class="o2-feature-filter" onClick="{{ c.onClick }}" aria-pressed="{{ c.active }}" style="display:flex;align-items:center;gap:9px;min-height:44px;padding-block:5px;padding-inline-start:8px;padding-inline-end:17px;border:0;border-radius:9999px;background:{{ c.bg }};color:#FFFFFF;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,color .2s">
+          <button type="button" class="o2-feature-filter" dir="{{ o2TrackDir }}" onClick="{{ c.onClick }}" aria-pressed="{{ c.active }}" style="display:flex;align-items:center;gap:9px;min-height:44px;padding-block:5px;padding-inline-start:8px;padding-inline-end:17px;border:0;border-radius:9999px;background:{{ c.bg }};color:#FFFFFF;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,color .2s">
             <span class="o2-feature-filter-icon" aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;background:{{ c.iconBg }};color:#FFFFFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ c.iconPath }}"/></svg></span>
             <span>{{ c.name }}</span>
           </button>
