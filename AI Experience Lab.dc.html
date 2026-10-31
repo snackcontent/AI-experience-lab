@@ -856,9 +856,9 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
  /* One stable mobile card height: longest card defines the max, never the active slide. */
  #o2-services .o2-feature-track{gap:12px;align-items:stretch!important;height:auto!important;transition:none!important}
  #o2-services .o2-feature-card{flex-basis:calc(100% - 4px)!important;min-height:0!important;height:auto!important;max-height:var(--o2-mobile-card-max-height,none)!important;padding:18px!important;gap:12px!important}
- #o2-services .o2-feature-card-spacer{display:block!important;flex:1 1 auto!important}
+ #o2-services .o2-feature-card-spacer{display:block!important;flex:1 1 auto!important;order:1}
  #o2-services .o2-feature-used{min-height:0}
- #o2-services .o2-feature-footer{padding-top:12px!important}
+ #o2-services .o2-feature-footer{padding-top:12px!important;order:2}
  #o2-services .o2-feature-toolbar{justify-content:center}
  #o2-services .o2-feature-filters{justify-content:center}
 }
@@ -2947,6 +2947,8 @@ class Component extends DCLogic {
        this.o2FeatureRO.observe(featureTrack);
      }
     requestAnimationFrame(()=>this.o2ResetTrack(0));
+    // Recheck the maximum once the actual webfont has loaded.
+    if(document.fonts?.ready)document.fonts.ready.then(()=>requestAnimationFrame(()=>this.o2SyncMobileCardHeight()));
     const portfolioSection=document.getElementById('o2-products');
     this.portfolioVisible=false;this.prodStaticPainted=[false,false,false,false];
     if(portfolioSection && typeof IntersectionObserver !== 'undefined'){
@@ -4126,7 +4128,12 @@ class Component extends DCLogic {
     track.style.removeProperty('--o2-mobile-card-max-height');
     if(window.innerWidth>600 || !track.children.length)return;
     const tallest=Math.ceil(Math.max(...Array.from(track.children,card=>card.scrollHeight)));
-    if(tallest>0)track.style.setProperty('--o2-mobile-card-max-height',tallest+'px');
+    // Keep the tallest value from "All" when a shorter category is selected.
+    const key=track.clientWidth+'|'+document.documentElement.lang;
+    if(!this.o2MobileHeightCache)this.o2MobileHeightCache={};
+    const maxHeight=Math.max(tallest,this.o2MobileHeightCache[key]||0);
+    this.o2MobileHeightCache[key]=maxHeight;
+    if(maxHeight>0)track.style.setProperty('--o2-mobile-card-max-height',maxHeight+'px');
   };
   o2Measure = () => {
     const t=this.o2TrackRef.current;if(!t)return;
