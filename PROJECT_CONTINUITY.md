@@ -102,3 +102,6 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 - Latest repo work: FAQ structure and single-open accordion changes, now in `development`.
 - The exact private older ChatGPT thread at `/c/6ae3bd45-de34-83ed-ab38-33871550d709` was not accessible directly; previously visible conversation summaries and the actual repository/history informed this handoff. Avoid claiming that unread private message attachments were inspected.
 - Continue on the user's next specific request immediately; do not restart design discovery.
+
+## Header V02 implementation checkpoint (2026-10-31)
+- HDR-01..HDR-11 code implementation: responsive stacked actions <=540px, 1200px compact breakpoint, 44px targets, localized desktop/mobile nav, visible focus/skip, live section scroll spy, menu click-outside/Escape/resize, aria-controls and dynamic aria-label, dynamic scroll offset, navy glass contrast. V02 banner precedes main; main landmark wraps hero/features/products; other sections retain their existing positions. Browser QA remains separate from source verification.

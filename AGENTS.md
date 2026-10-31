@@ -75,3 +75,9 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 - Apply a subtle directional visual fade to inactive cards: **left-side cards soften toward the right edge**, right-side cards soften toward the left edge. Use an overlay on the card rather than reducing the entire nearer card's opacity, so more distant card text does not bleed through. Active card stays unaffected.
 - Avoid long dot pagination, excessive glows, aggressive rotations, forced horizontal overflow and auto-advancing on small touch screens.
 - Refrain from replacing the Roadmap with a card grid or theater unless explicitly approved.
+
+## V02 Header audit HDR-01–HDR-11 (2026-10-31)
+- Preserve brand navy glass, blur, Almarai font, 12-column grid. Nav is compact below 1200px with no hidden horizontal overflow; <=540px uses 2 rows: logo+44px menu, language+contact >=44px each. Desktop labels localized and visible.
+- Scroll Spy uses section IDs and aria-current=location; active state on contact, too. Compact menu closes via Escape (focus restored), outside pointer, link selection and resize to desktop. aria-controls points to permanent #o2-mobile-menu, with localized open/close labels.
+- Skip link focuses the tab-indexed <main id=o2-main-content> landmark surrounding V02 hero/AI Features/AI Products. Focus-visible uses 3px cyan ring. Header nav height observed by ResizeObserver drives --o2-anchor-offset across five anchor targets.
+- Internal contact CTAs use down arrow (not external ↗); contrast-safe dark navy glass remains. Test 320/360/390/430/768/880/1024/1280 in EN/AR and keyboard before final signoff.
