@@ -1046,7 +1046,7 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
   </div>
   <div class="o2-features-shell" style="display:flex;flex-direction:column;gap:20px;min-width:0">
     <div class="o2-feature-toolbar">
-      <div class="o2-feature-filters" role="group" aria-label="{{ o2FilterLabel }}">
+      <div class="o2-feature-filters" role="group" aria-label="{{ o2FilterLabel }}" onKeyDown="{{ o2FiltersKey }}">
         <sc-for list="{{ o2Chips }}" as="c" hint-placeholder-count="4">
           <button type="button" class="o2-feature-filter" onClick="{{ c.onClick }}" aria-pressed="{{ c.active }}" style="display:flex;align-items:center;gap:9px;min-height:44px;padding:5px 16px 5px 7px;border-radius:9999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s,color .2s">
             <span aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;background:{{ c.iconBg }};color:{{ c.iconColor }}">{{ c.glyph }}</span>
@@ -2945,7 +2945,7 @@ class Component extends DCLogic {
     this.mx = (e.clientX / innerWidth - 0.5) * 2; this.my = (e.clientY / innerHeight - 0.5) * 2;
     if (this.cursorEl) this.cursorEl.style.transform = 'translate(' + (e.clientX - 300) + 'px,' + (e.clientY - 300) + 'px)';
   };
-  onKey = e => { if (this.state.o2info && e.key === 'Escape') { e.preventDefault(); this.o2CloseInfo(); return; } if (e.key === 'Escape') { if (this.state.navMenu) { e.preventDefault(); this.setState({ navMenu:false }, () => document.getElementById('o2-menu-toggle')?.focus()); } else if (this.state.solHover != null) this.solClose(); else if (this.state.tawFs) this.setState({ tawFs: false }); else if (this.state.open != null) this.closeDemo(); else if (this.state.guideOpen) this.setState({ guideOpen: false, tour: null }); } };
+  onKey = e => { if (e.key === 'Tab' && this.state.open != null) this.o2TrapDemoFocus(e); if (this.state.o2info && e.key === 'Escape') { e.preventDefault(); this.o2CloseInfo(); return; } if (e.key === 'Escape') { if (this.state.navMenu) { e.preventDefault(); this.setState({ navMenu:false }, () => document.getElementById('o2-menu-toggle')?.focus()); } else if (this.state.solHover != null) this.solClose(); else if (this.state.tawFs) this.setState({ tawFs: false }); else if (this.state.open != null) this.closeDemo(); else if (this.state.guideOpen) this.setState({ guideOpen: false, tour: null }); } };
   onScroll = () => {
     { const past = window.scrollY > 60; if (past !== !!this.state.cueGone) {
       if (past && document.activeElement?.id === 'o2-hero-scroll-cue') {
@@ -4046,6 +4046,16 @@ class Component extends DCLogic {
       this.o2InfoReturnFocus=null;
     });
   };
+  o2TrapDemoFocus = e => {
+    if(e.key!=='Tab'||this.state.open==null)return;
+    const modal=Array.from(document.querySelectorAll('[role="dialog"][aria-modal="true"]')).find(el=>(el.getAttribute('aria-label')||'').endsWith(' demo'));
+    if(!modal)return;
+    const items=Array.from(modal.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.disabled&&el.getClientRects().length);
+    if(!items.length)return;
+    const first=items[0],last=items[items.length-1];
+    if(e.shiftKey&&(document.activeElement===first||!modal.contains(document.activeElement))){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&(document.activeElement===last||!modal.contains(document.activeElement))){e.preventDefault();first.focus();}
+  };
   o2InfoFocusGuard = e => {
     if(!this.state.o2info)return;
     const modal=this.o2InfoRef.current;
@@ -4189,6 +4199,15 @@ class Component extends DCLogic {
           o2FeatureTitle:ar?'ميزات الذكاء الاصطناعي':'AI Features',
           o2FeatureIntro:ar?'أدوات تبسّط الإنتاج، وتحسّن التجربة، وتكشف رؤى جديدة.':'Tools that simplify creation, improve experiences, and unlock insights.',
           o2FilterLabel:ar?'تصفية ميزات الذكاء الاصطناعي حسب التصنيف':'Filter AI features by category',
+          o2FiltersKey:e=>{
+            if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+            const controls=Array.from(e.currentTarget.querySelectorAll('button'));
+            const i=controls.indexOf(document.activeElement);
+            if(i<0)return;
+            const dir=ar?(e.key==='ArrowLeft'?1:-1):(e.key==='ArrowRight'?1:-1);
+            const j=(i+dir+controls.length)%controls.length;
+            e.preventDefault();controls[j].focus();controls[j].click();
+          },
           o2CarouselLabel:ar?'اسحب لاستكشاف الميزات أو استخدم أزرار السابق والتالي':'Swipe to explore features or use Previous and Next',
           o2TrackDir:ar?'rtl':'ltr',o2PrevGlyph:ar?'›':'‹',o2NextGlyph:ar?'‹':'›',
           o2ResultCount:ar?count+' ميزات':count+(count===1?' feature':' features'),
@@ -4201,7 +4220,7 @@ class Component extends DCLogic {
           o2Prev:()=>this.o2Go(cur-1),o2Next:()=>this.o2Go(cur+1),
           o2Chips:[chip(fc<0,'◎',ar?'الكل':'All',-1),...O.cats.map((c,i)=>chip(fc===i,c.glyph,ar?catsAr[i]:c.name,i))],
           o2Cards:flat.map((f,i)=>{
-            const di=this.D.features.findIndex(x=>x.id===f.id),demo=di>=0;
+            const di=this.D.features.findIndex(x=>x.id===f.id),demo=di>=0&&this.D.features[di].type==='live';
             const cta=ar?(demo?'جرّب الآن':'اعرف المزيد'):(demo?'Try it':'Learn more');
             const short=shorts[f.id]?.[ar?1:0]||f.desc;
             return {...f,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
