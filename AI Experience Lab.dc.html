@@ -4021,8 +4021,9 @@ class Component extends DCLogic {
       this.setState({o2ix:i,o2pr:ratio,o2max:max});
   };
   o2SnapNearest = (behavior) => {
-    const t=this.o2TrackRef.current;if(!t||this.o2drag||this.o2Rebasing)return;
-    if(this.o2Rebase(t))return;
+    const t=this.o2TrackRef.current;if(!t||this.o2drag)return;
+    if(this.o2Rebasing){requestAnimationFrame(()=>this.o2SnapNearest(behavior));return;}
+    if(this.o2Rebase(t)){requestAnimationFrame(()=>this.o2SnapNearest(behavior));return;}
     const pts=this.o2CardSnapPoints(t),sl=this.o2ScrollGet(t);if(!pts.length)return;
     const target=pts.reduce((a,b)=>Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,pts[0]);
     if(Math.abs(sl-target.position)>1.5)this.o2ScrollSet(t,target.position,behavior||(this.reduce?'auto':'smooth'));
