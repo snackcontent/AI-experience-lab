@@ -1619,13 +1619,13 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
         </div>
         <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
           <sc-if value="{{ sol0Video.has }}" hint-placeholder-val="{{ false }}">
-            <video src="{{ sol0Video.src }}" controls="" playsInline="" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000"></video>
+            <video src="{{ sol0Video.src }}" controls="" playsInline="" preload="metadata" onError="{{ solVideoError }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000"></video>
           </sc-if>
           <sc-if value="{{ sol0Video.none }}" hint-placeholder-val="{{ true }}">
-            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at 50% 40%, rgba(63,224,255,0.18), transparent 70%)">
-              <span style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(10px)"><span aria-hidden="true" style="position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(63,224,255,0.6);animation:wwPing 2.4s ease-out infinite"></span><span aria-hidden="true" style="width:0;height:0;margin-left:5px;border-left:18px solid #FFFFFF;border-top:11px solid transparent;border-bottom:11px solid transparent"></span></span>
-              <span style="font-size:15px;color:#DDE8FF">Labeeb walkthrough video</span>
-              <span style="font-size:13px;color:#8EA6CF">Add the video link in Tweaks</span>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;background:radial-gradient(ellipse at 50% 40%,rgba(47,107,255,.26),rgba(4,10,28,.75))">
+              <img src="assets/labeeb-mark.png" alt="" decoding="async" style="display:block;width:clamp(76px,18vw,124px);height:auto;max-height:42%;object-fit:contain"/>
+              <span style="font-size:clamp(18px,2.2vw,24px);font-weight:600;color:#FFFFFF">Labeeb</span>
+              <span style="font-size:14px;color:#C9D8F5">{{ solVideoFallbackLabel }}</span>
             </div>
           </sc-if>
         </div>
@@ -1698,22 +1698,24 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
       <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
         <div style="display:flex;align-items:center;gap:16px">
           <sc-if value="{{ pp.hasLogo }}" hint-placeholder-val="{{ false }}"><div role="img" aria-label="{{ pp.name }} logo" style="width:150px;height:56px;flex:none;background-image:{{ pp.logoBg }};background-size:contain;background-repeat:no-repeat;background-position:left center"></div></sc-if>
-          <sc-if value="{{ pp.noLogo }}" hint-placeholder-val="{{ true }}"><div style="width:150px;height:56px;flex:none;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="{{ pp.logoId }}" shape="rounded" radius="14" fit="contain" placeholder="Logo" style="width:150px;height:56px;white-space:nowrap"></image-slot></div></sc-if>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>{{ pp.cat }}</span>
-            <sc-if value="{{ pp.noLogo }}" hint-placeholder-val="{{ true }}"><h2 style="margin:0;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">{{ pp.name }}</h2></sc-if>
+            <h2 id="pp-dialog-title" style="margin:0;font-size:clamp(28px,3vw,40px);line-height:1.2;font-weight:600;letter-spacing:-0.025em">{{ pp.name }}</h2>
           </div>
           <button type="button" data-product-close="" onClick="{{ ppClose }}" aria-label="{{ productCloseLabel }}" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
         <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
-          <sc-if value="{{ pp.isImage }}" hint-placeholder-val="{{ true }}"><image-slot id="{{ pp.heroId }}" shape="rounded" radius="20" fit="cover" placeholder="{{ pp.heroPh }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot></sc-if>
-          <sc-if value="{{ pp.isTw }}" hint-placeholder-val="{{ false }}"><video src="assets/tawazi-video.mp4" controls="" playsInline="" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#000"></video></sc-if>
-          <sc-if value="{{ pp.hasVideo }}" hint-placeholder-val="{{ false }}"><video src="{{ pp.video }}" controls="" playsInline="" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000"></video></sc-if>
-          <sc-if value="{{ pp.videoPh }}" hint-placeholder-val="{{ false }}">
-            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at 50% 40%, rgba(63,224,255,0.18), transparent 70%)">
-              <span style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(10px)"><span aria-hidden="true" style="position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(63,224,255,0.6);animation:wwPing 2.4s ease-out infinite"></span><span aria-hidden="true" style="width:0;height:0;margin-left:5px;border-left:18px solid #FFFFFF;border-top:11px solid transparent;border-bottom:11px solid transparent"></span></span>
-              <span style="font-size:15px;color:#DDE8FF">{{ pp.name }} walkthrough video</span>
-              <span style="font-size:13px;color:#8EA6CF">Add the video link in Tweaks</span>
+
+          <sc-if value="{{ pp.hasVideo }}" hint-placeholder-val="{{ false }}">
+            <video src="{{ pp.video }}" controls="" playsInline="" preload="metadata" onError="{{ ppVideoError }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#000" aria-label="{{ pp.mediaLabel }}"></video>
+          </sc-if>
+          <sc-if value="{{ pp.showPoster }}" hint-placeholder-val="{{ true }}">
+            <img src="{{ pp.poster }}" alt="{{ pp.posterAlt }}" onError="{{ ppPosterError }}" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:rgba(4,10,28,0.6)"/>
+          </sc-if>
+          <sc-if value="{{ pp.showTextFallback }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;background:linear-gradient(135deg,#07345e,#041c38)">
+              <span style="font-size:clamp(22px,3vw,32px);font-weight:600;color:#FFFFFF">{{ pp.name }}</span>
+              <span style="font-size:15px;line-height:1.55;color:#DDE8FF">{{ pp.desc }}</span>
             </div>
           </sc-if>
         </div>
@@ -2664,7 +2666,7 @@ class Component extends DCLogic {
   solOpen(k) {
     clearTimeout(this.solCloseT);this.solLast=document.activeElement;
     this.productPriorOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
-    this.setState({solHover:k,solPop:true},()=>this.productFocusOpen('sol'));
+    this.setState({solHover:k,solPop:true,solVideoFailed:false},()=>this.productFocusOpen('sol'));
   }
   solClose = () => {
     this.setState({solPop:false,solHover:null},()=>{
@@ -4410,10 +4412,18 @@ class Component extends DCLogic {
           o2Info:it?{cat:cat.name,glyph:cat.glyph,name:it.name,desc:it.desc,pts:it.pts,hasPts:it.pts.length>0}:{cat:'',glyph:'',name:'',desc:'',pts:[],hasPts:false},
           o2InfoClose:this.o2CloseInfo,o2Stop:e=>e.stopPropagation() }; })(),
       ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
-        const slug = P ? P.name.toLowerCase() : 'x', doc = !!DC, isNs = pi === 2, nsVid = (this.props.nasherVideo || '').trim(), lr = window.__resources && window.__resources['nasher-logo'];
+        const slug=P?P.name.toLowerCase():'x',doc=!!DC,isNs=pi===2,nsVid=(this.props.nasherVideo||'').trim(),lr=window.__resources&&window.__resources['nasher-logo'];
+        const chosenVideo=pi===3?'assets/tawazi-video.mp4':isNs?nsVid:'';
+        const hasVideo=!!chosenVideo&&!s.ppMediaFailed,showPoster=!hasVideo&&!s.ppPosterFailed;
+        const poster=DC?'assets/'+DC.dir+'/p01.png':'';
         return { ppOpen: pi != null && pi !== 0 && s.ppIn, ppClose: this.ppClose, ppDialogRef:this.ppDialogRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
           docTitle: DC ? DC.title : '', docKind: DC ? DC.kind : '', docRatio: DC ? DC.ratio : '16 / 9', docMaxW: DC ? DC.maxW : '100%', docMulti: N > 1,
-          pp: P ? { name: P.name, cat: P.cat, desc: P.desc, more: P.more || '', hasMore: !!P.more, hasDoc: doc, hasLogo: isNs, noLogo: !isNs, logoBg: 'url("' + (lr || 'assets/nasher-logo-light.png') + '")', isTw: pi === 3, isImage: !isNs && pi !== 3, hasVideo: isNs && !!nsVid, video: nsVid, videoPh: isNs && !nsVid, logoId: 'pp-logo-' + slug, heroId: 'pp-hero-' + slug, heroPh: 'Drop a ' + P.name + ' image' } : { name: '', cat: '', desc: '', more: '', hasMore: false, hasDoc: false, hasLogo: false, noLogo: true, logoBg: 'none', isTw: false, isImage: true, hasVideo: false, video: '', videoPh: false, logoId: 'pp-logo-x', heroId: 'pp-hero-x', heroPh: '' },
+          pp:P?{name:P.name,cat:P.cat,desc:P.desc,more:P.more||'',hasMore:!!P.more,hasDoc:doc,hasLogo:isNs,noLogo:!isNs,
+            logoBg:'url("'+(lr||'assets/nasher-logo-light.png')+'")',
+            hasVideo,video:chosenVideo,showPoster,poster,posterAlt:P.name+' — '+(DC?DC.title:'Product presentation')+' cover',showTextFallback:!hasVideo&&!showPoster,
+            mediaLabel:P.name+' product video'}:{name:'',cat:'',desc:'',more:'',hasMore:false,hasDoc:false,hasLogo:false,noLogo:true,hasVideo:false,video:'',showPoster:false,poster:'',posterAlt:'',showTextFallback:false,mediaLabel:''},
+          ppVideoError:()=>this.setState({ppMediaFailed:true}),
+          ppPosterError:()=>this.setState({ppPosterFailed:true}),
           docPage: String(pg).padStart(2, '0'), docTotal: String(N).padStart(2, '0'), docProg: (pg / N * 100) + '%',
           docPrev: () => this.docGo(pg - 1), docNext: () => this.docGo(pg + 1), docPrevOp: pg > 1 ? 1 : 0.35, docNextOp: pg < N ? 1 : 0.35,
           docFull: () => { const el = this.ppDocEl; if (!el) return; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); },
@@ -4516,10 +4526,12 @@ class Component extends DCLogic {
       return { label, href: '#' + (ci >= 0 ? 'capabilities' : id), color: on ? '#FFFFFF' : '#A9BFDA', onClick: e => { e.preventDefault(); ci >= 0 ? this.scrollToCard(ci) : this.scrollToId(id); } }; });
 
     const solCard = k => ({ open: () => this.solOpen(k), key: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.solOpen(k); } } });
-    const vid = u => { u = (u || '').trim(); return { has: !!u, none: !u, src: u }; };
+    const vid = u => { u = (u || '').trim();const has=!!u&&!s.solVideoFailed;return { has, none:!has, src:u }; };
     const solV = {
       sol0: solCard(0), sol1: solCard(1), solViz0: this.solViz(0), solViz1: this.solViz(1), solOpen0: s.solHover === 0 && s.solPop, solOpen1: s.solHover === 1 && s.solPop, solClose: this.solClose,
-      sol0Video: vid(this.props.labeebVideo), sol1Video: vid(this.props.muraqibVideo),
+      sol0Video:vid(this.props.labeebVideo),sol1Video:vid(this.props.muraqibVideo),
+      solVideoFallbackLabel:s.lang==='ar'?'إدارة تحرير موحدة وسير عمل مدعوم بالذكاء الاصطناعي':'Unified editorial management and AI workflows',
+      solVideoError:()=>this.setState({solVideoFailed:true}),
       pipScroll: this.pipScroll, solPE: s.solPop ? 'auto' : 'none', solPopIn: { bgOp: s.solPop ? 1 : 0, boxTf: s.solPop ? 'none' : 'translateY(24px) scale(0.97)', op: s.solPop ? 1 : 0, tf: s.solPop ? 'none' : 'translateX(-10px)' },
       solDialogRef:this.solDialogRef, productCloseLabel:s.lang==='ar'?'إغلاق تفاصيل المنتج':'Close product details',
       solPopCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', solStop: e => e.stopPropagation(),
