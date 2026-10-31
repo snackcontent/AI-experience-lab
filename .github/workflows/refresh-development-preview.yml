@@ -1,0 +1,55 @@
+name: Refresh stable Development preview
+
+on:
+  push:
+    branches: [development]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: development-preview-cache
+  cancel-in-progress: true
+
+jobs:
+  refresh-preview:
+    name: Invalidate preview cache and verify latest HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Purge GitHack cache for canonical development URL
+        shell: bash
+        env:
+          PREVIEW_URL: https://raw.githack.com/snackcontent/AI-experience-lab/development/AI%20Experience%20Lab.dc.html
+        run: |
+          set -euo pipefail
+          echo "Requesting cache invalidation for the existing stable development URL"
+          curl --fail-with-body --silent --show-error --max-time 40 \
+            --request DELETE --get --data-urlencode "url=${PREVIEW_URL}" \
+            https://raw.githack.com/purge
+          echo
+
+      - name: Verify preview serves exact current development source
+        shell: bash
+        env:
+          PREVIEW_URL: https://raw.githack.com/snackcontent/AI-experience-lab/development/AI%20Experience%20Lab.dc.html
+        run: |
+          set -euo pipefail
+          expected="$(sha256sum 'AI Experience Lab.dc.html' | cut -d' ' -f1)"
+          for i in 1 2 3 4 5 6 7 8; do
+            curl --fail-with-body --silent --show-error --location --max-time 45 \
+              "${PREVIEW_URL}" --output /tmp/ai-lab-preview.html
+            observed="$(sha256sum /tmp/ai-lab-preview.html | cut -d' ' -f1)"
+            if [ "${observed}" = "${expected}" ]; then
+              echo "Verified: stable preview HTML matches current development commit"
+              exit 0
+            fi
+            echo "Preview is still serving a cached HTML version (attempt ${i}/8)"
+            sleep 8
+          done
+          echo "::error::Development preview still differs from the latest source after cache invalidation"
+          echo "Latest development SHA256: ${expected}"
+          echo "GitHack preview SHA256: ${observed}"
+          exit 1
