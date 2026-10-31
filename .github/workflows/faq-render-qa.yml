@@ -86,13 +86,23 @@ jobs:
                 if(await page.locator('#o2-faq .o2-faq-question:visible').count()){
                   const q=page.locator('#o2-faq .o2-faq-question:visible').first();
                   const ans=page.locator('#o2-faq .o2-faq-answer-inner p').first();
-                  const info=await q.evaluate(el=>({fontSize:getComputedStyle(el).fontSize,
-                    weight:getComputedStyle(el).fontWeight,text:el.textContent.trim(),
-                    family:getComputedStyle(el).fontFamily}));
-                  const answerInfo=await ans.evaluate(el=>({fontSize:getComputedStyle(el).fontSize,
-                    lineHeight:getComputedStyle(el).lineHeight}));
-                  console.log('ACTUAL COMPUTED FAQ',JSON.stringify({viewport,question:info,answer:answerInfo}));
-                  if(info.fontSize!=='18px'||answerInfo.fontSize!=='16px')failed=true;
+                  const info=await q.evaluate(el=>{
+                    const inner=el.querySelector('span.sc-interp') || el;
+                    return {outerSize:getComputedStyle(el).fontSize,fontSize:getComputedStyle(inner).fontSize,
+                      outerWeight:getComputedStyle(el).fontWeight,weight:getComputedStyle(inner).fontWeight,
+                      text:inner.textContent.trim(),family:getComputedStyle(inner).fontFamily,
+                      innerTag:inner.tagName,innerClass:inner.className};
+                  });
+                  const answerInfo=await ans.evaluate(el=>{
+                    const inner=el.querySelector('span.sc-interp') || el;
+                    return {outerSize:getComputedStyle(el).fontSize,fontSize:getComputedStyle(inner).fontSize,
+                      lineHeight:getComputedStyle(inner).lineHeight,innerClass:inner.className};
+                  });
+                  console.log('ACTUAL COMPUTED FAQ TEXT',JSON.stringify({viewport,question:info,answer:answerInfo}));
+                  if(info.fontSize!=='18px'||info.weight!=='700'||answerInfo.fontSize!=='16px'){
+                    console.error('TEXT OVERRIDE: generated span has unexpected computed typography');
+                    failed=true;
+                  }
                   await page.locator('#o2-faq').screenshot({path:'/tmp/ai-lab-faq-qa/faq-'+viewport.width+'.png',timeout:60000});
                 } else {
                   console.log('FAQ NOT VISIBLE in Chromium. Captured diagnostic page screenshot.');
