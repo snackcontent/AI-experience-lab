@@ -2753,7 +2753,7 @@ class Component extends DCLogic {
     const message=String(values.o2cMessage||'').trim();
     if(!name)errors.name='required';
     if(!email)errors.email='required';
-    else if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(email))errors.email='format';
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))errors.email='format';
     if(!this.o2cTopics.includes(interest))errors.interest='required';
     if(interest==='Other'&&!message)errors.message='requiredOther';
     return errors;
