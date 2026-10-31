@@ -24,7 +24,8 @@
       const A = G.anchor, k = G.k; s.p = { x: Math.max(A.x - 60 * k, Math.min(A.x + 60 * k, q.x)), y: Math.max(A.y + 40 * k, Math.min(A.y + G.L + 90 * k, q.y)) };
     }
     function up() { if (!s.drag) return; s.drag = false; const pulled = s.p.y - G.rest.y; if (pulled > 28 * G.k || s.moved < 4) { toggle(); s.v.y = -6; } }
-    cv.addEventListener('pointerdown', down); cv.addEventListener('pointermove', move); cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+    function cancel() { s.drag = false; s.moved = 0; if (G) s.p = { x: G.rest.x, y: G.rest.y }; }
+    cv.addEventListener('pointerdown', down); cv.addEventListener('pointermove', move); cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', cancel);
     cv.style.touchAction = o.allowTouchScroll && window.matchMedia && window.matchMedia('(max-width: 991.98px)').matches ? 'pan-y' : 'none';
     function frame(now) {
       if (dead) return; raf = requestAnimationFrame(frame);
@@ -88,7 +89,7 @@
     return {
       setOn(v) { if (!!v !== s.on) toggle(v); },
       isOn() { return s.on; },
-      destroy() { dead = true; cancelAnimationFrame(raf); ro && ro.disconnect(); cv.removeEventListener('pointerdown', down); cv.removeEventListener('pointermove', move); cv.removeEventListener('pointerup', up); cv.removeEventListener('pointercancel', up); }
+      destroy() { dead = true; cancelAnimationFrame(raf); ro && ro.disconnect(); cv.removeEventListener('pointerdown', down); cv.removeEventListener('pointermove', move); cv.removeEventListener('pointerup', up); cv.removeEventListener('pointercancel', cancel); }
     };
   }
   window.WWLamp = Lamp;
