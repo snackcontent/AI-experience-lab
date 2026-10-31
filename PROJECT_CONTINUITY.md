@@ -53,7 +53,9 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 - Match the **structure** of the user-provided screenshot, not its colors: left intro/support/contact column, right list of accordions, responsive stacking.
 - Single-open FAQ accordion: choosing another item closes the previous one. The user explicitly did not want every item expanded at the same time.
 - Contact Us CTA scrolls to `#o2-contact`. Preserve existing palette, Arabic RTL, keyboard interaction, and mobile wrapping.
-- Implemented in source checkpoint `63f5cd4`; do not claim comprehensive browser QA solely from a source commit.
+- Implemented initially in source checkpoint `63f5cd4`; updated **2026-10-31** in `fdcefdea8a2f1f66816681ff979cc2006b3a4e3e`: FAQ now uses the **full 1320px/12-column container** (`data-layout-container` without `="8"`), with **5/7 spans, standard 24px gutter, and a completely transparent outer FAQ shell** (no large background/border/shadow). Retain subtle individual accordion card surfaces and single-open interaction.
+- Typography baseline: heading 36–52px desktop / 34–42px mobile, question 18–20px, answers 16–18px, comfortable 1.5–1.7 line height. Ensure selector specificity beats general `#o2-faq>div:first-child span/p/h2` !important rules. Preserve Arabic RTL, responsive stacking at <=991.98px, and anchor link to contact.
+- The `Responsive Grid Contract` GitHub Actions check passed for `fdcefdea` (run `41186322016`). Static contrast calculations against the page's dark-blue base passed WCAG AA. These checks are not a substitute for all-device browser visual verification.
 
 ## 6. Standard execution workflow for future chats
 
