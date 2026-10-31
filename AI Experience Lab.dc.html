@@ -1739,7 +1739,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
               </div>
               <div style="display:flex;align-items:center;gap:10px">
                 <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;color:#9CB3DD;font-variant-numeric:tabular-nums"><span style="color:#FFFFFF;font-weight:600">{{ docPage }}</span> / {{ docTotal }}</span></sc-if>
-                <button type="button" onClick="{{ docFull }}" aria-label="{{ docFullLabel }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:13px;cursor:pointer" style-hover="background:rgba(63,224,255,0.14)">{{ docFullLabel }}</button>
+                <button type="button" data-product-fullscreen="" onClick="{{ docFull }}" aria-label="{{ docFullLabel }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:13px;cursor:pointer" style-hover="background:rgba(63,224,255,0.14)">{{ docFullLabel }}</button>
               </div>
             </div>
             <div style="position:relative;width:100%;max-width:{{ docMaxW }};margin:0 auto;aspect-ratio:{{ docRatio }};border-radius:14px;overflow:hidden;background:#F4F7FC;box-shadow:0 30px 70px -30px rgba(0,0,0,0.8)">
@@ -2634,6 +2634,10 @@ class Component extends DCLogic {
     const dialog=this.productDialog();if(!dialog||dialog.contains(e.target))return;
     (dialog.querySelector('[data-product-close]')||dialog).focus({preventScroll:true});
   };
+  productFullscreenChanged = () => {
+    if(!document.fullscreenElement&&this.state.ppIn&&!this.productClosing)
+      requestAnimationFrame(()=>this.ppDialogEl?.querySelector('[data-product-fullscreen]')?.focus({preventScroll:true}));
+  };
   productFocusOpen = which => requestAnimationFrame(()=>{
     const dialog=which==='pp'?this.ppDialogEl:this.solDialogEl;
     (dialog?.querySelector('[data-product-close]')||dialog)?.focus({preventScroll:true});
@@ -2644,10 +2648,12 @@ class Component extends DCLogic {
     this.setState({ppIdx:i,ppIn:true,docPage:1,ppMediaFailed:false,ppPosterFailed:false},()=>this.productFocusOpen('pp'));
   };
   ppClose = () => {
+    this.productClosing=true;
     if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
     this.setState({ppIn:false,ppIdx:null},()=>{
       document.body.style.overflow=this.productPriorOverflow??'';
       if(this.ppLast?.isConnected)this.ppLast.focus({preventScroll:true});
+      this.productClosing=false;
     });
   };
   docGo = n => {
@@ -2903,6 +2909,7 @@ class Component extends DCLogic {
     window.addEventListener('keydown', this.onKey);
     document.addEventListener('keydown',this.productModalKey,true);
     document.addEventListener('focusin',this.productFocusGuard,true);
+    document.addEventListener('fullscreenchange',this.productFullscreenChanged);
     document.addEventListener('focusin', this.o2InfoFocusGuard, true);
     if (window.speechSynthesis) { this.loadVoices(); speechSynthesis.onvoiceschanged = () => this.loadVoices(); }
     setTimeout(() => this.setState({ heroIn: true }), 80);
@@ -2953,6 +2960,7 @@ class Component extends DCLogic {
     window.removeEventListener('keydown', this.onKey);
     document.removeEventListener('keydown',this.productModalKey,true);
     document.removeEventListener('focusin',this.productFocusGuard,true);
+    document.removeEventListener('fullscreenchange',this.productFullscreenChanged);
     document.removeEventListener('focusin', this.o2InfoFocusGuard, true);
     this.stopAll(); clearInterval(this.revealIv); clearTimeout(this.tabTimer); clearTimeout(this.cfTimer); clearTimeout(this.rbI1); clearTimeout(this.rbI2); clearTimeout(this.lampWait); if (this.lamp) this.lamp.destroy(); if (this.pv) { this.pv.pause(); this.pv.src = ''; }
   }
