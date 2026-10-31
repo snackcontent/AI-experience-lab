@@ -604,6 +604,28 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
   #o2-contact .o2-contact-form{padding-inline:16px!important}
 }
 
+
+/* Contact-only form states; keep existing palette, lamp and two-column layout. */
+#o2-contact .o2-contact-form :is(input,select,textarea){width:100%;box-sizing:border-box}
+#o2-contact .o2-contact-form textarea{min-height:112px;resize:vertical;max-width:100%;font:inherit;font-size:16px;line-height:1.55}
+#o2-contact .o2-contact-form :is(input,select,textarea)::placeholder{color:#BCCDE1;opacity:1}
+#o2-contact .o2-contact-form :is(input,select,textarea)[aria-invalid="true"]{border-color:#FFC4C4!important}
+#o2-contact .o2-contact-form .o2-contact-field-note{font-size:12px;font-weight:500;color:#D1E0EF}
+#o2-contact .o2-contact-form .o2-contact-field-error{font-size:13px;line-height:1.45;font-weight:600;color:#FFD5D5}
+#o2-contact .o2-contact-form :is(input,select,textarea,button):focus-visible,
+#o2-contact .o2-contact-intro>canvas:focus-visible{outline:2px solid #9BE8FF!important;outline-offset:2px!important}
+#o2-contact .o2-contact-form button[type="submit"]{color:#FFFFFF}
+#o2-contact .o2-contact-form button[type="submit"]:disabled{opacity:.5;cursor:wait;filter:saturate(.55)}
+#o2-contact .o2-contact-form .o2-contact-demo-title{font-size:22px;line-height:1.4;font-weight:700;color:#FFFFFF}
+#o2-contact .o2-contact-form .o2-contact-demo-description{font-size:16px;line-height:1.6;color:#E3EEFA}
+@media(max-width:991.98px){
+ #o2-contact [data-contact-spacer]{min-height:170px!important}
+}
+@media(max-width:575.98px){
+ #o2-contact [data-contact-spacer]{min-height:clamp(145px,39vw,185px)!important}
+ #o2-contact .o2-contact-form textarea{min-height:100px}
+}
+
 /* FAQ revised: 12-column grid 5/7; no outer panel; responsive reading order. */
 /* Ensure generated <span class="sc-interp"> inherits rendered FAQ typography.
    Avoid global 13px 'span' selectors: text interpolations are wrapped in spans. */
@@ -1600,34 +1622,51 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
   <div data-layout-grid12="contact" class="o2-contact-shell" style="position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
     <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 25% 70%, rgba(120,230,255,0.16), transparent 70%);opacity:{{ o2LampWash }};transition:opacity .8s ease"></div>
     <div data-layout-span="6" class="o2-contact-intro" style="position:relative;z-index:1;pointer-events:none;display:flex;flex-direction:column;gap:14px;padding:clamp(28px,3.35vw,48px) clamp(26px,3.35vw,48px) 0">
-      <canvas ref="{{ o2LampRef }}" aria-label="Table lamp. Pull the cord to turn it on." style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:auto"></canvas>
+      <canvas ref="{{ o2LampRef }}" role="button" tabIndex="0" aria-pressed="{{ o2LampOn }}" aria-label="{{ o2LampAccessibleLabel }}" onKeyDown="{{ o2LampKey }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:auto"></canvas>
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Get involved</span>
       <h2 style="margin:0;font-size:clamp(20px,2.2vw,28px);line-height:1.1;letter-spacing:-0.03em;font-weight:700;white-space:nowrap;background:linear-gradient(100deg,#4A3BFF 0%,#5E8DFF 45%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em">Let's build what comes next.</h2>
       <p style="margin:0;max-width:420px;font-size:16px;line-height:1.6;color:#B9CCF0">Have an idea or a use case? Tell us about it.</p>
       <div data-contact-spacer aria-hidden="true" style="flex:1;min-height:260px"></div>
     </div>
     <div data-layout-span="6" class="o2-contact-form-column" style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:clamp(28px,3.35vw,48px) clamp(26px,3.35vw,48px)">
-      <div class="o2-contact-form-card" style="position:relative;border-radius:22px;opacity:{{ o2LampFormOp }};filter:{{ o2LampFormFilter }};transform:{{ o2LampFormTf }};transition:opacity .8s ease, filter .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);overflow:hidden;border:1px solid rgba(63,224,255,0.3);background:linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 40px 90px -50px rgba(47,107,255,0.8)" onPointerDown="{{ o2LampToggle }}">
+      <div class="o2-contact-form-card" style="position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(63,224,255,0.3);background:linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 40px 90px -50px rgba(47,107,255,0.8)">
         <canvas ref="{{ o2cRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;opacity:0.55;-webkit-mask-image:linear-gradient(200deg,#000 0%,rgba(0,0,0,0.5) 45%,transparent 75%);mask-image:linear-gradient(200deg,#000 0%,rgba(0,0,0,0.5) 45%,transparent 75%)"></canvas>
-        <form class="o2-contact-form" onSubmit="{{ o2cSubmit }}" style="position:relative;display:flex;flex-direction:column;gap:16px;padding:clamp(22px,2.35vw,32px)">
+        <form class="o2-contact-form" noValidate="" onSubmit="{{ o2cSubmit }}" aria-label="{{ o2cFormLabel }}" style="position:relative;display:flex;flex-direction:column;gap:16px;padding:clamp(22px,2.35vw,32px)">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
             <span style="font-size:20px;font-weight:600;letter-spacing:-0.01em;line-height:1.2">Contact Us</span>
           </div>
           <sc-if value="{{ o2cSent }}" hint-placeholder-val="{{ false }}">
-            <div role="status" style="display:flex;flex-direction:column;gap:10px;padding:28px 0">
-              <span style="font-size:22px;font-weight:600;color:#FFFFFF">Thanks, {{ o2cName }}.</span>
-              <span style="font-size:16px;line-height:1.6;color:#C9D8F2">We received your message and will reply to {{ o2cEmail }}.</span>
+            <div role="status" aria-live="polite" aria-atomic="true" style="display:flex;flex-direction:column;gap:10px;padding:28px 0">
+              <strong class="o2-contact-demo-title">{{ o2cDemoTitle }}</strong>
+              <span class="o2-contact-demo-description">{{ o2cDemoDescription }}</span>
               <button type="button" onClick="{{ o2cReset }}" style="align-self:flex-start;margin-top:8px;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid rgba(150,190,255,0.4);background:transparent;color:#EAF2FF;font:inherit;font-size:15px;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Send another</button>
             </div>
           </sc-if>
           <sc-if value="{{ o2cOpen }}" hint-placeholder-val="{{ true }}">
-            <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">Name<input required="" name="name" value="{{ o2cName }}" onChange="{{ o2cSetName }}" placeholder="Your full name" style="width:100%;box-sizing:border-box;min-height:50px;padding:12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.28);background:rgba(3,18,43,0.6);color:#FFFFFF;font:inherit;font-size:16px;outline:none;transition:border-color .3s, box-shadow .3s"></label>
-            <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">Email<input required="" type="email" name="email" value="{{ o2cEmail }}" onChange="{{ o2cSetEmail }}" placeholder="you@company.com" style="width:100%;box-sizing:border-box;min-height:50px;padding:12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.28);background:rgba(3,18,43,0.6);color:#FFFFFF;font:inherit;font-size:16px;outline:none;transition:border-color .3s, box-shadow .3s"></label>
-            <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">Interested in<select required="" name="interest" value="{{ o2cInterest }}" onChange="{{ o2cSetInterest }}" style="width:100%;box-sizing:border-box;min-height:50px;padding:12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.28);background:rgba(3,18,43,0.6);color:#FFFFFF;font:inherit;font-size:16px;outline:none;transition:border-color .3s, box-shadow .3s;appearance:none;-webkit-appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,#7FE7FF 50%),linear-gradient(135deg,#7FE7FF 50%,transparent 50%);background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px;background-repeat:no-repeat">
-              <option value="" disabled="">Select a topic</option>
-              <sc-for list="{{ o2cTopics }}" as="t" hint-placeholder-count="5"><option value="{{ t }}" style="background:#03122B">{{ t }}</option></sc-for>
-            </select></label>
-            <button type="submit" style="margin-top:6px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;border:none;background:linear-gradient(100deg,#4A3BFF,#2F6BFF 50%,#3FE0FF);color:#FFFFFF;font:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 18px 40px -18px rgba(63,224,255,0.8);transition:transform .3s, box-shadow .3s" style-hover="transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(63,224,255,1)">Let's Talk<span aria-hidden="true">↗</span></button>
+            <label for="o2-contact-field-name" style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">
+              <span>Name <span class="o2-contact-field-note">{{ o2cRequiredLabel }}</span></span>
+              <input id="o2-contact-field-name" required="" autocomplete="name" name="name" value="{{ o2cName }}" onChange="{{ o2cSetName }}" aria-required="true" aria-invalid="{{ o2cNameInvalid }}" aria-describedby="{{ o2cNameDescribedBy }}" placeholder="Your full name" style="min-height:50px;padding:12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.38);background:rgba(3,18,43,0.6);color:#FFFFFF;font:inherit;font-size:16px;transition:border-color .3s">
+              <sc-if value="{{ o2cNameInvalid }}"><span id="o2-contact-error-name" class="o2-contact-field-error" role="alert">{{ o2cNameError }}</span></sc-if>
+            </label>
+            <label for="o2-contact-field-email" style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">
+              <span>Email <span class="o2-contact-field-note">{{ o2cRequiredLabel }}</span></span>
+              <input id="o2-contact-field-email" required="" type="email" autocomplete="email" inputMode="email" dir="ltr" name="email" value="{{ o2cEmail }}" onChange="{{ o2cSetEmail }}" aria-required="true" aria-invalid="{{ o2cEmailInvalid }}" aria-describedby="{{ o2cEmailDescribedBy }}" placeholder="you@company.com" style="min-height:50px;padding:12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.38);background:rgba(3,18,43,0.6);color:#FFFFFF;font:inherit;font-size:16px;transition:border-color .3s">
+              <sc-if value="{{ o2cEmailInvalid }}"><span id="o2-contact-error-email" class="o2-contact-field-error" role="alert">{{ o2cEmailError }}</span></sc-if>
+            </label>
+            <label for="o2-contact-field-interest" style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">
+              <span>Interested in <span class="o2-contact-field-note">{{ o2cRequiredLabel }}</span></span>
+              <select id="o2-contact-field-interest" required="" name="interest" value="{{ o2cInterest }}" onChange="{{ o2cSetInterest }}" aria-required="true" aria-invalid="{{ o2cInterestInvalid }}" aria-describedby="{{ o2cInterestDescribedBy }}" style="min-height:50px;padding:12px 42px 12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.38);background:rgba(3,18,43,0.6);color:#FFFFFF;font:inherit;font-size:16px;appearance:none;-webkit-appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,#7FE7FF 50%),linear-gradient(135deg,#7FE7FF 50%,transparent 50%);background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px;background-repeat:no-repeat">
+                <option value="" disabled="">Select a topic</option>
+                <sc-for list="{{ o2cTopics }}" as="t" hint-placeholder-count="5"><option value="{{ t }}" style="background:#03122B">{{ t }}</option></sc-for>
+              </select>
+              <sc-if value="{{ o2cInterestInvalid }}"><span id="o2-contact-error-interest" class="o2-contact-field-error" role="alert">{{ o2cInterestError }}</span></sc-if>
+            </label>
+            <label for="o2-contact-field-message" style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500;color:#C9D8F2">
+              <span>Tell us about your idea <span class="o2-contact-field-note">{{ o2cMessageRequirement }}</span></span>
+              <textarea id="o2-contact-field-message" name="message" rows="4" value="{{ o2cMessage }}" onChange="{{ o2cSetMessage }}" aria-required="{{ o2cMessageRequired }}" aria-invalid="{{ o2cMessageInvalid }}" aria-describedby="{{ o2cMessageDescribedBy }}" style="padding:12px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.38);background:rgba(3,18,43,0.6);color:#FFFFFF"></textarea>
+              <sc-if value="{{ o2cMessageInvalid }}"><span id="o2-contact-error-message" class="o2-contact-field-error" role="alert">{{ o2cMessageError }}</span></sc-if>
+            </label>
+            <button type="submit" style="margin-top:6px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;border:none;background:linear-gradient(100deg,#4A3BFF,#2F6BFF 50%,#3FE0FF);color:#FFFFFF;font:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 18px 40px -18px rgba(63,224,255,0.8);transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(63,224,255,1)">Let's Talk<span aria-hidden="true">↗</span></button>
           </sc-if>
         </form>
       </div>
@@ -2705,6 +2744,55 @@ class Component extends DCLogic {
   closeRef = el => { this.closeEl = el; };
   bodyRef = el => { this.bodyEl = el; };
   trackRef = el => { this.trackEl = el; };
+  // Contact is a frontend-only prototype. Do not claim submission without a service.
+  o2cValidate = (values=this.state) => {
+    const errors={};
+    const name=String(values.o2cName||'').trim();
+    const email=String(values.o2cEmail||'').trim();
+    const interest=String(values.o2cInterest||'');
+    const message=String(values.o2cMessage||'').trim();
+    if(!name)errors.name='required';
+    if(!email)errors.email='required';
+    else if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(email))errors.email='format';
+    if(!this.o2cTopics.includes(interest))errors.interest='required';
+    if(interest==='Other'&&!message)errors.message='requiredOther';
+    return errors;
+  };
+  o2cTopics=['AI Summarization','AI Podcast','Text tools','Transcription & Translation','Chatbot','AI Products','Partnership','Other'];
+  o2cUpdate = (field,value) => {
+    const key={o2cName:'name',o2cEmail:'email',o2cInterest:'interest',o2cMessage:'message'}[field];
+    const next={...this.state,[field]:value};
+    const errs={...(this.state.o2cErrors||{})},validated=this.o2cValidate(next);
+    if(errs[key]){if(validated[key])errs[key]=validated[key];else delete errs[key];}
+    if(field==='o2cInterest'&&errs.message){
+      if(validated.message)errs.message=validated.message;else delete errs.message;
+    }
+    this.setState({[field]:value,o2cErrors:errs});
+  };
+  o2cSubmit = e => {
+    e?.preventDefault?.();
+    if(this.state.o2cDemo)return;
+    const errors=this.o2cValidate();
+    const first=['name','email','interest','message'].find(key=>errors[key]);
+    if(first){
+      this.setState({o2cErrors:errors},()=>{
+        document.getElementById('o2-contact-field-'+first)?.focus({preventScroll:false});
+      });
+      return;
+    }
+    this.setState({o2cErrors:{},o2cDemo:true});
+  };
+  o2cReset = () => {
+    this.setState({o2cDemo:false,o2cName:'',o2cEmail:'',o2cInterest:'',o2cMessage:'',o2cErrors:{}},
+      ()=>requestAnimationFrame(()=>document.getElementById('o2-contact-field-name')?.focus({preventScroll:true})));
+  };
+  o2LampKey = e => {
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    e.preventDefault();
+    const next=!this.state.o2LampOn;
+    if(this.o2Lamp)this.o2Lamp.setOn(next);
+    else this.setState({o2LampOn:next});
+  };
   // Roadmap filtering is strictly a presentation grouping of the original 18 features.
   roadmapCategories = [
     {id:'all',en:'All',ar:'الكل'},
@@ -4643,11 +4731,30 @@ class Component extends DCLogic {
           docFull: () => { const el = this.ppDocEl; if (!el) return; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); },
           docSlides:doc?Array.from({length:N},(_,i)=>{const k=i+1,on=k===pg,near=Math.abs(k-pg)<=1;return {label:(P?.name||'')+' — '+(DC?.title||'presentation')+', '+(s.lang==='ar'?'الشريحة ':'slide ')+k+' / '+N,hidden:!on,bg:near?src(k):'none',op:on?1:0,tf:on?'none':'translateX('+(k<pg?-24:24)+'px)'};}):[],
           docThumbs:doc?Array.from({length:N},(_,i)=>{const k=i+1,on=k===pg;return {n:k,label:(s.lang==='ar'?'انتقل إلى الشريحة ':'Go to slide ')+k+' / '+N,current:on?'page':null,onClick:()=>this.docGo(k),bg:src(k),border:on?'#3FE0FF':'rgba(255,255,255,0.14)',shadow:on?'0 0 0 3px rgba(63,224,255,0.25)':'none',op:on?1:0.7};}):[] }; })(),
-      o2cRef: this.o2cRef, o2cSent: !!s.o2cSent, o2cOpen: !s.o2cSent, o2cName: s.o2cName || '', o2cEmail: s.o2cEmail || '', o2cInterest: s.o2cInterest || '',
-      o2cTopics: ['AI Summarization', 'AI Podcast', 'Text tools', 'Transcription & Translation', 'Chatbot', 'AI Products', 'Partnership', 'Other'],
-      o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
-      o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
-      o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
+      o2cRef:this.o2cRef,o2cSent:!!s.o2cDemo,o2cOpen:!s.o2cDemo,
+      o2cFormLabel:s.lang==='ar'?'نموذج التواصل التوضيحي':'Demonstration contact form',
+      o2cDemoTitle:s.lang==='ar'?'اكتملت التجربة':'Demo completed',
+      o2cDemoDescription:s.lang==='ar'?'هذا نموذج توضيحي فقط. لم يتم إرسال بياناتك أو تقديم طلب فعلي.':'This is a demonstration form. Your information has not been submitted or sent.',
+      o2cRequiredLabel:s.lang==='ar'?'(مطلوب)':'(Required)',
+      o2cMessageRequirement:s.lang==='ar'?(s.o2cInterest==='Other'?'(مطلوب)':'(اختياري)'):(s.o2cInterest==='Other'?'(Required)':'(Optional)'),
+      o2cMessageRequired:s.o2cInterest==='Other',
+      o2cName:s.o2cName||'',o2cEmail:s.o2cEmail||'',o2cInterest:s.o2cInterest||'',o2cMessage:s.o2cMessage||'',
+      o2cTopics:this.o2cTopics,
+      o2cSetName:e=>this.o2cUpdate('o2cName',e.target.value),
+      o2cSetEmail:e=>this.o2cUpdate('o2cEmail',e.target.value),
+      o2cSetInterest:e=>this.o2cUpdate('o2cInterest',e.target.value),
+      o2cSetMessage:e=>this.o2cUpdate('o2cMessage',e.target.value),
+      o2cNameInvalid:!!s.o2cErrors?.name,o2cEmailInvalid:!!s.o2cErrors?.email,
+      o2cInterestInvalid:!!s.o2cErrors?.interest,o2cMessageInvalid:!!s.o2cErrors?.message,
+      o2cNameDescribedBy:s.o2cErrors?.name?'o2-contact-error-name':'',
+      o2cEmailDescribedBy:s.o2cErrors?.email?'o2-contact-error-email':'',
+      o2cInterestDescribedBy:s.o2cErrors?.interest?'o2-contact-error-interest':'',
+      o2cMessageDescribedBy:s.o2cErrors?.message?'o2-contact-error-message':'',
+      o2cNameError:s.lang==='ar'?'يرجى إدخال اسمك.':'Please enter your name.',
+      o2cEmailError:s.lang==='ar'?(s.o2cErrors?.email==='format'?'يرجى إدخال بريد إلكتروني صالح.':'يرجى إدخال بريدك الإلكتروني.'):(s.o2cErrors?.email==='format'?'Please enter a valid email address.':'Please enter your email address.'),
+      o2cInterestError:s.lang==='ar'?'يرجى اختيار موضوع.':'Please select a topic.',
+      o2cMessageError:s.lang==='ar'?'يرجى توضيح فكرتك عند اختيار «أخرى».':'Please tell us about your idea when you select Other.',
+      o2cSubmit:this.o2cSubmit,o2cReset:this.o2cReset,
       roadmapArtSrc: 'assets/roadmap-scenes/' + ['ask-video','translation-subtitles','sports-analyst','article-to-shorts','comment-moderation','storycast','smart-chapters','catchup-recap','key-moments','emotional-dubbing','ai-context','dialogue-boost','emoji-seekbar','smart-video-seekbar','highlights-generator','vod-companion','morning-briefing','shop-scene'][roadmapFocus] + '.svg',
       roadmapTrackKicker: roadmapDirection.kicker,
       roadmapTrackTitle: roadmapDirection.title,
@@ -4961,7 +5068,10 @@ class Component extends DCLogic {
       setLangEn: () => this.setState({ lang: 'en' }), setLangAr: () => this.setState({ lang: 'ar' }),
       toggleLang: () => { const nx = this.state.lang === 'ar' ? 'en' : 'ar'; this.setState({ lang: nx, navMenu:false }, () => setTimeout(() => { this.applyLang(nx); this.onScroll(); }, 0)); }, langOther: s.lang === 'ar' ? 'English' : 'العربية', langSwitchShort: s.lang === 'ar' ? 'EN' : 'AR', langOtherCode: s.lang === 'ar' ? 'en' : 'ar', langAria: s.lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية',
       mqDir: s.lang === 'ar' ? 'reverse' : 'normal',
-      o2LampOff: !s.o2LampOn, o2LampWash: s.o2LampOn ? 1 : 0, o2LampFormOp: s.o2LampOn ? 1 : 0.5, o2LampFormFilter: s.o2LampOn ? 'none' : 'saturate(0.4)', o2LampFormTf: s.o2LampOn ? 'none' : 'translateY(10px)', o2LampFormPE: s.o2LampOn ? 'auto' : 'none',
+      o2LampOff: !s.o2LampOn, o2LampWash: s.o2LampOn ? 1 : 0,
+      o2LampOn:!!s.o2LampOn,o2LampKey:this.o2LampKey,
+      o2LampAccessibleLabel:s.lang==='ar'?'تشغيل أو إطفاء المصباح':'Turn the lamp on or off',
+      o2LampFormOp:1,o2LampFormFilter:'none',o2LampFormTf:'none',o2LampFormPE:'auto',
       o2LampToggle: () => { if (this.state.o2LampOn) return; this.o2Lamp ? this.o2Lamp.setOn(true) : this.setState({ o2LampOn: true }); },
       lampOn: s.lampOn, lampGlow: 0.6, lampFormOp: 1, lampFormFilter: 'none', formPhase: s.formPhase,
       lampLabel: s.lampOn ? 'Light on' : 'Turn on the light', lampDot: s.lampOn ? '#3FE0FF' : 'rgba(150,190,255,0.4)', lampDotGlow: s.lampOn ? '0 0 10px #3FE0FF' : 'none',
