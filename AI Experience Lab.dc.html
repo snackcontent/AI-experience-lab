@@ -640,6 +640,15 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
  #o2-contact .o2-contact-form textarea{min-height:100px}
 }
 
+/* Contact mobile: text above the lamp; artwork never blocks vertical swipes. */
+@media(max-width:991.98px){
+ #o2-contact .o2-contact-intro{isolation:isolate}
+ #o2-contact .o2-contact-intro>canvas{
+   top:auto!important;bottom:0!important;left:0!important;right:0!important;
+   height:clamp(240px,67vw,310px)!important;touch-action:pan-y!important
+ }
+ #o2-contact [data-contact-spacer]{min-height:calc(clamp(240px,67vw,310px) + 18px)!important}
+}
 /* FAQ revised: 12-column grid 5/7; no outer panel; responsive reading order. */
 /* Ensure generated <span class="sc-interp"> inherits rendered FAQ typography.
    Avoid global 13px 'span' selectors: text interpolations are wrapped in spans. */
@@ -3216,7 +3225,7 @@ class Component extends DCLogic {
     this.D.articles = SRC.articles; this.D.pods = SRC.pods; const st = this.state, si = Math.min(st.sumSample || 0, SRC.articles.length - 1), pi = Math.min(st.podTopic || 0, SRC.pods.length - 1);
     this.stopAll && this.stopAll();
     if (this.voiceObjs && this.voiceObjs.length) { const vi = this.voiceObjs.findIndex(v => v && v.lang && v.lang.toLowerCase().startsWith(ar ? 'ar' : 'en')); if (vi >= 0) this.setState({ ttsVoice: String(vi) }); }
-    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }
+    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { allowTouchScroll:true, on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }
     // Translation can alter text wrapping; remeasure all mobile cards after locale updates.
     requestAnimationFrame(()=>this.o2SyncMobileCardHeight());
   }
@@ -5022,7 +5031,7 @@ class Component extends DCLogic {
         shadow: on ? '0 30px 70px -35px rgba(47,107,255,0.7), inset 0 1px 0 rgba(255,255,255,0.08)' : 'inset 0 1px 0 rgba(255,255,255,0.05)', iconBg: on ? 'rgba(63,224,255,0.18)' : 'rgba(255,255,255,0.03)', numColor: on ? '#3FE0FF' : '#6F8FC9',
         op: vis ? 1 : 0, tf: vis ? 'none' : 'rotateX(-55deg) translateY(30px)', delay: (i * 0.08).toFixed(2) + 's' }; }),
       contactCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', cArtH: narrow ? '560px' : '640px',
-      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; this.o2LampEl = el; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
+      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; this.o2LampEl = el; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { allowTouchScroll:true, on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
       ...(() => {
         const wide = s.wideNav !== false, ar = s.lang === 'ar', active = s.navSection || '';
         const ids = ['o2-services','o2-products','next','o2-faq'];
