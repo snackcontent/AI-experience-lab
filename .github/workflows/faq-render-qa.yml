@@ -108,6 +108,21 @@ jobs:
                    console.error('SITE FONT REGRESSION: Google Fonts Almarai not applied/loaded');failed=true;
                 }
 
+                // The five V2 section eyebrows must have labels only; no 01–05 prefix.
+                const sectionSelectors=[
+                  ['#o2-services > div:first-child > span','What we do','ماذا نقدّم'],
+                  ['#o2-products .portfolio-heading__eyebrow','Our portfolio','منتجاتنا'],
+                  ['#next > div:first-child > div:first-child > span','Roadmap','خارطة الطريق'],
+                  ['#o2-faq .o2-faq-intro__top > span','FAQ','الأسئلة الشائعة'],
+                  ['#o2-contact [data-layout-span="6"] > span','Get involved','شاركنا']
+                ];
+                const sectionText=async()=>await page.evaluate(selectors=>selectors.map(([selector,en,ar])=>{
+                  const el=document.querySelector(selector);
+                  return {selector,en,ar,actual:el?.textContent.trim()||null}
+                }),sectionSelectors);
+                const englishSections=await sectionText();
+                console.log('SECTION EYEBROWS EN',JSON.stringify({viewport,englishSections}));
+                if(englishSections.some(o=>o.actual!==o.en)){console.error('SECTION EYEBROW NUMBER REGRESSION (EN)');failed=true;}
                 console.log('LOCATOR COUNTS',JSON.stringify({faq:await page.locator('#o2-faq').count(),
                   question:await page.locator('#o2-faq .o2-faq-question').count(),
                   visibleQuestion:await page.locator('#o2-faq .o2-faq-question:visible').count(),
@@ -173,6 +188,13 @@ jobs:
                   console.log('FAQ NOT VISIBLE in Chromium. Captured diagnostic page screenshot.');
                   failed=true;
                 }
+                if(await page.evaluate(()=>!!window.FadaatAR?.apply)){
+                  await page.evaluate(()=>window.FadaatAR.apply(true));
+                  await page.waitForTimeout(900);
+                  const arabicSections=await sectionText();
+                  console.log('SECTION EYEBROWS AR',JSON.stringify({viewport,arabicSections}));
+                  if(arabicSections.some(o=>o.actual!==o.ar)){console.error('SECTION EYEBROW NUMBER/TRANSLATION REGRESSION (AR)');failed=true;}
+                } else {console.error('Arabic localization unavailable');failed=true;}
                 await page.close();
               }
               if(failed)process.exitCode=1;
