@@ -9,7 +9,7 @@ document.documentElement.dataset.theme=t;document.documentElement.style.colorSch
 var meta=document.getElementById('o2-theme-color');meta.content=t==='light'?'#ffffff':'#002f59';
 function labels(){document.querySelectorAll('[data-o2-theme-switch]').forEach(function(b){var light=document.documentElement.dataset.theme==='light',ar=document.documentElement.lang==='ar';var label=ar?(light?'التبديل إلى الوضع الداكن':'التبديل إلى الوضع الفاتح'):(light?'Switch to Dark Mode':'Switch to Light Mode');b.setAttribute('aria-label',label);b.setAttribute('title',label);b.setAttribute('aria-pressed',String(light));})}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-o2-theme-switch]');if(!b)return;var next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;document.documentElement.style.colorScheme=next;meta.content=next==='light'?'#ffffff':'#002f59';try{localStorage.setItem(k,next)}catch(e){}labels()});
-document.addEventListener('DOMContentLoaded',labels);new MutationObserver(labels).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+document.addEventListener('DOMContentLoaded',function(){labels();new MutationObserver(labels).observe(document.body,{childList:true,subtree:true});});new MutationObserver(labels).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
 })();</script>
 <script src="./support.js"></script>
 <meta name="ext-resource-dependency" content="assets/logos/alaraby-aljadeed.png" data-resource-id="logo-alaraby-aljadeed">
