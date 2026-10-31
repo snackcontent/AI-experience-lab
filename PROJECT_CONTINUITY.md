@@ -13,6 +13,13 @@
 - A separately open `fadaat-media.github.io/AI-experience-lab/` preview was observed. Do not assume it is synced with `snackcontent` or claim deployment to it without confirming its actual source/deploy process.
 - **Railway is not the website's requested publication workflow.** Do not switch to Railway or another unrelated project.
 
+### Approved global typography — Almarai (2026-10-31)
+
+- **All site text uses Google Fonts Almarai**, including Arabic and Latin/English scripts, buttons, headings, forms, FAQ, mobile mockups, canvas-rendered text and root dynamic typography.
+- Source commit `acfccfbed55182fb02521ced7053235e5bada9c0` replaced all 14 Tajawal references in `AI Experience Lab.dc.html`, including Google Fonts CSS2 import, `body`, `rootFont`, explicit mockup labels and Canvas text.
+- Import 300/400/700/800 weights from Google Fonts; preserve established font sizes and accordion layout. Do not reintroduce Tajawal accidentally.
+- Playwright rendered-font QA at 1440px and 390px, run `41190192747`, confirmed loaded Almarai font faces, computed Almarai on body/hero/roadmap/FAQ/form and both Latin and Arabic sample availability, while FAQ remains question 18px / answer 16px and functional single-open accordion.
+
 ## 2. Product / UI architecture
 
 - Showcase includes AI capabilities and live/guided demos, AI Products/Solutions, an 18-item Roadmap, FAQ, Contact.
