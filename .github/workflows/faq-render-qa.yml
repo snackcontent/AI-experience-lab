@@ -49,24 +49,42 @@ jobs:
                 page.on('pageerror', e => console.log('PAGE ERROR:',e.message));
                 console.log('Loading',url,'viewport',viewport.width);
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:90000});
-                await page.waitForTimeout(6000);
-                await page.waitForSelector('#o2-faq .o2-faq-question',{state:'visible',timeout:60000});
-                await page.locator('#o2-faq').scrollIntoViewIfNeeded();
-                await page.evaluate(()=>document.fonts.ready);
-                const info = await page.evaluate(()=>{
-                  const q=document.querySelector('#o2-faq .o2-faq-question');
-                  const answer=document.querySelector('#o2-faq .o2-faq-answer-inner p');
-                  const faq=document.querySelector('#o2-faq');
-                  const desktop=document.querySelector('#o2-faq .o2-faq-support--desktop');
-                  const mobile=document.querySelector('#o2-faq .o2-faq-support--mobile');
-                  const qs=getComputedStyle(q),as=getComputedStyle(answer);
-                  return {question:qs.fontSize,questionWeight:qs.fontWeight,questionFamily:qs.fontFamily,answer:as.fontSize,answerWeight:as.fontWeight,answerLineHeight:as.lineHeight,questionText:q.textContent.trim(),answerText:answer.textContent.slice(0,80),faqVisible:faq.getBoundingClientRect().height>0,desktopSupport:getComputedStyle(desktop).display,mobileSupport:getComputedStyle(mobile).display,dpr:window.devicePixelRatio};
+                await page.waitForTimeout(9000);
+                const docInfo=await page.evaluate(()=>{
+                  const root=document.querySelector('x-dc');
+                  const shadow=root?.shadowRoot;
+                  return {readyState:document.readyState,title:document.title,
+                    customElementDefined:!!customElements.get('x-dc'),
+                    xdcChildren:root?.children.length,
+                    hasShadow:!!shadow,shadowChildren:shadow?.children.length,
+                    rootFaqElements:document.querySelectorAll('#o2-faq .o2-faq-question').length,
+                    shadowFaqElements:shadow?.querySelectorAll('#o2-faq .o2-faq-question').length,
+                    scripts:Array.from(document.scripts).map(x=>x.src).slice(0,20),
+                    bodyText:document.body?.innerText?.slice(-1100),
+                    bodyHtmlStart:document.body?.innerHTML?.slice(0,300)
+                  };
                 });
-                console.log('ACTUAL COMPUTED FAQ',JSON.stringify({viewport,info}));
-                const filename='/tmp/ai-lab-faq-qa/faq-'+viewport.width+'.png';
-                await page.locator('#o2-faq').screenshot({path:filename,timeout:60000});
-                if(info.question!=='18px' || info.answer!=='16px'){console.error('CSS MISMATCH: text sizes must be 18px/16px.');failed=true}
-                if(!info.faqVisible){console.error('FAQ NOT VISIBLE');failed=true}
+                console.log('DOCUMENT DIAGNOSTIC',JSON.stringify(docInfo));
+                console.log('LOCATOR COUNTS',JSON.stringify({faq:await page.locator('#o2-faq').count(),
+                  question:await page.locator('#o2-faq .o2-faq-question').count(),
+                  visibleQuestion:await page.locator('#o2-faq .o2-faq-question:visible').count(),
+                  legacyFaq:await page.locator('#faq').count()}));
+                await page.screenshot({path:'/tmp/ai-lab-faq-qa/faq-'+viewport.width+'.png',fullPage:false,timeout:60000});
+                if(await page.locator('#o2-faq .o2-faq-question:visible').count()){
+                  const q=page.locator('#o2-faq .o2-faq-question:visible').first();
+                  const ans=page.locator('#o2-faq .o2-faq-answer-inner p').first();
+                  const info=await q.evaluate(el=>({fontSize:getComputedStyle(el).fontSize,
+                    weight:getComputedStyle(el).fontWeight,text:el.textContent.trim(),
+                    family:getComputedStyle(el).fontFamily}));
+                  const answerInfo=await ans.evaluate(el=>({fontSize:getComputedStyle(el).fontSize,
+                    lineHeight:getComputedStyle(el).lineHeight}));
+                  console.log('ACTUAL COMPUTED FAQ',JSON.stringify({viewport,question:info,answer:answerInfo}));
+                  if(info.fontSize!=='18px'||answerInfo.fontSize!=='16px')failed=true;
+                  await page.locator('#o2-faq').screenshot({path:'/tmp/ai-lab-faq-qa/faq-'+viewport.width+'.png',timeout:60000});
+                } else {
+                  console.log('FAQ NOT VISIBLE in Chromium. Captured diagnostic page screenshot.');
+                  failed=true;
+                }
                 await page.close();
               }
               if(failed)process.exitCode=1;
