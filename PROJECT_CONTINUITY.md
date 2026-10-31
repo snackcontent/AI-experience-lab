@@ -111,3 +111,6 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 
 ## Header mobile/active clarification (2026-10-31)
 - V02 logo divider removed; mobile Burger and language both 40×40, Burger on far-right EN/far-left AR, language inboard. Active/Hover are rectangular with same 0deg bottom-up cyan-blue gradient and a 3px horizontal cyan line at bottom. Header Playwright assertions updated for locale order and compact dimensions.
+
+## Header/Contact button radius (2026-10-31)
+- Standardized language and all contact CTA buttons to 10px corners: header, FAQ desktop/mobile, V02 form primary submit and reset, V1 animated contact submit. Do not accidentally change the 0px active navigation tab shape, menu Burger styling, panels, card borders or general buttons. Chromium QA checks rendered border radii.

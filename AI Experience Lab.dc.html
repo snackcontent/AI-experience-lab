@@ -553,7 +553,8 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #o2-contact .o2-contact-form label{font-size:14px!important;line-height:1.5!important;font-weight:600!important}
 #o2-contact .o2-contact-form input,
 #o2-contact .o2-contact-form select{min-width:0;max-width:100%}
-#o2-contact .o2-contact-form button[type="submit"]{min-height:52px}
+#o2-contact .o2-contact-form button[type="submit"]{min-height:52px;border-radius:10px!important}
+#o2-contact .o2-contact-form button[type="button"]{border-radius:10px!important}
 html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%,16px 50%!important}
 @media(max-width:991.98px){
   #o2-contact .o2-contact-intro{padding-bottom:0!important}
@@ -590,7 +591,7 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
 #o2-faq .o2-faq-support--mobile{display:none!important}
 #o2-faq .o2-faq-support h3{margin:0;color:#F5FAFF;font-size:clamp(21px,1.7vw,24px);line-height:1.35;font-weight:700}
 #o2-faq .o2-faq-support p{margin:0;max-width:380px;font-size:clamp(16px,1.35vw,18px)!important;line-height:1.7!important;font-weight:500;color:#E1EDFF!important}
-#o2-faq .o2-faq-contact{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin-top:4px;min-height:48px;padding:0 23px;border-radius:9999px;background:#3FE0FF;border:1px solid #3FE0FF;color:#03122B;font-size:16px;font-weight:700;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease}
+#o2-faq .o2-faq-contact{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin-top:4px;min-height:48px;padding:0 23px;border-radius:10px;background:#3FE0FF;border:1px solid #3FE0FF;color:#03122B;font-size:16px;font-weight:700;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease}
 #o2-faq .o2-faq-contact:hover{color:#03122B;background:#7AEBFF;transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(63,224,255,.6)}
 #o2-faq .o2-faq-contact:focus-visible{outline:3px solid #EAF2FF;outline-offset:4px}
 #o2-faq .o2-faq-contact__arrow{display:inline-block;transform-origin:center;transition:transform .25s ease}
@@ -661,8 +662,9 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
 }
 #o2-site-header .o2-hdr-actions{min-width:0}
 #o2-site-header .o2-hdr-language,#o2-site-header .o2-hdr-contact,#o2-site-header .o2-hdr-toggle{min-height:44px}
-#o2-site-header .o2-hdr-language{width:44px;height:44px;min-width:44px;padding:0!important;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:12px!important;border:1px solid rgba(255,255,255,.3)!important;background:rgba(255,255,255,.08)!important;color:#FFF!important;font-size:14px!important;font-weight:700!important;line-height:1!important;letter-spacing:.02em}
+#o2-site-header .o2-hdr-language{width:44px;height:44px;min-width:44px;padding:0!important;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:10px!important;border:1px solid rgba(255,255,255,.3)!important;background:rgba(255,255,255,.08)!important;color:#FFF!important;font-size:14px!important;font-weight:700!important;line-height:1!important;letter-spacing:.02em}
 #o2-site-header .o2-hdr-language:hover{background:rgba(255,255,255,.16)!important}
+#o2-site-header .o2-hdr-contact{border-radius:10px!important}
 #o2-site-header .o2-hdr-contact[data-current="true"]{box-shadow:0 0 0 3px rgba(103,231,255,.62),0 6px 18px -8px rgba(0,0,0,.4)}
 /* Header selection: full-height rectangular wash + horizontal cyan baseline, matching the approved reference. */
 #o2-site-header .o2-hdr-link{position:relative;text-decoration:none;isolation:isolate;overflow:hidden;border-radius:0!important;transition:background .3s ease,color .25s ease}
@@ -842,8 +844,8 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
    <button id="o2-menu-toggle" class="o2-hdr-toggle" type="button" onClick="{{ navMenuToggle }}" aria-label="{{ navMenuLabel }}" aria-controls="o2-mobile-menu" aria-expanded="{{ navMenuOpen }}" style="flex:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#FFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{ navMenuIcon }}"></path></svg></button>
   </sc-if>
   <div class="o2-hdr-actions" style="justify-self:end;display:flex;align-items:center;gap:10px">
-   <button class="o2-hdr-language" type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="width:44px;height:44px;flex:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);border-radius:12px;cursor:pointer;color:#FFF;font-family:'Almarai',system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;text-align:center;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,.16)">{{ langSwitchShort }}</button>
-   <a class="o2-hdr-contact" href="#o2-contact" data-current="{{ navContactActive }}" aria-current="{{ navContactCurrent }}" onClick="{{ navGoContact }}" style="flex:none;min-height:44px;padding:0 20px;border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFF;color:#0A2A55;font-size:16px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:background .25s" style-hover="background:#EAF2FF;color:#0A2A55">{{ navContactLabel }}</a>
+   <button class="o2-hdr-language" type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="width:44px;height:44px;flex:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);border-radius:10px;cursor:pointer;color:#FFF;font-family:'Almarai',system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;text-align:center;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,.16)">{{ langSwitchShort }}</button>
+   <a class="o2-hdr-contact" href="#o2-contact" data-current="{{ navContactActive }}" aria-current="{{ navContactCurrent }}" onClick="{{ navGoContact }}" style="flex:none;min-height:44px;padding:0 20px;border-radius:10px;display:flex;align-items:center;gap:8px;background:#FFF;color:#0A2A55;font-size:16px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:background .25s" style-hover="background:#EAF2FF;color:#0A2A55">{{ navContactLabel }}</a>
   </div>
  </nav>
  <div id="o2-mobile-menu" class="o2-hdr-mobile-menu" aria-hidden="{{ navMenuHidden }}" style="display:{{ navMenuDisplay }};flex-direction:column;gap:2px;padding:8px max(16px,4vw) 16px;border-top:1px solid rgba(255,255,255,.12)">
@@ -1273,9 +1275,9 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
           <label style="display:flex;flex-direction:column;gap:7px;opacity:{{ cf4.op }};transform:{{ cf4.tf }};transition:opacity .7s ease {{ cf4.delay }}, transform .8s cubic-bezier(.2,.7,.2,1) {{ cf4.delay }}"><span style="font-size:13px;color:#9CC2FF">Message</span><textarea value="{{ cMsg }}" onInput="{{ cMsgIn }}" onFocus="{{ lampWake }}" rows="4" style="padding:14px 16px;border-radius:12px;border:1px solid rgba(150,190,255,0.2);background:rgba(4,10,28,0.55);color:#EAF2FF;font-size:15px;line-height:1.55;outline:none;resize:vertical;transition:border-color .3s, box-shadow .3s" style-focus="border-color:#3FE0FF;box-shadow:0 0 0 4px rgba(63,224,255,0.15), 0 0 30px rgba(63,224,255,0.2)"></textarea></label>
           <sc-if value="{{ cErr }}"><span role="alert" style="font-size:13px;color:#FFB4A8">{{ cErr }}</span></sc-if>
           <div style="margin-top:6px;opacity:{{ cf5.op }};transform:{{ cf5.tf }};transition:opacity .7s ease {{ cf5.delay }}, transform .8s cubic-bezier(.2,.7,.2,1) {{ cf5.delay }}">
-            <button type="submit" onMouseEnter="{{ cBtnIn }}" onMouseLeave="{{ cBtnOut }}" style="position:relative;width:100%;height:64px;padding:2px;border:none;border-radius:9999px;background:transparent;cursor:pointer;overflow:hidden;isolation:isolate;transform:{{ cBtnTf }};transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;box-shadow:{{ cBtnShadow }}" style-active="transform:scale(0.98)">
+            <button type="submit" onMouseEnter="{{ cBtnIn }}" onMouseLeave="{{ cBtnOut }}" style="position:relative;width:100%;height:64px;padding:2px;border:none;border-radius:10px;background:transparent;cursor:pointer;overflow:hidden;isolation:isolate;transform:{{ cBtnTf }};transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;box-shadow:{{ cBtnShadow }}" style-active="transform:scale(0.98)">
               <span aria-hidden="true" style="position:absolute;left:50%;top:50%;width:140%;aspect-ratio:1;margin-left:-70%;margin-top:-70%;background:conic-gradient(from 0deg, #2F6BFF, #3FE0FF, #E6FBFF, #3FE0FF, #2F6BFF, #12235A, #2F6BFF);animation:wwSpin 4s linear infinite;z-index:-2"></span>
-              <span style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;height:100%;padding-block:0;padding-inline:28px 8px;border-radius:9999px;background:{{ cBtnBg }};overflow:hidden;transition:background .5s">
+              <span style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;height:100%;padding-block:0;padding-inline:28px 8px;border-radius:8px;background:{{ cBtnBg }};overflow:hidden;transition:background .5s">
                 <span aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(100deg, transparent, rgba(200,245,255,0.25), transparent);transform:{{ cBtnSweep }};transition:{{ cBtnSweepTr }};pointer-events:none"></span>
                 <span style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:1px">
                   <span style="font-size:16px;font-weight:600;color:{{ cBtnColor }};letter-spacing:-0.01em;transition:color .4s">{{ cBtnLabel }}</span>
@@ -1399,7 +1401,7 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
             <div role="status" style="display:flex;flex-direction:column;gap:10px;padding:28px 0">
               <span style="font-size:22px;font-weight:600;color:#FFFFFF">Thanks, {{ o2cName }}.</span>
               <span style="font-size:16px;line-height:1.6;color:#C9D8F2">We received your message and will reply to {{ o2cEmail }}.</span>
-              <button type="button" onClick="{{ o2cReset }}" style="align-self:flex-start;margin-top:8px;min-height:44px;padding:0 18px;border-radius:9999px;border:1px solid rgba(150,190,255,0.4);background:transparent;color:#EAF2FF;font:inherit;font-size:15px;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Send another</button>
+              <button type="button" onClick="{{ o2cReset }}" style="align-self:flex-start;margin-top:8px;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid rgba(150,190,255,0.4);background:transparent;color:#EAF2FF;font:inherit;font-size:15px;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Send another</button>
             </div>
           </sc-if>
           <sc-if value="{{ o2cOpen }}" hint-placeholder-val="{{ true }}">
@@ -1409,7 +1411,7 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
               <option value="" disabled="">Select a topic</option>
               <sc-for list="{{ o2cTopics }}" as="t" hint-placeholder-count="5"><option value="{{ t }}" style="background:#03122B">{{ t }}</option></sc-for>
             </select></label>
-            <button type="submit" style="margin-top:6px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:9999px;border:none;background:linear-gradient(100deg,#4A3BFF,#2F6BFF 50%,#3FE0FF);color:#FFFFFF;font:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 18px 40px -18px rgba(63,224,255,0.8);transition:transform .3s, box-shadow .3s" style-hover="transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(63,224,255,1)">Let's Talk<span aria-hidden="true">↗</span></button>
+            <button type="submit" style="margin-top:6px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;border:none;background:linear-gradient(100deg,#4A3BFF,#2F6BFF 50%,#3FE0FF);color:#FFFFFF;font:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 18px 40px -18px rgba(63,224,255,0.8);transition:transform .3s, box-shadow .3s" style-hover="transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(63,224,255,1)">Let's Talk<span aria-hidden="true">↗</span></button>
           </sc-if>
         </form>
       </div>

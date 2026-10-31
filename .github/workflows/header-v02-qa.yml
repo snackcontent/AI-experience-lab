@@ -83,6 +83,8 @@ jobs:
                     assert(r.x>=-1 && r.right<=width+1,'target inside viewport '+width+'/'+lang+' '+key);
                   }
                   assert(info.compact===(width<1200),'responsive breakpoint '+width+'/'+lang);
+                  const langRadius=await page.locator('.o2-hdr-language').evaluate(el=>getComputedStyle(el).borderRadius);
+                  assert(langRadius==='10px','language button 10px radius '+width+'/'+lang);
                   const short=await page.locator('.o2-hdr-language').innerText();
                   assert(short.trim()===(lang==='en'?'AR':'EN'),'language toggle short code '+width+'/'+lang);
                   assert(Math.abs(info.controls['.o2-hdr-language'].w-(width<1200?40:44))<1,'language button width matches viewport '+width+'/'+lang);
@@ -109,6 +111,7 @@ jobs:
                   }else{
                     assert(await page.locator('.o2-hdr-nav-links a:visible').count()===4,'desktop links all visible '+width+'/'+lang);
                     assert(await page.locator('.o2-hdr-contact').isVisible(),'desktop contact CTA visible '+width+'/'+lang);
+                    assert(await page.locator('.o2-hdr-contact').evaluate(el=>getComputedStyle(el).borderRadius)==='10px','desktop contact 10px radius '+width+'/'+lang);
                     assert(!(await page.locator('.o2-hdr-contact').innerText()).includes('↓'),'contact CTA has no arrow '+width+'/'+lang);
                   }
                   const fg=page.locator('.o2-hdr-logo');
@@ -116,6 +119,15 @@ jobs:
                   await fg.focus();
                   assert(await fg.evaluate(el=>el.matches(':focus-visible')&&getComputedStyle(el).outlineStyle!=='none'),'logo visible keyboard focus '+width+'/'+lang);
                 }
+              }
+              const contactRadii=await page.evaluate(()=>{
+                const selectors=['#o2-faq .o2-faq-contact','#o2-contact .o2-contact-form button[type="submit"]','#o2-contact .o2-contact-form button[type="button"]'];
+                return selectors.map(selector=>[selector,...Array.from(document.querySelectorAll(selector),el=>getComputedStyle(el).borderRadius)]);
+              });
+              console.log('CONTACT RADII',JSON.stringify(contactRadii));
+              for(const [selector,...radii] of contactRadii){
+                if(selector.includes('button[type="button"]') && radii.length===0)continue; // Resend button mounts after successful submission.
+                assert(radii.length>0 && radii.every(v=>v==='10px'),'contact controls 10px radius '+selector);
               }
               await page.setViewportSize({width:390,height:844});
               if(await page.locator('html').getAttribute('lang')==='ar'){await page.locator('.o2-hdr-language').click();await page.waitForTimeout(450)}

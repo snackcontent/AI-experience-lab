@@ -90,3 +90,6 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 ## Header refinement 2026-10-31 — explicit interaction direction
 - Delete V02 decorative span divider after the logo. Compact (<1200px) language and burger buttons are **40x40 px**; use CSS grid column 2 for language, column 3 for burger. The far-edge burger is on the right in EN and on the left in RTL AR. Logo remains in column 1.
 - Keep full-height rectangular active/hover backgrounds and horizontal 3px cyan lower rule under the nav label, never a vertical side rule. Background for both states is exactly `linear-gradient(0deg, rgba(63, 224, 255, .12), rgba(47, 107, 255, .06) 45%, transparent 85%)`.
+
+## Contact CTA corner-radius decision (2026-10-31)
+- User-approved `border-radius: 10px` for V02 header AR/EN language control, white Contact us CTA, FAQ contact CTA in desktop/mobile support, V02 Contact form submit (`Let's Talk`) and post-submission `Send another`. Legacy V1 form submit also uses 10px outer and 8px inner fill to respect its 2px animated border. Preserve 40px mobile sizes, Burger radius, other element radii and rectangular nav active states.
