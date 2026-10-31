@@ -807,20 +807,31 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 #o2-services .o2-feature-used{min-height:34px;flex:none}
 #o2-services .o2-feature-used-logo{filter:brightness(0) invert(1)!important;opacity:.9}
 #o2-services .o2-feature-summary{overflow:visible!important;display:block!important;-webkit-line-clamp:unset!important}
-#o2-services .o2-feature-navigation{display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
-#o2-services .o2-feature-navigation-buttons{display:flex;gap:10px;align-items:center}
-#o2-services .o2-feature-nav{width:44px;height:44px;border-radius:50%;border:1px solid rgba(150,190,255,.4);background:rgba(255,255,255,.055);color:#EAF2FF;font-size:31px;display:grid;place-items:center;cursor:pointer}
-#o2-services .o2-feature-nav:hover:not(:disabled){border-color:#3FE0FF;background:rgba(63,224,255,.14)}
-#o2-services .o2-feature-nav:disabled{cursor:not-allowed;opacity:.35}
-#o2-services .o2-feature-progress-group{display:flex;align-items:center;gap:14px;flex:1;max-width:360px}
-#o2-services .o2-feature-progress{height:4px;flex:1;overflow:hidden;border-radius:9999px;background:rgba(150,190,255,.18)}
-#o2-services .o2-feature-progress-fill{height:100%;border-radius:9999px;background:linear-gradient(90deg,#2F6BFF,#3FE0FF);transition:width .12s linear}
-#o2-services .o2-feature-counter{font-size:13px;font-weight:600;color:#DDE8FF;white-space:nowrap;min-width:52px;text-align:end}
+#o2-services .cf-controls{display:grid;grid-template-columns:auto minmax(90px,1fr) auto;align-items:center;gap:24px;width:min(calc(100% - 2 * var(--fl-edge,20px)),680px);margin:34px auto 0;position:relative;z-index:4}
+#o2-services .cf-controls__nav{display:flex;align-items:center;gap:10px}
+#o2-services .cf-controls__arrow{display:flex;justify-content:center;align-items:center;flex:none;width:46px;height:46px;border-radius:50%;cursor:pointer;border:1px solid rgba(149,195,235,.34);background:rgba(4,32,67,.7);color:#DCEEFF;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .25s,background .25s,color .25s}
+#o2-services .cf-controls__arrow:hover{background:rgba(63,224,255,.12);border-color:rgba(63,224,255,.7);color:#FFFFFF}
+#o2-services .cf-controls__arrow:focus-visible,#o2-services .cf-carousel:focus-visible{outline:2px solid #7FE7FF;outline-offset:4px}
+html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
+#o2-services .cf-controls__progress{width:100%;height:4px;border-radius:99px;overflow:hidden;background:rgba(148,186,220,.27);direction:ltr}
+#o2-services .cf-controls__fill{display:block;height:100%;min-width:6px;border-radius:99px;background:linear-gradient(90deg,#4CA7E5,#72D6EC);transition:width .65s cubic-bezier(.2,.75,.2,1)}
+#o2-services .cf-controls__count{direction:ltr;display:flex;justify-content:flex-end;align-items:baseline;gap:7px;white-space:nowrap;font-size:14px;letter-spacing:.08em;font-variant-numeric:tabular-nums;min-width:70px}
+#o2-services .cf-controls__count strong{color:#F0F9FF;font-size:16px;font-weight:700}
+#o2-services .cf-controls__count span{color:#8EB7D5}
+
+#o2-services .cf-controls{width:min(100%,680px)}
+#o2-services .cf-controls__arrow:disabled{opacity:.35;cursor:not-allowed}
+#o2-services .cf-controls__arrow:disabled:hover{background:rgba(4,32,67,.7);border-color:rgba(149,195,235,.34);color:#DCEEFF}
+#o2-services .cf-controls__count{color:#F0F9FF;font-weight:700}
+@media(max-width:767.98px){
+ #o2-services .cf-controls{grid-template-columns:auto minmax(50px,1fr) auto;gap:14px;margin-top:24px}
+ #o2-services .cf-controls__arrow{width:44px;height:44px}
+ #o2-services .cf-controls__nav{gap:7px}
+}
+@media(max-width:359.98px){#o2-services .cf-controls{gap:10px}}
 @media(max-width:600px){
  #o2-services .o2-feature-track{gap:12px}
  #o2-services .o2-feature-card{flex-basis:min(84vw,320px)!important;min-height:422px!important;padding:20px!important}
- #o2-services .o2-feature-navigation{gap:10px}
- #o2-services .o2-feature-progress-group{max-width:none}
  #o2-services .o2-feature-toolbar{justify-content:center}
  #o2-services .o2-feature-filters{justify-content:center}
 }
@@ -828,7 +839,7 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
  #o2-services .o2-feature-track{scroll-behavior:auto!important}
  #o2-services .o2-feature-card,
  #o2-services .o2-feature-filter,
- #o2-services .o2-feature-progress-fill{transition:none!important}
+ #o2-services .cf-controls__fill, #o2-services .cf-controls__arrow{transition:none!important}
 }
 </style>
 </helmet>
@@ -1086,17 +1097,13 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
         </sc-for>
       </div>
     </div>
-    <div class="o2-feature-navigation">
-      <div class="o2-feature-navigation-buttons">
-        <button type="button" class="o2-feature-nav" onClick="{{ o2Prev }}" disabled="{{ o2PrevDisabled }}" aria-label="{{ o2PrevLabel }}" title="{{ o2PrevLabel }}"><span aria-hidden="true">{{ o2PrevGlyph }}</span></button>
-        <button type="button" class="o2-feature-nav" onClick="{{ o2Next }}" disabled="{{ o2NextDisabled }}" aria-label="{{ o2NextLabel }}" title="{{ o2NextLabel }}"><span aria-hidden="true">{{ o2NextGlyph }}</span></button>
+    <div class="cf-controls o2-feature-navigation" role="group" aria-label="{{ o2NavigationLabel }}">
+      <div class="cf-controls__nav">
+        <button type="button" class="cf-controls__arrow" onClick="{{ o2Prev }}" disabled="{{ o2PrevDisabled }}" aria-label="{{ o2PrevLabel }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+        <button type="button" class="cf-controls__arrow" onClick="{{ o2Next }}" disabled="{{ o2NextDisabled }}" aria-label="{{ o2NextLabel }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button>
       </div>
-      <div class="o2-feature-progress-group">
-        <div class="o2-feature-progress" role="progressbar" aria-label="{{ o2ProgressLabel }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ o2ProgressValue }}" aria-valuetext="{{ o2ProgressText }}">
-          <div class="o2-feature-progress-fill" style="width:{{ o2ProgressFill }}"></div>
-        </div>
-        <span class="o2-feature-counter" aria-live="polite" aria-atomic="true">{{ o2ProgressText }}</span>
-      </div>
+      <div class="cf-controls__progress" role="progressbar" aria-label="{{ o2ProgressLabel }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ o2ProgressValue }}" aria-valuetext="{{ o2ProgressText }}"><span class="cf-controls__fill" style="width:{{ o2ProgressFill }}"></span></div>
+      <div class="cf-controls__count" aria-live="polite" aria-atomic="true">{{ o2ProgressText }}</div>
     </div>
   </div>
 </section>
@@ -4225,8 +4232,9 @@ class Component extends DCLogic {
           o2TrackDir:ar?'rtl':'ltr',o2PrevGlyph:ar?'›':'‹',o2NextGlyph:ar?'‹':'›',
           o2TrackRef:this.o2TrackRef,o2OnScroll:this.o2OnScroll,o2DragDown:this.o2DragDown,o2DragMove:this.o2DragMove,o2DragUp:this.o2DragUp,o2NoDrag:this.o2NoDrag,o2TrackKey:this.o2TrackKey,
           o2ProgressValue:Math.round(progress*100),o2ProgressFill:(Math.round(progress*100))+'%',
-          o2ProgressText:ar?(Math.min(count,progress>=.999?count:cur+1)+' من '+count):(Math.min(count,progress>=.999?count:cur+1)+' / '+count),
+          o2ProgressText:String(Math.min(count,progress>=.999?count:cur+1)).padStart(2,'0')+' / '+String(count).padStart(2,'0'),
           o2ProgressLabel:ar?'التقدم خلال بطاقات الميزات':'Feature carousel progress',
+          o2NavigationLabel:ar?'التنقل بين ميزات الذكاء الاصطناعي':'AI Features navigation',
           o2PrevLabel:ar?'الميزة السابقة':'Previous feature',o2NextLabel:ar?'الميزة التالية':'Next feature',
           o2PrevDisabled:max<=1||progress<=.001,o2NextDisabled:max<=1||progress>=.999,
           o2Prev:()=>this.o2Go(cur-1),o2Next:()=>this.o2Go(cur+1),
