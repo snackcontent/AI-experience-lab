@@ -584,7 +584,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 #o2-contact .o2-contact-form select{min-width:0;max-width:100%}
 #o2-contact .o2-contact-form button[type="submit"]{min-height:52px;border-radius:10px!important}
 #o2-contact .o2-contact-form button[type="button"]{border-radius:10px!important}
-html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%,16px 50%!important}
+html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%,16px 50%!important;padding-inline:16px 42px!important}
 @media(max-width:991.98px){
   #o2-contact .o2-contact-intro{padding-bottom:0!important}
   #o2-contact .o2-contact-form-column{padding-top:16px!important}
@@ -614,7 +614,8 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
 #o2-contact .o2-contact-form .o2-contact-field-error{font-size:13px;line-height:1.45;font-weight:600;color:#FFD5D5}
 #o2-contact .o2-contact-form :is(input,select,textarea,button):focus-visible,
 #o2-contact .o2-contact-intro>canvas:focus-visible{outline:2px solid #9BE8FF!important;outline-offset:2px!important}
-#o2-contact .o2-contact-form button[type="submit"]{color:#FFFFFF}
+/* Retain the approved CTA gradient while ensuring white text remains legible on its cyan end. */
+#o2-contact .o2-contact-form button[type="submit"]{color:#FFFFFF;background:linear-gradient(rgba(3,18,43,.54),rgba(3,18,43,.54)),linear-gradient(100deg,#4A3BFF,#2F6BFF 50%,#3FE0FF)}
 #o2-contact .o2-contact-form button[type="submit"]:disabled{opacity:.5;cursor:wait;filter:saturate(.55)}
 #o2-contact .o2-contact-form .o2-contact-demo-title{font-size:22px;line-height:1.4;font-weight:700;color:#FFFFFF}
 #o2-contact .o2-contact-form .o2-contact-demo-description{font-size:16px;line-height:1.6;color:#E3EEFA}
