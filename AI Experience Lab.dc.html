@@ -2988,7 +2988,10 @@ class Component extends DCLogic {
     this.D.articles = SRC.articles; this.D.pods = SRC.pods; const st = this.state, si = Math.min(st.sumSample || 0, SRC.articles.length - 1), pi = Math.min(st.podTopic || 0, SRC.pods.length - 1);
     this.stopAll && this.stopAll();
     if (this.voiceObjs && this.voiceObjs.length) { const vi = this.voiceObjs.findIndex(v => v && v.lang && v.lang.toLowerCase().startsWith(ar ? 'ar' : 'en')); if (vi >= 0) this.setState({ ttsVoice: String(vi) }); }
-    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); } }
+    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }
+    // Translation can alter text wrapping; remeasure all mobile cards after locale updates.
+    requestAnimationFrame(()=>this.o2SyncMobileCardHeight());
+  }
   componentDidUpdate(pp, ps) {
     if (this.bodyEl && this.state.open === 5 && (ps.chatMsgs !== this.state.chatMsgs || ps.chatReveal !== this.state.chatReveal || ps.chatLoading !== this.state.chatLoading)) this.bodyEl.scrollTop = this.bodyEl.scrollHeight;
     const cap=w=>w>=1100?4:w>=900?3:w>=600?2:1;
