@@ -2833,6 +2833,7 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this.onScroll, { passive: true });
     window.addEventListener('mousemove', this.onMove, { passive: true });
     window.addEventListener('keydown', this.onKey);
+    document.addEventListener('focusin', this.o2InfoFocusGuard, true);
     if (window.speechSynthesis) { this.loadVoices(); speechSynthesis.onvoiceschanged = () => this.loadVoices(); }
     setTimeout(() => this.setState({ heroIn: true }), 80);
     this.onFsChange = () => { if (!(document.fullscreenElement || document.webkitFullscreenElement) && this.state.tawFs && this.hadFs) this.setState({ tawFs: false }); this.hadFs = !!(document.fullscreenElement || document.webkitFullscreenElement); };
@@ -2868,6 +2869,7 @@ class Component extends DCLogic {
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('mousemove', this.onMove);
     window.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('focusin', this.o2InfoFocusGuard, true);
     this.stopAll(); clearInterval(this.revealIv); clearTimeout(this.tabTimer); clearTimeout(this.cfTimer); clearTimeout(this.rbI1); clearTimeout(this.rbI2); clearTimeout(this.lampWait); if (this.lamp) this.lamp.destroy(); if (this.pv) { this.pv.pause(); this.pv.src = ''; }
   }
   applyLang(lang) { const ar = lang === 'ar'; if (window.FadaatAR) window.FadaatAR.apply(ar);
@@ -3939,6 +3941,7 @@ class Component extends DCLogic {
       if(target<=sl+Math.min(40,t.clientWidth*.1)) i=j;
     }
     const ratio=max>0?sl/max:0;
+    if(max>0 && sl>=max-2) i=Math.max(0,children.length-1);
     if(this.state.o2ix!==i || Math.abs((this.state.o2pr||0)-ratio)>.003 || this.state.o2max!==max){
       this.setState({o2ix:i,o2pr:ratio,o2max:max});
     }
@@ -4015,6 +4018,14 @@ class Component extends DCLogic {
       if(this.o2InfoReturnFocus?.isConnected)this.o2InfoReturnFocus.focus({preventScroll:true});
       this.o2InfoReturnFocus=null;
     });
+  };
+  o2InfoFocusGuard = e => {
+    if(!this.state.o2info)return;
+    const modal=this.o2InfoRef.current;
+    if(modal&&!modal.contains(e.target)) {
+      const first=modal.querySelector('.o2-info-close');
+      (first||modal).focus({preventScroll:true});
+    }
   };
   o2InfoKeys = e => {
     if(e.key==='Escape'){e.preventDefault();this.o2CloseInfo();return;}
@@ -4155,7 +4166,7 @@ class Component extends DCLogic {
           o2ResultCount:ar?count+' ميزات':count+(count===1?' feature':' features'),
           o2TrackRef:this.o2TrackRef,o2OnScroll:this.o2OnScroll,o2DragDown:this.o2DragDown,o2DragMove:this.o2DragMove,o2DragUp:this.o2DragUp,o2NoDrag:this.o2NoDrag,o2TrackKey:this.o2TrackKey,
           o2ProgressValue:Math.round(progress*100),o2ProgressFill:(Math.round(progress*100))+'%',
-          o2ProgressText:ar?(Math.min(count,cur+1)+' من '+count):(Math.min(count,cur+1)+' / '+count),
+          o2ProgressText:ar?(Math.min(count,progress>=.999?count:cur+1)+' من '+count):(Math.min(count,progress>=.999?count:cur+1)+' / '+count),
           o2ProgressLabel:ar?'التقدم خلال بطاقات الميزات':'Feature carousel progress',
           o2PrevLabel:ar?'الميزة السابقة':'Previous feature',o2NextLabel:ar?'الميزة التالية':'Next feature',
           o2PrevDisabled:max<=1||progress<=.001,o2NextDisabled:max<=1||progress>=.999,
@@ -4214,7 +4225,7 @@ class Component extends DCLogic {
           o2InfoRef:this.o2InfoRef,o2InfoKeys:this.o2InfoKeys,
           o2InfoCloseLabel:s.lang==='ar'?'إغلاق تفاصيل الميزة':'Close feature details',
           o2Info:it?{cat:cat.name,glyph:cat.glyph,name:it.name,desc:it.desc,pts:it.pts,hasPts:it.pts.length>0}:{cat:'',glyph:'',name:'',desc:'',pts:[],hasPts:false},
-          o2InfoClose:this.o2CloseInfo,o2Stop:e=>e.stopPropagation() }; })(),,
+          o2InfoClose:this.o2CloseInfo,o2Stop:e=>e.stopPropagation() }; })(),
       ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
         const slug = P ? P.name.toLowerCase() : 'x', doc = !!DC, isNs = pi === 2, nsVid = (this.props.nasherVideo || '').trim(), lr = window.__resources && window.__resources['nasher-logo'];
         return { ppOpen: pi != null && pi !== 0, ppClose: this.ppClose, ppBoxRef: this.ppBoxRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
