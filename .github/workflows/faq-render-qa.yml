@@ -99,10 +99,45 @@ jobs:
                       lineHeight:getComputedStyle(inner).lineHeight,innerClass:inner.className};
                   });
                   console.log('ACTUAL COMPUTED FAQ TEXT',JSON.stringify({viewport,question:info,answer:answerInfo}));
-                  if(info.fontSize!=='18px'||info.weight!=='700'||answerInfo.fontSize!=='16px'){
+                  if(info.fontSize!=='18px'||info.weight!=='500'||answerInfo.fontSize!=='16px'){
                     console.error('TEXT OVERRIDE: generated span has unexpected computed typography');
                     failed=true;
                   }
+                  const styleInfo=await page.locator('#o2-faq').evaluate(section=>{
+                    const list=section.querySelector('.o2-faq-list');
+                    const cards=Array.from(section.querySelectorAll('.o2-faq-card'));
+                    const active=cards.find(el=>el.getAttribute('data-open')==='true');
+                    const icon=active.querySelector('.o2-faq-toggle-icon');
+                    const activeStyle=getComputedStyle(active);
+                    const edge=getComputedStyle(active,'::after');
+                    const wash=getComputedStyle(active,'::before');
+                    return {listGap:getComputedStyle(list).gap,listBorderTop:getComputedStyle(list).borderTopWidth,
+                      cardRadius:activeStyle.borderRadius,cardBorderBottom:activeStyle.borderBottomWidth,
+                      iconWidth:getComputedStyle(icon).width,iconHeight:getComputedStyle(icon).height,
+                      edgeTransform:edge.transform,washOpacity:wash.opacity,
+                      activeCount:cards.filter(el=>el.getAttribute('data-open')==='true').length,
+                      visibleNumbers:section.querySelectorAll('.o2-faq-index').length,
+                      rowWidth:active.querySelector('button').getBoundingClientRect().width,
+                      cardWidth:active.getBoundingClientRect().width};
+                  });
+                  console.log('ORIGINAL ACCORDION STYLE',JSON.stringify({viewport,styleInfo}));
+                  if(styleInfo.listGap!=='0px'||styleInfo.cardRadius!=='0px'
+                    ||styleInfo.cardBorderBottom!=='1px'||styleInfo.iconWidth!=='38px'
+                    ||styleInfo.activeCount!==1||styleInfo.visibleNumbers!==0
+                    ||styleInfo.rowWidth < styleInfo.cardWidth-2
+                    ||styleInfo.washOpacity!=='1'
+                    ||styleInfo.edgeTransform==='matrix(1, 0, 0, 0, 0, 0)'){
+                    console.error('ACCORDION STYLE MISMATCH');failed=true;
+                  }
+                  // The second question must become the only expanded row.
+                  await page.locator('#o2-faq .o2-faq-item-button').nth(1).click();
+                  await page.waitForTimeout(750);
+                  const opens=await page.locator('#o2-faq .o2-faq-card[data-open="true"]').count();
+                  const secondOpen=await page.locator('#o2-faq .o2-faq-item-button').nth(1).getAttribute('aria-expanded');
+                  console.log('ACCORDION TOGGLE',JSON.stringify({opens,secondOpen}));
+                  if(opens!==1||secondOpen!=='true'){console.error('SINGLE OPEN REGRESSION');failed=true;}
+                  await page.locator('#o2-faq .o2-faq-item-button').first().click();
+                  await page.waitForTimeout(750);
                   await page.locator('#o2-faq').screenshot({path:'/tmp/ai-lab-faq-qa/faq-'+viewport.width+'.png',timeout:60000});
                 } else {
                   console.log('FAQ NOT VISIBLE in Chromium. Captured diagnostic page screenshot.');
