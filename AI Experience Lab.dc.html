@@ -1077,7 +1077,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
         <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
           <article class="o2-feature-card" dir="{{ k.dir }}" data-last-visited="{{ k.lastVisited }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;scroll-snap-stop:always;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
             <div style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4FF;font-weight:600">
-              <span aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:10px;background:rgba(63,224,255,.1);border:1px solid rgba(63,224,255,.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:14px;letter-spacing:0">{{ k.glyph }}</span>
+              <span aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:10px;background:rgba(63,224,255,.1);border:1px solid rgba(63,224,255,.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ k.iconPath }}"></path></svg></span>
               <span>{{ k.cat }}</span>
             </div>
             <h3 style="margin:0;font-size:24px;line-height:1.2;letter-spacing:-.02em;font-weight:600">{{ k.name }}</h3>
@@ -4010,13 +4010,38 @@ class Component extends DCLogic {
       this.setState({o2ix:i,o2pr:ratio,o2max:max});
     }
   };
-  o2Go = i => {
+  o2Go = (i, instant=false) => {
     const t=this.o2TrackRef.current;
-    if(!t || !t.children.length) return;
-    const j=Math.max(0,Math.min(i,t.children.length-1));
-    const left=Math.abs(t.children[j].offsetLeft-t.children[0].offsetLeft);
-    this.o2ScrollSet(t,left,this.reduce?'auto':'smooth');
-    requestAnimationFrame(this.o2Measure);
+    if(!t)return;
+    const points=this.o2CardSnapPoints(t);
+    if(!points.length)return;
+    const j=Math.max(0,Math.min(i,points.length-1));
+    const left=points[j].position;
+    const max=Math.max(0,t.scrollWidth-t.clientWidth);
+    clearTimeout(this.o2SnapTimer);
+    if(instant){
+      const oldBehavior=t.style.scrollBehavior;
+      t.style.scrollBehavior='auto';
+      this.o2ScrollSet(t,left,'auto');
+      this.setState({o2ix:points[j].index,o2pr:max>0?left/max:0,o2max:max});
+      requestAnimationFrame(()=>{if(t.isConnected){t.style.scrollBehavior=oldBehavior;this.o2Measure();}});
+    }else{
+      this.o2ScrollSet(t,left,this.reduce?'auto':'smooth');
+      requestAnimationFrame(this.o2Measure);
+    }
+  };
+  // Buttons wrap at the last fully aligned card, without a long reverse sweep.
+  o2Navigate = direction => {
+    const t=this.o2TrackRef.current;
+    if(!t)return;
+    const points=this.o2CardSnapPoints(t);
+    if(points.length<=1)return;
+    const current=this.o2ScrollGet(t);
+    const closest=points.reduce((best,point,i)=>
+      Math.abs(point.position-current)<Math.abs(points[best].position-current)?i:best,0);
+    const next=closest+direction;
+    const wrap=next<0||next>=points.length;
+    this.o2Go(wrap?(next<0?points.length-1:0):next,wrap);
   };
   o2GoId = id => {
     if((this.state.o2cat??-1)>=0) return this.setState({o2cat:-1,o2ix:0,o2pr:0},()=>requestAnimationFrame(()=>this.o2GoId(id)));
@@ -4265,14 +4290,14 @@ class Component extends DCLogic {
           o2ProgressLabel:ar?'التقدم خلال بطاقات الميزات':'Feature carousel progress',
           o2NavigationLabel:ar?'التنقل بين ميزات الذكاء الاصطناعي':'AI Features navigation',
           o2PrevLabel:ar?'الميزة السابقة':'Previous feature',o2NextLabel:ar?'الميزة التالية':'Next feature',
-          o2PrevDisabled:max<=1||progress<=.001,o2NextDisabled:max<=1||progress>=.999,
-          o2Prev:()=>this.o2Go(cur-1),o2Next:()=>this.o2Go(cur+1),
+          o2PrevDisabled:max<=1,o2NextDisabled:max<=1,
+          o2Prev:()=>this.o2Navigate(-1),o2Next:()=>this.o2Navigate(1),
           o2Chips:[chip(fc<0,'◎',ar?'الكل':'All',-1),...O.cats.map((c,i)=>chip(fc===i,c.glyph,ar?catsAr[i]:c.name,i))],
           o2Cards:flat.map((f,i)=>{
             const di=this.D.features.findIndex(x=>x.id===f.id),demo=di>=0&&this.D.features[di].type==='live';
             const cta=ar?(demo?'جرّب الآن':'اعرف المزيد'):(demo?'Try it':'Learn more');
             const short=shorts[f.id]?.[ar?1:0]||f.desc;
-            return {...f,lastVisited:s.o2lastVisited===f.id,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
+            return {...f,iconPath:iconPaths[f.ci+1],lastVisited:s.o2lastVisited===f.id,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
               cta,actionLabel:cta+': '+f.name,ctaColor:demo?'#3FE0FF':'#B9CCF0',
               arrowBg:demo?'linear-gradient(135deg,#4FB2FF,#3FE0FF)':'transparent',arrowFg:demo?'#03122B':'#EAF2FF',
               onClick:e=>{
