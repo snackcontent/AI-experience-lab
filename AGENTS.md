@@ -10,6 +10,14 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 - Commit SHA links may still be provided **separately** for audit, rollback, or debugging, not as the primary preview URL. Do not mistake raw.githack development preview for a production deployment.
 
 
+## Site-wide Google Font
+
+- **Approved typeface:** **Almarai** (Google Fonts) for **Arabic and English** across the entire AI Experience Lab site, effective 2026-10-31. Do not silently revert any UI, overlay, button, product mockup, RTL text, or Canvas text to Tajawal.
+- The primary HTML file imports `https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap` with preconnects to Google Fonts. Keep `body`, `rootFont`, explicit inline `font-family` declarations and Canvas `ft()` in sync. Use `Almarai, system-ui, sans-serif` as the fallback stack.
+- Actual Google Fonts-supported weights are **300, 400, 700 and 800**. Existing CSS typography weights and UI sizes remain otherwise unchanged unless specifically requested.
+- Prevent broad CSS selectors from overriding inner `.sc-interp` elements; FAQ questions/answers must retain 18px/16px. The `FAQ rendered typography QA` browser test now validates loaded Google Font faces and the computed `font-family` of actual UI text on desktop and mobile.
+- Continue to verify mobile and Arabic RTL layout, wrapping, line height and vertical alignment when changing typography.
+
 ## Permanent responsive layout invariant
 
 - **12 columns** for primary page grids.
