@@ -17,7 +17,7 @@
     function pt(e) { const r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
     function near(q) { return Math.hypot(q.x - s.p.x, q.y - s.p.y) < 26 * G.k + 12; }
     function toggle(v) { s.on = v == null ? !s.on : !!v; s.flick = s.on ? 1 : 0; if (o.onToggle) o.onToggle(s.on); }
-    function down(e) { const q = pt(e); if (!near(q)) return; s.drag = true; s.moved = 0; s.start = q; try { cv.setPointerCapture(e.pointerId); } catch (_) {} e.preventDefault(); }
+    function down(e) { const q = pt(e); if (!near(q)) return; s.drag = true; s.moved = 0; s.start = q; const touchScroll = o.allowTouchScroll && e.pointerType === 'touch'; if (!touchScroll) { try { cv.setPointerCapture(e.pointerId); } catch (_) {} e.preventDefault(); } }
     function move(e) {
       const q = pt(e); s.hover = near(q); cv.style.cursor = s.drag ? 'grabbing' : s.hover ? 'grab' : 'default';
       if (!s.drag) return; s.moved = Math.max(s.moved, Math.hypot(q.x - s.start.x, q.y - s.start.y));
@@ -25,7 +25,7 @@
     }
     function up() { if (!s.drag) return; s.drag = false; const pulled = s.p.y - G.rest.y; if (pulled > 28 * G.k || s.moved < 4) { toggle(); s.v.y = -6; } }
     cv.addEventListener('pointerdown', down); cv.addEventListener('pointermove', move); cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
-    cv.style.touchAction = 'none';
+    cv.style.touchAction = o.allowTouchScroll && window.matchMedia && window.matchMedia('(max-width: 991.98px)').matches ? 'pan-y' : 'none';
     function frame(now) {
       if (dead) return; raf = requestAnimationFrame(frame);
       const dt = Math.min(0.05, (now - last) / 1000); last = now; s.t += dt;
