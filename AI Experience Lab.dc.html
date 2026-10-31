@@ -703,10 +703,9 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
 html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
 #o2-top .o2-hero__content>h1{margin-bottom:20px!important}
 #o2-top .o2-hero__content>p{margin-bottom:24px!important}
-#o2-top .o2-hero__cta{box-sizing:border-box;min-height:52px;max-width:100%;display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:10px;border:1px solid rgba(148,205,255,.3);background:linear-gradient(100deg,rgb(74,59,255),rgb(47,107,255) 50%,rgb(63,224,255));color:#FFFFFF!important;font-size:16px;font-weight:700;line-height:1.45;text-align:center;text-decoration:none;box-shadow:0 12px 30px -14px rgba(47,107,255,.64);transition:filter .25s,box-shadow .25s}
-/* Contrast veil is confined to CTA; the approved violet-blue-cyan surface remains visible. */
+#o2-top .o2-hero__cta{box-sizing:border-box;min-height:52px;max-width:100%;display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:10px;border:0;background:linear-gradient(rgba(3,18,43,.52),rgba(3,18,43,.52)),linear-gradient(100deg,rgb(74,59,255),rgb(47,107,255) 50%,rgb(63,224,255));color:#FFFFFF!important;font-size:16px;font-weight:700;line-height:1.45;text-align:center;text-decoration:none;box-shadow:0 12px 30px -14px rgba(47,107,255,.64);transition:filter .25s,box-shadow .25s}
+/* Uniform contrast composite avoids an untinted rim around the rounded gradient. */
 #o2-top .o2-hero__cta{position:relative;isolation:isolate;overflow:hidden}
-#o2-top .o2-hero__cta::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:rgba(3,18,43,.52)}
 #o2-top .o2-hero__cta-label{position:relative;z-index:1}
 #o2-top .o2-hero__cta:hover{filter:brightness(1.08);color:#FFF!important;box-shadow:0 15px 35px -13px rgba(63,224,255,.55)}
 #o2-top .o2-hero__cta:focus-visible,#o2-top #o2-hero-scroll-cue:focus-visible{outline:3px solid #84EDFF!important;outline-offset:4px;box-shadow:0 0 0 2px rgba(1,20,44,.92),0 12px 30px -14px rgba(47,107,255,.64)}

@@ -96,6 +96,13 @@ jobs:
               await open(page);
               const content=page.locator('#o2-top .o2-hero__content');
               assert(await page.locator('#o2-hero-cta').count()===1,'single primary feature CTA');
+              const ctaEdges=await page.locator('#o2-hero-cta').evaluate(el=>{
+                const s=getComputedStyle(el),pseudo=getComputedStyle(el,'::before');
+                return {borderWidth:s.borderTopWidth,borderColor:s.borderTopColor,radius:s.borderRadius,background:s.backgroundImage,pseudoContent:pseudo.content};
+              });
+              console.log('HERO CTA EDGES',JSON.stringify(ctaEdges));
+              assert(ctaEdges.borderWidth==='0px' && ctaEdges.radius==='10px','hero CTA has no mismatched rim; 10px radius preserved');
+              assert(ctaEdges.background.includes('linear-gradient') && ctaEdges.pseudoContent==='none','CTA contrast is a uniform gradient composite without extra overlay layer');
               assert(await page.locator('#o2-top .o2-hero__eyebrow').count()===1,'context eyebrow');
               assert(await page.locator('#o2-top video[poster="assets/hero-poster.webp"]').count()===1,'video poster attribute');
               const sizes=[[320,780],[390,844],[768,760],[1024,720],[1440,900],[1440,650]];
