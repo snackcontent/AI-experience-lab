@@ -111,7 +111,7 @@ html[dir="rtl"] #o2-top .o2-hero__veil{background:linear-gradient(270deg,rgba(0,
 #o2-top .o2-hero__content h1{font-size:clamp(40px,6.2vw,100px)!important;line-height:1.1!important;font-weight:700!important;letter-spacing:-.025em!important;filter:drop-shadow(0 2px 16px rgba(0,10,25,.46))}
 #o2-top .o2-hero__content>p{font-size:clamp(18px,1.5vw,22px)!important;line-height:1.72!important;font-weight:500!important;color:#F0F7FF!important;max-width:590px!important;text-shadow:0 2px 14px rgba(0,0,0,.6)}
 header nav [data-nav-link],header nav button[lang],header nav a[href="#o2-contact"]{font-size:16px!important;line-height:1.4!important}
-#o2-services>div:first-child>span,#next>div:first-child>div>span,#o2-faq>div:first-child span,#o2-contact>div:first-child>div>span{font-size:13px!important;line-height:1.5!important;font-weight:600!important}
+#o2-services>div:first-child>span,#next>div:first-child>div>span,#o2-faq .o2-faq-intro__top>span,#o2-contact>div:first-child>div>span{font-size:13px!important;line-height:1.5!important;font-weight:600!important}
 #o2-services>div:first-child>h2,#next>div:first-child h2{font-size:clamp(40px,4.4vw,60px)!important;line-height:1.13!important;letter-spacing:-.025em!important;font-weight:700!important;white-space:normal!important;text-wrap:balance}
 #o2-services>div:first-child>p,#next>div:first-child p{font-size:clamp(17px,1.35vw,20px)!important;line-height:1.7!important;color:#D0DFF4!important}
 #o2-faq>div:first-child h2{font-size:clamp(34px,3.4vw,48px)!important;line-height:1.18!important;font-weight:700!important}
@@ -479,6 +479,11 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
 }
 
 /* FAQ revised: 12-column grid 5/7; no outer panel; responsive reading order. */
+/* Ensure generated <span class="sc-interp"> inherits rendered FAQ typography.
+   Avoid global 13px 'span' selectors: text interpolations are wrapped in spans. */
+#o2-faq .o2-faq-item-button .o2-faq-question .sc-interp,
+#o2-faq .o2-faq-card .o2-faq-answer-inner p .sc-interp{font-size:inherit!important;line-height:inherit!important;font-weight:inherit!important}
+
 #o2-faq .o2-faq-shell{align-items:start;min-width:0}
 #o2-faq .o2-faq-intro{position:sticky;top:104px;align-self:start;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:clamp(24px,2.8vw,36px);min-width:0;padding-block:4px 0}
 #o2-faq .o2-faq-intro__top{display:flex;flex-direction:column;align-items:flex-start;gap:16px;width:100%;min-width:0}
