@@ -4449,12 +4449,20 @@ class Component extends DCLogic {
           o2InfoClose:this.o2CloseInfo,o2Stop:e=>e.stopPropagation() }; })(),
       ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
         const slug=P?P.name.toLowerCase():'x',doc=!!DC,isNs=pi===2,nsVid=(this.props.nasherVideo||'').trim(),lr=window.__resources&&window.__resources['nasher-logo'];
+        const ar=s.lang==='ar';
+        const productArabic=[
+          {cat:'رقمي',desc:'إدارة المحتوى والتحرير المدعومة بالذكاء الاصطناعي.',more:'يجمع لبيب أنظمة إدارة المحتوى للعلامات المختلفة في واجهة واحدة لمتابعة القصص وحالاتها، مع طبقة مشتركة من الذكاء الاصطناعي.'},
+          {cat:'تلفزيون',desc:'ذكاء البث والرصد الإعلامي.',more:'يرصد Morrakeb البث المباشر والمؤرشف، ويحوّل المقاطع إلى نصوص ويصنّفها، مما يساعد غرف الأخبار على البحث والاقتطاع والتفاعل عبر القنوات.'},
+          {cat:'وسائل التواصل الاجتماعي',desc:'حلول نشر المحتوى عبر القنوات.',more:'يحوّل Nasher Studio القصة الواحدة إلى صيغ جاهزة للنشر على المنصات المختلفة، مع تكييف النصوص والمرئيات والتوقيت وبقاء القرار النهائي للمحررين.'},
+          {cat:'تقنية',desc:'تطوير البرمجيات وتسليمها بمساعدة الذكاء الاصطناعي.',more:'يوظّف Tawazi الذكاء الاصطناعي في تطوير الأدوات وتسليمها، مع دورات تنفيذ أسرع ومكونات مشتركة وسير عمل موحد بين المنتجات.'}
+        ];
+        const localized=P&&ar?productArabic[pi]:null;
         const chosenVideo=pi===3?'assets/tawazi-video.mp4':isNs?nsVid:'';
         const hasVideo=!!chosenVideo&&!s.ppMediaFailed,showPoster=!hasVideo&&!s.ppPosterFailed;
         const poster=DC?'assets/'+DC.dir+'/p01.png':'';
         return { ppOpen: pi != null && pi !== 0 && s.ppIn, ppClose: this.ppClose, ppDialogRef:this.ppDialogRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
           docTitle: DC ? DC.title : '', docKind: DC ? DC.kind : '', docRatio: DC ? DC.ratio : '16 / 9', docMaxW: DC ? DC.maxW : '100%', docMulti: N > 1,
-          pp:P?{name:P.name,cat:P.cat,desc:P.desc,more:P.more||'',hasMore:!!P.more,hasDoc:doc,hasLogo:isNs,noLogo:!isNs,
+          pp:P?{name:P.name,cat:localized?.cat||P.cat,desc:localized?.desc||P.desc,more:localized?.more||P.more||'',hasMore:true,hasDoc:doc,hasLogo:isNs,noLogo:!isNs,
             logoBg:'url("'+(lr||'assets/nasher-logo-light.png')+'")',
             hasVideo,video:chosenVideo,showPoster,poster,posterAlt:P.name+' — '+(DC?DC.title:'Product presentation')+' cover',showTextFallback:!hasVideo&&!showPoster,
             mediaLabel:P.name+' product video'}:{name:'',cat:'',desc:'',more:'',hasMore:false,hasDoc:false,hasLogo:false,noLogo:true,hasVideo:false,video:'',showPoster:false,poster:'',posterAlt:'',showTextFallback:false,mediaLabel:''},
