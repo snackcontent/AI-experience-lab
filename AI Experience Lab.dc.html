@@ -74,6 +74,14 @@ input[type=range]{accent-color:#3FE0FF}
 @keyframes wwDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
+/* Product presentation controls: disabled means unavailable, without hover. */
+#o2-products .portfolio-card__hit:focus-visible{outline:3px solid #168FB9;outline-offset:-5px}
+.product-modal-backdrop [disabled]{opacity:.32!important;cursor:not-allowed!important}
+.product-modal-backdrop [disabled]:hover{border-color:rgba(255,255,255,.3)!important;background:rgba(3,18,43,.65)!important}
+.product-modal-backdrop [data-product-close]:focus-visible,
+.product-modal-backdrop button:focus-visible{outline:3px solid #84EDFF;outline-offset:3px}
+html[dir="rtl"] .product-modal-backdrop button[aria-label*="الشريحة"] svg{transform:scaleX(-1)}
+@media(max-width:600px){.product-modal-backdrop{padding:12px!important}.product-modal-backdrop [role="dialog"]{max-height:calc(100dvh - 24px)}}
 /* Portfolio — four equally sized product cards with original canvas animations. */
 .portfolio-section{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:64px max(20px,4vw) 104px;scroll-margin-top:80px}
 .portfolio-heading{max-width:800px;margin:0 auto 43px;display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}
@@ -1720,7 +1728,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;max-width:760px">
-          <span style="font-size:22px;font-weight:600;line-height:1.3;text-wrap:balance">{{ pp.desc }}</span>
+          <span id="pp-product-description" style="font-size:22px;font-weight:600;line-height:1.3;text-wrap:balance">{{ pp.desc }}</span>
           <sc-if value="{{ pp.hasMore }}"><p style="margin:0;font-size:16px;line-height:1.65;color:#C9D8F5;text-wrap:pretty">{{ pp.more }}</p></sc-if>
         </div>
         <sc-if value="{{ pp.hasDoc }}" hint-placeholder-val="{{ false }}">
@@ -1731,20 +1739,20 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
               </div>
               <div style="display:flex;align-items:center;gap:10px">
                 <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;color:#9CB3DD;font-variant-numeric:tabular-nums"><span style="color:#FFFFFF;font-weight:600">{{ docPage }}</span> / {{ docTotal }}</span></sc-if>
-                <button onClick="{{ docFull }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:13px;cursor:pointer" style-hover="background:rgba(63,224,255,0.14)">Full screen</button>
+                <button type="button" onClick="{{ docFull }}" aria-label="{{ docFullLabel }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:13px;cursor:pointer" style-hover="background:rgba(63,224,255,0.14)">{{ docFullLabel }}</button>
               </div>
             </div>
             <div style="position:relative;width:100%;max-width:{{ docMaxW }};margin:0 auto;aspect-ratio:{{ docRatio }};border-radius:14px;overflow:hidden;background:#F4F7FC;box-shadow:0 30px 70px -30px rgba(0,0,0,0.8)">
               <sc-for list="{{ docSlides }}" as="d" hint-placeholder-count="0">
-                <div role="img" aria-label="{{ d.label }}" aria-hidden="{{ d.hidden }}" style="position:absolute;inset:0;background-image:{{ d.bg }};background-size:contain;background-position:center;background-repeat:no-repeat;opacity:{{ d.op }};transform:{{ d.tf }};transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1)"></div>
+                <div role="img" aria-label="{{ d.label }}" aria-describedby="pp-product-description" aria-hidden="{{ d.hidden }}" style="position:absolute;inset:0;background-image:{{ d.bg }};background-size:contain;background-position:center;background-repeat:no-repeat;opacity:{{ d.op }};transform:{{ d.tf }};transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1)"></div>
               </sc-for>
-              <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><button onClick="{{ docPrev }}" aria-label="Previous slide" style="position:absolute;left:12px;top:50%;margin-top:-24px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(3,18,43,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:{{ docPrevOp }};transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.25);border-color:#3FE0FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-              <button onClick="{{ docNext }}" aria-label="Next slide" style="position:absolute;right:12px;top:50%;margin-top:-24px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(3,18,43,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:{{ docNextOp }};transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.25);border-color:#3FE0FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button></sc-if>
+              <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ docPrev }}" disabled="{{ docPrevDisabled }}" aria-label="{{ docPrevLabel }}" style="position:absolute;left:12px;top:50%;margin-top:-24px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(3,18,43,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:{{ docPrevOp }};transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.25);border-color:#3FE0FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+              <button type="button" onClick="{{ docNext }}" disabled="{{ docNextDisabled }}" aria-label="{{ docNextLabel }}" style="position:absolute;right:12px;top:50%;margin-top:-24px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(3,18,43,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:{{ docNextOp }};transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.25);border-color:#3FE0FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button></sc-if>
             </div>
             <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><div style="height:3px;border-radius:3px;background:rgba(150,190,255,0.16);overflow:hidden"><span style="display:block;height:100%;width:{{ docProg }};background:linear-gradient(90deg,#2F6BFF,#3FE0FF);transition:width .4s ease"></span></div>
             <div ref="{{ docThumbsRef }}" style="min-width:0;display:flex;gap:10px;overflow-x:auto;padding:4px 2px 6px;scrollbar-width:thin;scrollbar-color:rgba(150,190,255,0.3) transparent">
               <sc-for list="{{ docThumbs }}" as="t" hint-placeholder-count="0">
-                <button onClick="{{ t.onClick }}" aria-label="{{ t.label }}" style="flex:none;position:relative;width:112px;height:63px;padding:0;border-radius:8px;border:2px solid {{ t.border }};background-color:#F4F7FC;background-image:{{ t.bg }};background-size:cover;background-position:center;cursor:pointer;box-shadow:{{ t.shadow }};opacity:{{ t.op }};transition:border-color .3s, box-shadow .3s, opacity .3s" style-hover="opacity:1"><span style="position:absolute;right:4px;bottom:4px;padding:1px 6px;border-radius:6px;background:rgba(3,18,43,0.8);font-size:11px;color:#FFFFFF;font-variant-numeric:tabular-nums">{{ t.n }}</span></button>
+                <button type="button" onClick="{{ t.onClick }}" aria-label="{{ t.label }}" aria-current="{{ t.current }}" style="flex:none;position:relative;width:112px;height:63px;padding:0;border-radius:8px;border:2px solid {{ t.border }};background-color:#F4F7FC;background-image:{{ t.bg }};background-size:cover;background-position:center;cursor:pointer;box-shadow:{{ t.shadow }};opacity:{{ t.op }};transition:border-color .3s, box-shadow .3s, opacity .3s" style-hover="opacity:1"><span style="position:absolute;right:4px;bottom:4px;padding:1px 6px;border-radius:6px;background:rgba(3,18,43,0.8);font-size:11px;color:#FFFFFF;font-variant-numeric:tabular-nums">{{ t.n }}</span></button>
               </sc-for>
             </div></sc-if>
           </div>
@@ -4425,10 +4433,13 @@ class Component extends DCLogic {
           ppVideoError:()=>this.setState({ppMediaFailed:true}),
           ppPosterError:()=>this.setState({ppPosterFailed:true}),
           docPage: String(pg).padStart(2, '0'), docTotal: String(N).padStart(2, '0'), docProg: (pg / N * 100) + '%',
+          docPrevDisabled:pg<=1,docNextDisabled:pg>=N,
+          docPrevLabel:s.lang==='ar'?'الشريحة السابقة':'Previous slide',docNextLabel:s.lang==='ar'?'الشريحة التالية':'Next slide',
+          docFullLabel:s.lang==='ar'?'ملء الشاشة':'Full screen',
           docPrev: () => this.docGo(pg - 1), docNext: () => this.docGo(pg + 1), docPrevOp: pg > 1 ? 1 : 0.35, docNextOp: pg < N ? 1 : 0.35,
           docFull: () => { const el = this.ppDocEl; if (!el) return; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); },
-          docSlides: doc ? Array.from({ length: N }, (_, i) => { const k = i + 1, on = k === pg, near = Math.abs(k - pg) <= 1; return { label: 'Slide ' + k, hidden: !on, bg: near ? src(k) : 'none', op: on ? 1 : 0, tf: on ? 'none' : 'translateX(' + (k < pg ? -24 : 24) + 'px)' }; }) : [],
-          docThumbs: doc ? Array.from({ length: N }, (_, i) => { const k = i + 1, on = k === pg; return { n: k, label: 'Go to slide ' + k, onClick: () => this.docGo(k), bg: src(k), border: on ? '#3FE0FF' : 'rgba(255,255,255,0.14)', shadow: on ? '0 0 0 3px rgba(63,224,255,0.25)' : 'none', op: on ? 1 : 0.7 }; }) : [] }; })(),
+          docSlides:doc?Array.from({length:N},(_,i)=>{const k=i+1,on=k===pg,near=Math.abs(k-pg)<=1;return {label:(P?.name||'')+' — '+(DC?.title||'presentation')+', '+(s.lang==='ar'?'الشريحة ':'slide ')+k+' / '+N,hidden:!on,bg:near?src(k):'none',op:on?1:0,tf:on?'none':'translateX('+(k<pg?-24:24)+'px)'};}):[],
+          docThumbs:doc?Array.from({length:N},(_,i)=>{const k=i+1,on=k===pg;return {n:k,label:(s.lang==='ar'?'انتقل إلى الشريحة ':'Go to slide ')+k+' / '+N,current:on?'page':null,onClick:()=>this.docGo(k),bg:src(k),border:on?'#3FE0FF':'rgba(255,255,255,0.14)',shadow:on?'0 0 0 3px rgba(63,224,255,0.25)':'none',op:on?1:0.7};}):[] }; })(),
       o2cRef: this.o2cRef, o2cSent: !!s.o2cSent, o2cOpen: !s.o2cSent, o2cName: s.o2cName || '', o2cEmail: s.o2cEmail || '', o2cInterest: s.o2cInterest || '',
       o2cTopics: ['AI Summarization', 'AI Podcast', 'Text tools', 'Transcription & Translation', 'Chatbot', 'AI Products', 'Partnership', 'Other'],
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
