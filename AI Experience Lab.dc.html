@@ -1075,9 +1075,9 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
       </div>
     </div>
     <div class="o2-feature-carousel-wrap">
-      <div data-o2-track="" ref="{{ o2TrackRef }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="{{ o2TrackDir }}" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
+      <div data-o2-track="" ref="{{ o2TrackRef }}" data-loop="{{ o2LoopEnabled }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="{{ o2TrackDir }}" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
         <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
-          <article class="o2-feature-card" dir="{{ k.dir }}" data-last-visited="{{ k.lastVisited }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;scroll-snap-stop:always;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
+          <article class="o2-feature-card" dir="{{ k.dir }}" aria-hidden="{{ k.cloneAria }}" data-copy="{{ k.copy }}" data-last-visited="{{ k.lastVisited }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;scroll-snap-stop:always;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
             <div style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4FF;font-weight:600">
               <span aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:10px;background:rgba(63,224,255,.1);border:1px solid rgba(63,224,255,.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ k.iconPath }}"></path></svg></span>
               <span>{{ k.cat }}</span>
@@ -1097,7 +1097,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
               <span style="display:flex;align-items:center;font-size:14px;font-weight:600;color:{{ k.ctaColor }}">{{ k.cta }}</span>
               <span aria-hidden="true" style="width:36px;height:36px;flex:none;border-radius:50%;background:{{ k.arrowBg }};color:{{ k.arrowFg }};border:1px solid rgba(150,190,255,.3);display:flex;align-items:center;justify-content:center;font-size:15px">↗</span>
             </div>
-            <button type="button" class="o2-feature-hit" onClick="{{ k.onClick }}" aria-label="{{ k.actionLabel }}"><span class="o2-visually-hidden">{{ k.actionLabel }}</span></button>
+            <button type="button" class="o2-feature-hit" onClick="{{ k.onClick }}" aria-label="{{ k.actionLabel }}" tabindex="{{ k.cardTabIndex }}"><span class="o2-visually-hidden">{{ k.actionLabel }}</span></button>
           </article>
         </sc-for>
       </div>
@@ -2865,8 +2865,8 @@ class Component extends DCLogic {
       }
     }
     const featureTrack=this.o2TrackRef.current;
-    if(featureTrack && typeof ResizeObserver !== 'undefined') { this.o2FeatureRO=new ResizeObserver(()=>requestAnimationFrame(this.o2Measure)); this.o2FeatureRO.observe(featureTrack); }
-    requestAnimationFrame(this.o2Measure);
+    if(featureTrack && typeof ResizeObserver !== 'undefined') { this.o2FeatureRO=new ResizeObserver(()=>requestAnimationFrame(()=>this.o2ResetTrack(this.state.o2ix||0))); this.o2FeatureRO.observe(featureTrack); }
+    requestAnimationFrame(()=>this.o2ResetTrack(0));
     // Roadmap now shows all concepts directly, with no carousel autoplay.
     this.raf = requestAnimationFrame(this.loop);
   }
@@ -2898,10 +2898,10 @@ class Component extends DCLogic {
     this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); } }
   componentDidUpdate(pp, ps) {
     if (this.bodyEl && this.state.open === 5 && (ps.chatMsgs !== this.state.chatMsgs || ps.chatReveal !== this.state.chatReveal || ps.chatLoading !== this.state.chatLoading)) this.bodyEl.scrollTop = this.bodyEl.scrollHeight;
-    if (ps.lang !== this.state.lang) requestAnimationFrame(() => {
-      const track=this.o2TrackRef.current;
-      if (track) { this.o2ScrollSet(track,0,'auto'); this.o2Measure(); }
-    });
+    const cap=w=>w>=1100?4:w>=900?3:w>=600?2:1;
+    if(ps.lang!==this.state.lang || ps.o2cat!==this.state.o2cat ||
+      cap(ps.viewportW||window.innerWidth)!==cap(this.state.viewportW||window.innerWidth))
+      requestAnimationFrame(()=>this.o2ResetTrack(0));
   }
 
   live() { return (this.props.liveAI ?? true) && !!(window.claude && window.claude.complete); }
@@ -3952,113 +3952,119 @@ class Component extends DCLogic {
     catch (err) { this.setState({ o2A: 'Could not reach the live model. Try again.', o2Busy: false }); }
   };
   o2TrackRef = React.createRef();
-  o2Flat() { const f=[]; this.O2.cats.forEach(c=>c.items.forEach(it=>f.push(it.id))); return f; }
-  // Normalize browser-specific RTL scrollLeft into logical start-to-end pixels.
+  o2Flat() { const f=[];this.O2.cats.forEach(c=>c.items.forEach(it=>f.push(it.id)));return f; }
+  o2Count() { const i=this.state.o2cat??-1;return i<0?this.o2Flat().length:(this.O2.cats[i]?.items.length||0); }
   o2ScrollMode() {
     if(this._o2ScrollMode)return this._o2ScrollMode;
     const el=document.createElement('div'),inner=document.createElement('div');
     el.dir='rtl';el.style.cssText='position:absolute;top:-9999px;width:4px;height:4px;overflow:scroll;visibility:hidden';
-    inner.style.cssText='width:12px;height:1px';
-    el.appendChild(inner);document.body.appendChild(el);
-    let type='negative';
-    if(el.scrollLeft>0)type='reverse';
-    else{el.scrollLeft=1;if(el.scrollLeft===1)type='default';}
+    inner.style.cssText='width:12px;height:1px';el.appendChild(inner);document.body.appendChild(el);
+    let type='negative';if(el.scrollLeft>0)type='reverse';else{el.scrollLeft=1;if(el.scrollLeft===1)type='default';}
     el.remove();this._o2ScrollMode=type;return type;
   }
   o2ScrollGet(t) {
-    if(!t)return 0;
-    const max=Math.max(0,t.scrollWidth-t.clientWidth);
+    if(!t)return 0;const max=Math.max(0,t.scrollWidth-t.clientWidth);
     if(t.dir!=='rtl')return Math.max(0,Math.min(max,t.scrollLeft));
-    const type=this.o2ScrollMode();
-    const n=type==='negative'?-t.scrollLeft:type==='reverse'?max-t.scrollLeft:t.scrollLeft;
+    const type=this.o2ScrollMode(),n=type==='negative'?-t.scrollLeft:type==='reverse'?max-t.scrollLeft:t.scrollLeft;
     return Math.max(0,Math.min(max,n));
   }
   o2ScrollSet(t,n,behavior='auto') {
-    if(!t)return;
-    const max=Math.max(0,t.scrollWidth-t.clientWidth),v=Math.max(0,Math.min(max,n));
+    if(!t)return;const max=Math.max(0,t.scrollWidth-t.clientWidth),v=Math.max(0,Math.min(max,n));
     const type=t.dir==='rtl'?this.o2ScrollMode():'ltr';
-    const raw=type==='negative'?-v:type==='reverse'?max-v:v;
-    t.scrollTo({left:raw,behavior});
+    t.scrollTo({left:type==='negative'?-v:type==='reverse'?max-v:v,behavior});
   }
-  o2CardSnapPoints(t) {
-    if(!t || !t.children.length)return [];
-    const max=Math.max(0,t.scrollWidth-t.clientWidth);
-    const first=t.children[0].offsetLeft;
-    return Array.from(t.children,(el,index)=>({
-      index, position:Math.abs(el.offsetLeft-first)
-    })).filter(point=>point.position<=max+1.5);
+  o2LoopInfo(t) {
+    const n=this.o2Count();if(!t||n<2||t.children.length!==n*3)return null;
+    const first=t.children[0].offsetLeft,middle=t.children[n].offsetLeft,next=t.children[2*n].offsetLeft;
+    const cycle=Math.abs(next-middle);return cycle>0?{n,first:Math.abs(middle-first),cycle}:null;
   }
-  o2SnapNearest = (behavior) => {
-    const t=this.o2TrackRef.current;
-    if(!t || this.o2drag)return;
-    const points=this.o2CardSnapPoints(t);
-    if(!points.length){this.o2Measure();return;}
-    const current=this.o2ScrollGet(t);
-    const target=points.reduce((nearest,point)=>
-      Math.abs(point.position-current)<Math.abs(nearest.position-current)?point:nearest,points[0]);
-    if(Math.abs(current-target.position)>1.5){
-      this.o2ScrollSet(t,target.position,behavior||(this.reduce?'auto':'smooth'));
-    } else this.o2Measure();
+  // Seamlessly rebase a three-copy track; the same slides occupy both positions.
+  o2Rebase(t) {
+    if(!t||this.o2Rebasing)return false;
+    const loop=this.o2LoopInfo(t);if(!loop)return false;
+    const pos=this.o2ScrollGet(t);
+    const next=pos<loop.first-0.5?pos+loop.cycle:pos>=loop.first+loop.cycle-0.5?pos-loop.cycle:pos;
+    if(Math.abs(next-pos)<0.5)return false;
+    this.o2Rebasing=true;
+    const behavior=t.style.scrollBehavior,snap=t.style.scrollSnapType;
+    t.style.scrollBehavior='auto';t.style.scrollSnapType='none';this.o2ScrollSet(t,next,'auto');
+    requestAnimationFrame(()=>{
+      if(t.isConnected){t.style.scrollBehavior=behavior;t.style.scrollSnapType=snap;}
+      this.o2Rebasing=false;this.o2Measure();
+    });
+    return true;
+  }
+  o2ResetTrack = (logical=0) => {
+    const t=this.o2TrackRef.current;if(!t||!t.children.length)return;
+    clearTimeout(this.o2SnapTimer);
+    const loop=this.o2LoopInfo(t),index=Math.max(0,Math.min(this.o2Count()-1,logical));
+    const element=t.children[(loop?loop.n:0)+index];
+    const left=element?Math.abs(element.offsetLeft-t.children[0].offsetLeft):0;
+    const behavior=t.style.scrollBehavior,snap=t.style.scrollSnapType;
+    t.style.scrollBehavior='auto';t.style.scrollSnapType='none';this.o2ScrollSet(t,left,'auto');
+    requestAnimationFrame(()=>{
+      if(t.isConnected){t.style.scrollBehavior=behavior;t.style.scrollSnapType=snap;this.o2Measure();}
+    });
   };
+  o2CardSnapPoints(t) {
+    if(!t||!t.children.length)return [];
+    const max=Math.max(0,t.scrollWidth-t.clientWidth),first=t.children[0].offsetLeft;
+    return Array.from(t.children,(el,index)=>({index,position:Math.abs(el.offsetLeft-first)})).filter(p=>p.position<=max+1.5);
+  }
   o2Measure = () => {
     const t=this.o2TrackRef.current;if(!t)return;
-    const max=Math.max(0,t.scrollWidth-t.clientWidth),sl=this.o2ScrollGet(t);
-    const points=this.o2CardSnapPoints(t);
-    const closest=points.length?points.reduce((a,b)=>
-      Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,points[0]):{index:0};
-    const i=closest.index;
-    const ratio=max>0?sl/max:0;
-    if(this.state.o2ix!==i || Math.abs((this.state.o2pr||0)-ratio)>.003 || this.state.o2max!==max){
+    const max=Math.max(0,t.scrollWidth-t.clientWidth),sl=this.o2ScrollGet(t),points=this.o2CardSnapPoints(t);
+    const closest=points.length?points.reduce((a,b)=>Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,points[0]):{index:0};
+    const loop=this.o2LoopInfo(t),count=this.o2Count(),i=loop?closest.index%loop.n:closest.index;
+    const ratio=loop?(count>1?i/(count-1):0):(max>0?sl/max:0);
+    if(this.state.o2ix!==i||Math.abs((this.state.o2pr||0)-ratio)>.003||this.state.o2max!==max)
       this.setState({o2ix:i,o2pr:ratio,o2max:max});
-    }
   };
-  o2Go = (i, instant=false) => {
-    const t=this.o2TrackRef.current;
-    if(!t)return;
-    const points=this.o2CardSnapPoints(t);
-    if(!points.length)return;
-    const j=Math.max(0,Math.min(i,points.length-1));
-    const left=points[j].position;
-    const max=Math.max(0,t.scrollWidth-t.clientWidth);
+  o2SnapNearest = (behavior) => {
+    const t=this.o2TrackRef.current;if(!t||this.o2drag||this.o2Rebasing)return;
+    if(this.o2Rebase(t))return;
+    const pts=this.o2CardSnapPoints(t),sl=this.o2ScrollGet(t);if(!pts.length)return;
+    const target=pts.reduce((a,b)=>Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,pts[0]);
+    if(Math.abs(sl-target.position)>1.5)this.o2ScrollSet(t,target.position,behavior||(this.reduce?'auto':'smooth'));
+    else this.o2Measure();
+  };
+  o2Go = (i,instant=false) => {
+    const t=this.o2TrackRef.current;if(!t||!t.children.length)return;
+    const loop=this.o2LoopInfo(t),count=this.o2Count(),logical=Math.max(0,Math.min(count-1,i));
+    const element=t.children[(loop?loop.n:0)+logical];if(!element)return;
+    const left=Math.abs(element.offsetLeft-t.children[0].offsetLeft);
     clearTimeout(this.o2SnapTimer);
     if(instant){
-      const oldBehavior=t.style.scrollBehavior;
-      t.style.scrollBehavior='auto';
+      const behavior=t.style.scrollBehavior;t.style.scrollBehavior='auto';
       this.o2ScrollSet(t,left,'auto');
-      this.setState({o2ix:points[j].index,o2pr:max>0?left/max:0,o2max:max});
-      requestAnimationFrame(()=>{if(t.isConnected){t.style.scrollBehavior=oldBehavior;this.o2Measure();}});
+      requestAnimationFrame(()=>{if(t.isConnected){t.style.scrollBehavior=behavior;this.o2Measure();}});
+    }else this.o2ScrollSet(t,left,this.reduce?'auto':'smooth');
+    this.setState({o2ix:logical,o2pr:count>1?logical/(count-1):0});
+  };
+  o2Navigate = direction => {
+    const t=this.o2TrackRef.current;if(!t)return;
+    const loop=this.o2LoopInfo(t),pts=this.o2CardSnapPoints(t);if(pts.length<=1)return;
+    const sl=this.o2ScrollGet(t),nearest=pts.reduce((a,b)=>Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,pts[0]);
+    if(loop){
+      const next=pts.find(p=>p.index===nearest.index+direction);if(!next)return;
+      clearTimeout(this.o2SnapTimer);this.o2ScrollSet(t,next.position,this.reduce?'auto':'smooth');
+      const logical=next.index%loop.n;
+      this.setState({o2ix:logical,o2pr:loop.n>1?logical/(loop.n-1):0});
     }else{
-      this.o2ScrollSet(t,left,this.reduce?'auto':'smooth');
-      requestAnimationFrame(this.o2Measure);
+      const ix=pts.findIndex(p=>p.index===nearest.index),next=ix+direction,wrap=next<0||next>=pts.length;
+      this.o2Go(wrap?(next<0?pts.length-1:0):next,wrap);
     }
   };
-  // Buttons wrap at the last fully aligned card, without a long reverse sweep.
-  o2Navigate = direction => {
-    const t=this.o2TrackRef.current;
-    if(!t)return;
-    const points=this.o2CardSnapPoints(t);
-    if(points.length<=1)return;
-    const current=this.o2ScrollGet(t);
-    const closest=points.reduce((best,point,i)=>
-      Math.abs(point.position-current)<Math.abs(points[best].position-current)?i:best,0);
-    const next=closest+direction;
-    const wrap=next<0||next>=points.length;
-    this.o2Go(wrap?(next<0?points.length-1:0):next,wrap);
-  };
   o2GoId = id => {
-    if((this.state.o2cat??-1)>=0) return this.setState({o2cat:-1,o2ix:0,o2pr:0},()=>requestAnimationFrame(()=>this.o2GoId(id)));
+    if((this.state.o2cat??-1)>=0)return this.setState({o2cat:-1,o2ix:0,o2pr:0},()=>requestAnimationFrame(()=>this.o2GoId(id)));
     requestAnimationFrame(()=>this.o2Go(Math.max(0,this.o2Flat().indexOf(id))));
   };
-  o2SetCat = i => this.setState({o2cat:i,o2ix:0,o2pr:0,o2max:0},()=>{
-    const t=this.o2TrackRef.current;
-    if(!t)return;
-    t.style.scrollBehavior='auto';this.o2ScrollSet(t,0,'auto');
-    requestAnimationFrame(()=>{t.style.scrollBehavior='';this.o2Measure();});
-  });
+  o2SetCat = i => this.setState({o2cat:i,o2ix:0,o2pr:0,o2max:0},()=>requestAnimationFrame(()=>this.o2ResetTrack(0)));
   o2DragDown = e => {
     if(e.pointerType!=='mouse'||e.button!==0)return;
     const t=this.o2TrackRef.current;if(!t)return;
-    this.o2drag={id:e.pointerId,x:e.clientX,sl:this.o2ScrollGet(t),moved:false};
+    this.o2drag={id:e.pointerId,x:e.clientX,lastX:e.clientX,moved:false};
+    clearTimeout(this.o2SnapTimer);
   };
   o2DragMove = e => {
     const d=this.o2drag,t=this.o2TrackRef.current;
@@ -4069,15 +4075,16 @@ class Component extends DCLogic {
       try{t.setPointerCapture(e.pointerId);}catch(_){}
     }
     if(!d.moved)return;
-    this.o2ScrollSet(t,d.sl-dx,'auto');
+    const delta=e.clientX-d.lastX;d.lastX=e.clientX;
+    this.o2ScrollSet(t,this.o2ScrollGet(t)-delta,'auto');
+    this.o2Rebase(t);
     if(e.cancelable)e.preventDefault();
   };
   o2DragUp = e => {
     const d=this.o2drag,t=this.o2TrackRef.current;
     if(!d||!t||(e.pointerId!=null&&d.id!==e.pointerId))return;
-    this.o2drag=null; this.o2dragMoved=d.moved;
-    clearTimeout(this.o2dmT);
-    this.o2dmT=setTimeout(()=>{this.o2dragMoved=false;},150);
+    this.o2drag=null;this.o2dragMoved=d.moved;
+    clearTimeout(this.o2dmT);this.o2dmT=setTimeout(()=>{this.o2dragMoved=false;},150);
     if(d.moved){
       t.style.cursor='';t.style.scrollBehavior='';t.style.scrollSnapType='';
       try{if(t.hasPointerCapture(d.id))t.releasePointerCapture(d.id);}catch(_){}
@@ -4087,7 +4094,8 @@ class Component extends DCLogic {
   };
   o2NoDrag = e => e.preventDefault();
   o2OnScroll = () => {
-    this.o2Measure();
+    if(this.o2Rebasing)return;
+    this.o2Rebase(this.o2TrackRef.current);this.o2Measure();
     if(this.o2drag)return;
     clearTimeout(this.o2SnapTimer);
     this.o2SnapTimer=setTimeout(()=>this.o2SnapNearest(),170);
@@ -4095,9 +4103,10 @@ class Component extends DCLogic {
   o2TrackKey = e => {
     if(e.target!==e.currentTarget)return;
     const t=this.o2TrackRef.current;if(!t)return;
-    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();this.o2Go((this.state.o2ix||0)+(e.key==='ArrowRight'?1:-1));}
-    else if(e.key==='Home'){e.preventDefault();this.o2Go(0);}
-    else if(e.key==='End'){e.preventDefault();this.o2Go(t.children.length-1);}
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+      e.preventDefault();this.o2Navigate(t.dir==='rtl'?(e.key==='ArrowRight'?-1:1):(e.key==='ArrowRight'?1:-1));
+    }else if(e.key==='Home'){e.preventDefault();this.o2Go(0);}
+    else if(e.key==='End'){e.preventDefault();this.o2Go(this.o2Count()-1);}
   };
   o2InfoRef = React.createRef();
   o2OpenInfo = (id, trigger) => {
@@ -4250,6 +4259,8 @@ class Component extends DCLogic {
         const all=[]; O.cats.forEach((c,ci)=>c.items.forEach(it=>all.push({...it,ci,cat:c.name,glyph:c.glyph})));
         const fc=s.o2cat??-1,flat=fc<0?all:all.filter(f=>f.ci===fc),cur=Math.max(0,Math.min(flat.length-1,s.o2ix||0));
         const ar=s.lang==='ar',count=flat.length,max=s.o2max||0,progress=Math.max(0,Math.min(1,s.o2pr||0));
+        const vw=s.viewportW||window.innerWidth,capacity=vw>=1100?4:vw>=900?3:vw>=600?2:1;
+        const loopEnabled=count>capacity;
         const catsAr=['تحريري','تجربة','تحليلات'];
         const shorts={
           gap:['Compare brand coverage with audience searches and competitors to find gaps.','قارن التغطية بما يبحث عنه الجمهور وما ينشره المنافسون لاكتشاف الفجوات.'],
@@ -4285,21 +4296,21 @@ class Component extends DCLogic {
             e.preventDefault();controls[j].focus();controls[j].click();
           },
           o2CarouselLabel:ar?'اسحب لاستكشاف الميزات أو استخدم أزرار السابق والتالي':'Swipe to explore features or use Previous and Next',
-          o2TrackDir:ar?'rtl':'ltr',o2PrevGlyph:ar?'›':'‹',o2NextGlyph:ar?'‹':'›',
+          o2TrackDir:ar?'rtl':'ltr',o2PrevGlyph:ar?'›':'‹',o2NextGlyph:ar?'‹':'›',o2LoopEnabled:loopEnabled,
           o2TrackRef:this.o2TrackRef,o2OnScroll:this.o2OnScroll,o2DragDown:this.o2DragDown,o2DragMove:this.o2DragMove,o2DragUp:this.o2DragUp,o2NoDrag:this.o2NoDrag,o2TrackKey:this.o2TrackKey,
           o2ProgressValue:Math.round(progress*100),o2ProgressFill:(Math.round(progress*100))+'%',
           o2ProgressText:String(Math.min(count,progress>=.999?count:cur+1)).padStart(2,'0')+' / '+String(count).padStart(2,'0'),
           o2ProgressLabel:ar?'التقدم خلال بطاقات الميزات':'Feature carousel progress',
           o2NavigationLabel:ar?'التنقل بين ميزات الذكاء الاصطناعي':'AI Features navigation',
           o2PrevLabel:ar?'الميزة السابقة':'Previous feature',o2NextLabel:ar?'الميزة التالية':'Next feature',
-          o2PrevDisabled:max<=1,o2NextDisabled:max<=1,
+          o2PrevDisabled:!loopEnabled,o2NextDisabled:!loopEnabled,
           o2Prev:()=>this.o2Navigate(-1),o2Next:()=>this.o2Navigate(1),
           o2Chips:[chip(fc<0,'◎',ar?'الكل':'All',-1),...O.cats.map((c,i)=>chip(fc===i,c.glyph,ar?catsAr[i]:c.name,i))],
-          o2Cards:flat.map((f,i)=>{
+          o2Cards:Array.from({length:loopEnabled?3:1},(_,copy)=>flat.map((f,i)=>{
             const di=this.D.features.findIndex(x=>x.id===f.id),demo=di>=0&&this.D.features[di].type==='live';
             const cta=ar?(demo?'جرّب الآن':'اعرف المزيد'):(demo?'Try it':'Learn more');
             const short=shorts[f.id]?.[ar?1:0]||f.desc;
-            return {...f,iconPath:iconPaths[f.ci+1],lastVisited:s.o2lastVisited===f.id,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
+            return {...f,copy,cloneAria:loopEnabled&&copy!==1,cardTabIndex:loopEnabled&&copy!==1?-1:0,iconPath:iconPaths[f.ci+1],lastVisited:s.o2lastVisited===f.id,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
               cta,actionLabel:cta+': '+f.name,ctaColor:demo?'#3FE0FF':'#B9CCF0',
               arrowBg:demo?'linear-gradient(135deg,#4FB2FF,#3FE0FF)':'transparent',arrowFg:demo?'#03122B':'#EAF2FF',
               onClick:e=>{
@@ -4308,7 +4319,7 @@ class Component extends DCLogic {
                 if(demo)this.openDemo(di);else this.o2OpenInfo(f.id,e.currentTarget);
               }
             };
-          })
+          })).flat()
         };
       })(),
       ...(() => {
