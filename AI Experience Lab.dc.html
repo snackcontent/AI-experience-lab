@@ -649,6 +649,34 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
  }
  #o2-contact [data-contact-spacer]{min-height:calc(clamp(240px,67vw,310px) + 18px)!important}
 }
+/* Contact shared lamp ambience: mobile light continues underneath copy and the form.
+   The canvas remains in its dedicated touch-scroll-safe region. */
+@media(max-width:991.98px){
+ #o2-contact .o2-contact-shell{isolation:isolate}
+ #o2-contact .o2-contact-shell::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 88% 340px at 50% 425px,
+    rgba(119,224,255,.21) 0%,rgba(72,169,239,.15) 37%,
+    rgba(41,105,198,.10) 65%,transparent 100%);
+ }
+ #o2-contact .o2-contact-intro,
+ #o2-contact .o2-contact-form-column{position:relative;z-index:1}
+ #o2-contact .o2-contact-intro>canvas{
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 94%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 94%,transparent 100%)
+ }
+}
+@media(max-width:575.98px){
+ #o2-contact .o2-contact-shell::before{
+  background:
+   radial-gradient(ellipse 95% 270px at 50% 480px,
+    rgba(142,230,255,.22) 0%,rgba(80,183,255,.17) 38%,
+    rgba(54,114,214,.10) 74%,transparent 100%),
+   radial-gradient(ellipse 120% 430px at 50% 650px,
+    rgba(82,163,237,.12) 0%,rgba(42,101,195,.075) 55%,transparent 100%);
+ }
+}
+
 /* FAQ revised: 12-column grid 5/7; no outer panel; responsive reading order. */
 /* Ensure generated <span class="sc-interp"> inherits rendered FAQ typography.
    Avoid global 13px 'span' selectors: text interpolations are wrapped in spans. */
