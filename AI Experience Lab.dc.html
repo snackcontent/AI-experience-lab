@@ -1057,7 +1057,7 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
       <span class="o2-features-result" role="status" aria-live="polite" aria-atomic="true">{{ o2ResultCount }}</span>
     </div>
     <div class="o2-feature-carousel-wrap">
-      <div data-o2-track="" ref="{{ o2TrackRef }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="ltr" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
+      <div data-o2-track="" ref="{{ o2TrackRef }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="{{ o2TrackDir }}" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
         <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
           <article class="o2-feature-card" dir="{{ k.dir }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
             <div style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4FF;font-weight:600">
@@ -1085,8 +1085,8 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
     </div>
     <div class="o2-feature-navigation">
       <div class="o2-feature-navigation-buttons">
-        <button type="button" class="o2-feature-nav" onClick="{{ o2Prev }}" disabled="{{ o2PrevDisabled }}" aria-label="{{ o2PrevLabel }}" title="{{ o2PrevLabel }}"><span aria-hidden="true">‹</span></button>
-        <button type="button" class="o2-feature-nav" onClick="{{ o2Next }}" disabled="{{ o2NextDisabled }}" aria-label="{{ o2NextLabel }}" title="{{ o2NextLabel }}"><span aria-hidden="true">›</span></button>
+        <button type="button" class="o2-feature-nav" onClick="{{ o2Prev }}" disabled="{{ o2PrevDisabled }}" aria-label="{{ o2PrevLabel }}" title="{{ o2PrevLabel }}"><span aria-hidden="true">{{ o2PrevGlyph }}</span></button>
+        <button type="button" class="o2-feature-nav" onClick="{{ o2Next }}" disabled="{{ o2NextDisabled }}" aria-label="{{ o2NextLabel }}" title="{{ o2NextLabel }}"><span aria-hidden="true">{{ o2NextGlyph }}</span></button>
       </div>
       <div class="o2-feature-progress-group">
         <div class="o2-feature-progress" role="progressbar" aria-label="{{ o2ProgressLabel }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ o2ProgressValue }}" aria-valuetext="{{ o2ProgressText }}">
@@ -3932,12 +3932,39 @@ class Component extends DCLogic {
   };
   o2TrackRef = React.createRef();
   o2Flat() { const f=[]; this.O2.cats.forEach(c=>c.items.forEach(it=>f.push(it.id))); return f; }
+  // Normalize browser-specific RTL scrollLeft into logical start-to-end pixels.
+  o2ScrollMode() {
+    if(this._o2ScrollMode)return this._o2ScrollMode;
+    const el=document.createElement('div'),inner=document.createElement('div');
+    el.dir='rtl';el.style.cssText='position:absolute;top:-9999px;width:4px;height:4px;overflow:scroll;visibility:hidden';
+    inner.style.cssText='width:12px;height:1px';
+    el.appendChild(inner);document.body.appendChild(el);
+    let type='negative';
+    if(el.scrollLeft>0)type='reverse';
+    else{el.scrollLeft=1;if(el.scrollLeft===1)type='default';}
+    el.remove();this._o2ScrollMode=type;return type;
+  }
+  o2ScrollGet(t) {
+    if(!t)return 0;
+    const max=Math.max(0,t.scrollWidth-t.clientWidth);
+    if(t.dir!=='rtl')return Math.max(0,Math.min(max,t.scrollLeft));
+    const type=this.o2ScrollMode();
+    const n=type==='negative'?-t.scrollLeft:type==='reverse'?max-t.scrollLeft:t.scrollLeft;
+    return Math.max(0,Math.min(max,n));
+  }
+  o2ScrollSet(t,n,behavior='auto') {
+    if(!t)return;
+    const max=Math.max(0,t.scrollWidth-t.clientWidth),v=Math.max(0,Math.min(max,n));
+    const type=t.dir==='rtl'?this.o2ScrollMode():'ltr';
+    const raw=type==='negative'?-v:type==='reverse'?max-v:v;
+    t.scrollTo({left:raw,behavior});
+  }
   o2Measure = () => {
     const t=this.o2TrackRef.current; if(!t) return;
-    const max=Math.max(0,t.scrollWidth-t.clientWidth), sl=Math.max(0,Math.min(max,t.scrollLeft));
+    const max=Math.max(0,t.scrollWidth-t.clientWidth), sl=this.o2ScrollGet(t);
     const children=Array.from(t.children); let i=0;
     for(let j=0;j<children.length;j++) {
-      const target=children[j].offsetLeft-children[0].offsetLeft;
+      const target=Math.abs(children[j].offsetLeft-children[0].offsetLeft);
       if(target<=sl+Math.min(40,t.clientWidth*.1)) i=j;
     }
     const ratio=max>0?sl/max:0;
@@ -3950,8 +3977,8 @@ class Component extends DCLogic {
     const t=this.o2TrackRef.current;
     if(!t || !t.children.length) return;
     const j=Math.max(0,Math.min(i,t.children.length-1));
-    const left=t.children[j].offsetLeft-t.children[0].offsetLeft;
-    t.scrollTo({left,behavior:this.reduce?'auto':'smooth'});
+    const left=Math.abs(t.children[j].offsetLeft-t.children[0].offsetLeft);
+    this.o2ScrollSet(t,left,this.reduce?'auto':'smooth');
     requestAnimationFrame(this.o2Measure);
   };
   o2GoId = id => {
@@ -3961,13 +3988,13 @@ class Component extends DCLogic {
   o2SetCat = i => this.setState({o2cat:i,o2ix:0,o2pr:0,o2max:0},()=>{
     const t=this.o2TrackRef.current;
     if(!t)return;
-    t.style.scrollBehavior='auto';t.scrollLeft=0;
+    t.style.scrollBehavior='auto';this.o2ScrollSet(t,0,'auto');
     requestAnimationFrame(()=>{t.style.scrollBehavior='';this.o2Measure();});
   });
   o2DragDown = e => {
     if(e.pointerType!=='mouse'||e.button!==0)return;
     const t=this.o2TrackRef.current;if(!t)return;
-    this.o2drag={id:e.pointerId,x:e.clientX,sl:t.scrollLeft,moved:false};
+    this.o2drag={id:e.pointerId,x:e.clientX,sl:this.o2ScrollGet(t),moved:false};
   };
   o2DragMove = e => {
     const d=this.o2drag,t=this.o2TrackRef.current;
@@ -3978,7 +4005,7 @@ class Component extends DCLogic {
       try{t.setPointerCapture(e.pointerId);}catch(_){}
     }
     if(!d.moved)return;
-    t.scrollLeft=d.sl-dx;
+    this.o2ScrollSet(t,d.sl-dx,'auto');
     if(e.cancelable)e.preventDefault();
   };
   o2DragUp = e => {
@@ -4163,6 +4190,7 @@ class Component extends DCLogic {
           o2FeatureIntro:ar?'أدوات تبسّط الإنتاج، وتحسّن التجربة، وتكشف رؤى جديدة.':'Tools that simplify creation, improve experiences, and unlock insights.',
           o2FilterLabel:ar?'تصفية ميزات الذكاء الاصطناعي حسب التصنيف':'Filter AI features by category',
           o2CarouselLabel:ar?'اسحب لاستكشاف الميزات أو استخدم أزرار السابق والتالي':'Swipe to explore features or use Previous and Next',
+          o2TrackDir:ar?'rtl':'ltr',o2PrevGlyph:ar?'›':'‹',o2NextGlyph:ar?'‹':'›',
           o2ResultCount:ar?count+' ميزات':count+(count===1?' feature':' features'),
           o2TrackRef:this.o2TrackRef,o2OnScroll:this.o2OnScroll,o2DragDown:this.o2DragDown,o2DragMove:this.o2DragMove,o2DragUp:this.o2DragUp,o2NoDrag:this.o2NoDrag,o2TrackKey:this.o2TrackKey,
           o2ProgressValue:Math.round(progress*100),o2ProgressFill:(Math.round(progress*100))+'%',
