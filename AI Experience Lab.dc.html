@@ -853,10 +853,10 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 }
 @media(max-width:359.98px){#o2-services .cf-controls{gap:10px}}
 @media(max-width:600px){
- /* Compact content-height cards; preserve all existing card content and RTL/LTR behavior. */
- #o2-services .o2-feature-track{gap:12px;align-items:flex-start!important;overflow-y:hidden!important;transition:height .24s ease}
- #o2-services .o2-feature-card{flex-basis:calc(100% - 4px)!important;min-height:0!important;height:auto!important;padding:18px!important;gap:12px!important}
- #o2-services .o2-feature-card-spacer{display:none!important}
+ /* One stable mobile card height: longest card defines the max, never the active slide. */
+ #o2-services .o2-feature-track{gap:12px;align-items:stretch!important;height:auto!important;transition:none!important}
+ #o2-services .o2-feature-card{flex-basis:calc(100% - 4px)!important;min-height:0!important;height:auto!important;max-height:var(--o2-mobile-card-max-height,none)!important;padding:18px!important;gap:12px!important}
+ #o2-services .o2-feature-card-spacer{display:block!important;flex:1 1 auto!important}
  #o2-services .o2-feature-used{min-height:0}
  #o2-services .o2-feature-footer{padding-top:12px!important}
  #o2-services .o2-feature-toolbar{justify-content:center}
@@ -4105,7 +4105,7 @@ class Component extends DCLogic {
     const left=element?Math.abs(element.offsetLeft-t.children[0].offsetLeft):0;
     const behavior=t.style.scrollBehavior,snap=t.style.scrollSnapType;
     t.style.scrollBehavior='auto';t.style.scrollSnapType='none';this.o2ScrollSet(t,left,'auto');
-    this.o2SyncMobileCardHeight((loop?loop.n:0)+index);
+    this.o2SyncMobileCardHeight();
     requestAnimationFrame(()=>{
       if(t.isConnected){t.style.scrollBehavior=behavior;t.style.scrollSnapType=snap;this.o2Measure();}
     });
@@ -4115,24 +4115,21 @@ class Component extends DCLogic {
     const max=Math.max(0,t.scrollWidth-t.clientWidth),first=t.children[0].offsetLeft;
     return Array.from(t.children,(el,index)=>({index,position:Math.abs(el.offsetLeft-first)})).filter(p=>p.position<=max+1.5);
   }
-  o2SyncMobileCardHeight = index => {
+  // Measure all rendered cards once per filter/language/width, not on every slide.
+  // A shared max-height keeps every mobile slide fixed while preventing text clipping.
+  o2SyncMobileCardHeight = () => {
     const track=this.o2TrackRef.current;if(!track)return;
-    if(window.innerWidth>600){
-      if(track.style.height)track.style.height='';
-      return;
-    }
-    const card=track.children[index??0];if(!card)return;
-    const cs=getComputedStyle(track);
-    const padding=(parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0);
-    const target=Math.ceil(card.offsetHeight+padding);
-    if(Math.abs(track.getBoundingClientRect().height-target)>1)track.style.height=target+'px';
+    track.style.removeProperty('height');
+    track.style.removeProperty('--o2-mobile-card-max-height');
+    if(window.innerWidth>600 || !track.children.length)return;
+    const tallest=Math.ceil(Math.max(...Array.from(track.children,card=>card.scrollHeight)));
+    if(tallest>0)track.style.setProperty('--o2-mobile-card-max-height',tallest+'px');
   };
   o2Measure = () => {
     const t=this.o2TrackRef.current;if(!t)return;
     const max=Math.max(0,t.scrollWidth-t.clientWidth),sl=this.o2ScrollGet(t),points=this.o2CardSnapPoints(t);
     const closest=points.length?points.reduce((a,b)=>Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,points[0]):{index:0};
-    this.o2SyncMobileCardHeight(closest.index);
-    const loop=this.o2LoopInfo(t),count=this.o2Count(),i=loop?closest.index%loop.n:closest.index;
+     const loop=this.o2LoopInfo(t),count=this.o2Count(),i=loop?closest.index%loop.n:closest.index;
     const ratio=loop?(count>1?i/(count-1):0):(max>0?sl/max:0);
     if(this.state.o2ix!==i||Math.abs((this.state.o2pr||0)-ratio)>.003||this.state.o2max!==max)
       this.setState({o2ix:i,o2pr:ratio,o2max:max});
@@ -4157,7 +4154,6 @@ class Component extends DCLogic {
       this.o2ScrollSet(t,left,'auto');
       requestAnimationFrame(()=>{if(t.isConnected){t.style.scrollBehavior=behavior;this.o2Measure();}});
     }else this.o2ScrollSet(t,left,this.reduce?'auto':'smooth');
-    this.o2SyncMobileCardHeight((loop?loop.n:0)+logical);
     this.setState({o2ix:logical,o2pr:count>1?logical/(count-1):0});
   };
   o2Navigate = direction => {
@@ -4167,7 +4163,6 @@ class Component extends DCLogic {
     if(loop){
       const next=pts.find(p=>p.index===nearest.index+direction);if(!next)return;
       clearTimeout(this.o2SnapTimer);this.o2ScrollSet(t,next.position,this.reduce?'auto':'smooth');
-      this.o2SyncMobileCardHeight(next.index);
       const logical=next.index%loop.n;
       this.setState({o2ix:logical,o2pr:loop.n>1?logical/(loop.n-1):0});
     }else{
