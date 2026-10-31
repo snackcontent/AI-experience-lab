@@ -825,6 +825,7 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 @media(prefers-reduced-motion:reduce){
  #o2-services .o2-feature-track{scroll-behavior:auto!important}
  #o2-services .o2-feature-card,
+ #o2-services .o2-feature-filter,
  #o2-services .o2-feature-progress-fill{transition:none!important}
 }
 </style>
@@ -2881,6 +2882,10 @@ class Component extends DCLogic {
     this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: 0.5, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); } }
   componentDidUpdate(pp, ps) {
     if (this.bodyEl && this.state.open === 5 && (ps.chatMsgs !== this.state.chatMsgs || ps.chatReveal !== this.state.chatReveal || ps.chatLoading !== this.state.chatLoading)) this.bodyEl.scrollTop = this.bodyEl.scrollHeight;
+    if (ps.lang !== this.state.lang) requestAnimationFrame(() => {
+      const track=this.o2TrackRef.current;
+      if (track) { this.o2ScrollSet(track,0,'auto'); this.o2Measure(); }
+    });
   }
 
   live() { return (this.props.liveAI ?? true) && !!(window.claude && window.claude.complete); }
