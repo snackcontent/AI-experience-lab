@@ -1,0 +1,116 @@
+name: Roadmap VOD Companion visual QA
+
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'AI Experience Lab.dc.html'
+      - 'assets/roadmap-scenes/ai-vod-companion-*'
+      - '.github/workflows/roadmap-vod-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up browser
+        run: |
+          mkdir -p /tmp/roadmap-vod-qa
+          cd /tmp/roadmap-vod-qa
+          npm init -y >/dev/null
+          npm install --no-save --silent playwright
+          if ! command -v google-chrome >/dev/null && ! command -v chromium >/dev/null; then
+            npx playwright install --with-deps chromium
+          fi
+      - name: Check active video, static neighbors, and reduced motion
+        shell: bash
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          cat > /tmp/roadmap-vod-qa/check.cjs <<'JS'
+          const {chromium} = require('playwright');
+          const fs = require('fs');
+          (async () => {
+            let browser;
+            try {
+              const paths=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'];
+              const bin=paths.find(x=>fs.existsSync(x));
+              browser=await chromium.launch({headless:true,...(bin?{executablePath:bin}:{}),args:['--no-sandbox']});
+              const target='https://raw.githack.com/snackcontent/AI-experience-lab/'+process.env.COMMIT_SHA+'/AI%20Experience%20Lab.dc.html#next';
+              for(const width of [1440,390]){
+                for(const reducedMotion of ['no-preference','reduce']){
+                  const context=await browser.newContext({viewport:{width,height:900},reducedMotion});
+                  const page=await context.newPage();
+                  page.on('pageerror',e=>console.log('PAGE ERROR',e.message));
+                  await page.goto(target,{waitUntil:'domcontentloaded',timeout:90000});
+                  if((await page.title()).includes('External Content Notice')){
+                    await page.getByRole('button',{name:'Open the page'}).click({timeout:15000});
+                  }
+                  await page.waitForSelector('#next .cf-controls__arrow',{state:'visible',timeout:75000});
+                  await page.waitForTimeout(1600);
+                  // Target semantic briefing card at the penultimate position (16/17 0-based).
+                  // Do not use its hard-coded index in the website implementation itself.
+                  const arrow=page.locator('#next .cf-controls__arrow').nth(1);
+                  let found=false;
+                  for(let j=0;j<19;j++){
+                    const active=page.locator('#next .cf-card[data-cf-active="true"]');
+                    const text=await active.innerText().catch(()=> '');
+                    if(text.includes('AI VOD Companion')){found=true;break;}
+                    await arrow.click({force:true,timeout:15000});
+                    await page.waitForTimeout(180);
+                  }
+                  if(!found)throw new Error('Roadmap could not navigate to VOD Companion');
+                  await page.waitForTimeout(2500);
+                  const data=await page.evaluate(()=>{
+                    const active=document.querySelector('#next .cf-card[data-cf-active="true"]');
+                    const visual=active?.querySelector('.cf-vod-visual');
+                    const img=visual?.querySelector('img.cf-vod-visual__poster');
+                    const video=visual?.querySelector('video.cf-vod-visual__motion');
+                    const otherVideos=Array.from(document.querySelectorAll('#next .cf-card[data-cf-active="false"] .cf-vod-visual__motion')).length;
+                    const imageRect=img?.getBoundingClientRect();
+                    return {hasActive:!!active,poster:!!img,posterLoaded:!!img?.naturalWidth,
+                      posterSize:img?.naturalWidth+'x'+img?.naturalHeight,
+                      posterRatio:imageRect?.width/imageRect?.height,
+                      videoCount:video?1:0,otherVideos,
+                      videoReadyState:video?.readyState||0,videoPaused:video?.paused,
+                      videoTime:video?.currentTime||0,videoWidth:video?.videoWidth||0,
+                      videoHeight:video?.videoHeight||0,
+                      activeTitle:active?.innerText.slice(0,180)};
+                  });
+                  console.log('VOD CARD',JSON.stringify({width,reducedMotion,data}));
+                  if(!data.posterLoaded || Math.abs(data.posterRatio-16/9)>.025 || data.otherVideos>0)
+                    throw new Error('Poster or inactive card regression');
+                  if(reducedMotion==='reduce'){
+                    if(data.videoCount!==0)throw new Error('Reduced motion still has active video');
+                  }else{
+                    if(data.videoCount!==1 || data.videoReadyState<2 || data.videoPaused ||
+                       data.videoTime<=0.03 || data.videoWidth!==960 || data.videoHeight!==540)
+                      throw new Error('Active VOD companion video did not play correctly');
+                  }
+                  await activeScreenshot(page,width,reducedMotion);
+                  await context.close();
+                }
+              }
+            }catch(e){console.error('VOD VISUAL TEST FAILED',e);process.exitCode=1}
+            finally{if(browser)await browser.close()}
+            async function activeScreenshot(page,width,motion){
+              await page.locator('#next .cf-card[data-cf-active="true"]').screenshot({
+                path:'/tmp/roadmap-vod-qa/vod-'+width+'-'+motion+'.png',timeout:60000
+              });
+            }
+          })();
+          JS
+          cd /tmp/roadmap-vod-qa
+          node check.cjs
+      - name: Upload Roadmap evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vod-companion-card-screenshots
+          path: /tmp/roadmap-vod-qa/vod-*.png
+          if-no-files-found: ignore
