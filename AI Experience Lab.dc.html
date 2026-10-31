@@ -799,7 +799,8 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 @media(max-width:1099.98px){#o2-services .o2-feature-card{flex-basis:calc((100% - 2 * 16px - 4px)/3)!important}}
 @media(max-width:899.98px){#o2-services .o2-feature-card{flex-basis:calc((100% - 16px - 4px)/2)!important}}
 @media(max-width:600px){#o2-services .o2-feature-card{flex-basis:calc(100% - 4px)!important}}
-#o2-services .o2-feature-card:hover{transform:translateY(-3px);border-color:rgba(63,224,255,.52)!important;background:linear-gradient(160deg,rgba(3,18,43,.73),rgba(2,31,65,.66))!important}
+#o2-services .o2-feature-card:hover{transform:translateY(-3px);border-color:rgba(63,224,255,.52)!important}
+#o2-services .o2-feature-card:hover,#o2-services .o2-feature-card[data-last-visited="true"]{background:linear-gradient(160deg, rgba(47, 107, 255, 0.28), rgba(63, 224, 255, 0.05))!important}
 #o2-services .o2-feature-hit:focus-visible{outline:none!important}
 #o2-services .o2-feature-card:has(> .o2-feature-hit:focus-visible) .o2-feature-footer > span:first-child{text-decoration:underline;text-underline-offset:4px}
 #o2-services .o2-feature-hit{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;background:transparent;border:0;border-radius:22px;cursor:pointer;color:transparent;padding:0}
@@ -1074,7 +1075,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
     <div class="o2-feature-carousel-wrap">
       <div data-o2-track="" ref="{{ o2TrackRef }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="{{ o2TrackDir }}" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
         <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
-          <article class="o2-feature-card" dir="{{ k.dir }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;scroll-snap-stop:always;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
+          <article class="o2-feature-card" dir="{{ k.dir }}" data-last-visited="{{ k.lastVisited }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;scroll-snap-stop:always;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
             <div style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4FF;font-weight:600">
               <span aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:10px;background:rgba(63,224,255,.1);border:1px solid rgba(63,224,255,.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:14px;letter-spacing:0">{{ k.glyph }}</span>
               <span>{{ k.cat }}</span>
@@ -4271,11 +4272,12 @@ class Component extends DCLogic {
             const di=this.D.features.findIndex(x=>x.id===f.id),demo=di>=0&&this.D.features[di].type==='live';
             const cta=ar?(demo?'جرّب الآن':'اعرف المزيد'):(demo?'Try it':'Learn more');
             const short=shorts[f.id]?.[ar?1:0]||f.desc;
-            return {...f,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
+            return {...f,lastVisited:s.o2lastVisited===f.id,cat:ar?catsAr[f.ci]:f.cat,short,dir:ar?'rtl':'ltr',hasUsed:!!(f.used&&f.used.length),usedByLabel:ar?'تستخدمه':'Used by',logos:this.usedLogos(f.used),
               cta,actionLabel:cta+': '+f.name,ctaColor:demo?'#3FE0FF':'#B9CCF0',
               arrowBg:demo?'linear-gradient(135deg,#4FB2FF,#3FE0FF)':'transparent',arrowFg:demo?'#03122B':'#EAF2FF',
               onClick:e=>{
                 if(this.o2dragMoved){this.o2dragMoved=false;return;}
+                this.setState({o2lastVisited:f.id});
                 if(demo)this.openDemo(di);else this.o2OpenInfo(f.id,e.currentTarget);
               }
             };
