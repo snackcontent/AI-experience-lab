@@ -704,6 +704,10 @@ html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
 #o2-top .o2-hero__content>h1{margin-bottom:20px!important}
 #o2-top .o2-hero__content>p{margin-bottom:24px!important}
 #o2-top .o2-hero__cta{box-sizing:border-box;min-height:52px;max-width:100%;display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:10px;border:1px solid rgba(148,205,255,.3);background:linear-gradient(100deg,rgb(74,59,255),rgb(47,107,255) 50%,rgb(63,224,255));color:#FFFFFF!important;font-size:16px;font-weight:700;line-height:1.45;text-align:center;text-decoration:none;box-shadow:0 12px 30px -14px rgba(47,107,255,.64);transition:filter .25s,box-shadow .25s}
+/* Contrast veil is confined to CTA; the approved violet-blue-cyan surface remains visible. */
+#o2-top .o2-hero__cta{position:relative;isolation:isolate;overflow:hidden}
+#o2-top .o2-hero__cta::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:rgba(3,18,43,.52)}
+#o2-top .o2-hero__cta-label{position:relative;z-index:1}
 #o2-top .o2-hero__cta:hover{filter:brightness(1.08);color:#FFF!important;box-shadow:0 15px 35px -13px rgba(63,224,255,.55)}
 #o2-top .o2-hero__cta:focus-visible,#o2-top #o2-hero-scroll-cue:focus-visible{outline:3px solid #84EDFF!important;outline-offset:4px;box-shadow:0 0 0 2px rgba(1,20,44,.92),0 12px 30px -14px rgba(47,107,255,.64)}
 #o2-top .o2-hero__video-surface{background-color:#061F42;background-image:url("assets/hero-poster.webp");background-repeat:no-repeat;background-size:cover;background-position:center;isolation:isolate}
@@ -890,7 +894,7 @@ html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
     <span class="o2-hero__eyebrow">{{ heroEyebrow }}</span>
     <h1 style="margin:0;font-size:clamp(38px,6.2vw,100px);line-height:1.08;letter-spacing:-0.025em;font-weight:700;text-wrap:balance;background:linear-gradient(100deg,#FFFFFF 0%,#F2F8FF 57%,#B4E7FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.08em"><span style="white-space:nowrap">Smarter media.</span><br><span style="white-space:nowrap">Built with AI.</span></h1>
     <p style="margin:0;max-width:min(100%,clamp(320px,32vw,640px));font-size:clamp(16px,1.2vw,22px);line-height:1.6;color:#B9CCF0;text-wrap:pretty">Explore intelligent editorial tools, content experiences, actionable analytics, and purpose-built AI products for the future of media.</p>
-    <a id="o2-hero-cta" class="o2-hero__cta" href="#o2-services" onClick="{{ navGoFeatures }}">{{ heroCtaLabel }}</a>
+    <a id="o2-hero-cta" class="o2-hero__cta" href="#o2-services" onClick="{{ navGoFeatures }}"><span class="o2-hero__cta-label">{{ heroCtaLabel }}</span></a>
   </div>
   <a id="o2-hero-scroll-cue" href="#o2-services" aria-label="{{ cueLabel }}" aria-hidden="{{ cueAriaHidden }}" tabindex="{{ cueTabIndex }}" style="position:absolute;left:50%;bottom:10px;z-index:3;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:#CFE0FF;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:{{ cueOp }};pointer-events:{{ cuePE }};transition:opacity .4s ease" style-hover="color:#FFFFFF">
   <span aria-hidden="true" style="position:relative;width:24px;height:38px;border-radius:9999px;border:1.5px solid rgba(207,224,255,0.6);box-sizing:border-box">{{ cueDot }}</span>

@@ -93,3 +93,10 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 
 ## Contact CTA corner-radius decision (2026-10-31)
 - User-approved `border-radius: 10px` for V02 header AR/EN language control, white Contact us CTA, FAQ contact CTA in desktop/mobile support, V02 Contact form submit (`Let's Talk`) and post-submission `Send another`. Legacy V1 form submit also uses 10px outer and 8px inner fill to respect its 2px animated border. Preserve 40px mobile sizes, Burger radius, other element radii and rectangular nav active states.
+
+## Hero V02 final audit (HERO-01/02/03/07/08/09/10, 2026-10-31)
+- Preserve original Hero headline and description and existing video source. Add bilingual AI EXPERIENCE LAB eyebrow + Explore AI Features primary CTA linking #o2-services, 10px radius in the site's purple/blue/cyan gradient, with an internal rgba(3,18,43,.52) contrast wash confined to the CTA so the white label reaches WCAG 4.5:1 across the full gradient.
+- Responsive content min-height clamp(620px,88svh,840px), header-aware top inset and bottom scroll-cue clearance; 320/390/768/1024/1440 widths and small 650px laptop height checked.
+- Faithful video still `assets/hero-poster.webp` (1280x720 WebP extracted from existing MP4) always sits behind video; video only fades in upon 'playing', falls back on error/stall/pause; reduced-motion forces poster. Existing Hero veil preserved after contrast validation.
+- Hidden cue gets tabindex -1 / aria-hidden true and transfers focused cue to AI Features heading. CTA has focus-visible; QA tests keyboard Tab, Shift+Tab, Enter, scroll target, fallback network failure and sampled background/CTA contrast.
+- Keep stable Development URL for previews. No other sections redesigned.

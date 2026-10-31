@@ -114,3 +114,6 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 
 ## Header/Contact button radius (2026-10-31)
 - Standardized language and all contact CTA buttons to 10px corners: header, FAQ desktop/mobile, V02 form primary submit and reset, V1 animated contact submit. Do not accidentally change the 0px active navigation tab shape, menu Burger styling, panels, card borders or general buttons. Chromium QA checks rendered border radii.
+
+## Hero V02 QA checkpoint (2026-10-31)
+- Implemented HERO-01/02/03/07/08 and validations HERO-09/10. Existing hero copy unchanged, new localized eyebrow/CTA and spacing; still image derived from original video stored in assets/hero-poster.webp. Video error/reduced-motion fallback uses still. Cue removed from Tab order when invisible, CTA focus and anchor verified. Added Hero Chromium QA at .github/workflows/hero-v02-qa.yml, including image load, video failure simulation and sampled AA contrast. Header/FAQ/Roadmap unchanged.

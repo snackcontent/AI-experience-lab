@@ -72,6 +72,20 @@ jobs:
             }
             console.log('CONTRAST',label,'t='+time,'minimum='+worst.toFixed(2));
             assert(worst>=4.5,'WCAG AA sampled contrast '+label+' '+time);
+            const text=page.locator('#o2-top .o2-hero__cta-label');
+            const bbox=await text.boundingBox();
+            await text.evaluate(el=>{el.style.visibility='hidden'});
+            const ctaPng=PNG.sync.read(await page.screenshot({type:'png'}));
+            await text.evaluate(el=>{el.style.visibility='visible'});
+            let minButton=100,buttonSamples=0;
+            for(const dx of [.1,.25,.5,.75,.9]) {
+              const x=Math.floor(bbox.x+bbox.width*dx),y=Math.floor(bbox.y+bbox.height*.5);
+              if(x<0||y<0||x>=ctaPng.width||y>=ctaPng.height)continue;
+              const off=(y*ctaPng.width+x)*4;
+              minButton=Math.min(minButton,contrast([255,255,255],Array.from(ctaPng.data.subarray(off,off+3))));buttonSamples++;
+            }
+            console.log('CTA CONTRAST',label,'t='+time,'minimum='+minButton.toFixed(2));
+            assert(buttonSamples>=3 && minButton>=4.5,'WCAG AA CTA white text on graded background '+label+' '+time);
           }
           (async()=>{
             const exe=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
