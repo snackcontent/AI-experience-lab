@@ -52,10 +52,14 @@ jobs:
                 if((await page.title()).includes('External Content Notice')){
                   const links=await page.locator('a').evaluateAll(elements=>elements.map(el=>({label:el.innerText?.trim(),href:el.href})).filter(x=>x.label).slice(0,20));
                   console.log('GITHACK INTERSTITIAL',JSON.stringify({url:page.url(),links}));
-                  const open=page.getByRole('link',{name:'Open the page'});
+                  const buttons=await page.locator('button,input[type=submit],form').evaluateAll(elements=>elements.map(el=>({tag:el.tagName,text:el.innerText?.trim(),action:el.action,outer:el.outerHTML.slice(0,400)})).slice(0,8));
+                  console.log('INTERSTITIAL CONTROLS',JSON.stringify(buttons));
+                  const open=page.getByRole('button',{name:'Open the page'});
                   if(await open.count()){
                     await open.first().click({timeout:15000});
                     console.log('INTERSTITIAL OPENED',page.url());
+                  } else {
+                    console.log('No Open the page button found');
                   }
                 }
                 await page.waitForTimeout(9000);
