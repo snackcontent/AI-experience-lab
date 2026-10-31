@@ -58,6 +58,14 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 - Typography baseline: heading 36–52px desktop / 34–42px mobile, question 18–20px, answers 16–18px, comfortable 1.5–1.7 line height. Ensure selector specificity beats general `#o2-faq>div:first-child span/p/h2` !important rules. Preserve Arabic RTL, responsive stacking at <=991.98px, and anchor link to contact.
 - The `Responsive Grid Contract` GitHub Actions check passed for `fdcefdea` (run `41186322016`). Static contrast calculations against the page's dark-blue base passed WCAG AA. These checks are not a substitute for all-device browser visual verification.
 
+### FAQ accordion visual style — source-original match (2026-10-31)
+
+- User explicitly requested **only the accordion appearance** from the original Fadaat-Media GitHub Pages reference (`Fadaat-Media/AI-experience-lab` `main`), **without visible numbering**. This overrides the previous individually rounded/bordered FAQ card styling.
+- Approved implemented look on `development` (source commit `0f1a9f0d225ef65818d941a3005a1284c7816303`): flat stacked rows with subtle 1px horizontal separators and no card borders/corners/gaps; expanded row gets low-opacity cyan-blue left-to-right gradient wash plus thin cyan-to-blue gradient inline-start (RTL aware) edge; outlined circular + control and filled-cyan circular − control, both 38px. Copy the original interaction feel (soft transitions) but no numbered labels.
+- Keep the existing FAQ's **12-column 5/7 split, intro/sidebar/contact, 18px question and 16px answer, one-open-only state, active-only panel, keyboard & RTL/mobile support**. The original reference uses separate full-width layout and visible number glyphs; do not restore those.
+- The 2026-10-31 Playwright browser QA `41189779363` confirmed at 1440px and 390px: rendered `.sc-interp` fonts 18/16px, gap 0, border radius 0, 1px separators, 38px controls, expanded wash/edge, no numbers, whole row click target, and one-at-a-time toggle. Latest QA covers **actual computed styles**.
+- Do not reintroduce rounded "individual card" styling to this accordion without an explicit new user request. Other site sections are unchanged.
+
 ### FAQ accessibility and responsive review (2026-10-31)
 
 - **Review implemented in source** at `59b513b1e356592de62f004d060858d6177c2778`. Retain full 12-column site container, 5/7 desktop split and transparent section (only individual cards have subtle surfaces).
