@@ -1,0 +1,188 @@
+name: Hero V02 responsive, fallback, keyboard and contrast QA
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'AI Experience Lab.dc.html'
+      - 'assets/hero-poster.webp'
+      - '.github/workflows/hero-v02-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  hero-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install headless browser and PNG inspector
+        run: |
+          mkdir -p /tmp/ai-lab-hero
+          cd /tmp/ai-lab-hero
+          npm init -y >/dev/null
+          npm install --no-save --silent playwright pngjs
+          if ! command -v google-chrome >/dev/null && ! command -v chromium >/dev/null; then
+            npx playwright install --with-deps chromium
+          fi
+      - name: Validate bilingual Hero layout, keyboard, video fallback and sampled WCAG contrast
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          cat > /tmp/ai-lab-hero/test.cjs <<'JS'
+          const {chromium}=require('playwright');
+          const {PNG}=require('pngjs');
+          const fs=require('fs');
+          const assert=(ok,msg)=>{if(!ok)throw new Error('HERO QA FAIL '+msg);console.log('PASS',msg)};
+          const luminance=rgb=>rgb.map(n=>{const v=n/255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)}).reduce((acc,v,i)=>acc+v*[.2126,.7152,.0722][i],0);
+          const contrast=(fg,bg)=>{const a=luminance(fg),b=luminance(bg);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)};
+          const url='https://raw.githack.com/snackcontent/AI-experience-lab/'+process.env.COMMIT_SHA+'/AI%20Experience%20Lab.dc.html#o2-top';
+          async function open(page){
+            await page.goto(url,{waitUntil:'domcontentloaded',timeout:90000});
+            const notice=page.getByRole('button',{name:'Open the page'});
+            if((await notice.count()) && (await page.title()).includes('External Content Notice'))await notice.click();
+            await page.waitForSelector('#o2-hero-cta',{timeout:60000});
+            await page.waitForTimeout(700);
+          }
+          async function measureContrast(page,label,time){
+            await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+            const video=page.locator('#o2-top video');
+            if(await video.isVisible()){
+              await video.evaluate(async(el,seconds)=>{if(Number.isFinite(el.duration)&&el.duration>seconds){el.currentTime=seconds;await new Promise(resolve=>{el.addEventListener('seeked',resolve,{once:true});setTimeout(resolve,1200)})}},time);
+            }
+            await page.waitForTimeout(300);
+            const geometry=await page.evaluate(()=>{
+              const q=s=>{const r=document.querySelector(s).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}};
+              return {eyebrow:q('.o2-hero__eyebrow'),title:q('#o2-top h1'),description:q('#o2-top .o2-hero__content>p')};
+            });
+            await page.locator('.o2-hero__content').evaluate(el=>{el.style.visibility='hidden'});
+            const png=PNG.sync.read(await page.screenshot({type:'png'}));
+            await page.locator('.o2-hero__content').evaluate(el=>{el.style.visibility='visible'});
+            let worst=100;
+            const colors={eyebrow:[217,237,255],title:[180,231,255],description:[240,247,255]};
+            for(const [kind,r] of Object.entries(geometry)){
+              let samples=0;
+              for(const dx of [.22,.5,.78])for(const dy of [.27,.62]){
+                const x=Math.floor(r.x+r.w*dx),y=Math.floor(r.y+r.h*dy);
+                if(x<0||y<0||x>=png.width||y>=png.height)continue;
+                const off=(y*png.width+x)*4;
+                const ratio=contrast(colors[kind], Array.from(png.data.subarray(off,off+3)));
+                worst=Math.min(worst,ratio);samples++;
+              }
+              assert(samples>=3,'contrast sample coverage '+label+' '+kind);
+            }
+            console.log('CONTRAST',label,'t='+time,'minimum='+worst.toFixed(2));
+            assert(worst>=4.5,'WCAG AA sampled contrast '+label+' '+time);
+          }
+          (async()=>{
+            const exe=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
+            const browser=await chromium.launch({headless:true,...(exe?{executablePath:exe}:{}),args:['--no-sandbox']});
+            try{
+              const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+              page.on('pageerror',e=>console.log('PAGE ERROR',e.message));
+              await open(page);
+              const content=page.locator('#o2-top .o2-hero__content');
+              assert(await page.locator('#o2-hero-cta').count()===1,'single primary feature CTA');
+              assert(await page.locator('#o2-top .o2-hero__eyebrow').count()===1,'context eyebrow');
+              assert(await page.locator('#o2-top video[poster="assets/hero-poster.webp"]').count()===1,'video poster attribute');
+              const sizes=[[320,780],[390,844],[768,760],[1024,720],[1440,900],[1440,650]];
+              for(const [width,height] of sizes){
+                await page.setViewportSize({width,height});
+                await page.waitForTimeout(250);
+                for(const lang of ['en','ar']){
+                  if((await page.locator('html').getAttribute('lang'))!==lang){
+                    await page.locator('.o2-hdr-language').click();
+                    await page.waitForTimeout(500);
+                  }
+                  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+                  await page.waitForTimeout(200);
+                  const v=await page.evaluate(()=>{
+                    const box=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,height:r.height,width:r.width}};
+                    const h=document.querySelector('#o2-top'),c=h.querySelector('.o2-hero__content'),ey=h.querySelector('.o2-hero__eyebrow'),title=h.querySelector('h1'),p=c.querySelector('p'),cta=h.querySelector('.o2-hero__cta'),cue=h.querySelector('#o2-hero-scroll-cue');
+                    return {width:innerWidth,docWidth:document.documentElement.scrollWidth,hero:box(h),content:box(c),ey:box(ey),title:box(title),description:box(p),cta:box(cta),cue:box(cue),cueOpacity:getComputedStyle(cue).opacity,eyText:ey.innerText,ctaText:cta.innerText,head:title.innerText,descriptionText:p.innerText,dir:document.documentElement.dir};
+                  });
+                  console.log('HERO LAYOUT',JSON.stringify({width,height,lang,v}));
+                  assert(v.docWidth<=width+1,'no horizontal overflow '+width+'/'+lang);
+                  assert(v.content.x>=-1 && v.content.right<=width+1,'content in viewport '+width+'/'+lang);
+                  assert(v.ey.bottom<=v.title.y+2 && v.title.bottom<=v.description.y+2 && v.description.bottom<=v.cta.y+2,'eyebrow-title-description-CTA hierarchy '+width+'/'+lang);
+                  assert(v.cta.x>=0 && v.cta.right<=width+1,'CTA not clipped '+width+'/'+lang);
+                  assert(v.cta.bottom<=v.cue.y || v.cueOpacity==='0','CTA clears scroll cue '+width+'/'+lang);
+                  assert(v.ctaText===(lang==='en'?'Explore AI Features':'استكشف ميزات الذكاء الاصطناعي'),'localized CTA '+width+'/'+lang);
+                  assert(v.eyText===(lang==='en'?'AI EXPERIENCE LAB':'مختبر تجارب الذكاء الاصطناعي'),'localized eyebrow '+width+'/'+lang);
+                  if(lang==='en'){
+                    assert(v.head.includes('Smarter media.') && v.head.includes('Built with AI.'),'unchanged headline '+width);
+                    assert(v.descriptionText==='Explore intelligent editorial tools, content experiences, actionable analytics, and purpose-built AI products for the future of media.','unchanged description '+width);
+                  }else{
+                    assert(v.dir==='rtl' && v.head.includes('إعلام'),'Arabic hero RTL translation '+width);
+                  }
+                  assert(await page.locator('#o2-hero-cta').getAttribute('href')==='#o2-services','CTA navigates to existing Features ID');
+                  if(width===1024 && height===720 && lang==='en')assert(v.hero.bottom<=height+1,'laptop shows next section at bottom');
+                }
+              }
+              await page.setViewportSize({width:390,height:844});
+              if(await page.locator('html').getAttribute('lang')==='ar'){await page.locator('.o2-hdr-language').click();await page.waitForTimeout(400);}
+              await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+              await page.waitForTimeout(300);
+              const cta=page.locator('#o2-hero-cta');
+              await page.keyboard.press('Tab');
+              await cta.focus();
+              assert(await cta.evaluate(el=>el.matches(':focus-visible')&&getComputedStyle(el).outlineStyle==='solid'),'CTA visible keyboard focus');
+              await page.keyboard.press('Shift+Tab');
+              assert(await cta.evaluate(el=>document.activeElement!==el),'Shift+Tab moves back');
+              await page.keyboard.press('Tab');
+              assert(await cta.evaluate(el=>document.activeElement===el),'Tab restores CTA');
+              await page.keyboard.press('Enter');
+              await page.waitForTimeout(1300);
+              const anchor=await page.locator('#o2-services').evaluate(el=>el.getBoundingClientRect().top);
+              const hdr=await page.locator('#o2-site-header nav').evaluate(el=>el.getBoundingClientRect().height);
+              console.log('CTA ANCHOR',JSON.stringify({anchor,hdr}));
+              assert(anchor>=hdr-6 && anchor<height,'Enter moves to AI Features without hiding heading');
+              await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+              await page.waitForTimeout(300);
+              const cue=page.locator('#o2-hero-scroll-cue');
+              assert(await cue.getAttribute('tabindex')==='0' && await cue.getAttribute('aria-hidden')==='false','cue tabbable when visible');
+              await page.keyboard.press('Tab');
+              await cue.focus();
+              await page.evaluate(()=>window.scrollTo({top:160,behavior:'instant'}));
+              await page.waitForTimeout(330);
+              assert(await cue.getAttribute('tabindex')==='-1' && await cue.getAttribute('aria-hidden')==='true','cue unfocusable and aria-hidden after fading');
+              assert(await page.evaluate(()=>document.activeElement===document.querySelector('#o2-services h2')),'focused cue transfers to Features heading');
+              await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+              await page.waitForTimeout(350);
+              await page.setViewportSize({width:1440,height:900});
+              await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+              await page.screenshot({path:'/tmp/ai-lab-hero/hero-desktop-en.png'});
+              await measureContrast(page,'desktop-en',0.6);
+              await measureContrast(page,'desktop-en',2.2);
+              await page.setViewportSize({width:390,height:844});
+              await measureContrast(page,'mobile-en',1.1);
+              await page.screenshot({path:'/tmp/ai-lab-hero/hero-mobile-en.png'});
+              await page.locator('.o2-hdr-language').click();
+              await page.waitForTimeout(500);
+              await measureContrast(page,'mobile-ar',1.1);
+              await page.screenshot({path:'/tmp/ai-lab-hero/hero-mobile-ar.png'});
+              const fail=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+              await fail.route('**/*hero-video.mp4*',route=>route.abort('failed'));
+              await open(fail);
+              const fallback=await fail.evaluate(async()=>{
+                const surface=document.querySelector('#o2-top .o2-hero__video-surface');
+                const video=surface.querySelector('video');
+                const img=new Image();
+                const loaded=await new Promise(ok=>{img.onload=()=>ok(true);img.onerror=()=>ok(false);img.src='assets/hero-poster.webp'});
+                return {loaded,width:img.naturalWidth,height:img.naturalHeight,bg:getComputedStyle(surface).backgroundImage,videoDisplay:getComputedStyle(video).display,videoOpacity:getComputedStyle(video).opacity};
+              });
+              console.log('FALLBACK',JSON.stringify(fallback));
+              assert(fallback.loaded&&fallback.width>600,'poster still image loads without video');
+              assert(fallback.bg.includes('hero-poster.webp'),'poster used as actual video-surface background');
+              assert(fallback.videoDisplay==='none'&&fallback.videoOpacity==='0','reduced motion and blocked video use static poster');
+              await fail.screenshot({path:'/tmp/ai-lab-hero/hero-video-blocked.png'});
+              console.log('HERO V02 QA COMPLETE');
+            } finally {await browser.close()}
+          })().catch(e=>{console.error(e.stack||e);process.exit(1)});
+          JS
+          node /tmp/ai-lab-hero/test.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hero-v02-qa-screenshots
+          path: /tmp/ai-lab-hero/*.png
+          if-no-files-found: ignore
