@@ -703,7 +703,17 @@ html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(2
 html[dir="rtl"] #o2-top .o2-hero__eyebrow{letter-spacing:0}
 #o2-top .o2-hero__content>h1{margin-bottom:20px!important}
 #o2-top .o2-hero__content>p{margin-bottom:24px!important}
-#o2-top .o2-hero__cta{box-sizing:border-box;min-height:52px;max-width:100%;display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:10px;border:0;background:linear-gradient(rgba(3,18,43,.52),rgba(3,18,43,.52)),linear-gradient(100deg,rgb(74,59,255),rgb(47,107,255) 50%,rgb(63,224,255));color:#FFFFFF!important;font-size:16px;font-weight:700;line-height:1.45;text-align:center;text-decoration:none;box-shadow:0 12px 30px -14px rgba(47,107,255,.64);transition:filter .25s,box-shadow .25s}
+#o2-top .o2-hero__cta{box-sizing:border-box;min-height:52px;max-width:100%;display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:10px;border:none!important;outline:none;background:linear-gradient(rgba(3,18,43,.52),rgba(3,18,43,.52)),linear-gradient(100deg,rgb(74,59,255),rgb(47,107,255) 50%,rgb(63,224,255));color:#FFFFFF!important;font-size:16px;font-weight:700;line-height:1.45;text-align:center;text-decoration:none;box-shadow:0 12px 30px -14px rgba(47,107,255,.64);transition:filter .25s,box-shadow .25s}
+/* One responsive Hero heading font-size token shared by LTR English and RTL Arabic.
+   Almarai Arabic retains its independent glyph-safe line height; font size and weight are identical. */
+#o2-top{--hero-heading-font-size:clamp(40px,6.2vw,100px)}
+@media(max-width:700px){#o2-top{--hero-heading-font-size:clamp(35px,9.6vw,56px)}}
+@media(max-width:360px){#o2-top{--hero-heading-font-size:34px}}
+#o2-top .o2-hero__content>h1{font-size:var(--hero-heading-font-size)!important;font-family:"Almarai",system-ui,sans-serif!important;font-weight:700!important}
+/* No visible CTA border in normal, hover or active states; keyboard focus outline is separate. */
+#o2-top .o2-hero__cta,
+#o2-top .o2-hero__cta:hover,
+#o2-top .o2-hero__cta:active{border:none!important;border-width:0!important}
 /* Uniform contrast composite avoids an untinted rim around the rounded gradient. */
 #o2-top .o2-hero__cta{position:relative;isolation:isolate;overflow:hidden}
 #o2-top .o2-hero__cta-label{position:relative;z-index:1}

@@ -101,7 +101,15 @@ jobs:
                 return {borderWidth:s.borderTopWidth,borderColor:s.borderTopColor,radius:s.borderRadius,background:s.backgroundImage,pseudoContent:pseudo.content};
               });
               console.log('HERO CTA EDGES',JSON.stringify(ctaEdges));
-              assert(ctaEdges.borderWidth==='0px' && ctaEdges.radius==='10px','hero CTA has no mismatched rim; 10px radius preserved');
+              assert(ctaEdges.borderWidth==='0px' && ctaEdges.radius==='10px','hero CTA has no border; 10px radius preserved');
+              await page.locator('#o2-hero-cta').hover();
+              const hoverBorder=await page.locator('#o2-hero-cta').evaluate(el=>({
+                top:getComputedStyle(el).borderTopWidth,
+                right:getComputedStyle(el).borderRightWidth,
+                bottom:getComputedStyle(el).borderBottomWidth,
+                left:getComputedStyle(el).borderLeftWidth
+              }));
+              assert(Object.values(hoverBorder).every(w=>w==='0px'),'hero CTA border absent in hover state');
               assert(ctaEdges.background.includes('linear-gradient') && ctaEdges.pseudoContent==='none','CTA contrast is a uniform gradient composite without extra overlay layer');
               assert(await page.locator('#o2-top .o2-hero__eyebrow').count()===1,'context eyebrow');
               assert(await page.locator('#o2-top video[poster="assets/hero-poster.webp"]').count()===1,'video poster attribute');
@@ -109,6 +117,7 @@ jobs:
               for(const [width,height] of sizes){
                 await page.setViewportSize({width,height});
                 await page.waitForTimeout(250);
+                let englishTitleStyle=null;
                 for(const lang of ['en','ar']){
                   if((await page.locator('html').getAttribute('lang'))!==lang){
                     await page.locator('.o2-hdr-language').click();
@@ -122,6 +131,17 @@ jobs:
                     return {width:innerWidth,docWidth:document.documentElement.scrollWidth,hero:box(h),content:box(c),ey:box(ey),title:box(title),description:box(p),cta:box(cta),cue:box(cue),cueOpacity:getComputedStyle(cue).opacity,eyText:ey.innerText,ctaText:cta.innerText,head:title.innerText,descriptionText:p.innerText,dir:document.documentElement.dir};
                   });
                   console.log('HERO LAYOUT',JSON.stringify({width,height,lang,v}));
+                  const headingStyle=await page.locator('#o2-top .o2-hero__content h1').evaluate(el=>{
+                    const s=getComputedStyle(el);
+                    return {fontSize:s.fontSize,fontFamily:s.fontFamily,fontWeight:s.fontWeight,lineHeight:s.lineHeight};
+                  });
+                  console.log('HERO TITLE TYPOGRAPHY',JSON.stringify({width,height,lang,...headingStyle}));
+                  if(lang==='en')englishTitleStyle=headingStyle;
+                  else {
+                    assert(headingStyle.fontSize===englishTitleStyle.fontSize,'identical computed Hero font-size in Arabic and English '+width+'px');
+                    assert(headingStyle.fontFamily===englishTitleStyle.fontFamily,'identical Hero font family in Arabic and English '+width+'px');
+                    assert(headingStyle.fontWeight===englishTitleStyle.fontWeight,'identical Hero font weight in Arabic and English '+width+'px');
+                  }
                   assert(v.docWidth<=width+1,'no horizontal overflow '+width+'/'+lang);
                   assert(v.content.x>=-1 && v.content.right<=width+1,'content in viewport '+width+'/'+lang);
                   assert(v.ey.bottom<=v.title.y+2 && v.title.bottom<=v.description.y+2 && v.description.bottom<=v.cta.y+2,'eyebrow-title-description-CTA hierarchy '+width+'/'+lang);

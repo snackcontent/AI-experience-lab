@@ -100,3 +100,7 @@ These rules apply to **all future versions**, redesigns, feature additions, and 
 - Faithful video still `assets/hero-poster.webp` (1280x720 WebP extracted from existing MP4) always sits behind video; video only fades in upon 'playing', falls back on error/stall/pause; reduced-motion forces poster. Existing Hero veil preserved after contrast validation.
 - Hidden cue gets tabindex -1 / aria-hidden true and transfers focused cue to AI Features heading. CTA has focus-visible; QA tests keyboard Tab, Shift+Tab, Enter, scroll target, fallback network failure and sampled background/CTA contrast.
 - Keep stable Development URL for previews. No other sections redesigned.
+
+## Hero title and button border refinement (2026-10-31)
+- Hero CTA has no CSS border in default, hover, or active state. Preserve the 10px corner radius and gradient, and keep the 3px `:focus-visible` outline only for keyboard accessibility (outline is not a border).
+- Hero title font size is unified for English/Arabic through `--hero-heading-font-size`: desktop `clamp(40px,6.2vw,100px)`, <=700px `clamp(35px,9.6vw,56px)`, <=360px `34px`. Both languages use the same Almarai 700 weight and computed font-size at every width. Arabic line-height may differ for proper glyph clearance. Browser regression compares computed sizes, font family and weight in both locales.

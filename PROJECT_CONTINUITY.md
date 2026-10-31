@@ -117,3 +117,6 @@ All scene assets above are relative to `assets/roadmap-scenes/`. Availability of
 
 ## Hero V02 QA checkpoint (2026-10-31)
 - Implemented HERO-01/02/03/07/08 and validations HERO-09/10. Existing hero copy unchanged, new localized eyebrow/CTA and spacing; still image derived from original video stored in assets/hero-poster.webp. Video error/reduced-motion fallback uses still. Cue removed from Tab order when invisible, CTA focus and anchor verified. Added Hero Chromium QA at .github/workflows/hero-v02-qa.yml, including image load, video failure simulation and sampled AA contrast. Header/FAQ/Roadmap unchanged.
+
+## Hero typography and CTA border (2026-10-31)
+- Hero primary CTA border: explicitly none in default, hover, active. Keyboard-only focus outline retained for accessibility. Hero title font-size token shared between Arabic and English at all breakpoints; font-family Almarai and weight 700 fixed. Test compares computed values at responsive widths, without modifying other sections.
