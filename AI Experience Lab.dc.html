@@ -649,33 +649,31 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
  }
  #o2-contact [data-contact-spacer]{min-height:calc(clamp(240px,67vw,310px) + 18px)!important}
 }
-/* Contact shared lamp ambience: mobile light continues underneath copy and the form.
-   The canvas remains in its dedicated touch-scroll-safe region. */
+/* Mobile lamp glow overlay: paint ABOVE the opaque intro/form surfaces.
+   It remains visual-only and follows the lamp on/off state. */
 @media(max-width:991.98px){
  #o2-contact .o2-contact-shell{isolation:isolate}
- #o2-contact .o2-contact-shell::before{
-  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 88% 340px at 50% 425px,
-    rgba(119,224,255,.21) 0%,rgba(72,169,239,.15) 37%,
-    rgba(41,105,198,.10) 65%,transparent 100%);
+ #o2-contact .o2-contact-shell::after{
+  content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  opacity:var(--o2-contact-glow,0);transition:opacity .8s ease;
+  background:
+   radial-gradient(ellipse 85% 260px at 50% 400px,rgba(129,223,255,.17),rgba(69,158,239,.10) 55%,transparent 100%),
+   radial-gradient(ellipse 95% 380px at 50% 710px,rgba(93,190,255,.19),rgba(57,132,225,.12) 48%,transparent 100%);
+  mix-blend-mode:screen;
  }
- #o2-contact .o2-contact-intro,
- #o2-contact .o2-contact-form-column{position:relative;z-index:1}
  #o2-contact .o2-contact-intro>canvas{
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 94%,transparent 100%);
   mask-image:linear-gradient(to bottom,#000 0%,#000 94%,transparent 100%)
  }
 }
 @media(max-width:575.98px){
- #o2-contact .o2-contact-shell::before{
+ #o2-contact .o2-contact-shell::after{
   background:
-   radial-gradient(ellipse 95% 270px at 50% 480px,
-    rgba(142,230,255,.22) 0%,rgba(80,183,255,.17) 38%,
-    rgba(54,114,214,.10) 74%,transparent 100%),
-   radial-gradient(ellipse 120% 430px at 50% 650px,
-    rgba(82,163,237,.12) 0%,rgba(42,101,195,.075) 55%,transparent 100%);
+   radial-gradient(ellipse 94% 235px at 50% 465px,rgba(126,226,255,.2),rgba(69,157,243,.11) 55%,transparent 100%),
+   radial-gradient(ellipse 110% 440px at 50% 760px,rgba(99,199,255,.22),rgba(45,128,223,.15) 52%,transparent 100%);
  }
 }
+@media(prefers-reduced-motion:reduce){#o2-contact .o2-contact-shell::after{transition:none}}
 
 /* FAQ revised: 12-column grid 5/7; no outer panel; responsive reading order. */
 /* Ensure generated <span class="sc-interp"> inherits rendered FAQ typography.
@@ -1670,7 +1668,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
 <section id="o2-contact" data-layout-container data-screen-label="O2 Contact" style="position:relative;z-index:2;padding-block:clamp(56px,5vw,76px) clamp(72px,6vw,96px);scroll-margin-top:80px">
-  <div data-layout-grid12="contact" class="o2-contact-shell" style="position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
+  <div data-layout-grid12="contact" class="o2-contact-shell" style="--o2-contact-glow:{{ o2LampWash }};position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
     <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 25% 70%, rgba(120,230,255,0.16), transparent 70%);opacity:{{ o2LampWash }};transition:opacity .8s ease"></div>
     <div data-layout-span="6" class="o2-contact-intro" style="position:relative;z-index:1;pointer-events:none;display:flex;flex-direction:column;gap:14px;padding:clamp(28px,3.35vw,48px) clamp(26px,3.35vw,48px) 0">
       <canvas ref="{{ o2LampRef }}" role="button" tabIndex="0" aria-pressed="{{ o2LampOn }}" aria-label="{{ o2LampAccessibleLabel }}" onKeyDown="{{ o2LampKey }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:auto"></canvas>
