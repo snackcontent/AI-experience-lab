@@ -2,6 +2,14 @@
 
 These rules apply to **all future versions**, redesigns, feature additions, and code changes on this repository. Always build from the latest `development` branch (current default branch); do not resurrect older snapshots, or overwrite approved changes from historical HTML versions.
 
+## Stable development preview URL
+
+- **Always share this single canonical link for the latest development build:** https://raw.githack.com/snackcontent/AI-experience-lab/development/AI%20Experience%20Lab.dc.html
+- The user explicitly approved a **branch-based, permanent URL** rather than a new SHA-pinned link after each iteration. Never substitute a pinned-commit preview as the default shareable link.
+- Continue committing to the `development` branch. The branch-based `raw.githack.com` URL follows its current contents, subject to caching delays of minutes (potentially longer under high traffic). Do not promise instant refresh; hard refresh or revisit when cached content is stale.
+- Commit SHA links may still be provided **separately** for audit, rollback, or debugging, not as the primary preview URL. Do not mistake raw.githack development preview for a production deployment.
+
+
 ## Permanent responsive layout invariant
 
 - **12 columns** for primary page grids.
