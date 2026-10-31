@@ -509,7 +509,7 @@ html[dir="rtl"] #o2-faq .o2-faq-card::before{background:linear-gradient(270deg,r
 #o2-faq .o2-faq-card[data-open="true"]::after{transform:scaleY(1)}
 #o2-faq .o2-faq-item-button{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:clamp(12px,2vw,24px);width:100%;min-height:78px;padding:18px clamp(14px,1.6vw,20px);background:transparent;border:0;color:#EAF2FF;text-align:start;cursor:pointer;touch-action:manipulation}
 #o2-faq .o2-faq-item-button:focus-visible{outline:2px solid #84EDFF;outline-offset:-3px;border-radius:2px}
-#o2-faq .o2-faq-item-button .o2-faq-question{flex:1;min-width:0;font-size:18px!important;line-height:1.4!important;font-weight:500!important;color:#EAF2FF!important;text-wrap:pretty;overflow-wrap:break-word}
+#o2-faq .o2-faq-item-button .o2-faq-question{flex:1;min-width:0;font-size:18px!important;line-height:1.4!important;font-weight:700!important;color:#EAF2FF!important;text-wrap:pretty;overflow-wrap:break-word}
 #o2-faq .o2-faq-toggle-icon{position:relative;display:block;flex:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,.3);background:rgba(255,255,255,.03);transition:background .4s ease,border-color .4s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
 #o2-faq .o2-faq-answer{position:relative;z-index:2;display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.2,.7,.2,1)}
 #o2-faq .o2-faq-answer-inner{min-height:0;overflow:hidden}
@@ -999,7 +999,7 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
       <sc-for list="{{ o2qItems }}" as="q" hint-placeholder-count="6">
         <div class="o2-faq-card" data-open="{{ q.open }}">
           <button type="button" class="o2-faq-item-button" id="o2-faq-question-{{ q.num }}" aria-controls="o2-faq-answer-{{ q.num }}" aria-expanded="{{ q.open }}" onClick="{{ q.toggle }}">
-            <span class="o2-faq-question" style="font-size:18px!important;line-height:1.4!important;font-weight:500!important">{{ q.q }}</span>
+            <span class="o2-faq-question" style="font-size:18px!important;line-height:1.4!important;font-weight:700!important">{{ q.q }}</span>
             <span class="o2-faq-toggle-icon" aria-hidden="true" style="border-color:{{ q.ring }};background:{{ q.iconBg }}">
               <span style="position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:2px;background:{{ q.iconFg }}"></span>
               <span style="position:absolute;left:50%;top:50%;width:2px;height:12px;margin:-6px 0 0 -1px;border-radius:2px;background:{{ q.iconFg }};transform:scaleY({{ q.vbar }});transition:transform .3s"></span>
