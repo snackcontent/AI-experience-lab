@@ -376,7 +376,7 @@ html[dir="rtl"] #next .cf-controls__arrow svg{transform:scaleX(-1)}
  #next .cf-card[data-cf-active="true"] .cf-card__body{padding:22px 24px 28px!important}
  #next .cf-card h3{font-size:clamp(19px,5.6vw,24px)!important}
  #next .cf-card p{font-size:14px!important}
- #next .cf-controls{grid-template-columns:auto minmax(50px,1fr) auto;gap:14px;margin-top:24px}
+ #next .cf-controls{grid-template-columns:auto minmax(50px,1fr) auto;gap:14px;margin-top:16px}
  #next .cf-controls__arrow{width:44px;height:44px}
  #next .cf-controls__nav{gap:7px}
 }
@@ -2748,6 +2748,27 @@ class Component extends DCLogic {
     const node=document.getElementById('next'),rect=node?.getBoundingClientRect();
     this.cfRoadmapVisible(!!rect&&rect.bottom>0&&rect.top<window.innerHeight);
   };
+  // Mobile stage height uses the tallest card of the current category,
+  // preventing navigation jumps as the user swipes between features.
+  cfFitRoadmap = () => {
+    if(window.innerWidth>=768)return;
+    const stage=document.querySelector('#next .cf-carousel');
+    if(!stage||!stage.isConnected)return;
+    const cards=stage.querySelectorAll('.cf-card');
+    if(!cards.length)return;
+    const tallest=Math.max(...Array.from(cards,card=>card.offsetHeight||0));
+    if(!tallest)return;
+    const target=Math.ceil(tallest+8),width=window.innerWidth;
+    const category=this.state.roadmapCategory,lang=this.state.lang;
+    if(this.state.cfFitHeight!==target||this.state.cfFitWidth!==width||
+       this.state.cfFitCategory!==category||this.state.cfFitLang!==lang){
+      this.setState({cfFitHeight:target,cfFitWidth:width,cfFitCategory:category,cfFitLang:lang});
+    }
+  };
+  cfScheduleRoadmapFit = () => {
+    cancelAnimationFrame(this.cfFitRAF);
+    this.cfFitRAF=requestAnimationFrame(()=>{this.cfFitRAF=null;this.cfFitRoadmap();});
+  };
   cfGo(i,announce=true) {
     clearTimeout(this.cfTimer);
     const filtered=this.roadmapFiltered(),n=filtered.length;if(!n)return;
@@ -3032,6 +3053,21 @@ class Component extends DCLogic {
       this.cfViewportIO.observe(roadmapNode);
     }else this.cfVisibilityChanged();
     document.addEventListener('visibilitychange',this.cfVisibilityChanged);
+    // Recheck the mobile height after fonts load and when the stage width changes.
+    const cfStage=document.querySelector('#next .cf-carousel');
+    if(cfStage&&typeof ResizeObserver!=='undefined'){
+      this.cfStageRO=new ResizeObserver(entries=>{
+        const width=entries[0]?.contentRect.width||cfStage.clientWidth;
+        if(Math.abs(width-(this.cfObservedStageWidth??-1))<1)return;
+        this.cfObservedStageWidth=width;
+        this.cfScheduleRoadmapFit();
+      });
+      this.cfStageRO.observe(cfStage);
+    }
+    this.cfScheduleRoadmapFit();
+    if(document.fonts?.ready)document.fonts.ready.then(()=>{
+      if(cfStage?.isConnected)this.cfScheduleRoadmapFit();
+    });
     const portfolioSection=document.getElementById('o2-products');
     this.portfolioVisible=false;this.prodStaticPainted=[false,false,false,false];
     if(portfolioSection && typeof IntersectionObserver !== 'undefined'){
@@ -3053,6 +3089,8 @@ class Component extends DCLogic {
     if (this.networkIO) { this.networkIO.disconnect(); this.networkIO = null; }
     if (this.o2FeatureRO) { this.o2FeatureRO.disconnect(); this.o2FeatureRO=null; }
     if(this.cfViewportIO){this.cfViewportIO.disconnect();this.cfViewportIO=null;}
+    if(this.cfStageRO){this.cfStageRO.disconnect();this.cfStageRO=null;}
+    cancelAnimationFrame(this.cfFitRAF);
     document.removeEventListener('visibilitychange',this.cfVisibilityChanged);
     if(this.portfolioObserver){this.portfolioObserver.disconnect();this.portfolioObserver=null;}
     clearTimeout(this.o2SnapTimer);
@@ -3085,6 +3123,9 @@ class Component extends DCLogic {
     if(ps.lang!==this.state.lang || ps.o2cat!==this.state.o2cat ||
       cap(ps.viewportW||window.innerWidth)!==cap(this.state.viewportW||window.innerWidth))
       requestAnimationFrame(()=>this.o2ResetTrack(0));
+    if(ps.roadmapCategory!==this.state.roadmapCategory||
+       ps.lang!==this.state.lang||ps.viewportW!==this.state.viewportW)
+      this.cfScheduleRoadmapFit();
   }
 
   live() { return (this.props.liveAI ?? true) && !!(window.claude && window.claude.complete); }
@@ -4727,7 +4768,11 @@ class Component extends DCLogic {
       labCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1.15fr) minmax(0,1fr)', stageTop: narrow ? '76px' : '110px', stageH: narrow ? '38vh' : 'min(74vh, 660px)', listPad: narrow ? '8px 30vh' : '8vh 30vh',
       stageRef: this.stageRef, activeNum: pad2(fi + 1), activeTitle: af.title, activeTagline: af.tagline, activeAction: actLabel[af.type], openActive: () => this.openDemo(fi),
       stageSegs: F.map((f, i) => ({ bg: i === fi ? '#3FE0FF' : 'rgba(150,190,255,0.25)' })), features,
-      upcoming, cfH: narrow ? 'clamp(480px, 121vw, 545px)' : '475px', cfW: narrow ? 'min(88vw, 360px)' : 'clamp(320px, 32vw, 440px)', cfML: narrow ? 'max(-44vw, -180px)' : 'clamp(-220px, -16vw, -160px)',
+      upcoming, cfH: vw<768
+        ? (s.cfFitWidth===vw&&s.cfFitCategory===s.roadmapCategory&&s.cfFitLang===s.lang&&s.cfFitHeight
+          ? s.cfFitHeight+'px' : 'clamp(360px, 111vw, 480px)')
+        : (narrow ? 'clamp(480px, 121vw, 545px)' : '475px'),
+       cfW: narrow ? 'min(88vw, 360px)' : 'clamp(320px, 32vw, 440px)', cfML: narrow ? 'max(-44vw, -180px)' : 'clamp(-220px, -16vw, -160px)',
        cfCurrent: pad2(cfI + 1), cfTotal: pad2(UN), cfCurrentValue: cfI + 1, cfTotalValue: UN, cfProgressWidth,
        cfRoadmapVisibilityClass:s.roadmapInView?'roadmap-in-view':'',
        cfFilterDir:s.lang==='ar'?'rtl':'ltr',cfFilterLang:s.lang,
