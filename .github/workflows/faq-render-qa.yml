@@ -188,12 +188,60 @@ jobs:
                   console.log('FAQ NOT VISIBLE in Chromium. Captured diagnostic page screenshot.');
                   failed=true;
                 }
+                // Contact: 1320px shared layout, two balanced columns, readable controls.
+                const checkContact=async(language)=>{
+                  await page.locator('#o2-contact').scrollIntoViewIfNeeded();
+                  await page.waitForTimeout(500);
+                  const info=await page.locator('#o2-contact').evaluate(section=>{
+                    const shell=section.querySelector('.o2-contact-shell');
+                    const intro=section.querySelector('.o2-contact-intro');
+                    const formCol=section.querySelector('.o2-contact-form-column');
+                    const form=section.querySelector('.o2-contact-form');
+                    const card=section.querySelector('.o2-contact-form-card');
+                    const input=section.querySelector('input[name="name"]');
+                    const label=section.querySelector('.o2-contact-form label');
+                    const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right}};
+                    return {section:rect(section),shell:rect(shell),intro:rect(intro),
+                      formColumn:rect(formCol),formCard:rect(card),form:rect(form),
+                      input:rect(input),labelFont:getComputedStyle(label).fontSize,
+                      inputFont:getComputedStyle(input).fontSize,
+                      shellGap:getComputedStyle(shell).gap,
+                      shellColumns:getComputedStyle(shell).gridTemplateColumns,
+                      viewportWidth:window.innerWidth,scrollWidth:document.documentElement.scrollWidth};
+                  });
+                  console.log('CONTACT 1320 LAYOUT',JSON.stringify({viewport,language,info}));
+                  const edge=viewport.width>=1400?32:viewport.width>=576?24:16;
+                  const expectedWidth=Math.min(viewport.width-2*edge,1320);
+                  const widthOk=Math.abs(info.section.width-expectedWidth)<2
+                     && Math.abs(info.shell.width-info.section.width)<2;
+                  const desktop=viewport.width>991.98;
+                  const halvesOk=desktop?
+                    Math.abs(info.intro.width-info.formColumn.width)<2 &&
+                    Math.abs(info.intro.width-info.shell.width/2)<2 :
+                    Math.abs(info.intro.width-info.shell.width)<2 &&
+                    Math.abs(info.formColumn.width-info.shell.width)<2 &&
+                    info.formColumn.y>=info.intro.y+info.intro.height-2;
+                  const clipped=info.input.right>info.section.right+2||
+                    info.input.x<info.section.x-2||info.formCard.right>info.section.right+2;
+                  const formOk=info.formCard.width>0&&info.input.width>=150&&
+                    info.labelFont==='14px'&&info.inputFont==='16px';
+                  if(!widthOk||!halvesOk||clipped||!formOk){
+                    console.error('CONTACT 1320 LAYOUT REGRESSION',JSON.stringify({widthOk,halvesOk,clipped,formOk}));
+                    failed=true;
+                  }
+                  await page.locator('#o2-contact').screenshot({
+                    path:'/tmp/ai-lab-faq-qa/contact-'+viewport.width+'-'+language+'.png',
+                    timeout:60000
+                  });
+                };
+                await checkContact('en');
                 if(await page.evaluate(()=>!!window.FadaatAR?.apply)){
                   await page.evaluate(()=>window.FadaatAR.apply(true));
                   await page.waitForTimeout(900);
                   const arabicSections=await sectionText();
                   console.log('SECTION EYEBROWS AR',JSON.stringify({viewport,arabicSections}));
                   if(arabicSections.some(o=>o.actual!==o.ar)){console.error('SECTION EYEBROW NUMBER/TRANSLATION REGRESSION (AR)');failed=true;}
+                  await checkContact('ar');
                 } else {console.error('Arabic localization unavailable');failed=true;}
                 await page.close();
               }
@@ -210,5 +258,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: faq-browser-screenshots
-          path: /tmp/ai-lab-faq-qa/faq-*.png
+          path: |
+            /tmp/ai-lab-faq-qa/faq-*.png
+            /tmp/ai-lab-faq-qa/contact-*.png
           if-no-files-found: ignore
