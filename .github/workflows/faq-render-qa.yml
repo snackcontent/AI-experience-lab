@@ -129,7 +129,7 @@ jobs:
                       lineHeight:getComputedStyle(inner).lineHeight,innerClass:inner.className};
                   });
                   console.log('ACTUAL COMPUTED FAQ TEXT',JSON.stringify({viewport,question:info,answer:answerInfo}));
-                  if(info.fontSize!=='18px'||info.weight!=='500'||answerInfo.fontSize!=='16px'){
+                  if(info.fontSize!=='18px'||info.weight!=='700'||answerInfo.fontSize!=='16px'){
                     console.error('TEXT OVERRIDE: generated span has unexpected computed typography');
                     failed=true;
                   }
