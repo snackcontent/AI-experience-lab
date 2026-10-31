@@ -791,15 +791,17 @@ html[dir="rtl"] #o2-network .o2-network__title{letter-spacing:0}
 #o2-services .o2-feature-filter[aria-pressed="true"]:hover{background:linear-gradient(135deg,#3878F6,#197CAD)!important}
 #o2-services .o2-feature-filter:focus-visible,
 #o2-services .o2-feature-nav:focus-visible,
-#o2-services .o2-feature-track:focus-visible,
-#o2-services .o2-feature-hit:focus-visible,
 .o2-info-modal .o2-info-close:focus-visible{outline:3px solid #84EDFF;outline-offset:3px}
 #o2-services .o2-features-result{color:#B9CCF0;font-size:13px;font-weight:600;white-space:nowrap}
 #o2-services .o2-feature-carousel-wrap{position:relative;min-width:0}
 #o2-services .o2-feature-track::-webkit-scrollbar{display:none}
-#o2-services .o2-feature-card{overflow:visible}
+#o2-services .o2-feature-card{overflow:visible;flex-basis:calc((100% - 3 * 16px - 4px)/4)!important;scroll-snap-align:start;scroll-snap-stop:always}
+@media(max-width:1099.98px){#o2-services .o2-feature-card{flex-basis:calc((100% - 2 * 16px - 4px)/3)!important}}
+@media(max-width:899.98px){#o2-services .o2-feature-card{flex-basis:calc((100% - 16px - 4px)/2)!important}}
+@media(max-width:600px){#o2-services .o2-feature-card{flex-basis:calc(100% - 4px)!important}}
 #o2-services .o2-feature-card:hover{transform:translateY(-3px);border-color:rgba(63,224,255,.52)!important;background:linear-gradient(160deg,rgba(3,18,43,.73),rgba(2,31,65,.66))!important}
-#o2-services .o2-feature-card:focus-within{border-color:#84EDFF!important;box-shadow:0 0 0 2px rgba(132,237,255,.25)}
+#o2-services .o2-feature-hit:focus-visible{outline:none!important}
+#o2-services .o2-feature-card:has(> .o2-feature-hit:focus-visible) .o2-feature-footer > span:first-child{text-decoration:underline;text-underline-offset:4px}
 #o2-services .o2-feature-hit{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;background:transparent;border:0;border-radius:22px;cursor:pointer;color:transparent;padding:0}
 #o2-services .o2-feature-hit:active{background:rgba(63,224,255,.035)}
 #o2-services .o2-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -831,7 +833,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 @media(max-width:359.98px){#o2-services .cf-controls{gap:10px}}
 @media(max-width:600px){
  #o2-services .o2-feature-track{gap:12px}
- #o2-services .o2-feature-card{flex-basis:min(84vw,320px)!important;min-height:422px!important;padding:20px!important}
+ #o2-services .o2-feature-card{flex-basis:calc(100% - 4px)!important;min-height:422px!important;padding:20px!important}
  #o2-services .o2-feature-toolbar{justify-content:center}
  #o2-services .o2-feature-filters{justify-content:center}
 }
@@ -1070,9 +1072,9 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
       </div>
     </div>
     <div class="o2-feature-carousel-wrap">
-      <div data-o2-track="" ref="{{ o2TrackRef }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="{{ o2TrackDir }}" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
+      <div data-o2-track="" ref="{{ o2TrackRef }}" role="region" aria-roledescription="carousel" aria-labelledby="o2-features-title" aria-label="{{ o2CarouselLabel }}" tabindex="0" dir="{{ o2TrackDir }}" onKeyDown="{{ o2TrackKey }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerCancel="{{ o2DragUp }}" onLostPointerCapture="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" class="o2-feature-track" style="display:flex;align-items:stretch;gap:16px;cursor:grab;user-select:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:7px 2px 12px;touch-action:pan-x pan-y">
         <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
-          <article class="o2-feature-card" dir="{{ k.dir }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
+          <article class="o2-feature-card" dir="{{ k.dir }}" style="flex:0 0 clamp(258px,26vw,320px);scroll-snap-align:start;scroll-snap-stop:always;position:relative;border-radius:22px;border:1px solid rgba(150,190,255,0.16);background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:24px;display:flex;flex-direction:column;gap:14px;min-height:406px;box-sizing:border-box;transition:border-color .22s,background .22s,transform .22s">
             <div style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4FF;font-weight:600">
               <span aria-hidden="true" style="width:30px;height:30px;flex:none;border-radius:10px;background:rgba(63,224,255,.1);border:1px solid rgba(63,224,255,.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:14px;letter-spacing:0">{{ k.glyph }}</span>
               <span>{{ k.cat }}</span>
@@ -1084,7 +1086,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
               <div class="o2-feature-used" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                 <span style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8FB4FF">{{ k.usedByLabel }}</span>
                 <sc-for list="{{ k.logos }}" as="lg" hint-placeholder-count="0">
-                  <img class="o2-feature-used-logo" src="{{ lg.src }}" alt="{{ lg.name }}" title="{{ lg.name }}" decoding="async" draggable="false" style="display:block;width:{{ lg.w }};height:28px;max-width:100px;object-fit:contain;object-position:center;flex:none"/>
+                  <img class="o2-feature-used-logo" src="{{ lg.src }}" alt="{{ lg.name }}" decoding="async" draggable="false" style="display:block;width:{{ lg.w }};height:28px;max-width:100px;object-fit:contain;object-position:center;flex:none"/>
                 </sc-for>
               </div>
             </sc-if>
@@ -1092,7 +1094,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
               <span style="display:flex;align-items:center;font-size:14px;font-weight:600;color:{{ k.ctaColor }}">{{ k.cta }}</span>
               <span aria-hidden="true" style="width:36px;height:36px;flex:none;border-radius:50%;background:{{ k.arrowBg }};color:{{ k.arrowFg }};border:1px solid rgba(150,190,255,.3);display:flex;align-items:center;justify-content:center;font-size:15px">↗</span>
             </div>
-            <button type="button" class="o2-feature-hit" onClick="{{ k.onClick }}" aria-label="{{ k.actionLabel }}" title="{{ k.actionLabel }}"><span class="o2-visually-hidden">{{ k.actionLabel }}</span></button>
+            <button type="button" class="o2-feature-hit" onClick="{{ k.onClick }}" aria-label="{{ k.actionLabel }}"><span class="o2-visually-hidden">{{ k.actionLabel }}</span></button>
           </article>
         </sc-for>
       </div>
@@ -2873,6 +2875,8 @@ class Component extends DCLogic {
     if (this.headerRO) { this.headerRO.disconnect(); this.headerRO = null; }
     if (this.networkIO) { this.networkIO.disconnect(); this.networkIO = null; }
     if (this.o2FeatureRO) { this.o2FeatureRO.disconnect(); this.o2FeatureRO=null; }
+    clearTimeout(this.o2SnapTimer);
+    clearTimeout(this.o2dmT);
     if (this.o2InfoReturnFocus) { document.body.style.overflow=this.o2InfoPriorOverflow||''; }
     this.networkGesture = null;
     if (this.networkViewport) this.networkViewport.classList.remove('is-dragging');
@@ -3973,16 +3977,34 @@ class Component extends DCLogic {
     const raw=type==='negative'?-v:type==='reverse'?max-v:v;
     t.scrollTo({left:raw,behavior});
   }
+  o2CardSnapPoints(t) {
+    if(!t || !t.children.length)return [];
+    const max=Math.max(0,t.scrollWidth-t.clientWidth);
+    const first=t.children[0].offsetLeft;
+    return Array.from(t.children,(el,index)=>({
+      index, position:Math.abs(el.offsetLeft-first)
+    })).filter(point=>point.position<=max+1.5);
+  }
+  o2SnapNearest = (behavior) => {
+    const t=this.o2TrackRef.current;
+    if(!t || this.o2drag)return;
+    const points=this.o2CardSnapPoints(t);
+    if(!points.length){this.o2Measure();return;}
+    const current=this.o2ScrollGet(t);
+    const target=points.reduce((nearest,point)=>
+      Math.abs(point.position-current)<Math.abs(nearest.position-current)?point:nearest,points[0]);
+    if(Math.abs(current-target.position)>1.5){
+      this.o2ScrollSet(t,target.position,behavior||(this.reduce?'auto':'smooth'));
+    } else this.o2Measure();
+  };
   o2Measure = () => {
-    const t=this.o2TrackRef.current; if(!t) return;
-    const max=Math.max(0,t.scrollWidth-t.clientWidth), sl=this.o2ScrollGet(t);
-    const children=Array.from(t.children); let i=0;
-    for(let j=0;j<children.length;j++) {
-      const target=Math.abs(children[j].offsetLeft-children[0].offsetLeft);
-      if(target<=sl+Math.min(40,t.clientWidth*.1)) i=j;
-    }
+    const t=this.o2TrackRef.current;if(!t)return;
+    const max=Math.max(0,t.scrollWidth-t.clientWidth),sl=this.o2ScrollGet(t);
+    const points=this.o2CardSnapPoints(t);
+    const closest=points.length?points.reduce((a,b)=>
+      Math.abs(b.position-sl)<Math.abs(a.position-sl)?b:a,points[0]):{index:0};
+    const i=closest.index;
     const ratio=max>0?sl/max:0;
-    if(max>0 && sl>=max-2) i=Math.max(0,children.length-1);
     if(this.state.o2ix!==i || Math.abs((this.state.o2pr||0)-ratio)>.003 || this.state.o2max!==max){
       this.setState({o2ix:i,o2pr:ratio,o2max:max});
     }
@@ -4031,11 +4053,17 @@ class Component extends DCLogic {
     if(d.moved){
       t.style.cursor='';t.style.scrollBehavior='';t.style.scrollSnapType='';
       try{if(t.hasPointerCapture(d.id))t.releasePointerCapture(d.id);}catch(_){}
-      requestAnimationFrame(this.o2Measure);
+      clearTimeout(this.o2SnapTimer);
+      requestAnimationFrame(()=>this.o2SnapNearest(this.reduce?'auto':'smooth'));
     }
   };
   o2NoDrag = e => e.preventDefault();
-  o2OnScroll = () => this.o2Measure();
+  o2OnScroll = () => {
+    this.o2Measure();
+    if(this.o2drag)return;
+    clearTimeout(this.o2SnapTimer);
+    this.o2SnapTimer=setTimeout(()=>this.o2SnapNearest(),170);
+  };
   o2TrackKey = e => {
     if(e.target!==e.currentTarget)return;
     const t=this.o2TrackRef.current;if(!t)return;
