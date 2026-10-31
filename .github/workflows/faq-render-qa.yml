@@ -78,6 +78,36 @@ jobs:
                   };
                 });
                 console.log('DOCUMENT DIAGNOSTIC',JSON.stringify(docInfo));
+                // Font regression test: check actual rendered glyph containers and Google Font loading.
+                const typography=await page.evaluate(async()=>{
+                  await document.fonts.load('400 18px "Almarai"','English عربي');
+                  await document.fonts.load('700 18px "Almarai"','Arabic عربي');
+                  await document.fonts.ready;
+                  const selectors={
+                    body:'body',
+                    faqQuestion:'#o2-faq .o2-faq-question .sc-interp',
+                    faqAnswer:'#o2-faq .o2-faq-answer-inner p .sc-interp',
+                    faqHeading:'#o2-faq h2',
+                    faqContact:'#o2-faq .o2-faq-contact',
+                    hero:'#o2-top h1',
+                    roadmap:'#next h2',
+                    formInput:'#o2-contact input'
+                  };
+                  const families=Object.fromEntries(Object.entries(selectors).map(([key,sel])=>{
+                    const el=document.querySelector(sel);
+                    return [key,el?getComputedStyle(el).fontFamily:null];
+                  }));
+                  const importEl=document.querySelector('link[href*="fonts.googleapis.com/css2?family=Almarai"]');
+                  return {fontUrl:importEl?.href||null,fonts:Array.from(document.fonts).filter(f=>f.family.toLowerCase().includes('almarai')).map(f=>({family:f.family,weight:f.weight,status:f.status})),latinReady:document.fonts.check('400 18px "Almarai"','English sample'),arabicReady:document.fonts.check('700 18px "Almarai"','مرحبا بالعالم'),families};
+                });
+                console.log('GOOGLE ALMARAI FONT AUDIT',JSON.stringify({viewport,typography}));
+                const requiredFamilies=['body','faqQuestion','faqAnswer','faqHeading','faqContact'];
+                if(!typography.fontUrl||!typography.latinReady||!typography.arabicReady
+                   ||typography.fonts.length===0||!typography.fonts.some(f=>f.status==='loaded')
+                   ||requiredFamilies.some(k=>!typography.families[k]||!typography.families[k].includes('Almarai'))){
+                   console.error('SITE FONT REGRESSION: Google Fonts Almarai not applied/loaded');failed=true;
+                }
+
                 console.log('LOCATOR COUNTS',JSON.stringify({faq:await page.locator('#o2-faq').count(),
                   question:await page.locator('#o2-faq .o2-faq-question').count(),
                   visibleQuestion:await page.locator('#o2-faq .o2-faq-question:visible').count(),
