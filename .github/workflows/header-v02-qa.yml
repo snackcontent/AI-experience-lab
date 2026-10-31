@@ -58,6 +58,7 @@ jobs:
                     await page.locator('.o2-hdr-language').click();
                     await page.waitForTimeout(600);
                   }
+                  assert(await page.locator('html').getAttribute('lang')===desired,'html language matches '+width+'/'+lang);
                   const info=await page.evaluate(()=>{
                     const hdr=document.querySelector('#o2-site-header'),nav=hdr.querySelector('nav');
                     const names=['.o2-hdr-logo','.o2-hdr-language','.o2-hdr-contact'];
@@ -127,7 +128,7 @@ jobs:
                 return {width:bar.width,height:bar.height,position:bar.position,background:bar.backgroundImage,activeBackground:active.backgroundImage,side:bar.insetInlineStart};
               });
               console.log('ACTIVE VISUAL',JSON.stringify(activeVisual));
-              assert(activeVisual.width==='3px' && parseFloat(activeVisual.height)>=43,'active FAQ-style vertical stripe');
+              assert(activeVisual.width==='3px' && activeVisual.position==='absolute' && activeVisual.side==='0px' && activeVisual.background.includes('linear-gradient'),'active FAQ-style vertical stripe');
               assert(activeVisual.activeBackground.includes('linear-gradient'),'active FAQ-style gradient wash');
               assert(await page.locator('#o2-mobile-menu a[href="#o2-contact"]').count()===1,'contact remains available after selecting FAQ');
               await page.screenshot({path:'/tmp/ai-lab-header/header-390-en.png'});
