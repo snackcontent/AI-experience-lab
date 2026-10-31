@@ -315,6 +315,33 @@ html[dir="rtl"] .roadmap-stage__story:before{background:linear-gradient(270deg,t
 }
 
 
+
+/* Roadmap category filters reuse the compact AI Features chip visual system. */
+#next .cf-filter-shell{width:min(100% - 40px,1100px);margin:30px auto 0;container:roadmap-filters / inline-size}
+#next .cf-filter-chips{display:flex;justify-content:center;align-items:center;flex-wrap:nowrap;gap:8px}
+#next .cf-filter-chip{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;min-height:44px;padding:8px 19px;border:0;border-radius:9999px;background:rgba(255,255,255,.055);color:#FFFFFF;font:600 15px/1.4 "Almarai",system-ui,sans-serif;cursor:pointer;transition:background .2s,color .2s}
+#next .cf-filter-chip:hover{background:rgba(47,107,255,.28)}
+#next .cf-filter-chip[aria-pressed="true"]{background:linear-gradient(135deg,#2F6BFF,#176A9F);font-weight:700}
+#next .cf-filter-chip[aria-pressed="true"]:hover{background:linear-gradient(135deg,#3878F6,#197CAD)}
+#next .cf-filter-chip:focus-visible,#next .cf-filter-select:focus-visible{outline:3px solid #84EDFF;outline-offset:3px}
+#next .cf-filter-compact{display:none;position:relative;max-width:440px;margin-inline:auto}
+#next .cf-filter-select{display:block;width:100%;min-height:48px;appearance:none;-webkit-appearance:none;padding-block:10px;padding-inline-start:17px;padding-inline-end:48px;border:1px solid rgba(149,195,235,.48);border-radius:12px;background:#123D70;color:#FFFFFF;font:700 15px/1.5 "Almarai",system-ui,sans-serif;cursor:pointer}
+#next .cf-filter-chevron{position:absolute;inset-inline-end:17px;top:50%;transform:translateY(-50%);width:19px;height:19px;pointer-events:none;color:#B9E7FF}
+#next .cf-filter-announcement{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#next:not(.roadmap-in-view) .cf-card *{animation-play-state:paused!important}
+@container roadmap-filters (max-width:760px){
+ #next .cf-filter-chips{display:none}
+ #next .cf-filter-compact{display:block}
+}
+@media(max-width:767.98px){
+ #next .cf-filter-chips{display:none}
+ #next .cf-filter-compact{display:block}
+ #next .cf-filter-shell{margin-top:23px}
+}
+@media(prefers-reduced-motion:reduce){
+ #next .cf-filter-chip,#next .cf-filter-select,#next .cf-card *{transition:none!important;animation:none!important}
+}
+
 /* Roadmap: restrained Coverflow refinements; preserve existing illustration and card design. */
 #next{padding-top:82px!important;padding-bottom:74px!important}
 #next .cf-carousel{margin-top:34px!important;isolation:isolate}
@@ -1165,13 +1192,29 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 </sc-if>
 
 <div>
-<section id="next" data-layout-fullbleed data-screen-label="What's next" style="position:relative;z-index:2;padding:100px 0 48px;scroll-margin-top:40px">
+<section id="next" class="{{ cfRoadmapVisibilityClass }}" data-layout-fullbleed data-screen-label="What's next" style="position:relative;z-index:2;padding:100px 0 48px;scroll-margin-top:40px">
   <div data-layout-container style="max-width:1600px;margin:0 auto;padding:0 max(20px,4vw);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:18px;max-width:100%">
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Roadmap</span>
       <h2 style="margin:0;font-size:clamp(24px,4.6vw,64px);line-height:1.02;letter-spacing:-0.03em;font-weight:600;white-space:nowrap">The Future Is Already in Motion</h2>
       <p style="margin:0;max-width:640px;font-size:18px;line-height:1.6;color:#B9CCF0;text-wrap:balance">Capabilities on our roadmap. They are not available to try yet, and scope and timing are still being defined.</p>
     </div>
+  </div>
+  <div class="cf-filter-shell" dir="{{ cfFilterDir }}">
+    <div class="cf-filter-chips" role="group" aria-label="{{ cfFilterGroupLabel }}">
+      <sc-for list="{{ cfCategories }}" as="cat" hint-placeholder-count="6">
+        <button type="button" class="cf-filter-chip" lang="{{ cfFilterLang }}" aria-pressed="{{ cat.active }}" onClick="{{ cat.select }}">{{ cat.name }}</button>
+      </sc-for>
+    </div>
+    <div class="cf-filter-compact">
+      <select class="cf-filter-select" dir="{{ cfFilterDir }}" lang="{{ cfFilterLang }}" value="{{ cfCategoryValue }}" aria-label="{{ cfFilterGroupLabel }}" onChange="{{ cfFilterChange }}">
+        <sc-for list="{{ cfCategories }}" as="cat" hint-placeholder-count="6">
+          <option value="{{ cat.id }}">{{ cat.name }} — {{ cat.count }} {{ cat.countLabel }}</option>
+        </sc-for>
+      </select>
+      <svg class="cf-filter-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <div class="cf-filter-announcement" role="status" aria-live="polite" aria-atomic="true">{{ cfFilterAnnouncement }}</div>
   </div>
   <div onPointerDown="{{ cfDown }}" onPointerMove="{{ cfMove }}" onPointerUp="{{ cfUp }}" onPointerCancel="{{ cfUp }}" onClick="{{ cfClick }}" onWheel="{{ cfWheel }}" onDragStart="{{ cfNoDrag }}" onMouseEnter="{{ cfPause }}" onMouseLeave="{{ cfResume }}" onFocus="{{ cfPause }}" onBlur="{{ cfResume }}" onKeyDown="{{ cfKey }}" tabIndex="0" role="region" aria-roledescription="carousel" aria-label="{{ cfRegionLabel }}" class="cf-carousel" style="position:relative;margin-top:40px;height:{{ cfH }};perspective:1800px;perspective-origin:50% 40%;touch-action:pan-y;user-select:none;cursor:{{ cfCursor }}">
     <div aria-hidden="true" style="position:absolute;left:50%;bottom:-10px;width:min(760px,82vw);height:105px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%, rgba(63,224,255,0.12), transparent 70%);filter:blur(10px);pointer-events:none"></div>
@@ -1182,7 +1225,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
         <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" data-cf-index="{{ u.index }}" ref="{{ u.ref }}" aria-hidden="{{ u.hidden }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
           <sc-if value="{{ u.hasAskPoster }}">
             <div class="cf-ask-visual" aria-hidden="true">
-              <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/ask-the-video-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/ask-the-video-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasAskMotion }}">
                 <video class="cf-ask-visual__motion" src="assets/roadmap-scenes/ask-the-video-animated-16x9.mp4" poster="assets/roadmap-scenes/ask-the-video-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1190,7 +1233,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasShopPoster }}">
             <div class="cf-shop-visual" aria-hidden="true">
-              <img class="cf-shop-visual__poster" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-shop-visual__poster" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasShopMotion }}">
                 <video class="cf-shop-visual__motion" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1198,7 +1241,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasArticlePoster }}">
             <div class="cf-article-visual" aria-hidden="true">
-              <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasArticleMotion }}">
                 <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1206,7 +1249,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasMomentsPoster }}">
             <div class="cf-moments-visual" aria-hidden="true">
-              <img class="cf-moments-visual__poster" src="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-moments-visual__poster" src="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasMomentsMotion }}">
                 <video class="cf-moments-visual__motion" src="assets/roadmap-scenes/rapid-recap-key-moments-animated-16x9.mp4" poster="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1214,7 +1257,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasHighlightsPoster }}">
             <div class="cf-highlights-visual" aria-hidden="true">
-              <img class="cf-highlights-visual__poster" src="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-highlights-visual__poster" src="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasHighlightsMotion }}">
                 <video class="cf-highlights-visual__motion" src="assets/roadmap-scenes/ai-smart-highlights-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1222,7 +1265,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasContextPoster }}">
             <div class="cf-context-visual" aria-hidden="true">
-              <img class="cf-context-visual__poster" src="assets/roadmap-scenes/ai-context-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-context-visual__poster" src="assets/roadmap-scenes/ai-context-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasContextMotion }}">
                 <video class="cf-context-visual__motion" src="assets/roadmap-scenes/ai-context-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-context-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1230,7 +1273,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasDialoguePoster }}">
             <div class="cf-dialogue-visual" aria-hidden="true">
-              <img class="cf-dialogue-visual__poster" src="assets/roadmap-scenes/ai-dialogue-boost-16x9.avif" alt="" loading="eager" decoding="async"/>
+              <img class="cf-dialogue-visual__poster" src="assets/roadmap-scenes/ai-dialogue-boost-16x9.avif" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasDialogueMotion }}">
                 <svg class="cf-dialogue-visual__motion" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice" focusable="false" aria-hidden="true">
                   <defs>
@@ -1247,7 +1290,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasSeekbarPoster }}">
             <div class="cf-seekbar-visual" aria-hidden="true">
-              <img class="cf-seekbar-visual__poster" src="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-seekbar-visual__poster" src="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasSeekbarMotion }}">
                 <video class="cf-seekbar-visual__motion" src="assets/roadmap-scenes/ai-powered-video-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1255,7 +1298,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasEmojiPoster }}">
             <div class="cf-emoji-visual" aria-hidden="true">
-              <img class="cf-emoji-visual__poster" src="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-emoji-visual__poster" src="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasEmojiMotion }}">
                 <video class="cf-emoji-visual__motion" src="assets/roadmap-scenes/ai-emoji-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1263,7 +1306,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasVodPoster }}">
             <div class="cf-vod-visual" aria-hidden="true">
-              <img class="cf-vod-visual__poster" src="assets/roadmap-scenes/ai-vod-companion-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-vod-visual__poster" src="assets/roadmap-scenes/ai-vod-companion-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasVodMotion }}">
                 <video class="cf-vod-visual__motion" src="assets/roadmap-scenes/ai-vod-companion-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-vod-companion-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1271,7 +1314,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasBriefingPoster }}">
             <div class="cf-briefing-visual" aria-hidden="true">
-              <img class="cf-briefing-visual__poster" src="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-briefing-visual__poster" src="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasBriefingMotion }}">
                 <video class="cf-briefing-visual__motion" src="assets/roadmap-scenes/ai-personalized-morning-briefing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1279,7 +1322,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasDubbingPoster }}">
             <div class="cf-dubbing-visual" aria-hidden="true">
-              <img class="cf-dubbing-visual__poster" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-dubbing-visual__poster" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasDubbingMotion }}">
                 <video class="cf-dubbing-visual__motion" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1287,7 +1330,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasRecapPoster }}">
             <div class="cf-recap-visual" aria-hidden="true">
-              <img class="cf-recap-visual__poster" src="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-recap-visual__poster" src="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasRecapMotion }}">
                 <video class="cf-recap-visual__motion" src="assets/roadmap-scenes/ai-catch-up-recap-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1295,7 +1338,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasChaptersPoster }}">
             <div class="cf-chapters-visual" aria-hidden="true">
-              <img class="cf-chapters-visual__poster" src="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-chapters-visual__poster" src="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasChaptersMotion }}">
                 <video class="cf-chapters-visual__motion" src="assets/roadmap-scenes/ai-smart-chapters-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1303,7 +1346,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasStoryCastPoster }}">
             <div class="cf-storycast-visual" aria-hidden="true">
-              <img class="cf-storycast-visual__poster" src="assets/roadmap-scenes/ai-storycast-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-storycast-visual__poster" src="assets/roadmap-scenes/ai-storycast-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasStoryCastMotion }}">
                 <video class="cf-storycast-visual__motion" src="assets/roadmap-scenes/ai-storycast-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-storycast-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1311,7 +1354,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasModerationPoster }}">
             <div class="cf-moderation-visual" aria-hidden="true">
-              <img class="cf-moderation-visual__poster" src="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-moderation-visual__poster" src="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasModerationMotion }}">
                 <video class="cf-moderation-visual__motion" src="assets/roadmap-scenes/ai-comment-moderation-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1319,7 +1362,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasSportsPoster }}">
             <div class="cf-sports-visual" aria-hidden="true">
-              <img class="cf-sports-visual__poster" src="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" alt="" loading="eager" decoding="async"/>
+              <img class="cf-sports-visual__poster" src="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <sc-if value="{{ u.hasSportsMotion }}">
                 <video class="cf-sports-visual__motion" src="assets/roadmap-scenes/ai-sports-analyst-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" autoplay="" muted="" loop="" playsInline="" preload="metadata" tabindex="-1" aria-hidden="true"></video>
               </sc-if>
@@ -1327,7 +1370,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
           </sc-if>
           <sc-if value="{{ u.hasTranslationArt }}">
             <div class="cf-translation-visual" aria-hidden="true">
-              <img class="cf-translation-visual__image" src="assets/roadmap-scenes/ai-translation-subtitles-16x9.jpg" alt="" loading="eager" decoding="async"/>
+              <img class="cf-translation-visual__image" src="assets/roadmap-scenes/ai-translation-subtitles-16x9.jpg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
               <svg class="cf-translation-visual__motion" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                 <path class="cf-translation-visual__wave" d="M326 403 C432 404 471 462 554 443 S697 374 786 410" />
                 <path class="cf-translation-visual__wave" d="M1112 402 C1171 395 1159 241 1255 236" />
@@ -1355,7 +1398,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
       <button type="button" class="cf-controls__arrow" onClick="{{ nextNext }}" aria-label="{{ cfNextLabel }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button>
     </div>
     <div class="cf-controls__progress" role="progressbar" aria-label="{{ cfProgressLabel }}" aria-valuemin="1" aria-valuemax="{{ cfTotalValue }}" aria-valuenow="{{ cfCurrentValue }}"><span class="cf-controls__fill" style="width:{{ cfProgressWidth }}"></span></div>
-    <div class="cf-controls__count" aria-live="polite" aria-atomic="true"><strong>{{ cfCurrent }}</strong><span>/</span><span>{{ cfTotal }}</span></div>
+    <div class="cf-controls__count" aria-live="off" aria-atomic="true"><strong>{{ cfCurrent }}</strong><span>/</span><span>{{ cfTotal }}</span></div>
   </div>
 </section>
 </div>
@@ -2404,24 +2447,24 @@ class Component extends DCLogic {
       { id: 'taw', type: 'guided', title: 'Tawazi Framework', tagline: 'AI from PRD to production, not just code.', desc: 'Tawazi AI connects every stage of software delivery on the Atlassian stack. Twelve AI agents work across six roles, quality checks are built into every step, and people make the decisions.', ambient: '#3FA8FF', videoUrl: (window.__resources && window.__resources['tawazi-mp4']) || 'assets/tawazi.mp4', externalUrl: null }
     ],
     upcoming: [
-      { title: 'Ask the Video', desc: 'An interactive AI assistant that lets viewers ask questions about video content.' },
-      { title: 'AI Translation & Subtitles', desc: 'Automated multilingual subtitles and translation, with optional dubbing.' },
-      { title: 'AI Sports Analyst', desc: 'Conversational AI that delivers match insights, player comparisons and statistics.' },
-      { title: 'AI Article-to-Shorts', desc: 'Automatically transforms news articles into short-form videos.' },
-      { title: 'AI Comment Moderation Engine', desc: 'AI-powered moderation of user comments across supported platforms.' },
-      { title: 'AI StoryCast', desc: 'Combines the AI Editorial Assistant, summarization and text-to-speech into personalized audio news briefings \u2014 with potential for personalized content feeds.' },
-      { title: 'AI Smart Chapters', desc: 'Automatically splits long videos into titled chapters so viewers can jump straight to each part.', v: 'chapters' },
-      { title: 'AI Catch-Up / Recap', desc: 'Brings late viewers up to speed with a short recap of what they have missed so far.', v: 'recap' },
-      { title: 'Rapid Recap & Key Moments', desc: 'Condenses a broadcast into its key moments for quick viewing.', v: 'moments' },
-      { title: 'AI Emotional Voice Dubbing', desc: 'Dubs content into other languages while keeping the tone and emotion of the original voice.', v: 'dubbing' },
-      { title: 'AI Context', desc: 'Adds background on the people, places and events mentioned in a story as viewers watch.', v: 'context' },
-      { title: 'AI Dialogue Boost', desc: 'Lifts speech above music and crowd noise so dialogue stays clear.', v: 'dialogue' },
-      { title: 'AI Emoji Seekbar', desc: 'Marks the seekbar with emoji reactions so viewers can spot the moments others loved.', v: 'emoji' },
-      { title: 'AI-Powered Video Seekbar', desc: 'A smarter seekbar that previews and labels the important moments in a video.', v: 'seekbar' },
-      { title: 'AI Smart Highlights Generator', desc: 'Automatically detects the best moments and cuts them into highlight clips.', v: 'highlights' },
-      { title: 'AI VOD Companion', desc: 'An on-demand viewing assistant that answers questions and suggests what to watch next.', v: 'vod' },
-      { title: 'AI Personalized Morning Briefing', desc: 'A personal daily briefing of the stories each user cares about.', v: 'briefing' },
-      { title: 'AI Shop the Scene', desc: 'Lets viewers discover and buy products that appear on screen.', v: 'shop' }
+      { id: 'ask-video', title: 'Ask the Video', desc: 'An interactive AI assistant that lets viewers ask questions about video content.' },
+      { id: 'translation-subtitles', title: 'AI Translation & Subtitles', desc: 'Automated multilingual subtitles and translation, with optional dubbing.' },
+      { id: 'sports-analyst', title: 'AI Sports Analyst', desc: 'Conversational AI that delivers match insights, player comparisons and statistics.' },
+      { id: 'article-to-shorts', title: 'AI Article-to-Shorts', desc: 'Automatically transforms news articles into short-form videos.' },
+      { id: 'comment-moderation', title: 'AI Comment Moderation Engine', desc: 'AI-powered moderation of user comments across supported platforms.' },
+      { id: 'storycast', title: 'AI StoryCast', desc: 'Combines the AI Editorial Assistant, summarization and text-to-speech into personalized audio news briefings \u2014 with potential for personalized content feeds.' },
+      { id: 'smart-chapters', title: 'AI Smart Chapters', desc: 'Automatically splits long videos into titled chapters so viewers can jump straight to each part.', v: 'chapters' },
+      { id: 'catch-up-recap', title: 'AI Catch-Up / Recap', desc: 'Brings late viewers up to speed with a short recap of what they have missed so far.', v: 'recap' },
+      { id: 'rapid-recap-moments', title: 'Rapid Recap & Key Moments', desc: 'Condenses a broadcast into its key moments for quick viewing.', v: 'moments' },
+      { id: 'emotional-dubbing', title: 'AI Emotional Voice Dubbing', desc: 'Dubs content into other languages while keeping the tone and emotion of the original voice.', v: 'dubbing' },
+      { id: 'ai-context', title: 'AI Context', desc: 'Adds background on the people, places and events mentioned in a story as viewers watch.', v: 'context' },
+      { id: 'dialogue-boost', title: 'AI Dialogue Boost', desc: 'Lifts speech above music and crowd noise so dialogue stays clear.', v: 'dialogue' },
+      { id: 'emoji-seekbar', title: 'AI Emoji Seekbar', desc: 'Marks the seekbar with emoji reactions so viewers can spot the moments others loved.', v: 'emoji' },
+      { id: 'powered-seekbar', title: 'AI-Powered Video Seekbar', desc: 'A smarter seekbar that previews and labels the important moments in a video.', v: 'seekbar' },
+      { id: 'smart-highlights', title: 'AI Smart Highlights Generator', desc: 'Automatically detects the best moments and cuts them into highlight clips.', v: 'highlights' },
+      { id: 'vod-companion', title: 'AI VOD Companion', desc: 'An on-demand viewing assistant that answers questions and suggests what to watch next.', v: 'vod' },
+      { id: 'morning-briefing', title: 'AI Personalized Morning Briefing', desc: 'A personal daily briefing of the stories each user cares about.', v: 'briefing' },
+      { id: 'shop-scene', title: 'AI Shop the Scene', desc: 'Lets viewers discover and buy products that appear on screen.', v: 'shop' }
     ],
     articles: [
       { label: 'Late-night transit pilot', text: 'The city council has approved a twelve-month pilot that will run buses every fifteen minutes between midnight and 5 a.m. on four of the busiest routes. Officials say the program responds to a survey in which nearly 40 percent of night-shift workers reported spending more than an hour getting home. The pilot will cost an estimated 6.2 million dollars, funded largely by a regional transport grant, with the remainder covered by the city\u2019s existing operating budget. Transit unions have welcomed the move but warned that recruiting enough drivers for overnight shifts could prove difficult, and the agency plans to offer a 15 percent pay premium for night routes. Ridership, safety incidents and travel times will be published monthly on an open dashboard. If the pilot meets its targets, the council could extend late-night service to six additional routes next year. Local businesses in the entertainment district have also pledged to promote the service to staff and customers, hoping it will reduce late-night congestion and demand for parking.',
@@ -2507,7 +2550,7 @@ class Component extends DCLogic {
   };
 
   state = {
-    podHosts: [{ name: 'Nova', gender: 'male' }, { name: 'Atlas', gender: 'male' }], roadmapTrack: 0, roadmapFocus: 0, cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
+    podHosts: [{ name: 'Nova', gender: 'male' }, { name: 'Atlas', gender: 'male' }], roadmapTrack: 0, roadmapFocus: 0, cfIdx: 0, cfActiveId:'ask-video', roadmapCategory:'all', cfFilterAnnouncement:'', roadmapInView:false, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
     narrow: false, wideNav: window.innerWidth >= 1200, navMenu: false, navSection: '', navScrolled: false, heroVideoPlaying:false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
     tawTab: 0, tawAnim: false, faqOpen: 0, o2qOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
     open: null, ovIn: false, guideOpen: false, tour: null, micError: '', tawPlaying: false, tawTime: 0, tawDur: 0, tawMuted: false,
@@ -2679,11 +2722,59 @@ class Component extends DCLogic {
   closeRef = el => { this.closeEl = el; };
   bodyRef = el => { this.bodyEl = el; };
   trackRef = el => { this.trackEl = el; };
+  // Roadmap filtering is strictly a presentation grouping of the original 18 features.
+  roadmapCategories = [
+    {id:'all',en:'All',ar:'الكل'},
+    {id:'explore',en:'Explore',ar:'استكشاف'},
+    {id:'watch',en:'Watch',ar:'مشاهدة'},
+    {id:'create',en:'Create',ar:'إنتاج'},
+    {id:'personal',en:'Personal',ar:'تخصيص'},
+    {id:'platform',en:'Platform',ar:'المنصة'}
+  ];
+  roadmapFeatureCategory = {
+    'ask-video':'explore','smart-chapters':'explore','ai-context':'explore','emoji-seekbar':'explore','powered-seekbar':'explore',
+    'translation-subtitles':'watch','catch-up-recap':'watch','rapid-recap-moments':'watch','emotional-dubbing':'watch','dialogue-boost':'watch',
+    'sports-analyst':'create','article-to-shorts':'create','smart-highlights':'create',
+    'storycast':'personal','vod-companion':'personal','morning-briefing':'personal',
+    'comment-moderation':'platform','shop-scene':'platform'
+  };
+  roadmapFiltered(category=this.state.roadmapCategory) {
+    return category==='all'?this.D.upcoming:this.D.upcoming.filter(u=>this.roadmapFeatureCategory[u.id]===category);
+  }
+  cfSelectCategory = id => {
+    if(!this.roadmapCategories.some(c=>c.id===id)||id===this.state.roadmapCategory)return;
+    const features=this.roadmapFiltered(id),ar=this.state.lang==='ar',label=this.roadmapCategories.find(c=>c.id===id);
+    clearTimeout(this.cfTimer);
+    if(this.cfDragRAF){cancelAnimationFrame(this.cfDragRAF);this.cfDragRAF=null;}
+    this.cfX=null;this.cfMoved=false;this.cfDownCard=null;this.cfDragTarget=null;
+    this.cfCanvasStamp=[];
+    this.setState({
+      roadmapCategory:id,cfIdx:0,cfActiveId:features[0].id,cfDrag:null,cfRun:false,
+      cfFilterAnnouncement:(ar?label.ar:label.en)+' — '+features.length+' '+(ar?'ميزة':'features')
+    },()=>{if(this.state.roadmapInView&&!this.reduce&&window.innerWidth>=768&&!this.state.cfPaused)this.cfGo(0);});
+  };
+  cfRoadmapVisible = visible => {
+    const inView=visible&&!document.hidden;
+    if(inView===this.state.roadmapInView)return;
+    if(!inView)clearTimeout(this.cfTimer);
+    this.setState({roadmapInView:inView},()=>{
+      if(inView&&!this.reduce&&window.innerWidth>=768&&!this.state.cfPaused)this.cfGo(this.state.cfIdx);
+    });
+  };
+  cfVisibilityChanged = () => {
+    const node=document.getElementById('next'),rect=node?.getBoundingClientRect();
+    this.cfRoadmapVisible(!!rect&&rect.bottom>0&&rect.top<window.innerHeight);
+  };
   cfGo(i) {
-    clearTimeout(this.cfTimer); const n = this.D.upcoming.length; i = ((i % n) + n) % n;
-    this.setState({ cfIdx: i, cfRun: false });
-    if (this.reduce || this.state.cfPaused || window.innerWidth < 768) return;
-    requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ cfRun: true })));
+    clearTimeout(this.cfTimer);
+    const filtered=this.roadmapFiltered(),n=filtered.length;if(!n)return;
+    i=((i%n)+n)%n;
+    const label=this.state.lang==='ar'?'الميزة':'Feature';
+    this.setState({cfIdx:i,cfActiveId:filtered[i].id,cfRun:false,cfFilterAnnouncement:label+' '+(i+1)+' / '+n});
+    if(this.reduce||this.state.cfPaused||!this.state.roadmapInView||window.innerWidth<768)return;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if(this.state.roadmapInView&&!this.state.cfPaused)this.setState({cfRun:true});
+    }));
     this.cfTimer = setTimeout(() => { if (this.state.nextIn && this.state.open == null && !this.state.cfPaused) this.cfGo(this.state.cfIdx + 1); else this.cfGo(this.state.cfIdx); }, 5500);
   }
   solOpen(k) {
@@ -2949,6 +3040,12 @@ class Component extends DCLogic {
     requestAnimationFrame(()=>this.o2ResetTrack(0));
     // Recheck the maximum once the actual webfont has loaded.
     if(document.fonts?.ready)document.fonts.ready.then(()=>requestAnimationFrame(()=>this.o2SyncMobileCardHeight()));
+    const roadmapNode=document.getElementById('next');
+    if(roadmapNode&&typeof IntersectionObserver!=='undefined'){
+      this.cfViewportIO=new IntersectionObserver(entries=>this.cfRoadmapVisible(entries.some(e=>e.isIntersecting)),{threshold:0});
+      this.cfViewportIO.observe(roadmapNode);
+    }else this.cfVisibilityChanged();
+    document.addEventListener('visibilitychange',this.cfVisibilityChanged);
     const portfolioSection=document.getElementById('o2-products');
     this.portfolioVisible=false;this.prodStaticPainted=[false,false,false,false];
     if(portfolioSection && typeof IntersectionObserver !== 'undefined'){
@@ -2969,6 +3066,8 @@ class Component extends DCLogic {
     if (this.headerRO) { this.headerRO.disconnect(); this.headerRO = null; }
     if (this.networkIO) { this.networkIO.disconnect(); this.networkIO = null; }
     if (this.o2FeatureRO) { this.o2FeatureRO.disconnect(); this.o2FeatureRO=null; }
+    if(this.cfViewportIO){this.cfViewportIO.disconnect();this.cfViewportIO=null;}
+    document.removeEventListener('visibilitychange',this.cfVisibilityChanged);
     if(this.portfolioObserver){this.portfolioObserver.disconnect();this.portfolioObserver=null;}
     clearTimeout(this.o2SnapTimer);
     clearTimeout(this.o2dmT);
@@ -3444,13 +3543,15 @@ class Component extends DCLogic {
       // Stable 16:9 bitmap sizes remove layout thrash during 3D transitions.
       const road = document.getElementById('next');
       const bounds = road && road.getBoundingClientRect();
-      if (bounds && bounds.bottom > -80 && bounds.top < innerHeight + 80) {
-        const count = this.D.upcoming.length;
-        for (let i = 0; i < count; i++) {
-          let dist = i - s.cfIdx;
-          if (dist > count / 2) dist -= count;
-          if (dist < -count / 2) dist += count;
-          if (Math.abs(dist) > 2) continue;
+      if(s.roadmapInView&&!document.hidden&&bounds&&bounds.bottom>-80&&bounds.top<innerHeight+80){
+        const filtered=this.roadmapFiltered(),count=filtered.length;
+        const activeIndex=Math.max(0,filtered.findIndex(u=>u.id===s.cfActiveId));
+        for(let ix=0;ix<count;ix++){
+          let dist=ix-activeIndex;
+          if(dist>count/2)dist-=count;
+          if(dist< -count/2)dist+=count;
+          if(Math.abs(dist)>2)continue;
+          const i=this.D.upcoming.findIndex(u=>u.id===filtered[ix].id);
           const cv = this.nextCv[i];
           if (!cv || !cv.isConnected) continue;
           const active = dist === 0;
@@ -4580,7 +4681,7 @@ class Component extends DCLogic {
       border: on ? 'rgba(63,224,255,0.45)' : 'rgba(150,190,255,0.12)', tf: on || narrow ? 'none' : 'translateX(14px)',
       shadow: on ? '0 30px 80px -30px rgba(47,107,255,0.55), inset 0 1px 0 rgba(255,255,255,0.1)' : 'inset 0 1px 0 rgba(255,255,255,0.05)', op: on ? 1 : 0.72, numColor: on ? '#3FE0FF' : '#6F8FC9' }; });
 
-    const UN = D.upcoming.length, cfI = s.cfIdx, wide = !narrow;
+    const cfFiltered=this.roadmapFiltered(),UN=cfFiltered.length,cfI=Math.max(0,cfFiltered.findIndex(u=>u.id===s.cfActiveId)),wide=!narrow;
     // Resize the active card's physical width instead of scaling its rendered text.
     // Fixed physical card size eliminates costly width transitions.
     // Side cards retain their previous visible dimensions via a scale transform.
@@ -4592,16 +4693,16 @@ class Component extends DCLogic {
     const sideScale = sidePx / activePx;
     const slideOffset = (wide ? 64 : 76) * sideScale;
     const dragging = s.cfDrag != null, dg = s.cfDrag || 0;
-    const upcoming = D.upcoming.map((u, i) => { let d0 = i - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
+    const upcoming = cfFiltered.map((u, ix) => { const i=D.upcoming.findIndex(item=>item.id===u.id);let d0 = ix - cfI; if (d0 > UN / 2) d0 -= UN; if (d0 < -UN / 2) d0 += UN; const on = d0 === 0, d = d0 + dg, ad = Math.abs(d), vis = s.nextIn || this.reduce;
       const tf = !vis ? 'translate3d(0,80px,-400px) rotateX(12deg)' : (on && !dragging ? 'translate3d(0,0,0)' : 'translate3d(' + (d * slideOffset) + '%,' + (ad * 10) + 'px,' + (-ad * 170) + 'px) rotateY(' + (-d * (wide ? 12 : 9)) + 'deg) scale(' + (on ? 1 : sideScale) + ')');
-      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && !this.reduce, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && !this.reduce, hasDubbingPoster: u.v === 'dubbing', hasDubbingMotion: u.v === 'dubbing' && on && !this.reduce, hasBriefingPoster: u.v === 'briefing', hasBriefingMotion: u.v === 'briefing' && on && !this.reduce, hasVodPoster: u.v === 'vod', hasVodMotion: u.v === 'vod' && on && !this.reduce, hasEmojiPoster: u.v === 'emoji', hasEmojiMotion: u.v === 'emoji' && on && !this.reduce, hasMomentsPoster: u.v === 'moments', hasMomentsMotion: u.v === 'moments' && on && !this.reduce, hasHighlightsPoster: u.v === 'highlights', hasHighlightsMotion: u.v === 'highlights' && on && !this.reduce, hasContextPoster: u.v === 'context', hasContextMotion: u.v === 'context' && on && !this.reduce, hasDialoguePoster: u.v === 'dialogue', hasDialogueMotion: u.v === 'dialogue' && on && !this.reduce, hasSeekbarPoster: u.v === 'seekbar', hasSeekbarMotion: u.v === 'seekbar' && on && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop' && u.v !== 'dubbing' && u.v !== 'briefing' && u.v !== 'vod' && u.v !== 'emoji' && u.v !== 'seekbar' && u.v !== 'dialogue' && u.v !== 'context' && u.v !== 'highlights' && u.v !== 'moments', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
+      return { ref: this.nextRefs[i], cref: this.nextCRefs[i], hasAskPoster: i === 0, hasAskMotion: i === 0 && on && s.roadmapInView && !this.reduce, hasTranslationArt: i === 1, hasSportsPoster: i === 2, hasSportsMotion: i === 2 && on && s.roadmapInView && !this.reduce, hasShopPoster: u.v === 'shop', hasShopMotion: u.v === 'shop' && on && s.roadmapInView && !this.reduce, hasArticlePoster: i === 3, hasArticleMotion: i === 3 && on && s.roadmapInView && !this.reduce, hasModerationPoster: i === 4, hasModerationMotion: i === 4 && on && s.roadmapInView && !this.reduce, hasStoryCastPoster: i === 5, hasStoryCastMotion: i === 5 && on && s.roadmapInView && !this.reduce, hasChaptersPoster: i === 6 && u.v === 'chapters', hasChaptersMotion: i === 6 && u.v === 'chapters' && on && s.roadmapInView && !this.reduce, hasRecapPoster: i === 7 && u.v === 'recap', hasRecapMotion: i === 7 && u.v === 'recap' && on && s.roadmapInView && !this.reduce, hasDubbingPoster: u.v === 'dubbing', hasDubbingMotion: u.v === 'dubbing' && on && s.roadmapInView && !this.reduce, hasBriefingPoster: u.v === 'briefing', hasBriefingMotion: u.v === 'briefing' && on && s.roadmapInView && !this.reduce, hasVodPoster: u.v === 'vod', hasVodMotion: u.v === 'vod' && on && s.roadmapInView && !this.reduce, hasEmojiPoster: u.v === 'emoji', hasEmojiMotion: u.v === 'emoji' && on && s.roadmapInView && !this.reduce, hasMomentsPoster: u.v === 'moments', hasMomentsMotion: u.v === 'moments' && on && s.roadmapInView && !this.reduce, hasHighlightsPoster: u.v === 'highlights', hasHighlightsMotion: u.v === 'highlights' && on && s.roadmapInView && !this.reduce, hasContextPoster: u.v === 'context', hasContextMotion: u.v === 'context' && on && s.roadmapInView && !this.reduce, hasDialoguePoster: u.v === 'dialogue', hasDialogueMotion: u.v === 'dialogue' && on && s.roadmapInView && !this.reduce, hasSeekbarPoster: u.v === 'seekbar', hasSeekbarMotion: u.v === 'seekbar' && on && s.roadmapInView && !this.reduce, hasCanvas: i !== 0 && i !== 1 && i !== 2 && i !== 3 && i !== 4 && i !== 5 && i !== 6 && i !== 7 && u.v !== 'shop' && u.v !== 'dubbing' && u.v !== 'briefing' && u.v !== 'vod' && u.v !== 'emoji' && u.v !== 'seekbar' && u.v !== 'dialogue' && u.v !== 'context' && u.v !== 'highlights' && u.v !== 'moments', title: u.title, desc: u.desc, enter: () => this.setState({ hoverNext: i }), leave: () => this.setState({ hoverNext: null }),
         active: on ? 'true' : 'false', side: d0 < 0 ? 'left' : d0 > 0 ? 'right' : 'active', width: cfActiveW, marginLeft: cfActiveML,
         background: on ? 'linear-gradient(160deg,rgba(79,145,217,.48),rgba(17,66,124,.72))' : 'linear-gradient(160deg,#153F78,#0E315D)',
         tf, z: on ? 50 : Math.max(1, 40 - Math.round(ad * 10)),
         // Do not lower the whole neighbor's opacity: text behind it would show through.
         op: !vis ? 0 : ad > 2.6 ? 0 : ad <= 1.05 ? 1 : Math.max(0, 1 - (ad - 1.05) * 0.32) * (ad > 2 ? (2.6 - ad) / 0.6 : 1),
         tr: dragging ? 'none' : 'transform .76s cubic-bezier(.22,.8,.24,1), opacity .55s ease, border-color .4s ease, box-shadow .55s ease', filter: 'none', pe: ad > 2 ? 'none' : 'auto',
-        hidden: ad > 2, isSelectable: !on && ad <= 2 && vis, index: i,
+        hidden: ad > 2, isSelectable: !on && ad <= 2 && vis, index: ix, mediaLoading: ad <= 1.2 ? 'eager' : 'lazy',
         clickLabel: (s.lang === 'ar' ? 'عرض ' : 'Show ') + u.title + (s.lang === 'ar' ? ' كبطاقة نشطة' : ' as the active card'),
         cursor: on ? 'default' : 'pointer',
         border: on ? 'rgba(63,224,255,0.55)' : 'rgba(150,190,255,0.16)',
@@ -4640,6 +4741,16 @@ class Component extends DCLogic {
       stageSegs: F.map((f, i) => ({ bg: i === fi ? '#3FE0FF' : 'rgba(150,190,255,0.25)' })), features,
       upcoming, cfH: narrow ? 'clamp(480px, 121vw, 545px)' : '475px', cfW: narrow ? 'min(88vw, 360px)' : 'clamp(320px, 32vw, 440px)', cfML: narrow ? 'max(-44vw, -180px)' : 'clamp(-220px, -16vw, -160px)',
        cfCurrent: pad2(cfI + 1), cfTotal: pad2(UN), cfCurrentValue: cfI + 1, cfTotalValue: UN, cfProgressWidth,
+       cfRoadmapVisibilityClass:s.roadmapInView?'roadmap-in-view':'',
+       cfFilterDir:s.lang==='ar'?'rtl':'ltr',cfFilterLang:s.lang,
+       cfFilterGroupLabel:s.lang==='ar'?'تصفية ميزات خارطة الطريق حسب التصنيف':'Filter roadmap features by category',
+       cfFilterAnnouncement:s.cfFilterAnnouncement,cfCategoryValue:s.roadmapCategory,
+       cfFilterChange:e=>this.cfSelectCategory(e.target.value),
+       cfCategories:this.roadmapCategories.map(cat=>({
+         id:cat.id,name:s.lang==='ar'?cat.ar:cat.en,
+         count:this.roadmapFiltered(cat.id).length,countLabel:s.lang==='ar'?'ميزات':'features',
+         active:cat.id===s.roadmapCategory,select:()=>this.cfSelectCategory(cat.id)
+       })),
        cfControlsLabel: s.lang === 'ar' ? 'التحكم في شرائح خارطة الطريق' : 'Roadmap carousel controls',
        cfRegionLabel: s.lang === 'ar' ? 'شرائح خارطة الطريق، استخدم مفاتيح الأسهم للتنقل' : 'Roadmap carousel, use arrow keys to navigate',
        cfProgressLabel: s.lang === 'ar' ? 'الموقع داخل شرائح خارطة الطريق' : 'Roadmap slide position',
@@ -4647,7 +4758,7 @@ class Component extends DCLogic {
        cfNextLabel: s.lang === 'ar' ? 'الميزة التالية' : 'Next roadmap feature',
       cfPause: () => { clearTimeout(this.cfTimer); if (!this.state.cfPaused) this.setState({ cfPaused: true, cfRun: false, hoverNext: cfI }); },
        cfResume: () => { const active = document.activeElement; if (active && active.closest && active.closest('#next .cf-carousel')) return; this.setState({ cfPaused: false, hoverNext: null }, () => this.cfGo(this.state.cfIdx)); },
-       cfKey: e => { if (e.altKey || e.ctrlKey || e.metaKey) return; const rtl = this.state.lang === 'ar'; let step = 0; if (e.key === 'ArrowRight') step = rtl ? -1 : 1; else if (e.key === 'ArrowLeft') step = rtl ? 1 : -1; else if (e.key === 'Home') { e.preventDefault(); this.cfGo(0); return; } else if (e.key === 'End') { e.preventDefault(); this.cfGo(this.D.upcoming.length - 1); return; } if (step) { e.preventDefault(); this.cfGo(this.state.cfIdx + step); } },
+       cfKey: e => { if (e.altKey || e.ctrlKey || e.metaKey) return; const rtl = this.state.lang === 'ar'; let step = 0; if (e.key === 'ArrowRight') step = rtl ? -1 : 1; else if (e.key === 'ArrowLeft') step = rtl ? 1 : -1; else if (e.key === 'Home') { e.preventDefault(); this.cfGo(0); return; } else if (e.key === 'End') { e.preventDefault(); this.cfGo(this.roadmapFiltered().length - 1); return; } if (step) { e.preventDefault(); this.cfGo(this.state.cfIdx + step); } },
       cfCursor: dragging ? 'grabbing' : 'grab', cfNoDrag: e => e.preventDefault(),
       cfDown: e => {
         if (e.button) return;
@@ -4678,6 +4789,7 @@ class Component extends DCLogic {
           if (Number.isInteger(pressed) && pressed !== this.state.cfIdx) {
             this.cfClickHandled = true;
             this.cfGo(pressed);
+            if(document.activeElement?.classList.contains('cf-card__select'))requestAnimationFrame(()=>document.querySelector('#next .cf-carousel')?.focus({preventScroll:true}));
           }
           return;
         }
@@ -4692,7 +4804,10 @@ class Component extends DCLogic {
         const card = e.target && e.target.closest && e.target.closest('.cf-card[data-cf-index]');
         if (!card) return;
         const target = Number(card.getAttribute('data-cf-index'));
-        if (Number.isInteger(target) && target !== this.state.cfIdx) this.cfGo(target);
+        if(Number.isInteger(target)&&target!==this.state.cfIdx){
+          this.cfGo(target);
+          if(e.detail===0)requestAnimationFrame(()=>document.querySelector('#next .cf-carousel')?.focus({preventScroll:true}));
+        }
       },
       cfWheel: e => { const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0); if (!dx) return; this.cfAcc = (this.cfAcc || 0) + dx; const now = performance.now(); if (Math.abs(this.cfAcc) > 50 && now - (this.cfLastW || 0) > 450) { this.cfLastW = now; this.cfGo(this.state.cfIdx + (this.cfAcc > 0 ? 1 : -1)); this.cfAcc = 0; } clearTimeout(this.cfAccT); this.cfAccT = setTimeout(() => { this.cfAcc = 0; }, 200); },
       nextPrev: () => this.cfGo(cfI - 1),
