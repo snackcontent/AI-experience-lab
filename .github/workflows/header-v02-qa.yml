@@ -1,0 +1,133 @@
+name: Header V02 responsive and accessibility QA
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'AI Experience Lab.dc.html'
+      - '.github/workflows/header-v02-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  header-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright Chromium
+        run: |
+          mkdir -p /tmp/ai-lab-header
+          cd /tmp/ai-lab-header
+          npm init -y >/dev/null
+          npm install --no-save --silent playwright
+          if ! command -v google-chrome >/dev/null && ! command -v chromium >/dev/null; then
+            npx playwright install --with-deps chromium
+          fi
+      - name: Validate Header V02 at EN/AR widths and interactions
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          cat > /tmp/ai-lab-header/test.cjs <<'JS'
+          const {chromium}=require('playwright');
+          const fs=require('fs');
+          (async()=>{
+            const exe=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
+            const browser=await chromium.launch({headless:true,...(exe?{executablePath:exe}:{}),args:['--no-sandbox']});
+            let errors=[];
+            const assert=(ok,msg)=>{if(!ok){errors.push(msg);console.error('FAIL',msg)}else console.log('PASS',msg)};
+            try {
+              const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+              page.on('pageerror',err=>console.log('PAGE ERROR',err.message));
+              const url='https://raw.githack.com/snackcontent/AI-experience-lab/'+process.env.COMMIT_SHA+'/AI%20Experience%20Lab.dc.html#o2-top';
+              await page.goto(url,{waitUntil:'domcontentloaded',timeout:90000});
+              const proceed=page.getByRole('button',{name:'Open the page'});
+              if((await proceed.count()) && (await page.title()).includes('External Content Notice'))await proceed.first().click();
+              await page.waitForSelector('#o2-site-header',{timeout:55000});
+              await page.waitForTimeout(1800);
+              assert(await page.locator('#o2-site-header').count()===1,'V02 header visible');
+              assert(await page.locator('main#o2-main-content').count()===1,'Main landmark present');
+              assert(await page.locator('.o2-skip-link').count()===1,'Skip link present');
+              const widths=[320,360,390,430,768,880,1024,1280,1440];
+              for(const width of widths){
+                await page.setViewportSize({width,height:900});
+                await page.waitForTimeout(240);
+                for(const lang of ['en','ar']){
+                  const desired=lang==='ar'?'ar':'en';
+                  let actual=await page.locator('html').getAttribute('lang');
+                  if(actual!==desired){
+                    await page.locator('.o2-hdr-language').click();
+                    await page.waitForTimeout(600);
+                  }
+                  const info=await page.evaluate(()=>{
+                    const hdr=document.querySelector('#o2-site-header'),nav=hdr.querySelector('nav');
+                    const names=['.o2-hdr-logo','.o2-hdr-language','.o2-hdr-contact'];
+                    const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,w:r.width,h:r.height};};
+                    const controls=Object.fromEntries(names.map(n=>[n,rect(hdr.querySelector(n))]));
+                    controls.toggle=rect(hdr.querySelector('#o2-menu-toggle'));
+                    return {viewport:innerWidth,docWidth:document.documentElement.scrollWidth,
+                      header:rect(hdr),nav:rect(nav),controls,language:document.documentElement.lang,
+                      navScrollWidth:hdr.querySelector('.o2-hdr-nav-links')?.scrollWidth,
+                      navClientWidth:hdr.querySelector('.o2-hdr-nav-links')?.clientWidth,
+                      compact:!!hdr.querySelector('#o2-menu-toggle'),
+                      offset:getComputedStyle(document.documentElement).getPropertyValue('--o2-anchor-offset')
+                    };
+                  });
+                  console.log('LAYOUT',JSON.stringify({width,lang,info}));
+                  assert(info.docWidth<=info.viewport+1,'document width '+width+'/'+lang);
+                  for(const [key,r] of Object.entries(info.controls)){
+                    if(!r)continue;
+                    assert(r.h>=43.5,'touch height '+width+'/'+lang+' '+key);
+                    assert(r.x>=-1 && r.right<=width+1,'target inside viewport '+width+'/'+lang+' '+key);
+                  }
+                  assert(info.compact===(width<1200),'responsive breakpoint '+width+'/'+lang);
+                  if(width<1200){
+                    const toggle=page.locator('#o2-menu-toggle');
+                    assert(await toggle.getAttribute('aria-controls')==='o2-mobile-menu','menu aria-controls '+width+'/'+lang);
+                    await toggle.click();
+                    assert(await toggle.getAttribute('aria-expanded')==='true','menu opens '+width+'/'+lang);
+                    assert(await page.locator('#o2-mobile-menu').isVisible(),'menu panel visible '+width+'/'+lang);
+                    await page.keyboard.press('Escape');
+                    assert(await toggle.getAttribute('aria-expanded')==='false','Escape closes menu '+width+'/'+lang);
+                    assert(await toggle.evaluate(el=>document.activeElement===el),'Escape focus restoration '+width+'/'+lang);
+                    await toggle.click();
+                    await page.locator('#o2-top').click({position:{x:20,y:160},force:true});
+                    assert(await toggle.getAttribute('aria-expanded')==='false','outside click closes '+width+'/'+lang);
+                  }else{
+                    assert(await page.locator('.o2-hdr-nav-links a:visible').count()===4,'desktop links all visible '+width+'/'+lang);
+                  }
+                  const fg=page.locator('.o2-hdr-logo');
+                  await fg.focus();
+                  assert(await fg.evaluate(el=>getComputedStyle(el).outlineStyle!=='none'),'logo visible keyboard focus '+width+'/'+lang);
+                }
+              }
+              await page.setViewportSize({width:390,height:844});
+              if(await page.locator('html').getAttribute('lang')==='ar'){await page.locator('.o2-hdr-language').click();await page.waitForTimeout(450)}
+              await page.locator('.o2-skip-link').focus();
+              assert(await page.locator('.o2-skip-link').evaluate(el=>getComputedStyle(el).opacity==='1'),'skip link focus reveal');
+              await page.keyboard.press('Enter');
+              assert(await page.locator('#o2-main-content').evaluate(el=>document.activeElement===el),'skip link focus transfer');
+              await page.locator('#o2-menu-toggle').click();
+              await page.locator('#o2-mobile-menu a[href="#o2-faq"]').click();
+              await page.waitForTimeout(1400);
+              assert(await page.locator('#o2-menu-toggle').getAttribute('aria-expanded')==='false','selection closes menu');
+              assert(await page.locator('#o2-mobile-menu a[href="#o2-faq"]').getAttribute('aria-current')==='location','mobile active state after click');
+              const faqTop=await page.locator('#o2-faq').evaluate(el=>el.getBoundingClientRect().top);
+              const headerHeight=await page.locator('#o2-site-header nav').evaluate(el=>el.getBoundingClientRect().height);
+              console.log('ANCHOR',JSON.stringify({faqTop,headerHeight}));
+              assert(faqTop>=headerHeight-4,'fixed header does not obscure FAQ section');
+              await page.locator('#o2-menu-toggle').click();
+              await page.setViewportSize({width:1280,height:900});
+              await page.waitForTimeout(300);
+              assert(await page.locator('#o2-menu-toggle').count()===0,'resize closes compact menu');
+              await page.screenshot({path:'/tmp/ai-lab-header/header-1280.png'});
+              if(errors.length)throw new Error(errors.length+' header QA assertions failed: '+errors.join('; '));
+            }finally{await browser.close()}
+          })().catch(e=>{console.error(e.stack||e);process.exit(1)});
+          JS
+          node /tmp/ai-lab-header/test.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: header-v02-qa
+          path: /tmp/ai-lab-header/*.png
+          if-no-files-found: ignore
