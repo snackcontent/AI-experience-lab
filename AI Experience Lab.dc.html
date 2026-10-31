@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" id="o2-theme-color" content="#002f59">
+<script>(function(){var k='ai-experience-lab-theme',t='dark';try{t=localStorage.getItem(k)==='light'?'light':'dark'}catch(e){}
+document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;
+var meta=document.getElementById('o2-theme-color');meta.content=t==='light'?'#ffffff':'#002f59';
+function labels(){document.querySelectorAll('[data-o2-theme-switch]').forEach(function(b){var light=document.documentElement.dataset.theme==='light',ar=document.documentElement.lang==='ar';var label=ar?(light?'التبديل إلى الوضع الداكن':'التبديل إلى الوضع الفاتح'):(light?'Switch to Dark Mode':'Switch to Light Mode');b.setAttribute('aria-label',label);b.setAttribute('title',label);b.setAttribute('aria-pressed',String(light));})}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-o2-theme-switch]');if(!b)return;var next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;document.documentElement.style.colorScheme=next;meta.content=next==='light'?'#ffffff':'#002f59';try{localStorage.setItem(k,next)}catch(e){}labels()});
+document.addEventListener('DOMContentLoaded',labels);new MutationObserver(labels).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();</script>
 <script src="./support.js"></script>
 <meta name="ext-resource-dependency" content="assets/logos/alaraby-aljadeed.png" data-resource-id="logo-alaraby-aljadeed">
 <meta name="ext-resource-dependency" content="assets/logos/newarab.png" data-resource-id="logo-newarab">
@@ -954,6 +962,89 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
 /* Site-wide focus treatment: no outlines, halos, or decorative focus animation.
    Keyboard focus, native controls, and the accessible skip link still function. */
 :focus,:focus-visible{outline:none!important;outline-offset:0!important}
+
+/* Light Mode is opt-in. The original dark stylesheet is unmodified. */
+#o2-site-header .o2-hdr-theme{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;flex:none;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+#o2-site-header .o2-hdr-theme:hover{background:rgba(255,255,255,.16)}
+#o2-site-header .o2-hdr-theme:focus-visible{outline:2px solid #84edff!important;outline-offset:2px!important}
+#o2-site-header .o2-theme-moon{display:none}
+@media(max-width:1199.98px){
+#o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 88px 40px!important}
+#o2-site-header .o2-hdr-actions{gap:8px!important}
+#o2-site-header .o2-hdr-theme{height:40px;width:40px;min-width:40px}
+}
+@media(max-width:359.98px){
+#o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 82px 40px!important;column-gap:6px!important}
+#o2-site-header .o2-hdr-actions{gap:2px!important}
+}
+html[data-theme="light"]{
+--theme-page:#fff;--theme-surface:#fff;--theme-secondary-surface:#f8fafc;--theme-elevated:#fff;
+--theme-text:#13263f;--theme-secondary:#475569;--theme-muted:#64748b;--theme-border:#e4eaf1;
+--theme-secondary-border:#cbd5e1;--theme-primary:#2563eb;--theme-accent:#0891b2;
+--theme-hover:#eff6ff;--theme-active:#dbeafe;--theme-focus:#2563eb;
+--theme-overlay:rgba(15,23,42,.35);--theme-shadow:0 12px 32px -23px rgba(20,45,75,.28);
+--theme-input:#fff;--theme-input-border:#b8c8da;--theme-disabled:#94a3b8;color-scheme:light;
+background:#fff!important;color:#13263f!important
+}
+html[data-theme="light"] body{background:#fff!important;color:#13263f!important}
+html[data-theme="light"] #o2-site-header,html[data-theme="light"] #o2-site-header[data-scrolled="true"]{background:rgba(255,255,255,.97)!important;border-color:#e4eaf1!important;box-shadow:0 3px 18px rgba(15,35,65,.08)!important}
+html[data-theme="light"] #o2-site-header .o2-hdr-logo img{filter:none!important}
+html[data-theme="light"] #o2-site-header :is(.o2-hdr-theme,.o2-hdr-language,.o2-hdr-toggle){background:#f8fafc!important;color:#13263f!important;border-color:#cbd5e1!important}
+html[data-theme="light"] #o2-site-header .o2-hdr-link{color:#13263f!important}
+html[data-theme="light"] #o2-site-header .o2-hdr-link:is(:hover,[data-current="true"]){background:#eff6ff!important;color:#2563eb!important}
+html[data-theme="light"] #o2-site-header .o2-hdr-mobile-menu{background:#fff!important;border-color:#e4eaf1!important}
+html[data-theme="light"] #o2-site-header .o2-hdr-contact{background:#2563eb!important}
+html[data-theme="light"] #o2-site-header .o2-theme-moon{display:block}
+html[data-theme="light"] #o2-site-header .o2-theme-sun{display:none}
+html[data-theme="light"] body x-dc>div[style*="background:#002f59"]{background:#fff!important;color:#13263f!important}
+html[data-theme="light"] div[style*="position:fixed"][style*="pointer-events:none"][style*="#002f59"]{opacity:0!important}
+html[data-theme="light"] #o2-main-content{color:#13263f!important}
+html[data-theme="light"] #o2-top{color:#f8fbff!important}
+html[data-theme="light"] #o2-top [data-hero-bg]{mix-blend-mode:normal!important}
+html[data-theme="light"] #o2-top .o2-hero__veil{background:linear-gradient(90deg,rgba(4,22,48,.91),rgba(8,29,57,.72),rgba(8,36,67,.35))!important}
+html[data-theme="light"] #o2-top .o2-hero__content :is(h1,p,span){color:#fff!important}
+html[data-theme="light"] :is(#o2-network,#o2-products,#o2-faq){background:#fff!important;color:#13263f!important}
+html[data-theme="light"] :is(#o2-services,#next,#o2-contact){background:#f8fafc!important;color:#13263f!important}
+html[data-theme="light"] :is(#o2-network,#o2-products,#o2-services,#next,#o2-faq,#o2-contact) :is(h2,h3){color:#13263f!important}
+html[data-theme="light"] :is(#o2-network,#o2-products,#o2-services,#next,#o2-faq,#o2-contact) p{color:#475569!important}
+html[data-theme="light"] #o2-network .o2-network__viewport{background:#f8fafc!important;border-color:#e4eaf1!important}
+html[data-theme="light"] #o2-services .o2-feature-card{background:linear-gradient(155deg,#fff,#f5f9ff)!important;border-color:#d8e4f0!important;box-shadow:var(--theme-shadow)!important;color:#13263f!important}
+html[data-theme="light"] #o2-services .o2-feature-card :is(h3,p,span){color:#13263f!important}
+html[data-theme="light"] #o2-services .o2-feature-filter,html[data-theme="light"] #next .cf-filter-chip{background:#fff!important;color:#334155!important;border:1px solid #dbe4ef!important}
+html[data-theme="light"] #o2-services .o2-feature-filter[aria-pressed="true"],html[data-theme="light"] #next .cf-filter-chip[aria-pressed="true"]{background:#2563eb!important;color:#fff!important}
+html[data-theme="light"] #o2-services .o2-feature-filter[aria-pressed="true"] *{color:#fff!important}
+html[data-theme="light"] #o2-services :is(.o2-feature-nav,.cf-controls__arrow){background:#fff!important;color:#2563eb!important;border-color:#cbd5e1!important}
+html[data-theme="light"] #o2-products .portfolio-card{background:#fff!important;border-color:#e4eaf1!important;box-shadow:var(--theme-shadow)!important}
+html[data-theme="light"] #o2-products .portfolio-card__hit{color:#13263f!important}
+html[data-theme="light"] #next .cf-card{background:linear-gradient(160deg,#fff,#f1f6fc)!important;border-color:#cbd9e8!important;box-shadow:var(--theme-shadow)!important;color:#13263f!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html[data-theme="light"] #next .cf-card[data-cf-active="true"]{border-color:#4fa9da!important}
+html[data-theme="light"] #next .cf-card .cf-card__body{background:linear-gradient(#fff,#f7faff)!important}
+html[data-theme="light"] #next .cf-card :is(h3,p){color:#13263f!important}
+html[data-theme="light"] #next .cf-card p{color:#475569!important}
+html[data-theme="light"] #next .cf-filter-select{background:#fff!important;color:#13263f!important;border-color:#cbd5e1!important}
+html[data-theme="light"] #next .cf-filter-chevron{color:#2563eb!important}
+html[data-theme="light"] #next .cf-controls__arrow{background:#fff!important;border-color:#cbd5e1!important;color:#2563eb!important}
+html[data-theme="light"] #o2-faq .o2-faq-list,html[data-theme="light"] #o2-faq .o2-faq-card{border-color:#e4eaf1!important}
+html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]{background:#f8fafc!important}
+html[data-theme="light"] #o2-faq .o2-faq-support{background:linear-gradient(155deg,#fff,#f5f9ff)!important;border-color:#dce6f1!important;box-shadow:var(--theme-shadow)!important}
+html[data-theme="light"] #o2-faq .o2-faq-question{color:#13263f!important}
+html[data-theme="light"] #o2-faq .o2-faq-contact{background:#2563eb!important;color:#fff!important;border-color:#2563eb!important}
+html[data-theme="light"] #o2-faq .o2-faq-toggle-icon{background:#eff6ff!important;border-color:#bfd2eb!important}
+html[data-theme="light"] #o2-faq .o2-faq-toggle-icon>span{background:#2563eb!important}
+html[data-theme="light"] #o2-contact .o2-contact-shell,html[data-theme="light"] #o2-contact .o2-contact-form-card{background:#fff!important;border-color:#dce6f1!important}
+html[data-theme="light"] #o2-contact .o2-contact-intro :is(h2,p,span){color:#13263f!important}
+html[data-theme="light"] #o2-contact .o2-contact-intro h2{background:linear-gradient(100deg,#17345b,#2563eb)!important;background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important}
+html[data-theme="light"] #o2-contact .o2-contact-form :is(label,span){color:#13263f!important}
+html[data-theme="light"] #o2-contact .o2-contact-form :is(input,textarea,select){background:#fff!important;color:#13263f!important;border-color:#b8c8da!important}
+html[data-theme="light"] #o2-contact .o2-contact-form :is(input,textarea)::placeholder{color:#64748b!important}
+html[data-theme="light"] #o2-contact .o2-contact-form .o2-contact-field-error{color:#b42318!important}
+html[data-theme="light"] #o2-contact .o2-contact-form button[type="submit"]{background:#2563eb!important;color:#fff!important}
+html[data-theme="light"] #o2-contact .o2-contact-shell::after{opacity:0!important}
+html[data-theme="light"] :is(.o2-info-modal,.product-modal-backdrop) :is(input,textarea,select){background:#fff!important;color:#13263f!important}
+html[data-theme="light"] :is(button,a,input,select,textarea):focus-visible{outline:2px solid #2563eb!important;outline-offset:2px!important}
+html[data-theme="light"] footer{background:#f5f7fa!important;color:#334155!important;border-color:#dce6f1!important}
+html[data-theme="light"] footer :is(a,p,span){color:#475569!important}
+html[data-theme="light"] footer a:hover{color:#2563eb!important}
 </style>
 </helmet>
 
@@ -1104,6 +1195,7 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
    <button id="o2-menu-toggle" class="o2-hdr-toggle" type="button" onClick="{{ navMenuToggle }}" aria-label="{{ navMenuLabel }}" aria-controls="o2-mobile-menu" aria-expanded="{{ navMenuOpen }}" style="flex:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#FFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{ navMenuIcon }}"></path></svg></button>
   </sc-if>
   <div class="o2-hdr-actions" style="justify-self:end;display:flex;align-items:center;gap:10px">
+   <button type="button" class="o2-hdr-theme" data-o2-theme-switch aria-label="Switch to Light Mode" aria-pressed="false"><svg class="o2-theme-sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="o2-theme-moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.7 14A9 9 0 0 1 10 3.3 9 9 0 1 0 20.7 14Z"/></svg></button>
    <button class="o2-hdr-language" type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="width:44px;height:44px;flex:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);border-radius:10px;cursor:pointer;color:#FFF;font-family:'Almarai',system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;text-align:center;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,.16)">{{ langSwitchShort }}</button>
    <a class="o2-hdr-contact" href="#o2-contact" data-current="{{ navContactActive }}" aria-current="{{ navContactCurrent }}" onClick="{{ navGoContact }}" style="flex:none;min-height:44px;padding:0 20px;border-radius:10px;display:flex;align-items:center;gap:8px;background:linear-gradient(100deg, rgb(74, 59, 255), rgb(47, 107, 255) 50%, rgb(63, 224, 255));color:#FFFFFF;font-size:16px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:filter .25s,box-shadow .25s" style-hover="filter:brightness(1.08);color:#FFFFFF">{{ navContactLabel }}</a>
   </div>
