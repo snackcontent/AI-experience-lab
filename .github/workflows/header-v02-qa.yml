@@ -125,11 +125,11 @@ jobs:
               assert(await page.locator('#o2-mobile-menu a[href="#o2-faq"]').getAttribute('aria-current')==='location','mobile active state after click');
               const activeVisual=await page.locator('#o2-mobile-menu a[href="#o2-faq"]').evaluate(el=>{
                 const bar=getComputedStyle(el,'::after'), active=getComputedStyle(el);
-                return {width:bar.width,height:bar.height,position:bar.position,background:bar.backgroundImage,activeBackground:active.backgroundImage,side:bar.insetInlineStart};
+                return {height:bar.height,bottom:bar.bottom,position:bar.position,background:bar.backgroundImage,activeBackground:active.backgroundImage,radius:active.borderRadius,start:bar.insetInlineStart,end:bar.insetInlineEnd};
               });
               console.log('ACTIVE VISUAL',JSON.stringify(activeVisual));
-              assert(activeVisual.width==='3px' && activeVisual.position==='absolute' && activeVisual.side==='0px' && activeVisual.background.includes('linear-gradient'),'active FAQ-style vertical stripe');
-              assert(activeVisual.activeBackground.includes('linear-gradient'),'active FAQ-style gradient wash');
+              assert(activeVisual.height==='3px' && activeVisual.position==='absolute' && activeVisual.bottom==='0px' && activeVisual.start==='0px' && activeVisual.end==='0px','active cyan bottom horizontal baseline');
+              assert(activeVisual.radius==='0px' && activeVisual.activeBackground.includes('linear-gradient'),'active rectangular background wash');
               assert(await page.locator('#o2-mobile-menu a[href="#o2-contact"]').count()===1,'contact remains available after selecting FAQ');
               await page.screenshot({path:'/tmp/ai-lab-header/header-390-en.png'});
               const faqTop=await page.locator('#o2-faq').evaluate(el=>el.getBoundingClientRect().top);
@@ -140,6 +140,21 @@ jobs:
               await page.setViewportSize({width:1280,height:900});
               await page.waitForTimeout(300);
               assert(await page.locator('#o2-menu-toggle').count()===0,'resize closes compact menu');
+              const desktopNav=await page.locator('#o2-site-header').evaluate(hdr=>{
+                const n=hdr.querySelector('nav').getBoundingClientRect();
+                const el=hdr.querySelector('.o2-hdr-nav-links .o2-hdr-link');
+                return {navHeight:n.height,linkHeight:el.getBoundingClientRect().height,radius:getComputedStyle(el).borderRadius};
+              });
+              console.log('DESKTOP TALL NAV',JSON.stringify(desktopNav));
+              assert(desktopNav.navHeight===72 && desktopNav.linkHeight===72 && desktopNav.radius==='0px','desktop links fill header vertically with square edges');
+              const hoverLink=page.locator('.o2-hdr-nav-links a[href="#o2-products"]');
+              await hoverLink.hover();
+              const hoverVisual=await hoverLink.evaluate(el=>{
+                const s=getComputedStyle(el),bar=getComputedStyle(el,'::after');
+                return {radius:s.borderRadius,background:s.backgroundImage,bottom:bar.bottom,height:bar.height};
+              });
+              console.log('HOVER VISUAL',JSON.stringify(hoverVisual));
+              assert(hoverVisual.radius==='0px' && hoverVisual.background.includes('linear-gradient') && hoverVisual.bottom==='0px' && hoverVisual.height==='3px','desktop hover equals active rectangle with bottom cyan line');
               await page.screenshot({path:'/tmp/ai-lab-header/header-1280.png'});
               await page.setViewportSize({width:320,height:700});
               await page.screenshot({path:'/tmp/ai-lab-header/header-320-en.png'});

@@ -654,20 +654,27 @@ html[lang="ar"] #o2-faq .o2-faq-item-button .o2-faq-question{letter-spacing:0!im
 #o2-site-header .o2-hdr-nav{min-width:0;column-gap:clamp(8px,1.1vw,16px)}
 #o2-site-header .o2-hdr-logo{min-width:44px;min-height:44px;text-decoration:none}
 #o2-site-header .o2-hdr-nav-links{overflow:visible;white-space:nowrap}
+@media(min-width:1200px){
+ #o2-site-header .o2-hdr-nav{height:72px;min-height:72px!important;padding-block:0!important}
+ #o2-site-header .o2-hdr-nav-links{align-self:stretch;height:100%}
+ #o2-site-header .o2-hdr-nav-links>.o2-hdr-link{height:100%!important;min-height:72px;align-self:stretch}
+}
 #o2-site-header .o2-hdr-actions{min-width:0}
 #o2-site-header .o2-hdr-language,#o2-site-header .o2-hdr-contact,#o2-site-header .o2-hdr-toggle{min-height:44px}
 #o2-site-header .o2-hdr-language{width:44px;height:44px;min-width:44px;padding:0!important;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:12px!important;border:1px solid rgba(255,255,255,.3)!important;background:rgba(255,255,255,.08)!important;color:#FFF!important;font-size:14px!important;font-weight:700!important;line-height:1!important;letter-spacing:.02em}
 #o2-site-header .o2-hdr-language:hover{background:rgba(255,255,255,.16)!important}
 #o2-site-header .o2-hdr-contact[data-current="true"]{box-shadow:0 0 0 3px rgba(103,231,255,.62),0 6px 18px -8px rgba(0,0,0,.4)}
-#o2-site-header .o2-hdr-link{position:relative;text-decoration:none;isolation:isolate;overflow:hidden}
-#o2-site-header .o2-hdr-link[data-current="true"]{color:#F4FAFF!important;border-radius:0!important;background:linear-gradient(90deg,rgba(63,224,255,.12),rgba(47,107,255,.06) 45%,transparent 85%)!important}
-html[dir="rtl"] #o2-site-header .o2-hdr-link[data-current="true"]{background:linear-gradient(270deg,rgba(63,224,255,.12),rgba(47,107,255,.06) 45%,transparent 85%)!important}
-#o2-site-header .o2-hdr-link::after{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:3px;pointer-events:none;background:linear-gradient(0deg,#3FE0FF,#2F6BFF);transform-origin:50% 100%;transform:scaleY(0);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-#o2-site-header .o2-hdr-link[data-current="true"]::after{transform:scaleY(1)}
+/* Header selection: full-height rectangular wash + horizontal cyan baseline, matching the approved reference. */
+#o2-site-header .o2-hdr-link{position:relative;text-decoration:none;isolation:isolate;overflow:hidden;border-radius:0!important;transition:background .3s ease,color .25s ease}
+#o2-site-header .o2-hdr-link:is([data-current="true"],:hover){color:#F4FAFF!important;background:linear-gradient(180deg,rgba(30,116,191,.16) 0%,rgba(29,108,183,.29) 100%)!important}
+#o2-site-header .o2-hdr-link::after{content:"";position:absolute;inset-inline:0;inset-block-end:0;height:3px;pointer-events:none;background:linear-gradient(90deg,#3FE0FF,#2F6BFF);transform-origin:50% 50%;transform:scaleX(0);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+html[dir="rtl"] #o2-site-header .o2-hdr-link::after{background:linear-gradient(270deg,#3FE0FF,#2F6BFF)}
+#o2-site-header .o2-hdr-link:is([data-current="true"],:hover)::after{transform:scaleX(1)}
 #o2-site-header :is(a,button):focus-visible{outline:3px solid #7FE7FF!important;outline-offset:3px;box-shadow:0 0 0 2px #092848}
 #o2-site-header .o2-hdr-mobile-menu{max-height:calc(100dvh - var(--o2-header-height));overflow-y:auto}
 #o2-site-header .o2-hdr-mobile-link{width:100%;box-sizing:border-box}
-#o2-site-header .o2-hdr-mobile-link[data-current="true"]::after{inset-inline-start:0;inset-inline-end:auto;width:3px}
+#o2-site-header .o2-hdr-mobile-link{border-radius:0!important}
+#o2-site-header .o2-hdr-mobile-link::after{inset-inline:0}
 .o2-skip-link{position:fixed;z-index:101;inset-block-start:8px;inset-inline-start:16px;transform:translateY(-160%);opacity:0;pointer-events:none;padding:12px 16px;border-radius:12px;background:#FFF;color:#082C51;font:700 16px "Almarai",system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .o2-skip-link:focus-visible{opacity:1;transform:translateY(0);pointer-events:auto;outline:3px solid #3FE0FF;outline-offset:3px}
 #o2-main-content:focus{outline:none}
