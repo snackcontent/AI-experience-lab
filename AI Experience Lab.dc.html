@@ -2922,6 +2922,15 @@ class Component extends DCLogic {
     const featureTrack=this.o2TrackRef.current;
     if(featureTrack && typeof ResizeObserver !== 'undefined') { this.o2FeatureRO=new ResizeObserver(()=>requestAnimationFrame(()=>this.o2ResetTrack(this.state.o2ix||0))); this.o2FeatureRO.observe(featureTrack); }
     requestAnimationFrame(()=>this.o2ResetTrack(0));
+    const portfolioSection=document.getElementById('o2-products');
+    this.portfolioVisible=false;this.prodStaticPainted=[false,false,false,false];
+    if(portfolioSection && typeof IntersectionObserver !== 'undefined'){
+      this.portfolioObserver=new IntersectionObserver(entries=>{
+        this.portfolioVisible=entries.some(e=>e.isIntersecting);
+        if(this.portfolioVisible && this.reduce)this.prodStaticPainted=[false,false,false,false];
+      },{rootMargin:'150px 0px',threshold:0});
+      this.portfolioObserver.observe(portfolioSection);
+    } else this.portfolioVisible=true;
     // Roadmap now shows all concepts directly, with no carousel autoplay.
     this.raf = requestAnimationFrame(this.loop);
   }
@@ -2933,6 +2942,7 @@ class Component extends DCLogic {
     if (this.headerRO) { this.headerRO.disconnect(); this.headerRO = null; }
     if (this.networkIO) { this.networkIO.disconnect(); this.networkIO = null; }
     if (this.o2FeatureRO) { this.o2FeatureRO.disconnect(); this.o2FeatureRO=null; }
+    if(this.portfolioObserver){this.portfolioObserver.disconnect();this.portfolioObserver=null;}
     clearTimeout(this.o2SnapTimer);
     clearTimeout(this.o2dmT);
     if (this.o2InfoReturnFocus) { document.body.style.overflow=this.o2InfoPriorOverflow||''; }
@@ -3015,6 +3025,7 @@ class Component extends DCLogic {
   onResize = () => {
     const W = window.innerWidth, n = W < 900, t2 = W < 1280, wn = W >= 1200;
     this.cfCanvasStamp = [];
+    this.prodStaticPainted=[false,false,false,false];
     if (n !== this.state.narrow || t2 !== this.state.topic2 || wn !== this.state.wideNav || W !== this.state.viewportW || (wn && this.state.navMenu))
       this.setState({ narrow:n, topic2:t2, wideNav:wn, viewportW:W, ...(wn ? {navMenu:false} : {}) });
     requestAnimationFrame(this.syncHeaderOffset);
@@ -3430,7 +3441,16 @@ class Component extends DCLogic {
         }
       }
       // Four purpose-built animated portfolio illustrations, not recycled roadmap drawings.
-      for (let i = 0; i < 4; i++) { if (!this.prodCv[i]) continue; const hv = s.hoverProd === i; this.prodT[i] += dt * sp * (hv ? 2.4 : 1); this.paint(this.prodCv[i], (c, w, h) => this.drawPortfolioVisual(c, w, h, this.prodT[i] + i * 1.9, i, hv)); }
+      if(this.portfolioVisible && !document.hidden){
+        for(let i=0;i<4;i++){
+          const cv=this.prodCv[i];if(!cv || !cv.isConnected)continue;
+          if(this.reduce && this.prodStaticPainted?.[i])continue;
+          const hv=s.hoverProd===i;
+          this.prodT[i]+=dt*sp*(hv?1.35:1);
+          this.paint(cv,(c,w,h)=>this.drawPortfolioVisual(c,w,h,this.prodT[i]+i*1.9,i,hv));
+          if(this.reduce)this.prodStaticPainted[i]=true;
+        }
+      }
     } else {
       this.paint(this.demoCv, (c, w, h) => {
         const e = this.energy, g = c.createRadialGradient(w / 2, h * 0.55, 0, w / 2, h * 0.55, Math.max(w, h) * 0.6);
