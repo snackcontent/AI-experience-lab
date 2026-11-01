@@ -1191,6 +1191,22 @@ html[data-theme="light"] .o2-page-root{
  background-color:var(--o2-page-canvas)!important;
 }
 html[data-theme="light"] x-dc{display:block;min-height:100vh}
+
+/* Prevent browser rubber-band from revealing the dark document canvas after
+   the footer. No fake footer extension; normal page scrolling is unchanged. */
+html[data-theme="light"]{
+ background:#f5f7fa!important;
+ overscroll-behavior-y:none;
+}
+html[data-theme="light"] body{
+ background:#f5f7fa!important;
+ overscroll-behavior-y:none;
+}
+html[data-theme="light"] x-dc,
+html[data-theme="light"] .o2-page-root{
+ overscroll-behavior-y:none;
+}
+
 html[data-theme="light"] .o2-page-root{
  background:var(--o2-page-canvas)!important;
 }
