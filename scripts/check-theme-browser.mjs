@@ -34,16 +34,23 @@ try{
   if(styles.length!==8)failures.push(`${viewport.width}px expected 8 CSS modules; got ${styles.length}`);
   for(const style of styles)if(!style.loaded)failures.push(`${viewport.width}px missing stylesheet ${style.url}`);
   failures.push(...cssFailures.map(item=>`${viewport.width}px ${item}`));
-  const themeControl=page.locator('[data-o2-theme-switch]').first();
+  // The header can expose multiple theme controls; only interact with a visible one.
+  const themeControls=page.locator('[data-o2-theme-switch]');
+  const themeControl=themeControls.filter({visible:true}).first();
   if(await themeControl.count()){
-   await page.evaluate(()=>document.documentElement.dataset.theme='dark');
-   await themeControl.click();
-   const switched=await page.evaluate(()=>document.documentElement.dataset.theme);
-   if(switched!=='light')failures.push(`${viewport.width}px theme switcher did not activate light mode`);
-   await themeControl.click();
-   const restored=await page.evaluate(()=>document.documentElement.dataset.theme);
-   if(restored!=='dark')failures.push(`${viewport.width}px theme switcher did not restore dark mode`);
-  }else failures.push(`${viewport.width}px theme switcher not found`);
+   await page.evaluate(()=>{
+    document.documentElement.dataset.theme='dark';
+    try{localStorage.setItem('ai-experience-lab-theme','dark')}catch{}
+   });
+   try{
+    await themeControl.click({timeout:5000});
+    const switched=await page.evaluate(()=>document.documentElement.dataset.theme);
+    if(switched!=='light')failures.push(`${viewport.width}px theme switcher did not activate light mode`);
+    await themeControl.click({timeout:5000});
+    const restored=await page.evaluate(()=>document.documentElement.dataset.theme);
+    if(restored!=='dark')failures.push(`${viewport.width}px theme switcher did not restore dark mode`);
+   }catch(error){failures.push(`${viewport.width}px theme switcher interaction failed: ${error.message}`);}
+  }else failures.push(`${viewport.width}px no visible theme switcher`);
   const snapshots={};
   for(const mode of ['dark','light']){
    await page.evaluate(m=>{document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;},mode);
