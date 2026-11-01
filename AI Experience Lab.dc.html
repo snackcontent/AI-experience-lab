@@ -1129,6 +1129,25 @@ html[data-theme="light"] #o2-contact .o2-contact-form :is(input,textarea,select)
 html[data-theme="light"] #o2-contact .o2-contact-form :is(input,textarea)::placeholder{color:#64748b!important}
 html[data-theme="light"] #o2-contact .o2-contact-form .o2-contact-field-error{color:#b42318!important}
 html[data-theme="light"] #o2-contact .o2-contact-form button[type="submit"]{background:#2563eb!important;color:#fff!important}
+
+/* Demo completion: readable secondary CTA in the light theme. */
+html[data-theme="light"] #o2-contact .o2-contact-form button[type="button"]{
+ color:#2563eb!important;
+ background:#eff6ff!important;
+ border:1px solid #b9d2fc!important;
+ opacity:1!important;
+ -webkit-text-fill-color:#2563eb!important;
+}
+html[data-theme="light"] #o2-contact .o2-contact-form button[type="button"]:hover{
+ color:#1d4ed8!important;
+ background:#dbeafe!important;
+ border-color:#93c5fd!important;
+}
+html[data-theme="light"] #o2-contact .o2-contact-form button[type="button"]:focus-visible{
+ outline:2px solid #2563eb!important;
+ outline-offset:3px!important;
+}
+
 html[data-theme="light"] #o2-contact .o2-contact-shell::after{opacity:0!important}
 html[data-theme="light"] :is(.o2-info-modal,.product-modal-backdrop) :is(input,textarea,select){background:#fff!important;color:#13263f!important}
 html[data-theme="light"] :is(button,a,input,select,textarea):focus-visible{outline:2px solid #2563eb!important;outline-offset:2px!important}
