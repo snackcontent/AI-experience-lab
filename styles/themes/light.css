@@ -26,7 +26,7 @@ html[data-theme="light"] #o2-site-header,html[data-theme="light"] #o2-site-heade
 html[data-theme="light"] #o2-site-header .o2-hdr-logo img{filter:none!important}
 html[data-theme="light"] #o2-site-header :is(.o2-hdr-theme,.o2-hdr-language,.o2-hdr-toggle){background:#f8fafc!important;color:#13263f!important;border-color:#cbd5e1!important}
 html[data-theme="light"] #o2-site-header .o2-hdr-link{color:#13263f!important}
-html[data-theme="light"] #o2-site-header .o2-hdr-link:is(:hover,[data-current="true"]){background:#eff6ff!important;color:#2563eb!important}
+html[data-theme="light"] #o2-site-header .o2-hdr-link:is(:hover,[data-current="true"]){background:#eff6ff!important;color:var(--theme-primary)!important}
 html[data-theme="light"] #o2-site-header .o2-hdr-mobile-menu{background:#fff!important;border-color:#e4eaf1!important}
 html[data-theme="light"] #o2-site-header .o2-hdr-contact{background:#2563eb!important}
 html[data-theme="light"] #o2-site-header .o2-theme-moon{display:block}
@@ -48,7 +48,7 @@ html[data-theme="light"] #o2-services .o2-feature-card :is(h3,p,span){color:#132
 html[data-theme="light"] #o2-services .o2-feature-filter,html[data-theme="light"] #next .cf-filter-chip{background:#fff!important;color:#334155!important;border:1px solid #dbe4ef!important}
 html[data-theme="light"] #o2-services .o2-feature-filter[aria-pressed="true"],html[data-theme="light"] #next .cf-filter-chip[aria-pressed="true"]{background:#2563eb!important;color:#fff!important}
 html[data-theme="light"] #o2-services .o2-feature-filter[aria-pressed="true"] *{color:#fff!important}
-html[data-theme="light"] #o2-services :is(.o2-feature-nav,.cf-controls__arrow){background:#fff!important;color:#2563eb!important;border-color:#cbd5e1!important}
+html[data-theme="light"] #o2-services :is(.o2-feature-nav,.cf-controls__arrow){background:#fff!important;color:var(--theme-primary)!important;border-color:#cbd5e1!important}
 html[data-theme="light"] #o2-products .portfolio-card{background:#fff!important;border-color:#e4eaf1!important;box-shadow:var(--theme-shadow)!important}
 html[data-theme="light"] #o2-products .portfolio-card__hit{color:#13263f!important}
 html[data-theme="light"] #next .cf-card{background:linear-gradient(160deg,#fff,#f1f6fc)!important;border-color:#cbd9e8!important;box-shadow:var(--theme-shadow)!important;color:#13263f!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
@@ -57,8 +57,8 @@ html[data-theme="light"] #next .cf-card .cf-card__body{background:linear-gradien
 html[data-theme="light"] #next .cf-card :is(h3,p){color:#13263f!important}
 html[data-theme="light"] #next .cf-card p{color:#475569!important}
 html[data-theme="light"] #next .cf-filter-select{background:#fff!important;color:#13263f!important;border-color:#cbd5e1!important}
-html[data-theme="light"] #next .cf-filter-chevron{color:#2563eb!important}
-html[data-theme="light"] #next .cf-controls__arrow{background:#fff!important;border-color:#cbd5e1!important;color:#2563eb!important}
+html[data-theme="light"] #next .cf-filter-chevron{color:var(--theme-primary)!important}
+html[data-theme="light"] #next .cf-controls__arrow{background:#fff!important;border-color:#cbd5e1!important;color:var(--theme-primary)!important}
 html[data-theme="light"] #o2-faq .o2-faq-list,html[data-theme="light"] #o2-faq .o2-faq-card{border-color:#e4eaf1!important}
 html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]{background:#f8fafc!important}
 html[data-theme="light"] #o2-faq .o2-faq-support{background:linear-gradient(155deg,#fff,#f5f9ff)!important;border-color:#dce6f1!important;box-shadow:var(--theme-shadow)!important}
@@ -85,7 +85,7 @@ html[data-theme="light"] #o2-faq .o2-faq-support{background:linear-gradient(155d
 }
 
 html[data-theme="light"] #o2-faq .o2-faq-question{color:#13263f!important}
-html[data-theme="light"] #o2-faq .o2-faq-contact{background:#2563eb!important;color:#fff!important;border-color:#2563eb!important}
+html[data-theme="light"] #o2-faq .o2-faq-contact{background:#2563eb!important;color:#fff!important;border-color:var(--theme-primary)!important}
 html[data-theme="light"] #o2-faq .o2-faq-toggle-icon{background:#eff6ff!important;border-color:#bfd2eb!important}
 html[data-theme="light"] #o2-faq .o2-faq-toggle-icon>span{background:#2563eb!important}
 html[data-theme="light"] #o2-contact .o2-contact-shell,html[data-theme="light"] #o2-contact .o2-contact-form-card{background:#fff!important;border-color:#dce6f1!important}
@@ -124,11 +124,11 @@ html[data-theme="light"] #o2-contact .o2-contact-form button[type="submit"]{back
 
 /* Demo completion: readable secondary CTA in the light theme. */
 html[data-theme="light"] #o2-contact .o2-contact-form button[type="button"]{
- color:#2563eb!important;
+ color:var(--theme-primary)!important;
  background:#eff6ff!important;
  border:1px solid #b9d2fc!important;
  opacity:1!important;
- -webkit-text-fill-color:#2563eb!important;
+ -webkit-text-fill-color:var(--theme-primary)!important;
 }
 html[data-theme="light"] #o2-contact .o2-contact-form button[type="button"]:hover{
  color:#1d4ed8!important;
@@ -145,7 +145,7 @@ html[data-theme="light"] :is(.o2-info-modal,.product-modal-backdrop) :is(input,t
 html[data-theme="light"] :is(button,a,input,select,textarea):focus-visible{outline:2px solid #2563eb!important;outline-offset:2px!important}
 html[data-theme="light"] footer{background:#f5f7fa!important;color:#334155!important;border-color:#dce6f1!important}
 html[data-theme="light"] footer :is(a,p,span){color:#475569!important}
-html[data-theme="light"] footer a:hover{color:#2563eb!important}
+html[data-theme="light"] footer a:hover{color:var(--theme-primary)!important}
 
 /* Light-mode QA: FAQ readability and full-bleed footer without modifying its inner layout. */
 /* FAQ light-mode intro: override the inherited dark-theme pastel copy. */
@@ -162,7 +162,7 @@ html[data-theme="light"] :is(
  #o2-contact .o2-contact-intro__top > span,
  #o2-contact .o2-contact-intro > span
 ){
- color:#2563eb!important;
+ color:var(--theme-primary)!important;
  opacity:1!important;
  font-size:14px!important;
  font-weight:700!important;
@@ -171,7 +171,7 @@ html[data-theme="light"] :is(
  text-transform:uppercase!important;
 }
 html[data-theme="light"] #o2-faq .o2-faq-intro__top > span{
- color:#2563eb!important;
+ color:var(--theme-primary)!important;
  opacity:1!important;
 }
 html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"] .o2-faq-question,
@@ -190,7 +190,7 @@ html[dir="rtl"][data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::befo
 }
 /* Shared light canvas: root, document and scroll boundaries use one token. */
 html[data-theme="light"]{
- --o2-page-canvas:#f5f7fa;
+ --o2-page-canvas:var(--theme-canvas);
  background:var(--o2-page-canvas)!important;
  overscroll-behavior-y:none;
 }
@@ -213,7 +213,7 @@ html[data-theme="light"] footer[data-layout-container]::before{
  left:50%;
  width:100vw;
  transform:translateX(-50%);
- background:#f5f7fa;
+ background:var(--theme-canvas);
  z-index:0;
  pointer-events:none;
 }
@@ -225,7 +225,7 @@ html[data-theme="light"] footer[data-layout-container]::after{
  width:100vw;
  height:1px;
  transform:translateX(-50%);
- background:#eef2f7;
+ background:var(--theme-divider);
  z-index:2;
  pointer-events:none;
 }
