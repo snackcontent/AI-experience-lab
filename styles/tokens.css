@@ -3,7 +3,7 @@
 
 /* Semantic light-theme palette. Layout, spacing and typography are shared. */
 html[data-theme="light"]{
---theme-page:#fff;--theme-surface:#fff;--theme-secondary-surface:#f8fafc;--theme-elevated:#fff;
+--theme-page:#fff;--theme-canvas:#f5f7fa;--theme-divider:#eef2f7;--theme-surface:#fff;--theme-secondary-surface:#f8fafc;--theme-elevated:#fff;
 --theme-text:#13263f;--theme-secondary:#475569;--theme-muted:#64748b;--theme-border:#e4eaf1;
 --theme-secondary-border:#cbd5e1;--theme-primary:#2563eb;--theme-accent:#0891b2;
 --theme-hover:#eff6ff;--theme-active:#dbeafe;--theme-focus:#2563eb;
