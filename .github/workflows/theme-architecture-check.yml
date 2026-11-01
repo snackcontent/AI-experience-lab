@@ -1,0 +1,24 @@
+name: Theme architecture static QA
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'AI Experience Lab.dc.html'
+      - 'styles/**'
+      - 'scripts/check-theme-architecture.mjs'
+      - '.github/workflows/theme-architecture-check.yml'
+  pull_request:
+    paths:
+      - 'AI Experience Lab.dc.html'
+      - 'styles/**'
+      - 'scripts/check-theme-architecture.mjs'
+jobs:
+  static-theme-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate theme architecture
+        run: node scripts/check-theme-architecture.mjs
