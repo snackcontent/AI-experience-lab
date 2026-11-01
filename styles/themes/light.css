@@ -188,39 +188,17 @@ html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::before{
 html[dir="rtl"][data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::before{
  background:linear-gradient(270deg,rgba(8,145,178,.07),rgba(37,99,235,.045) 45%,transparent 85%);
 }
-/* Light mode: the root canvas and rubber-band/overscroll area must never expose navy. */
-html[data-theme="light"],
-html[data-theme="light"] body{
- background-color:#f5f7fa!important;
-}
+/* Shared light canvas: root, document and scroll boundaries use one token. */
 html[data-theme="light"]{
  --o2-page-canvas:#f5f7fa;
+ background:var(--o2-page-canvas)!important;
+ overscroll-behavior-y:none;
 }
-html[data-theme="light"] body,
-html[data-theme="light"] x-dc,
-html[data-theme="light"] .o2-page-root{
- background-color:var(--o2-page-canvas)!important;
+html[data-theme="light"] :is(body,x-dc,.o2-page-root){
+ background:var(--o2-page-canvas)!important;
+ overscroll-behavior-y:none;
 }
 html[data-theme="light"] x-dc{display:block;min-height:100vh}
-
-/* Prevent browser rubber-band from revealing the dark document canvas after
-   the footer. No fake footer extension; normal page scrolling is unchanged. */
-html[data-theme="light"]{
- background:#f5f7fa!important;
- overscroll-behavior-y:none;
-}
-html[data-theme="light"] body{
- background:#f5f7fa!important;
- overscroll-behavior-y:none;
-}
-html[data-theme="light"] x-dc,
-html[data-theme="light"] .o2-page-root{
- overscroll-behavior-y:none;
-}
-
-html[data-theme="light"] .o2-page-root{
- background:var(--o2-page-canvas)!important;
-}
 /* Light footer surface and separator remain strictly within the footer bounds. */
 html[data-theme="light"] footer[data-layout-container]{
  isolation:isolate;
