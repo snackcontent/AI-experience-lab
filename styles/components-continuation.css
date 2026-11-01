@@ -693,3 +693,22 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
  font-weight:400!important;
 }
 
+
+
+/* Primary CTA contract: header, FAQ and contact submit use one dark-theme visual language.
+   Geometry remains owned by each component; theme files override appearance only. */
+:root:not([data-theme="light"]) :is(
+ #o2-site-header .o2-hdr-contact,
+ #o2-faq .o2-faq-contact,
+ #o2-contact .o2-contact-form button[type="submit"]:not(:disabled)
+){
+ background:linear-gradient(100deg,#4A3BFF,#2F6BFF 50%,#3FE0FF)!important;
+ border-color:transparent!important;
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+}
+:root:not([data-theme="light"]) #o2-faq .o2-faq-contact:hover{
+ background:linear-gradient(100deg,#584BFF,#3978FF 50%,#63E8FF)!important;
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+}
