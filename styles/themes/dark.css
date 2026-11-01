@@ -1,2 +1,2 @@
 /* Default dark visual tokens. Existing dark styles remain untouched in components.css. */
-:root:not([data-theme="light"]){--o2-theme-canvas:#002f59;--o2-theme-text:#EAF2FF;--o2-theme-accent:#3FE0FF;color-scheme:dark;}
+:root:not([data-theme="light"]){--o2-theme-canvas:#002f59;--o2-theme-text:#EAF2FF;--o2-theme-accent:#3FE0FF;--theme-page:#002f59;--theme-surface:#0A1430;--theme-text:#EAF2FF;--theme-secondary:#B9CCF0;--theme-primary:#3FE0FF;--theme-border:rgba(150,190,255,.18);color-scheme:dark;}
