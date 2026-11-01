@@ -1066,6 +1066,30 @@ html[data-theme="light"] :is(button,a,input,select,textarea):focus-visible{outli
 html[data-theme="light"] footer{background:#f5f7fa!important;color:#334155!important;border-color:#dce6f1!important}
 html[data-theme="light"] footer :is(a,p,span){color:#475569!important}
 html[data-theme="light"] footer a:hover{color:#2563eb!important}
+
+/* Light-mode QA: FAQ readability and full-bleed footer without modifying its inner layout. */
+html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"] .o2-faq-question,
+html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"] .o2-faq-question :is(span,.sc-interp){
+ color:var(--theme-text)!important;
+}
+html[data-theme="light"] #o2-faq .o2-faq-card .o2-faq-answer-inner p,
+html[data-theme="light"] #o2-faq .o2-faq-card .o2-faq-answer-inner p .sc-interp{
+ color:var(--theme-secondary)!important;
+}
+html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::before{
+ background:linear-gradient(90deg,rgba(8,145,178,.07),rgba(37,99,235,.045) 45%,transparent 85%);
+}
+html[dir="rtl"][data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::before{
+ background:linear-gradient(270deg,rgba(8,145,178,.07),rgba(37,99,235,.045) 45%,transparent 85%);
+}
+html[data-theme="light"] footer[data-layout-container]{isolation:isolate}
+html[data-theme="light"] footer[data-layout-container]::before{
+ content:"";position:absolute;inset-block:0;left:50%;width:100vw;
+ transform:translateX(-50%);background:#f5f7fa;z-index:-1;pointer-events:none;
+}
+html[data-theme="light"] footer img[src*="logo"],
+html[data-theme="light"] footer img[alt*="Fadaat"]{filter:none!important}
+
 </style>
 </helmet>
 
