@@ -64,6 +64,22 @@ try{
    if(a.exists&&b.exists&&relativeDiff(a.width,b.width)>0.025)
     failures.push(`${viewport.width}px: width drift ${a.selector}: dark=${a.width}, light=${b.width}`);
   }
+  // Verify that the two themes preserve FAQ support-card geometry in both directions.
+  for(const direction of ['ltr','rtl']){
+   const measures={};
+   for(const mode of ['dark','light']){
+    measures[mode]=await page.evaluate(({direction,mode})=>{
+     document.documentElement.dir=direction;
+     document.documentElement.dataset.theme=mode;
+     const el=document.querySelector('#o2-faq .o2-faq-support--desktop');
+     const rect=el?.getBoundingClientRect();
+     return rect?{width:rect.width,height:rect.height}:null;
+    },{direction,mode});
+   }
+   if(measures.dark&&measures.light&&relativeDiff(measures.dark.width,measures.light.width)>0.025)
+    failures.push(`${viewport.width}px ${direction}: FAQ support width differs by theme`);
+  }
+  await page.evaluate(()=>{document.documentElement.dir='ltr';document.documentElement.dataset.theme='dark';});
   for(const e of errors)failures.push(`${viewport.width}px page error: ${e}`);
   await page.close();
  }
