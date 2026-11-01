@@ -1,0 +1,2 @@
+/* Default dark visual tokens. Existing dark styles remain untouched in components.css. */
+:root:not([data-theme="light"]){--o2-theme-canvas:#002f59;--o2-theme-text:#EAF2FF;--o2-theme-accent:#3FE0FF;color-scheme:dark;}
