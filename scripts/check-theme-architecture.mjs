@@ -25,5 +25,5 @@ const dark=readFileSync(join(root,'styles/themes/dark.css'),'utf8');
 const light=readFileSync(join(root,'styles/themes/light.css'),'utf8');
 if(!dark.includes(':root:not([data-theme="light"])'))failures.push('Dark theme scope missing');
 if(!light.includes('html[data-theme="light"]'))failures.push('Light theme scope missing');
-console.log(JSON.stringify({ok:failures.length===0,files:paths.length,inlineStyleAttributes:(html.match(/\\sstyle="/g)||[]).length,failures},null,2));
+console.log(JSON.stringify({ok:failures.length===0,files:paths.length,inlineStyleAttributes:(html.match(/\sstyle="/g)||[]).length,failures},null,2));
 if(failures.length)process.exitCode=1;
