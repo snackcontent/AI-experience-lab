@@ -1,0 +1,38 @@
+name: Theme browser parity
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'AI Experience Lab.dc.html'
+      - 'styles/**'
+      - 'scripts/check-theme-browser.mjs'
+      - '.github/workflows/theme-browser-check.yml'
+  workflow_dispatch:
+jobs:
+  browser-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install headless Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Serve local site
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/site-server.log 2>&1 &
+          sleep 2
+      - name: Check Dark and Light layout parity
+        run: node scripts/check-theme-browser.mjs
+      - name: Upload screenshots and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-parity-screenshots
+          path: |
+            /tmp/ai-experience-*.png
+            /tmp/site-server.log
+          if-no-files-found: ignore
