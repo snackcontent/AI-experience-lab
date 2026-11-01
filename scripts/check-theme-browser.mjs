@@ -70,6 +70,7 @@ try{
    for(const mode of ['dark','light']){
     measures[mode]=await page.evaluate(({direction,mode})=>{
      document.documentElement.dir=direction;
+     document.documentElement.lang=direction==='rtl'?'ar':'en';
      document.documentElement.dataset.theme=mode;
      const el=document.querySelector('#o2-faq .o2-faq-support--desktop');
      const rect=el?.getBoundingClientRect();
@@ -79,7 +80,7 @@ try{
    if(measures.dark&&measures.light&&relativeDiff(measures.dark.width,measures.light.width)>0.025)
     failures.push(`${viewport.width}px ${direction}: FAQ support width differs by theme`);
   }
-  await page.evaluate(()=>{document.documentElement.dir='ltr';document.documentElement.dataset.theme='dark';});
+  await page.evaluate(()=>{document.documentElement.dir='ltr';document.documentElement.lang='en';document.documentElement.dataset.theme='dark';});
   for(const e of errors)failures.push(`${viewport.width}px page error: ${e}`);
   await page.close();
  }
