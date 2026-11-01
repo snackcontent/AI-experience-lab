@@ -1190,6 +1190,31 @@ html[data-theme="light"] footer[data-layout-container]::before{
  border-top:1px solid #e7edf4;
  z-index:-1;pointer-events:none;
 }
+/* Light-mode footer boundary and contact CTA: consistent light surfaces. */
+html[data-theme="light"] footer[data-layout-container]::before{
+ border-top:1px solid #eef2f7!important;
+}
+html[data-theme="light"] #o2-contact .o2-contact-form button[type="submit"] > span[aria-hidden="true"]{
+ color:#ffffff!important;
+ -webkit-text-fill-color:#ffffff!important;
+}
+html[data-theme="light"] .o2-page-root{
+ background-color:#f5f7fa!important;
+}
+html[data-theme="light"] .o2-page-root > footer[data-layout-container]:last-of-type{
+ background-color:#f5f7fa!important;
+}
+/* Under-footer rubber-band fallback: keep the canvas light when the page overscrolls. */
+html[data-theme="light"] body::after{
+ content:"";
+ position:fixed;
+ inset-inline:0;
+ bottom:0;
+ height:100vh;
+ background:#f5f7fa;
+ z-index:-10;
+ pointer-events:none;
+}
 html[data-theme="light"] footer img[src*="logo"],
 html[data-theme="light"] footer img[alt*="Fadaat"]{filter:none!important}
 
