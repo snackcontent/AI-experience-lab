@@ -42,7 +42,7 @@ html[data-theme="light"] :is(#o2-network,#o2-products,#o2-faq){background:#fff!i
 html[data-theme="light"] :is(#o2-services,#next,#o2-contact){background:#f8fafc!important;color:#13263f!important}
 html[data-theme="light"] :is(#o2-network,#o2-products,#o2-services,#next,#o2-faq,#o2-contact) :is(h2,h3){color:#13263f!important}
 html[data-theme="light"] :is(#o2-network,#o2-products,#o2-services,#next,#o2-faq,#o2-contact) p{color:#475569!important}
-html[data-theme="light"] #o2-network .o2-network__viewport{background:#f8fafc!important;border-color:#e4eaf1!important}
+html[data-theme="light"] #o2-network .o2-network__viewport{background:transparent!important;border-color:#e4eaf1!important}
 html[data-theme="light"] #o2-services .o2-feature-card{background:linear-gradient(155deg,#fff,#f5f9ff)!important;border-color:#d8e4f0!important;box-shadow:var(--theme-shadow)!important;color:#13263f!important}
 html[data-theme="light"] #o2-services .o2-feature-card :is(h3,p,span){color:#13263f!important}
 html[data-theme="light"] #o2-services .o2-feature-filter,html[data-theme="light"] #next .cf-filter-chip{background:#fff!important;color:#334155!important;border:1px solid #dbe4ef!important}
