@@ -1082,10 +1082,16 @@ html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::before{
 html[dir="rtl"][data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]::before{
  background:linear-gradient(270deg,rgba(8,145,178,.07),rgba(37,99,235,.045) 45%,transparent 85%);
 }
-html[data-theme="light"] footer[data-layout-container]{isolation:isolate}
+html[data-theme="light"] footer[data-layout-container]{
+ isolation:isolate;
+ border-top-color:transparent!important;
+}
 html[data-theme="light"] footer[data-layout-container]::before{
  content:"";position:absolute;inset-block:0;left:50%;width:100vw;
- transform:translateX(-50%);background:#f5f7fa;z-index:-1;pointer-events:none;
+ transform:translateX(-50%);
+ background:#f5f7fa;
+ border-top:1px solid #dce6f1;
+ z-index:-1;pointer-events:none;
 }
 html[data-theme="light"] footer img[src*="logo"],
 html[data-theme="light"] footer img[alt*="Fadaat"]{filter:none!important}
