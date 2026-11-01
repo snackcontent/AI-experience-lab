@@ -1080,8 +1080,9 @@ html[data-theme="light"] #o2-faq .o2-faq-support{background:linear-gradient(155d
    The theme-specific rules above control appearance only. */
 @media(min-width:992px){
  #o2-faq .o2-faq-support--desktop{
-  width:calc(100% - 28px)!important;
-  max-width:calc(100% - 28px)!important;
+  /* Anchor to the intro column's outer edge; free more space beside FAQ items in both RTL and LTR. */
+  width:calc(100% - 72px)!important;
+  max-width:calc(100% - 72px)!important;
   padding:22px!important;
  }
 }
