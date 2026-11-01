@@ -1,2 +1,36 @@
-/* Shared responsive behavior currently remains in components.css for exact visual preservation.
-   Move breakpoint groups here as a subsequent tested migration. */
+@media(max-width:1199.98px){
+ #o2-products [data-layout-span="3"]{grid-column:span 6}
+}
+@media(max-width:1040px){
+ [data-layout-grid12="roadmap-theater"] > [data-layout-span]{grid-column:span 6}
+ [data-layout-grid12="roadmap-tracks"] > [data-layout-span]{grid-column:span 6}
+}
+@media(max-width:991.98px){
+ [data-layout-grid12="capabilities"] > [data-layout-span],
+ [data-layout-grid12="faq"] > [data-layout-span],
+ [data-layout-grid12="solutions"] > [data-layout-span],
+ [data-layout-grid12="contact"] > [data-layout-span]{grid-column:span 12}
+ [data-layout-grid12="capabilities"] > [data-layout-span="6"]:first-child{position:relative!important;top:auto!important}
+}
+@media(max-width:767.98px){
+ #o2-top .o2-hero__content{width:100%!important;max-width:100%!important}
+}
+@media(max-width:680px){
+ [data-layout-grid12="roadmap-theater"] > [data-layout-span]{grid-column:span 12}
+}
+@media(max-width:640px){
+ #o2-products [data-layout-span="3"]{grid-column:span 12}
+}
+@media(max-width:575.98px){
+ #overview h1{font-size:clamp(36px,10vw,52px)!important}
+ #overview h1 > span:first-child{font-size:clamp(34px,9vw,48px)!important}
+ #o2-top .o2-hero__content h1 span{white-space:normal!important}
+ #o2-contact h2,#faq h2{white-space:normal!important;text-wrap:balance}
+ #o2-contact [data-contact-spacer]{min-height:160px!important}
+}
+@media(max-width:389.98px){
+ [data-layout-grid12="roadmap-tracks"] > [data-layout-span]{grid-column:span 12}
+}
+
+
+
