@@ -1126,6 +1126,15 @@ html[data-theme="light"] #o2-faq .o2-faq-intro__top > p{
  color:var(--theme-secondary)!important;
  opacity:1!important;
 }
+/* Consistent section eyebrow accent in Light Mode, matching FAQ. */
+html[data-theme="light"] :is(
+ #o2-services > div:first-child > span,
+ #o2-products .portfolio-heading__eyebrow,
+ #next > div:first-child > div > span,
+ #o2-faq .o2-faq-intro__top > span,
+ #o2-contact .o2-contact-intro__top > span,
+ #o2-contact .o2-contact-intro > span
+){color:#2563eb!important;opacity:1!important;}
 html[data-theme="light"] #o2-faq .o2-faq-intro__top > span{
  color:#2563eb!important;
  opacity:1!important;
