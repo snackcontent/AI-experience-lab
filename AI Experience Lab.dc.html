@@ -657,6 +657,18 @@ html[dir="rtl"] #o2-contact .o2-contact-form select{background-position:22px 50%
  }
  #o2-contact [data-contact-spacer]{min-height:calc(clamp(240px,67vw,310px) + 18px)!important}
 }
+/* Fade the lamp canvas before the grid-column boundary so its painted
+   ambiance never forms a straight vertical edge against the form column. */
+@media(min-width:992px){
+ #o2-contact .o2-contact-intro > canvas{
+  -webkit-mask-image:linear-gradient(to right,#000 0%,#000 64%,rgba(0,0,0,.75) 77%,transparent 100%);
+  mask-image:linear-gradient(to right,#000 0%,#000 64%,rgba(0,0,0,.75) 77%,transparent 100%);
+ }
+ html[dir="rtl"] #o2-contact .o2-contact-intro > canvas{
+  -webkit-mask-image:linear-gradient(to left,#000 0%,#000 64%,rgba(0,0,0,.75) 77%,transparent 100%);
+  mask-image:linear-gradient(to left,#000 0%,#000 64%,rgba(0,0,0,.75) 77%,transparent 100%);
+ }
+}
 /* Desktop lamp ambiance spans the entire contact shell, including the form side.
    A subtle upper overlay prevents the center seam from cutting off the glow. */
 @media(min-width:992px){
