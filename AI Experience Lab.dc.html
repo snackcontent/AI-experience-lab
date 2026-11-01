@@ -1097,6 +1097,44 @@ html[data-theme="light"] footer[data-layout-container]::before{
 html[data-theme="light"] footer img[src*="logo"],
 html[data-theme="light"] footer img[alt*="Fadaat"]{filter:none!important}
 
+/* AI Features / light theme: visible filter glyphs and deliberate card interaction. */
+html[data-theme="light"] #o2-services .o2-feature-filter:not([aria-pressed="true"]) .o2-feature-filter-icon{
+ background:#e8f4fd!important;color:#235a91!important;
+}
+html[data-theme="light"] #o2-services .o2-feature-filter[aria-pressed="true"] .o2-feature-filter-icon{
+ background:#1849b8!important;color:#fff!important;
+}
+html[data-theme="light"] #o2-services .o2-feature-filter:not([aria-pressed="true"]):hover{
+ background:#eaf2ff!important;color:#174a8b!important;border-color:#a9c8fa!important;
+}
+html[data-theme="light"] #o2-services .o2-feature-card{
+ transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease,background .24s ease;
+}
+html[data-theme="light"] #o2-services .o2-feature-card:is(:hover,:focus-within),
+html[data-theme="light"] #o2-services .o2-feature-card[data-last-visited="true"]{
+ background:linear-gradient(160deg,rgba(47,107,255,.14),rgba(63,224,255,.055))!important;
+ border-color:#88b8ee!important;
+ box-shadow:0 17px 38px -24px rgba(28,86,167,.34)!important;
+}
+html[data-theme="light"] #o2-services .o2-feature-card:hover{transform:translateY(-3px)}
+html[data-theme="light"] #o2-services .o2-feature-card > div:first-child > span:first-child{
+ background:#e8f7fe!important;color:#174d79!important;border-color:#b6e9f9!important;
+}
+html[data-theme="light"] #o2-services .o2-feature-card:is(:hover,:focus-within) > div:first-child > span:first-child,
+html[data-theme="light"] #o2-services .o2-feature-card[data-last-visited="true"] > div:first-child > span:first-child{
+ background:#dbeafe!important;color:#1d4ed8!important;border-color:#93c5fd!important;
+}
+html[data-theme="light"] #o2-services .o2-feature-card .o2-feature-footer{
+ border-top-color:#e0e9f3!important;
+}
+@media(hover:none){
+ html[data-theme="light"] #o2-services .o2-feature-card:hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-theme="light"] #o2-services .o2-feature-card{transition:none!important}
+}
+
+
 </style>
 </helmet>
 
