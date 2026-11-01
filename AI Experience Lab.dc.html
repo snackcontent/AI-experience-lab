@@ -374,50 +374,38 @@ document.addEventListener('DOMContentLoaded',function(){labels();new MutationObs
         <article class="cf-card" data-cf-active="{{ u.active }}" data-cf-side="{{ u.side }}" data-cf-index="{{ u.index }}" ref="{{ u.ref }}" aria-hidden="{{ u.hidden }}" aria-current="{{ u.ariaCurrent }}" aria-label="{{ u.cardAriaLabel }}" style="position:absolute;left:50%;top:0;width:{{ u.width }};margin-left:{{ u.marginLeft }};display:flex;flex-direction:column;border-radius:26px;overflow:hidden;cursor:{{ u.cursor }};background:{{ u.background }};border:1px solid {{ u.border }};backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:{{ u.shadow }};opacity:{{ u.op }};transform:{{ u.tf }};filter:{{ u.filter }};z-index:{{ u.z }};pointer-events:{{ u.pe }};transition:{{ u.tr }}">
           <sc-if value="{{ u.hasAskPoster }}">
             <div class="cf-ask-visual" aria-hidden="true">
-              <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/ask-the-video-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasAskMotion }}">
-                <video class="cf-ask-visual__motion" src="assets/roadmap-scenes/ask-the-video-animated-16x9.mp4" poster="assets/roadmap-scenes/ask-the-video-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-ask-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasShopPoster }}">
             <div class="cf-shop-visual" aria-hidden="true">
-              <img class="cf-shop-visual__poster" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasShopMotion }}">
-                <video class="cf-shop-visual__motion" src="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-shop-the-scene-concept-v2-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-shop-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasArticlePoster }}">
             <div class="cf-article-visual" aria-hidden="true">
-              <img class="cf-article-visual__poster" src="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasArticleMotion }}">
-                <video class="cf-article-visual__motion" src="assets/roadmap-scenes/ai-article-to-shorts-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-article-to-shorts-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-article-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasMomentsPoster }}">
             <div class="cf-moments-visual" aria-hidden="true">
-              <img class="cf-moments-visual__poster" src="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasMomentsMotion }}">
-                <video class="cf-moments-visual__motion" src="assets/roadmap-scenes/rapid-recap-key-moments-animated-16x9.mp4" poster="assets/roadmap-scenes/rapid-recap-key-moments-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-moments-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasHighlightsPoster }}">
             <div class="cf-highlights-visual" aria-hidden="true">
-              <img class="cf-highlights-visual__poster" src="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasHighlightsMotion }}">
-                <video class="cf-highlights-visual__motion" src="assets/roadmap-scenes/ai-smart-highlights-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-highlights-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-highlights-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasContextPoster }}">
             <div class="cf-context-visual" aria-hidden="true">
-              <img class="cf-context-visual__poster" src="assets/roadmap-scenes/ai-context-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasContextMotion }}">
-                <video class="cf-context-visual__motion" src="assets/roadmap-scenes/ai-context-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-context-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-context-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasDialoguePoster }}">
@@ -439,82 +427,62 @@ document.addEventListener('DOMContentLoaded',function(){labels();new MutationObs
           </sc-if>
           <sc-if value="{{ u.hasSeekbarPoster }}">
             <div class="cf-seekbar-visual" aria-hidden="true">
-              <img class="cf-seekbar-visual__poster" src="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasSeekbarMotion }}">
-                <video class="cf-seekbar-visual__motion" src="assets/roadmap-scenes/ai-powered-video-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-powered-video-seekbar-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-seekbar-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasEmojiPoster }}">
             <div class="cf-emoji-visual" aria-hidden="true">
-              <img class="cf-emoji-visual__poster" src="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasEmojiMotion }}">
-                <video class="cf-emoji-visual__motion" src="assets/roadmap-scenes/ai-emoji-seekbar-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emoji-seekbar-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-emoji-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasVodPoster }}">
             <div class="cf-vod-visual" aria-hidden="true">
-              <img class="cf-vod-visual__poster" src="assets/roadmap-scenes/ai-vod-companion-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasVodMotion }}">
-                <video class="cf-vod-visual__motion" src="assets/roadmap-scenes/ai-vod-companion-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-vod-companion-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-vod-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasBriefingPoster }}">
             <div class="cf-briefing-visual" aria-hidden="true">
-              <img class="cf-briefing-visual__poster" src="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasBriefingMotion }}">
-                <video class="cf-briefing-visual__motion" src="assets/roadmap-scenes/ai-personalized-morning-briefing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-personalized-morning-briefing-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-briefing-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasDubbingPoster }}">
             <div class="cf-dubbing-visual" aria-hidden="true">
-              <img class="cf-dubbing-visual__poster" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasDubbingMotion }}">
-                <video class="cf-dubbing-visual__motion" src="assets/roadmap-scenes/ai-emotional-voice-dubbing-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-emotional-voice-dubbing-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-dubbing-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasRecapPoster }}">
             <div class="cf-recap-visual" aria-hidden="true">
-              <img class="cf-recap-visual__poster" src="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasRecapMotion }}">
-                <video class="cf-recap-visual__motion" src="assets/roadmap-scenes/ai-catch-up-recap-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-catch-up-recap-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-recap-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasChaptersPoster }}">
             <div class="cf-chapters-visual" aria-hidden="true">
-              <img class="cf-chapters-visual__poster" src="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasChaptersMotion }}">
-                <video class="cf-chapters-visual__motion" src="assets/roadmap-scenes/ai-smart-chapters-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-smart-chapters-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-chapters-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasStoryCastPoster }}">
             <div class="cf-storycast-visual" aria-hidden="true">
-              <img class="cf-storycast-visual__poster" src="assets/roadmap-scenes/ai-storycast-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasStoryCastMotion }}">
-                <video class="cf-storycast-visual__motion" src="assets/roadmap-scenes/ai-storycast-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-storycast-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-storycast-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasModerationPoster }}">
             <div class="cf-moderation-visual" aria-hidden="true">
-              <img class="cf-moderation-visual__poster" src="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasModerationMotion }}">
-                <video class="cf-moderation-visual__motion" src="assets/roadmap-scenes/ai-comment-moderation-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-comment-moderation-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-moderation-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasSportsPoster }}">
             <div class="cf-sports-visual" aria-hidden="true">
-              <img class="cf-sports-visual__poster" src="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
-              <sc-if value="{{ u.hasSportsMotion }}">
-                <video class="cf-sports-visual__motion" src="assets/roadmap-scenes/ai-sports-analyst-animated-16x9.mp4" poster="assets/roadmap-scenes/ai-sports-analyst-16x9.webp" autoplay="" muted="" loop="" playsinline="" webkit-playsinline="" disablepictureinpicture="" disableremoteplayback="" controlslist="nodownload noplaybackrate noremoteplayback" preload="metadata" tabindex="-1" aria-hidden="true"></video>
-              </sc-if>
+              <img class="cf-sports-visual__poster" src="assets/roadmap-scenes/fadaat-placeholder.svg" alt="" loading="{{ u.mediaLoading }}" decoding="async"/>
+              
             </div>
           </sc-if>
           <sc-if value="{{ u.hasTranslationArt }}">
