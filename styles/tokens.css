@@ -1,2 +1,12 @@
 /* AI Experience Lab — semantic theme tokens. Shared dimensions must not depend on theme. */
 :root{--o2-section-label-size:14px;--o2-section-label-weight:700;--o2-section-label-tracking:.16em;--o2-faq-support-desktop-inset:72px;}
+
+/* Semantic light-theme palette. Layout, spacing and typography are shared. */
+html[data-theme="light"]{
+--theme-page:#fff;--theme-surface:#fff;--theme-secondary-surface:#f8fafc;--theme-elevated:#fff;
+--theme-text:#13263f;--theme-secondary:#475569;--theme-muted:#64748b;--theme-border:#e4eaf1;
+--theme-secondary-border:#cbd5e1;--theme-primary:#2563eb;--theme-accent:#0891b2;
+--theme-hover:#eff6ff;--theme-active:#dbeafe;--theme-focus:#2563eb;
+--theme-overlay:rgba(15,23,42,.35);--theme-shadow:0 12px 32px -23px rgba(20,45,75,.28);
+--theme-input:#fff;--theme-input-border:#b8c8da;--theme-disabled:#94a3b8;
+}
