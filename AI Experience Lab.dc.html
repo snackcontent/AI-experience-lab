@@ -1178,42 +1178,44 @@ html[data-theme="light"] x-dc{display:block;min-height:100vh}
 html[data-theme="light"] .o2-page-root{
  background:var(--o2-page-canvas)!important;
 }
+/* Footer light mode: one continuous full-bleed surface, separator, and bottom
+   extension. Paint above the footer background, not behind it (previous clipping). */
 html[data-theme="light"] footer[data-layout-container]{
  isolation:isolate;
  background:transparent!important;
- border-top-color:transparent!important;
+ border-top:0!important;
 }
 html[data-theme="light"] footer[data-layout-container]::before{
- content:"";position:absolute;inset-block:0;left:50%;width:100vw;
+ content:"";
+ position:absolute;
+ top:0;
+ bottom:-100vh;
+ left:50%;
+ width:100vw;
  transform:translateX(-50%);
  background:#f5f7fa;
- border-top:1px solid #e7edf4;
- z-index:-1;pointer-events:none;
+ z-index:0;
+ pointer-events:none;
 }
-/* Light-mode footer boundary and contact CTA: consistent light surfaces. */
-html[data-theme="light"] footer[data-layout-container]::before{
- border-top:1px solid #eef2f7!important;
+html[data-theme="light"] footer[data-layout-container]::after{
+ content:"";
+ position:absolute;
+ top:0;
+ left:50%;
+ width:100vw;
+ height:1px;
+ transform:translateX(-50%);
+ background:#eef2f7;
+ z-index:2;
+ pointer-events:none;
+}
+html[data-theme="light"] footer[data-layout-container] > *{
+ position:relative;
+ z-index:1;
 }
 html[data-theme="light"] #o2-contact .o2-contact-form button[type="submit"] > span[aria-hidden="true"]{
- color:#ffffff!important;
- -webkit-text-fill-color:#ffffff!important;
-}
-html[data-theme="light"] .o2-page-root{
- background-color:#f5f7fa!important;
-}
-html[data-theme="light"] .o2-page-root > footer[data-layout-container]:last-of-type{
- background-color:#f5f7fa!important;
-}
-/* Under-footer rubber-band fallback: keep the canvas light when the page overscrolls. */
-html[data-theme="light"] body::after{
- content:"";
- position:fixed;
- inset-inline:0;
- bottom:0;
- height:100vh;
- background:#f5f7fa;
- z-index:-10;
- pointer-events:none;
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
 }
 html[data-theme="light"] footer img[src*="logo"],
 html[data-theme="light"] footer img[alt*="Fadaat"]{filter:none!important}
