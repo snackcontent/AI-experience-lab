@@ -1123,8 +1123,17 @@ html[data-theme="light"],
 html[data-theme="light"] body{
  background-color:#f5f7fa!important;
 }
+html[data-theme="light"]{
+ --o2-page-canvas:#f5f7fa;
+}
+html[data-theme="light"] body,
+html[data-theme="light"] x-dc,
 html[data-theme="light"] .o2-page-root{
- background:#fff!important;
+ background-color:var(--o2-page-canvas)!important;
+}
+html[data-theme="light"] x-dc{display:block;min-height:100vh}
+html[data-theme="light"] .o2-page-root{
+ background:var(--o2-page-canvas)!important;
 }
 html[data-theme="light"] footer[data-layout-container]{
  isolation:isolate;
@@ -1182,7 +1191,7 @@ html[data-theme="light"] #o2-services .o2-feature-card .o2-feature-footer{
 </style>
 </helmet>
 
-<div class="o2-page-root" style="position:relative;min-height:100vh;overflow-x:clip;background:#002f59;color:#EAF2FF;font-family:{{ rootFont }}">
+<div class="o2-page-root" style="position:relative;min-height:100vh;overflow-x:clip;background:var(--o2-page-canvas,#002f59);color:#EAF2FF;font-family:{{ rootFont }}">
 
 <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(1200px 700px at 72% -10%, rgba(47,107,255,0.22), transparent 60%), radial-gradient(900px 600px at -5% 105%, rgba(63,224,255,0.08), transparent 60%), #002f59"></div>
 <div aria-hidden="true" style="position:fixed;left:50%;top:55%;width:70vw;height:70vw;max-width:1100px;max-height:1100px;transform:translate(-50%,-50%);border-radius:50%;filter:blur(140px);opacity:0.16;pointer-events:none;z-index:0;background:{{ ambientColor }};transition:background-color 1.2s ease"></div>
