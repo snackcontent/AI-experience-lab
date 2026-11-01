@@ -1,0 +1,15 @@
+/* Shared document-level and theme-switcher behavior. Original visual rules stay in components.css during migration. */
+/* Light Mode is opt-in. The original dark stylesheet is unmodified. */
+#o2-site-header .o2-hdr-theme{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;flex:none;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+#o2-site-header .o2-hdr-theme:hover{background:rgba(255,255,255,.16)}
+#o2-site-header .o2-hdr-theme:focus-visible{outline:2px solid #84edff!important;outline-offset:2px!important}
+#o2-site-header .o2-theme-moon{display:none}
+@media(max-width:1199.98px){
+#o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 88px 40px!important}
+#o2-site-header .o2-hdr-actions{gap:8px!important}
+#o2-site-header .o2-hdr-theme{height:40px;width:40px;min-width:40px}
+}
+@media(max-width:359.98px){
+#o2-site-header .o2-hdr-nav{grid-template-columns:minmax(0,1fr) 82px 40px!important;column-gap:6px!important}
+#o2-site-header .o2-hdr-actions{gap:2px!important}
+}
