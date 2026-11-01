@@ -257,3 +257,26 @@ html[data-theme="light"] #o2-services .o2-feature-card .o2-feature-footer{
 }
 
 
+
+
+/* Shared light-theme primary CTA: same appearance in header, FAQ and contact. */
+html[data-theme="light"] :is(
+ #o2-site-header .o2-hdr-contact,
+ #o2-faq .o2-faq-contact,
+ #o2-contact .o2-contact-form button[type="submit"]:not(:disabled)
+){
+ background:var(--theme-primary)!important;
+ border-color:var(--theme-primary)!important;
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+}
+html[data-theme="light"] :is(
+ #o2-site-header .o2-hdr-contact,
+ #o2-faq .o2-faq-contact,
+ #o2-contact .o2-contact-form button[type="submit"]:not(:disabled)
+):hover{
+ background:#1d4ed8!important;
+ border-color:#1d4ed8!important;
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+}
