@@ -1,0 +1,2 @@
+/* Shared layout primitives are currently retained in components.css to preserve cascade order.
+   Extract only after CSS regression comparisons. */
