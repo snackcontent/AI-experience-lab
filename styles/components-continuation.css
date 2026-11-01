@@ -671,3 +671,25 @@ html[dir="rtl"] #o2-services .cf-controls__arrow svg{transform:scaleX(-1)}
    Keyboard focus, native controls, and the accessible skip link still function. */
 :focus,:focus-visible{outline:none!important;outline-offset:0!important}
 
+
+/* FAQ support card: shared dimensions and typography for both themes.
+   The theme-specific rules above control appearance only. */
+@media(min-width:992px){
+ #o2-faq .o2-faq-support--desktop{
+  /* Anchor to the intro column's outer edge; free more space beside FAQ items in both RTL and LTR. */
+  width:calc(100% - 72px)!important;
+  max-width:calc(100% - 72px)!important;
+  padding:22px!important;
+ }
+}
+#o2-faq .o2-faq-support h3{
+ font-size:20px!important;
+ line-height:1.35!important;
+ font-weight:700!important;
+}
+#o2-faq .o2-faq-support p{
+ font-size:15px!important;
+ line-height:1.65!important;
+ font-weight:400!important;
+}
+
