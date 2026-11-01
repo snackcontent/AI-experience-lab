@@ -15,10 +15,35 @@ try{
  for(const viewport of dimensions){
   const page=await browser.newPage({viewport});
   const errors=[];
+  const cssFailures=[];
   page.on('pageerror',e=>errors.push(e.message));
+  page.on('response',res=>{
+   if(res.url().includes('/styles/') && res.url().endsWith('.css') && !res.ok())
+    cssFailures.push(`${res.status()} ${res.url()}`);
+  });
+  page.on('requestfailed',req=>{
+   if(req.url().includes('/styles/') && req.url().endsWith('.css'))
+    cssFailures.push(`Network failure ${req.url()}: ${req.failure()?.errorText}`);
+  });
   const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
   if(!response?.ok())failures.push('Document HTTP failure '+viewport.width);
   await page.waitForTimeout(900);
+  const styles=await page.evaluate(()=>[...document.querySelectorAll('link[rel="stylesheet"][href*="styles/"]')].map(el=>({
+    url:el.href,loaded:!!el.sheet
+  })));
+  if(styles.length!==8)failures.push(`${viewport.width}px expected 8 CSS modules; got ${styles.length}`);
+  for(const style of styles)if(!style.loaded)failures.push(`${viewport.width}px missing stylesheet ${style.url}`);
+  failures.push(...cssFailures.map(item=>`${viewport.width}px ${item}`));
+  const themeControl=page.locator('[data-o2-theme-switch]').first();
+  if(await themeControl.count()){
+   await page.evaluate(()=>document.documentElement.dataset.theme='dark');
+   await themeControl.click();
+   const switched=await page.evaluate(()=>document.documentElement.dataset.theme);
+   if(switched!=='light')failures.push(`${viewport.width}px theme switcher did not activate light mode`);
+   await themeControl.click();
+   const restored=await page.evaluate(()=>document.documentElement.dataset.theme);
+   if(restored!=='dark')failures.push(`${viewport.width}px theme switcher did not restore dark mode`);
+  }else failures.push(`${viewport.width}px theme switcher not found`);
   const snapshots={};
   for(const mode of ['dark','light']){
    await page.evaluate(m=>{document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;},mode);
