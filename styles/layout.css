@@ -1,2 +1,37 @@
-/* Shared layout primitives are currently retained in components.css to preserve cascade order.
-   Extract only after CSS regression comparisons. */
+/* Fadaat permanent responsive layout contract.
+   12 columns x 88px + 11 gutters x 24px = 1320px reference grid.
+   Columns are fluid below 1320px; gutters stay 24px.
+   Full-bleed backgrounds, carousels, RTL, and card artwork remain unrestricted. */
+:root{
+ --fl-columns:12;
+ --fl-column-reference:88px;
+ --fl-gutter:24px;
+ --fl-container:1320px;
+ --fl-edge:16px;
+}
+@media(min-width:576px){:root{--fl-edge:24px}}
+@media(min-width:1400px){:root{--fl-edge:32px}}
+[data-layout-container]{
+ width:min(calc(100% - 2 * var(--fl-edge)),var(--fl-container))!important;
+ max-width:var(--fl-container)!important;
+ padding-inline:0!important;
+ margin-inline:auto!important;
+ min-width:0;
+}
+[data-layout-container="8"]{width:min(calc(100% - 2 * var(--fl-edge)),872px)!important;max-width:872px!important}
+[data-layout-container="10"]{width:min(calc(100% - 2 * var(--fl-edge)),1096px)!important;max-width:1096px!important}
+[data-layout-hero]{
+ padding-inline:max(var(--fl-edge),calc((100% - var(--fl-container))/2))!important;
+}
+[data-layout-grid12]{
+ display:grid!important;
+ grid-template-columns:repeat(12,minmax(0,1fr))!important;
+ gap:var(--fl-gutter)!important;
+}
+[data-layout-grid12] > [data-layout-span]{min-width:0}
+[data-layout-span="3"]{grid-column:span 3}
+[data-layout-span="5"]{grid-column:span 5}
+[data-layout-span="6"]{grid-column:span 6}
+[data-layout-span="7"]{grid-column:span 7}
+[data-layout-grid12="contact"]{gap:0!important}
+[data-layout-grid12="roadmap-theater"]{gap:0!important}
