@@ -1068,6 +1068,15 @@ html[data-theme="light"] footer :is(a,p,span){color:#475569!important}
 html[data-theme="light"] footer a:hover{color:#2563eb!important}
 
 /* Light-mode QA: FAQ readability and full-bleed footer without modifying its inner layout. */
+/* FAQ light-mode intro: override the inherited dark-theme pastel copy. */
+html[data-theme="light"] #o2-faq .o2-faq-intro__top > p{
+ color:var(--theme-secondary)!important;
+ opacity:1!important;
+}
+html[data-theme="light"] #o2-faq .o2-faq-intro__top > span{
+ color:#2563eb!important;
+ opacity:1!important;
+}
 html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"] .o2-faq-question,
 html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"] .o2-faq-question :is(span,.sc-interp){
  color:var(--theme-text)!important;
