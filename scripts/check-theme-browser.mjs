@@ -51,6 +51,17 @@ try{
     if(restored!=='dark')failures.push(`${viewport.width}px theme switcher did not restore dark mode`);
    }catch(error){failures.push(`${viewport.width}px theme switcher interaction failed: ${error.message}`);}
   }else failures.push(`${viewport.width}px no visible theme switcher`);
+  const themeColors={};
+  for(const mode of ['dark','light']){
+   themeColors[mode]=await page.evaluate(mode=>{
+    document.documentElement.dataset.theme=mode;
+    const element=document.querySelector('#o2-network');
+    return {canvas:getComputedStyle(document.documentElement).backgroundColor,
+      network:element?getComputedStyle(element).backgroundColor:null};
+   },mode);
+  }
+  if(themeColors.dark.canvas===themeColors.light.canvas)
+   failures.push(`${viewport.width}px computed document canvas does not change between themes`);
   const snapshots={};
   for(const mode of ['dark','light']){
    await page.evaluate(m=>{document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;},mode);
