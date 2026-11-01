@@ -40,6 +40,7 @@
     }
     function draw() {
       const { k, bx, by, st, sb, anchor } = G, t = s.t; let g = s.g;
+      const lightTheme = document.documentElement.dataset.theme === 'light';
       if (s.flick > 0.55 && !reduce) g *= (Math.sin(t * 90) > 0 ? 1 : 0.45);
       c.clearRect(0, 0, w, h);
       if (g > 0.01) {
@@ -58,11 +59,11 @@
       c.fillStyle = rgb([235, 252, 255], 0.12 + 0.88 * g); c.beginPath(); c.ellipse(bx, sb, 104 * k, 12 * k, 0, 0, 6.283); c.fill();
       const tw = 50 * k, bw = 116 * k, r0 = 10 * k;
       c.beginPath(); c.moveTo(bx - tw + r0, st); c.lineTo(bx + tw - r0, st); c.quadraticCurveTo(bx + tw, st, bx + tw + 2 * k, st + r0); c.lineTo(bx + bw, sb - 4 * k); c.quadraticCurveTo(bx + bw + 2 * k, sb, bx + bw - 6 * k, sb); c.lineTo(bx - bw + 6 * k, sb); c.quadraticCurveTo(bx - bw - 2 * k, sb, bx - bw, sb - 4 * k); c.lineTo(bx - tw - 2 * k, st + r0); c.quadraticCurveTo(bx - tw, st, bx - tw + r0, st); c.closePath();
-      const hg = c.createLinearGradient(0, st, 0, sb); hg.addColorStop(0, rgb(mix([24, 40, 84], [47, 120, 255], g))); hg.addColorStop(1, rgb(mix([14, 24, 56], [127, 231, 255], g)));
+      const hg = c.createLinearGradient(0, st, 0, sb); hg.addColorStop(0, rgb(mix(lightTheme ? [65, 111, 181] : [24, 40, 84], [47, 120, 255], g))); hg.addColorStop(1, rgb(mix(lightTheme ? [43, 87, 157] : [14, 24, 56], [127, 231, 255], g)));
       c.fillStyle = hg; c.shadowColor = rgb([63, 224, 255], 0.8 * g); c.shadowBlur = 40 * g; c.fill(); c.shadowBlur = 0;
       c.strokeStyle = rgb([190, 220, 255], 0.3 + 0.4 * g); c.lineWidth = 1.5; c.stroke();
       c.save(); c.clip(); const sh = c.createLinearGradient(bx - bw, 0, bx + bw, 0); sh.addColorStop(0, 'rgba(255,255,255,0.10)'); sh.addColorStop(0.35, 'rgba(255,255,255,0)'); c.fillStyle = sh; c.fillRect(bx - bw, st, bw * 2, sb - st); c.restore();
-      const ey = st + 66 * k, ex = 24 * k, ink = g > 0.5 ? '#03122B' : '#7F9BCB';
+      const ey = st + 66 * k, ex = 24 * k, ink = g > 0.5 ? '#03122B' : (lightTheme ? '#E4F2FF' : '#7F9BCB');
       if (g > 0.5) {
         const sy = Math.max(0.1, 1 - s.blink);
         [-1, 1].forEach(d => { c.save(); c.translate(bx + d * ex, ey); c.scale(1, sy); c.fillStyle = ink; c.beginPath(); c.arc(0, 0, 6.5 * k, 0, 6.283); c.fill(); c.fillStyle = '#FFFFFF'; c.beginPath(); c.arc(2 * k, -2 * k, 2 * k, 0, 6.283); c.fill(); c.restore(); });
@@ -72,7 +73,7 @@
         c.strokeStyle = ink; c.lineWidth = 2.2 * k; c.lineCap = 'round';
         [-1, 1].forEach(d => { c.beginPath(); c.arc(bx + d * ex, ey - 2 * k, 6.5 * k, 0.15 * Math.PI, 0.85 * Math.PI); c.stroke(); });
         c.beginPath(); c.moveTo(bx - 5 * k, ey + 16 * k); c.lineTo(bx + 5 * k, ey + 16 * k); c.stroke();
-        if (!reduce) { const zt = (t * 0.5) % 1; c.fillStyle = 'rgba(160,190,240,' + (1 - zt) * 0.7 + ')'; c.font = '600 ' + Math.round(12 * k + zt * 6 * k) + 'px "Readex Pro", system-ui, sans-serif'; c.fillText('z', bx + bw * 0.55 + zt * 14 * k, st - zt * 30 * k); }
+        if (!reduce) { const zt = (t * 0.5) % 1; c.fillStyle = lightTheme ? 'rgba(37,99,160,' + (1 - zt) * 0.70 + ')' : 'rgba(160,190,240,' + (1 - zt) * 0.7 + ')'; c.font = '600 ' + Math.round(12 * k + zt * 6 * k) + 'px "Readex Pro", system-ui, sans-serif'; c.fillText('z', bx + bw * 0.55 + zt * 14 * k, st - zt * 30 * k); }
       }
       const P = s.p; c.strokeStyle = 'rgba(190,220,255,0.75)'; c.lineWidth = 1.6 * k; c.beginPath(); c.moveTo(anchor.x, anchor.y); c.quadraticCurveTo(anchor.x + (P.x - anchor.x) * 0.25, (anchor.y + P.y) / 2, P.x, P.y); c.stroke();
       const kr = 8 * k, kg = c.createRadialGradient(P.x - 2 * k, P.y - 2 * k, 0, P.x, P.y, kr * 1.4); kg.addColorStop(0, '#E6FBFF'); kg.addColorStop(0.5, '#3FE0FF'); kg.addColorStop(1, '#2F6BFF');
@@ -80,9 +81,9 @@
       c.fillStyle = kg; c.shadowColor = '#3FE0FF'; c.shadowBlur = 14; c.beginPath(); c.arc(P.x, P.y + 2 * k, kr, 0, 6.283); c.fill(); c.shadowBlur = 0;
       if (!s.on && !s.drag) {
         const bob = reduce ? 0 : Math.sin(t * 3) * 4 * k, a = reduce ? 0.9 : 0.55 + 0.4 * Math.sin(t * 3);
-        c.fillStyle = 'rgba(200,230,255,' + a + ')'; c.font = '500 ' + Math.max(12, Math.round(13 * k)) + 'px "Readex Pro", system-ui, sans-serif'; c.textAlign = 'left';
+        c.fillStyle = lightTheme ? 'rgba(24,78,145,' + (0.82 + 0.18 * a) + ')' : 'rgba(200,230,255,' + a + ')'; c.font = '500 ' + Math.max(12, Math.round(13 * k)) + 'px "Readex Pro", system-ui, sans-serif'; c.textAlign = 'left';
         c.fillText(o.hint || 'Pull the cord', P.x + 18 * k, P.y + 6 * k + bob);
-        c.strokeStyle = 'rgba(200,230,255,' + a + ')'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(P.x + 4 * k, P.y + 20 * k + bob); c.lineTo(P.x + 4 * k, P.y + 34 * k + bob); c.lineTo(P.x, P.y + 29 * k + bob); c.moveTo(P.x + 4 * k, P.y + 34 * k + bob); c.lineTo(P.x + 8 * k, P.y + 29 * k + bob); c.stroke();
+        c.strokeStyle = lightTheme ? 'rgba(37,99,180,' + (0.82 + 0.18 * a) + ')' : 'rgba(200,230,255,' + a + ')'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(P.x + 4 * k, P.y + 20 * k + bob); c.lineTo(P.x + 4 * k, P.y + 34 * k + bob); c.lineTo(P.x, P.y + 29 * k + bob); c.moveTo(P.x + 4 * k, P.y + 34 * k + bob); c.lineTo(P.x + 8 * k, P.y + 29 * k + bob); c.stroke();
       }
     }
     raf = requestAnimationFrame(frame);
