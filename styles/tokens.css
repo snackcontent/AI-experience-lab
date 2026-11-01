@@ -1,0 +1,2 @@
+/* AI Experience Lab — semantic theme tokens. Shared dimensions must not depend on theme. */
+:root{--o2-section-label-size:14px;--o2-section-label-weight:700;--o2-section-label-tracking:.16em;--o2-faq-support-desktop-inset:72px;}
