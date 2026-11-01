@@ -987,6 +987,27 @@ html[data-theme="light"]{
 background:#fff!important;color:#13263f!important
 }
 html[data-theme="light"] body{background:#fff!important;color:#13263f!important}
+/* Light Mode: full-bleed surfaces behind constrained section content.
+   Preserve the existing section widths, padding, and all dark-theme declarations. */
+html[data-theme="light"] :is(#o2-services,#o2-products,#o2-faq,#o2-contact){
+  --o2-section-bleed:var(--theme-page);
+  isolation:isolate;
+}
+html[data-theme="light"] :is(#o2-services,#o2-contact){
+  --o2-section-bleed:var(--theme-secondary-surface);
+}
+html[data-theme="light"] :is(#o2-services,#o2-products,#o2-faq,#o2-contact)::before{
+  content:"";
+  position:absolute;
+  inset-block:0;
+  left:50%;
+  width:100vw;
+  transform:translateX(-50%);
+  background:var(--o2-section-bleed);
+  z-index:-1;
+  pointer-events:none;
+}
+
 html[data-theme="light"] #o2-site-header,html[data-theme="light"] #o2-site-header[data-scrolled="true"]{background:rgba(255,255,255,.97)!important;border-color:#e4eaf1!important;box-shadow:0 3px 18px rgba(15,35,65,.08)!important}
 html[data-theme="light"] #o2-site-header .o2-hdr-logo img{filter:none!important}
 html[data-theme="light"] #o2-site-header :is(.o2-hdr-theme,.o2-hdr-language,.o2-hdr-toggle){background:#f8fafc!important;color:#13263f!important;border-color:#cbd5e1!important}
