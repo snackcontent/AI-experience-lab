@@ -1075,6 +1075,22 @@ html[data-theme="light"] #next .cf-controls__arrow{background:#fff!important;bor
 html[data-theme="light"] #o2-faq .o2-faq-list,html[data-theme="light"] #o2-faq .o2-faq-card{border-color:#e4eaf1!important}
 html[data-theme="light"] #o2-faq .o2-faq-card[data-open="true"]{background:#f8fafc!important}
 html[data-theme="light"] #o2-faq .o2-faq-support{background:linear-gradient(155deg,#fff,#f5f9ff)!important;border-color:#dce6f1!important;box-shadow:var(--theme-shadow)!important}
+
+/* FAQ support card: lighter typographic hierarchy and breathing room on desktop. */
+@media(min-width:992px){
+ html[data-theme="light"] #o2-faq .o2-faq-support--desktop{
+  width:calc(100% - 28px)!important;
+  max-width:calc(100% - 28px)!important;
+  padding:22px!important;
+ }
+}
+html[data-theme="light"] #o2-faq .o2-faq-support h3{
+ font-size:20px!important;line-height:1.35!important;font-weight:700!important;
+}
+html[data-theme="light"] #o2-faq .o2-faq-support p{
+ font-size:15px!important;line-height:1.65!important;font-weight:400!important;
+}
+
 html[data-theme="light"] #o2-faq .o2-faq-question{color:#13263f!important}
 html[data-theme="light"] #o2-faq .o2-faq-contact{background:#2563eb!important;color:#fff!important;border-color:#2563eb!important}
 html[data-theme="light"] #o2-faq .o2-faq-toggle-icon{background:#eff6ff!important;border-color:#bfd2eb!important}
